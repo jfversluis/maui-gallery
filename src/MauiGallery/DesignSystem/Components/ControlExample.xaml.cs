@@ -39,6 +39,21 @@ public partial class ControlExample : ContentView
     /// <summary>Width at which the options pane moves from below the stage to its right.</summary>
     private const double SideBySideWidth = 760;
 
+    private static readonly Lazy<SampleStyles> StyledLook = new(() => new SampleStyles());
+
+    // An empty implicit style per styled control type. Swapping it in unapplies the styled setters; simply removing
+    // the styled dictionary would leave its values on controls that were already styled.
+    private static readonly Lazy<ResourceDictionary> NativeLook = new(() =>
+    {
+        var dictionary = new ResourceDictionary();
+        foreach (var style in StyledLook.Value.Values.OfType<Style>())
+        {
+            dictionary.Add(new Style(style.TargetType));
+        }
+
+        return dictionary;
+    });
+
     private bool? _sideBySide;
     private bool _isStyled;
 
@@ -231,7 +246,7 @@ public partial class ControlExample : ContentView
 
     private void UpdateStageMode()
     {
-        StageHost.Resources = _isStyled ? new SampleStyles() : new ResourceDictionary();
+        StageHost.Resources = _isStyled ? StyledLook.Value : NativeLook.Value;
         NativeModeButton.Style = (Style)Resources[_isStyled ? "SegmentButton" : "SegmentButtonSelected"];
         StyledModeButton.Style = (Style)Resources[_isStyled ? "SegmentButtonSelected" : "SegmentButton"];
         SemanticProperties.SetDescription(NativeModeButton, _isStyled ? "Native look" : "Native look, selected");

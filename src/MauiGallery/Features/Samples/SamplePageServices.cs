@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.Messaging;
 using MauiGallery.Features.Catalog;
 using MauiGallery.Services;
 
@@ -11,4 +12,5 @@ public sealed record SamplePageServices(
     INavigationService Navigation,
     IBrowser Browser,
     IClipboard Clipboard,
-    IWindowService Windows);
+    IWindowService Windows,
+    IMessenger Messenger);

@@ -87,10 +87,10 @@
                 <Button Text="Get started"
                         TextColor="White"
                         BackgroundColor="{Binding SelectedColor, Source={x:Reference AppearanceColor}, x:DataType=SwatchPicker}"
-                        CornerRadius="{Binding Value, Source={x:Reference AppearanceCorner}, x:DataType=Slider}"
-                        BorderWidth="{Binding Value, Source={x:Reference AppearanceBorder}, x:DataType=Slider}"
+                        CornerRadius="{Binding Value, Source={x:Reference AppearanceCorner}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                        BorderWidth="{Binding Value, Source={x:Reference AppearanceBorder}, x:DataType=Slider, Converter={StaticResource Rounded}}"
                         BorderColor="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}"
-                        FontSize="{Binding Value, Source={x:Reference AppearanceFontSize}, x:DataType=Slider}"
+                        FontSize="{Binding Value, Source={x:Reference AppearanceFontSize}, x:DataType=Slider, Converter={StaticResource Rounded}}"
                         Padding="24,12"
                         AutomationId="sample-appearance-button" />
                 <ControlExample.Options>

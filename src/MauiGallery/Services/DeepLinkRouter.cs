@@ -6,9 +6,13 @@ namespace MauiGallery.Services;
 
 /// <summary>
 /// The single entry point for links that open the app (<c>mauigallery://item/{id}</c>), from every platform callback.
-/// Links that arrive before a window is ready (a cold start) are held until <see cref="FlushAsync"/>.
+/// Links that arrive before a window is ready (a cold start) are held until the first window's Shell has loaded.
 /// </summary>
-public sealed partial class DeepLinkRouter(GalleryCatalog catalog, ILogger<DeepLinkRouter> logger)
+public sealed partial class DeepLinkRouter(
+    GalleryCatalog catalog,
+    ActiveWindowTracker windows,
+    INavigationService navigation,
+    ILogger<DeepLinkRouter> logger)
 {
     private string? _pendingItemId;
 
@@ -25,16 +29,16 @@ public sealed partial class DeepLinkRouter(GalleryCatalog catalog, ILogger<DeepL
         MainThread.BeginInvokeOnMainThread(async () => await FlushAsync());
     }
 
+    /// <summary>Opens the pending link, if any, once a Shell is ready to navigate.</summary>
     public async Task FlushAsync()
     {
-        if (_pendingItemId is not { } itemId || Shell.Current is not { IsLoaded: true } shell)
+        if (_pendingItemId is not { } itemId || windows.ActiveShell is not { IsLoaded: true })
         {
             return;
         }
 
         _pendingItemId = null;
-        await shell.GoToAsync($"//main/controls/{itemId}");
-        SemanticScreenReader.Announce($"Opened {catalog.Find(itemId)?.Title}");
+        await navigation.GoToAsync($"{Routes.AllControls}/{itemId}");
     }
 
     [LoggerMessage(Level = LogLevel.Warning, Message = "Ignored link '{Uri}': not a gallery item")]

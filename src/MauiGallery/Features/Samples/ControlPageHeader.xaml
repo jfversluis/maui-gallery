@@ -31,6 +31,7 @@
                         <DataTrigger TargetType="ImageButton" Binding="{Binding IsFavorite}" Value="True">
                             <Setter Property="Source" Value="{StaticResource StarFilled}" />
                             <Setter Property="ToolTipProperties.Text" Value="Remove from favorites" />
+                            <Setter Property="SemanticProperties.Description" Value="Favorite, on" />
                         </DataTrigger>
                     </ImageButton.Triggers>
                 </ImageButton>

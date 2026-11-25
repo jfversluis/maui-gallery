@@ -29,4 +29,19 @@ public sealed class SnippetValueFormatterTests
         Assert.Equal("\"Say \\\"hi\\\"\"", SnippetValueFormatter.FormatCSharp("Say \"hi\""));
         Assert.Equal("12", SnippetValueFormatter.FormatCSharp(12d));
     }
+
+    [Theory]
+    [InlineData("Fish & Chips", "Fish &amp; Chips")]
+    [InlineData("Say \"hi\"", "Say &quot;hi&quot;")]
+    [InlineData("a < b", "a &lt; b")]
+    [InlineData("{curly}", "{}{curly}")]
+    public void EscapesXamlAttributes(string value, string expected) => Assert.Equal(expected, SnippetValueFormatter.FormatXamlAttribute(value));
+
+    [Fact]
+    public void EscapesCSharpStrings()
+    {
+        Assert.Equal("\"C:\\\\new\"", SnippetValueFormatter.FormatCSharp("C:\\new"));
+        Assert.Equal("\"a\\nb\"", SnippetValueFormatter.FormatCSharp("a\nb"));
+        Assert.Equal("null", SnippetValueFormatter.FormatCSharp(null));
+    }
 }

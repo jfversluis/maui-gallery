@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.Messaging;
 using MauiGallery.DesignSystem.Tokens;
 
 namespace MauiGallery.Services;
@@ -6,7 +7,7 @@ namespace MauiGallery.Services;
 /// Maps the theme preference onto <see cref="Application.UserAppTheme"/>, which also switches the native controls,
 /// and swaps the design system's light and dark token dictionaries to match.
 /// </summary>
-public sealed class ThemeService(IPreferences preferences) : IThemeService
+public sealed class ThemeService(IPreferences preferences, IMessenger messenger) : IThemeService
 {
     private const string PreferenceKey = "theme";
 
@@ -19,8 +20,14 @@ public sealed class ThemeService(IPreferences preferences) : IThemeService
             : ThemePreference.System;
         set
         {
+            if (value == Preference)
+            {
+                return;
+            }
+
             preferences.Set(PreferenceKey, value.ToString());
             Apply(value);
+            messenger.Send(new ThemePreferenceChangedMessage(value));
         }
     }
 
@@ -64,11 +71,11 @@ public sealed class ThemeService(IPreferences preferences) : IThemeService
             return;
         }
 
+        // Add the new tokens before removing the old ones, so no lookup ever sees a missing key.
+        merged.Add(wantDark ? new DarkTheme() : new LightTheme());
         if (current is not null)
         {
             merged.Remove(current);
         }
-
-        merged.Add(wantDark ? new DarkTheme() : new LightTheme());
     }
 }

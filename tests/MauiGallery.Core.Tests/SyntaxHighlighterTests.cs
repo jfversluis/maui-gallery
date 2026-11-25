@@ -70,4 +70,15 @@ public sealed class SyntaxHighlighterTests
 
         Assert.Single(tokens);
     }
+
+    [Fact]
+    public void RawStringsDoNotLeakComments()
+    {
+        var source = "var s = \"\"\"Before \"//\" after\"\"\"; var next = 1;";
+        var tokens = SyntaxHighlighter.Tokenize(source, CodeLanguage.CSharp);
+
+        Assert.Equal(source, string.Concat(tokens.Select(t => t.Text)));
+        Assert.DoesNotContain(tokens, t => t.Kind == SyntaxTokenKind.Comment);
+        Assert.Equal(SyntaxTokenKind.Number, KindOf(tokens, "1"));
+    }
 }

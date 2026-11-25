@@ -16,6 +16,7 @@ public partial class ItemCard : ContentView, IRecipient<FavoritesChangedMessage>
 
     private MenuFlyoutItem? _favoriteItem;
     private ItemActions? _actions;
+    private IMessenger? _messenger;
 
     public ItemCard() => InitializeComponent();
 
@@ -26,7 +27,23 @@ public partial class ItemCard : ContentView, IRecipient<FavoritesChangedMessage>
         set => SetValue(CommandProperty, value);
     }
 
-    public void Receive(FavoritesChangedMessage message) => UpdateFavoriteText();
+    public void Receive(FavoritesChangedMessage message)
+    {
+        if (BindingContext is GalleryItem item && item.Id == message.ItemId)
+        {
+            UpdateFavoriteText();
+        }
+    }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+        if (args.NewHandler is null)
+        {
+            _messenger?.Unregister<FavoritesChangedMessage>(this);
+            _messenger = null;
+        }
+    }
 
     protected override void OnHandlerChanged()
     {
@@ -34,8 +51,16 @@ public partial class ItemCard : ContentView, IRecipient<FavoritesChangedMessage>
 
         // Views cannot use constructor injection, so a reusable control takes services from its MAUI context.
         var services = Handler?.MauiContext?.Services;
-        if (_actions is not null || services is null)
+        if (services is null)
         {
+            return;
+        }
+
+        _messenger = services.GetRequiredService<IMessenger>();
+        _messenger.Register(this);
+        if (_actions is not null)
+        {
+            UpdateFavoriteText();
             return;
         }
 
@@ -59,7 +84,6 @@ public partial class ItemCard : ContentView, IRecipient<FavoritesChangedMessage>
         }
 
         FlyoutBase.SetContextFlyout(CardBorder, menu);
-        services.GetRequiredService<IMessenger>().Register(this);
         UpdateFavoriteText();
     }
 

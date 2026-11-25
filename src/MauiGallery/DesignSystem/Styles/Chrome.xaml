@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- Keyed chrome styles. Never add implicit styles here: samples must render with platform defaults. -->
-<ResourceDictionary x:Class="MauiGallery.DesignSystem.Styles.Chrome">
+<ResourceDictionary x:Class="MauiGallery.DesignSystem.Styles.Chrome"
+                    xmlns:behaviors="clr-namespace:MauiGallery.DesignSystem.Behaviors">
 
     <IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmpty" />
     <RoundedConverter x:Key="Rounded" />
@@ -70,16 +71,11 @@
 
     <!-- A card that reacts to pointer hover and press, for navigation tiles. -->
     <Style x:Key="InteractiveCard" TargetType="Border" BasedOn="{StaticResource Card}">
+        <Setter Property="behaviors:Hover.Background" Value="ColorSurfaceAlt" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal" />
-                    <VisualState x:Name="PointerOver">
-                        <VisualState.Setters>
-                            <Setter Property="Stroke" Value="{DynamicResource BrushOutlineStrong}" />
-                            <Setter Property="BackgroundColor" Value="{DynamicResource ColorSurfaceAlt}" />
-                        </VisualState.Setters>
-                    </VisualState>
                     <VisualState x:Name="Pressed">
                         <VisualState.Setters>
                             <Setter Property="Scale" Value="0.98" />
@@ -131,23 +127,7 @@
         <Setter Property="Padding" Value="8" />
         <Setter Property="WidthRequest" Value="36" />
         <Setter Property="HeightRequest" Value="36" />
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="PointerOver">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{DynamicResource ColorSurfaceHover}" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{DynamicResource ColorOutline}" />
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
+        <Setter Property="behaviors:Hover.Background" Value="ColorSurfaceHover" />
     </Style>
 
     <!-- Buttons placed on the brand gradient. -->

@@ -6,24 +6,36 @@ using MauiGallery.Services;
 
 namespace MauiGallery.Features.Search;
 
-public sealed partial class SearchViewModel(GalleryCatalog catalog, INavigationService navigation) : ObservableObject
+public sealed partial class SearchViewModel : ObservableObject
 {
-    private readonly IReadOnlyList<GalleryItem> _allItems = [.. catalog.Items.OrderBy(i => i.Title, StringComparer.CurrentCultureIgnoreCase)];
+    private readonly GalleryCatalog _catalog;
+    private readonly INavigationService _navigation;
+    private readonly IReadOnlyList<GalleryItem> _allItems;
+
+    public SearchViewModel(GalleryCatalog catalog, INavigationService navigation)
+    {
+        ArgumentNullException.ThrowIfNull(catalog);
+
+        _catalog = catalog;
+        _navigation = navigation;
+        _allItems = [.. catalog.Items.OrderBy(i => i.Title, StringComparer.CurrentCultureIgnoreCase)];
+        Results = _allItems;
+    }
 
     [ObservableProperty]
     public partial string? Query { get; set; }
 
-    public IReadOnlyList<GalleryItem> Results =>
-        string.IsNullOrWhiteSpace(Query) ? _allItems : [.. catalog.Search.Search(Query).Select(r => r.Item)];
+    [ObservableProperty]
+    public partial IReadOnlyList<GalleryItem> Results { get; private set; }
 
     public string ResultsTitle => string.IsNullOrWhiteSpace(Query) ? "Everything in the gallery" : "Results";
 
     partial void OnQueryChanged(string? value)
     {
-        OnPropertyChanged(nameof(Results));
+        Results = string.IsNullOrWhiteSpace(value) ? _allItems : [.. _catalog.Search.Search(value).Select(r => r.Item)];
         OnPropertyChanged(nameof(ResultsTitle));
     }
 
     [RelayCommand]
-    private Task OpenItemAsync(GalleryItem item) => navigation.GoToItemAsync(item.Id);
+    private Task OpenItemAsync(GalleryItem item) => _navigation.GoToItemAsync(item.Id);
 }

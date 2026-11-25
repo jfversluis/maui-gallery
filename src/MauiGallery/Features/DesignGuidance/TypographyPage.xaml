@@ -7,22 +7,22 @@
             <Border Style="{StaticResource Card}" Padding="0">
                 <VerticalStackLayout>
                     <Grid ColumnDefinitions="*,Auto" Padding="20,16">
-                        <Label Text="Display" Style="{StaticResource TextDisplay}" />
+                        <Label Text="Display" Style="{StaticResource TextDisplay}" SemanticProperties.HeadingLevel="None" />
                         <Label Grid.Column="1" Text="Bold · 40" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
                     </Grid>
                     <BoxView Style="{StaticResource Divider}" />
                     <Grid ColumnDefinitions="*,Auto" Padding="20,16">
-                        <Label Text="Title 1" Style="{StaticResource TextTitle1}" />
+                        <Label Text="Title 1" Style="{StaticResource TextTitle1}" SemanticProperties.HeadingLevel="None" />
                         <Label Grid.Column="1" Text="SemiBold · 28" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
                     </Grid>
                     <BoxView Style="{StaticResource Divider}" />
                     <Grid ColumnDefinitions="*,Auto" Padding="20,16">
-                        <Label Text="Title 2" Style="{StaticResource TextTitle2}" />
+                        <Label Text="Title 2" Style="{StaticResource TextTitle2}" SemanticProperties.HeadingLevel="None" />
                         <Label Grid.Column="1" Text="SemiBold · 22" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
                     </Grid>
                     <BoxView Style="{StaticResource Divider}" />
                     <Grid ColumnDefinitions="*,Auto" Padding="20,16">
-                        <Label Text="Title 3" Style="{StaticResource TextTitle3}" />
+                        <Label Text="Title 3" Style="{StaticResource TextTitle3}" SemanticProperties.HeadingLevel="None" />
                         <Label Grid.Column="1" Text="SemiBold · 18" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
                     </Grid>
                     <BoxView Style="{StaticResource Divider}" />

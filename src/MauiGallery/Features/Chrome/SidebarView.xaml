@@ -1,6 +1,7 @@
 <ContentView x:Class="MauiGallery.Features.Chrome.SidebarView"
              xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
              xmlns:local="clr-namespace:MauiGallery.Features.Chrome"
+             xmlns:behaviors="clr-namespace:MauiGallery.DesignSystem.Behaviors"
              x:DataType="local:SidebarViewModel"
              BackgroundColor="{DynamicResource ColorSidebar}">
     <ContentView.Resources>
@@ -12,23 +13,12 @@
                     StrokeShape="{StaticResource ShapeInput}"
                     BackgroundColor="Transparent"
                     AutomationId="{Binding AutomationId}"
+                    behaviors:Hover.Background="ColorSurfaceHover"
                     SemanticProperties.Description="{Binding Title}">
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding NavigateCommand, Source={RelativeSource AncestorType={x:Type local:SidebarViewModel}}, x:DataType=local:SidebarViewModel}"
                                           CommandParameter="{Binding .}" />
                 </Border.GestureRecognizers>
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal" />
-                            <VisualState x:Name="PointerOver">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{DynamicResource ColorSurfaceHover}" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </VisualStateManager.VisualStateGroups>
                 <Border.Triggers>
                     <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
                         <Setter Property="BackgroundColor" Value="{DynamicResource ColorSelection}" />

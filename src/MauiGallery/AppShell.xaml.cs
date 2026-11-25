@@ -7,10 +7,12 @@ public partial class AppShell : Shell
 {
     private readonly SidebarView _sidebar;
     private readonly SidebarViewModel _sidebarViewModel;
+    private readonly AppShellViewModel _viewModel;
 
     public AppShell(SidebarView sidebar, AppShellViewModel viewModel)
     {
         InitializeComponent();
+        _viewModel = viewModel;
         BindingContext = viewModel;
         _sidebar = sidebar;
         _sidebarViewModel = sidebar.ViewModel;
@@ -23,6 +25,10 @@ public partial class AppShell : Shell
         if (FlyoutBehavior == FlyoutBehavior.Flyout)
         {
             FlyoutIsPresented = true;
+
+            // Focus once the flyout has been presented; focusing a hidden field is ignored.
+            Dispatcher.Dispatch(_sidebar.FocusSearch);
+            return;
         }
 
         _sidebar.FocusSearch();
@@ -44,7 +50,7 @@ public partial class AppShell : Shell
     {
         if (FlyoutBehavior == FlyoutBehavior.Disabled)
         {
-            _ = GoToAsync(Features.Catalog.Routes.Search);
+            _viewModel.GoToCommand.Execute(Features.Catalog.Routes.Search);
             return;
         }
 

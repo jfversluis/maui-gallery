@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using MauiGallery.Core.Syntax;
 
 namespace MauiGallery.Core.Snippets;
 
@@ -8,17 +9,19 @@ namespace MauiGallery.Core.Snippets;
 /// <remarks>
 /// A placeholder whose value is <see langword="null"/> removes the whole line it is on. Use this to omit
 /// properties that are at their default value, so the rendered code only shows what the reader changed.
-/// When a removed line closes a XAML element (ends in <c>/&gt;</c> or <c>&gt;</c>), the terminator moves to the
-/// previous line so the markup stays well-formed.
+/// In XAML snippets, when a removed line closes an element (ends in <c>/&gt;</c> or <c>&gt;</c>), the terminator
+/// moves to the previous line so the markup stays well-formed.
 /// </remarks>
 public sealed partial class SnippetTemplate
 {
     private readonly string[] _lines;
+    private readonly CodeLanguage _language;
 
-    public SnippetTemplate(string source)
+    public SnippetTemplate(string source, CodeLanguage language)
     {
         ArgumentNullException.ThrowIfNull(source);
 
+        _language = language;
         _lines = source.ReplaceLineEndings("\n").TrimEnd('\n').Split('\n');
         Placeholders = [.. PlaceholderPattern().Matches(source).Select(m => m.Groups["name"].Value).Distinct(StringComparer.Ordinal)];
     }
@@ -52,7 +55,7 @@ public sealed partial class SnippetTemplate
             {
                 output.Add(rendered);
             }
-            else if (output.Count > 0 && ElementTerminator(line) is { } terminator)
+            else if (_language == CodeLanguage.Xaml && output.Count > 0 && ElementTerminator(line) is { } terminator)
             {
                 output[^1] = output[^1].TrimEnd() + terminator;
             }

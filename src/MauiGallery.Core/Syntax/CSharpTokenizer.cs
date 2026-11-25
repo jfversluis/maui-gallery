@@ -64,6 +64,11 @@ internal static class CSharpTokenizer
                 i = end < 0 ? source.Length : end + 2;
                 yield return new(SyntaxTokenKind.Comment, source[start..i]);
             }
+            else if (RawStringQuotes(source, i) is > 0 and var quotes)
+            {
+                i = RawStringEnd(source, i, quotes);
+                yield return new(SyntaxTokenKind.StringLiteral, source[start..i]);
+            }
             else if (c == '"' || (c is '$' or '@' && Peek(source, i + 1) == '"'))
             {
                 i = StringEnd(source, i);
@@ -159,6 +164,31 @@ internal static class CSharpTokenizer
         }
 
         return source.Length;
+    }
+
+    /// <summary>Returns the number of quotes opening a raw string literal (three or more) at <paramref name="i"/>, or 0.</summary>
+    private static int RawStringQuotes(string source, int i)
+    {
+        while (i < source.Length && source[i] == '$')
+        {
+            i++;
+        }
+
+        var quotes = 0;
+        while (i + quotes < source.Length && source[i + quotes] == '"')
+        {
+            quotes++;
+        }
+
+        return quotes >= 3 ? quotes : 0;
+    }
+
+    private static int RawStringEnd(string source, int i, int quotes)
+    {
+        var delimiter = new string('"', quotes);
+        var start = source.IndexOf(delimiter, i, StringComparison.Ordinal) + quotes;
+        var end = source.IndexOf(delimiter, start, StringComparison.Ordinal);
+        return end < 0 ? source.Length : end + quotes;
     }
 
     private static int LineEnd(string source, int i)

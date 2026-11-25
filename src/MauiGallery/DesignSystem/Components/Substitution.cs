@@ -49,11 +49,11 @@ public sealed class Substitution : BindableObject
         set => SetValue(IsExpressionProperty, value);
     }
 
-    /// <summary>The value as it appears in XAML, or <see langword="null"/> when it is the default.</summary>
-    public string? XamlText => IsDefault ? null : Value is Color color ? ToHex(color) : SnippetValueFormatter.Format(Value);
+    /// <summary>The value as it appears in XAML, or <see langword="null"/> (omit the line) when it is the default or unset.</summary>
+    public string? XamlText => IsDefault || Value is null ? null : Value is Color color ? ToHex(color) : SnippetValueFormatter.FormatXamlAttribute(Value);
 
     /// <summary>The value as a C# literal, or <see langword="null"/> when it is the default.</summary>
-    public string? CSharpText => IsDefault ? null : Value switch
+    public string? CSharpText => IsDefault || Value is null ? null : Value switch
     {
         Color color => $"Color.FromArgb(\"{ToHex(color)}\")",
         _ when IsExpression => SnippetValueFormatter.Format(Value),
@@ -63,5 +63,14 @@ public sealed class Substitution : BindableObject
     private static string ToHex(Color color) => color.ToArgbHex(includeAlpha: color.Alpha < 1);
 
     private bool IsDefault =>
-        Default is not null && SnippetValueFormatter.Format(Default) == SnippetValueFormatter.Format(Value);
+        Default is not null && string.Equals(Normalize(Default), Normalize(Value), StringComparison.OrdinalIgnoreCase);
+
+    // Compares as source text, so Default="True" matches true and Default="#512BD4" matches a Color.
+    private static string Normalize(object? value) => value switch
+    {
+        Color color => ToHex(color),
+        string text when Color.TryParse(text, out var color) => ToHex(color),
+        string text when double.TryParse(text, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var number) => SnippetValueFormatter.Format(number),
+        _ => SnippetValueFormatter.Format(value),
+    };
 }

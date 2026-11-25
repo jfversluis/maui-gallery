@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using MauiGallery.Core.Snippets;
+using MauiGallery.Core.Syntax;
 
 namespace MauiGallery.DesignSystem.Components;
 
@@ -13,6 +14,7 @@ public static class EmbeddedSnippets
         using var stream = typeof(EmbeddedSnippets).Assembly.GetManifestResourceStream(name)
             ?? throw new InvalidOperationException($"Code snippet '{name}' is not an embedded resource. Snippet files must end in .xaml.txt or .cs.txt.");
         using var reader = new StreamReader(stream);
-        return new SnippetTemplate(reader.ReadToEnd());
+        var language = name.EndsWith(".cs.txt", StringComparison.Ordinal) ? CodeLanguage.CSharp : CodeLanguage.Xaml;
+        return new SnippetTemplate(reader.ReadToEnd(), language);
     });
 }

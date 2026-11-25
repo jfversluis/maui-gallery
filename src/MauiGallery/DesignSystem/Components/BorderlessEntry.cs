@@ -6,8 +6,17 @@ namespace MauiGallery.DesignSystem.Components;
 /// </summary>
 public sealed class BorderlessEntry : Entry
 {
-    /// <summary>Registers the handler customization. Call once from <c>MauiProgram</c>.</summary>
-    public static void Register() =>
+    private static bool s_registered;
+
+    /// <summary>Registers the handler customization. Safe to call more than once.</summary>
+    public static void Register()
+    {
+        if (s_registered)
+        {
+            return;
+        }
+
+        s_registered = true;
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(BorderlessEntry), (handler, view) =>
         {
             if (view is not BorderlessEntry)
@@ -24,4 +33,5 @@ public sealed class BorderlessEntry : Entry
             handler.PlatformView.Background = null;
 #endif
         });
+    }
 }

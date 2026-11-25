@@ -1,5 +1,6 @@
 using System.Xml.Linq;
 using MauiGallery.Core.Snippets;
+using MauiGallery.Core.Syntax;
 
 namespace MauiGallery.Core.Tests;
 
@@ -32,7 +33,7 @@ public sealed class AppSnippetTests
 
     private static void AssertWellFormed(string path, Func<string, string?> value)
     {
-        var template = new SnippetTemplate(File.ReadAllText(path));
+        var template = new SnippetTemplate(File.ReadAllText(path), CodeLanguage.Xaml);
         var rendered = template.Render(template.Placeholders.ToDictionary(p => p, value));
 
         var exception = Record.Exception(() => XDocument.Parse($"<Root {Namespaces}>{rendered}</Root>"));

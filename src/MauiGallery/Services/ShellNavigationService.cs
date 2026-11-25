@@ -2,14 +2,21 @@ using Microsoft.Extensions.Logging;
 
 namespace MauiGallery.Services;
 
-/// <summary>Shell-based navigation that always targets the window the user is interacting with.</summary>
-public sealed partial class ShellNavigationService(ILogger<ShellNavigationService> logger) : INavigationService
+/// <summary>Shell navigation that targets the window the user is working in.</summary>
+public sealed partial class ShellNavigationService(ActiveWindowTracker windows, ILogger<ShellNavigationService> logger) : INavigationService
 {
-    public Task GoToItemAsync(string itemId) => GoToAsync(itemId);
+    /// <summary>
+    /// With the sidebar, items always open in the Controls section so the sidebar selection and back stack stay
+    /// consistent. With bottom tabs, items push onto the current tab, as people expect on a phone.
+    /// </summary>
+    public Task GoToItemAsync(string itemId) =>
+        windows.ActiveShell is { FlyoutBehavior: not FlyoutBehavior.Disabled }
+            ? GoToAsync($"{Features.Catalog.Routes.AllControls}/{itemId}")
+            : GoToAsync(itemId);
 
     public async Task GoToAsync(string route)
     {
-        if (Shell.Current is not { } shell)
+        if (windows.ActiveShell is not { } shell)
         {
             return;
         }

@@ -94,6 +94,11 @@ public partial class CodeViewer : ContentView
 
     private async void OnCopyClicked(object? sender, EventArgs e)
     {
+        if (string.IsNullOrEmpty(CurrentCode))
+        {
+            return;
+        }
+
         await Clipboard.Default.SetTextAsync(CurrentCode);
         CopyGlyph.Glyph = IconFont.Maui.FluentIcons.FluentIconsRegular.Checkmark24;
         SemanticScreenReader.Announce("Code copied");

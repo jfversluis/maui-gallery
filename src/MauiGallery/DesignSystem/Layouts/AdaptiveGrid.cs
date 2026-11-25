@@ -69,57 +69,72 @@ public sealed class AdaptiveGrid : Layout
 
     private sealed class AdaptiveGridLayoutManager(AdaptiveGrid grid) : LayoutManager(grid)
     {
-        private double _rowHeightTotal;
+        private readonly List<IView> _visible = [];
 
         public override Size Measure(double widthConstraint, double heightConstraint)
         {
             var padding = grid.Padding;
             var available = widthConstraint - padding.HorizontalThickness;
-            var visible = grid.Where(c => c.Visibility != Visibility.Collapsed).ToList();
-            var columns = grid.ColumnsFor(available, visible.Count);
+            CollectVisibleChildren();
+            var columns = grid.ColumnsFor(available, _visible.Count);
             var itemWidth = ItemWidth(available, columns);
 
-            _rowHeightTotal = 0;
-            for (var start = 0; start < visible.Count; start += columns)
+            var height = 0d;
+            for (var start = 0; start < _visible.Count; start += columns)
             {
                 var rowHeight = 0d;
-                foreach (var child in visible.Skip(start).Take(columns))
+                for (var i = start; i < Math.Min(start + columns, _visible.Count); i++)
                 {
-                    rowHeight = Math.Max(rowHeight, child.Measure(itemWidth, double.PositiveInfinity).Height);
+                    rowHeight = Math.Max(rowHeight, _visible[i].Measure(itemWidth, double.PositiveInfinity).Height);
                 }
 
-                _rowHeightTotal += rowHeight;
+                height += rowHeight + (start > 0 ? grid.RowSpacing : 0);
             }
 
-            var rows = (int)Math.Ceiling(visible.Count / (double)columns);
-            var height = _rowHeightTotal + (Math.Max(0, rows - 1) * grid.RowSpacing) + padding.VerticalThickness;
             var width = double.IsInfinity(widthConstraint) ? (itemWidth * columns) + padding.HorizontalThickness : widthConstraint;
-            return new Size(width, height);
+            return new Size(width, height + padding.VerticalThickness);
         }
 
         public override Size ArrangeChildren(Rect bounds)
         {
             var padding = grid.Padding;
             var available = bounds.Width - padding.HorizontalThickness;
-            var visible = grid.Where(c => c.Visibility != Visibility.Collapsed).ToList();
-            var columns = grid.ColumnsFor(available, visible.Count);
+            CollectVisibleChildren();
+            var columns = grid.ColumnsFor(available, _visible.Count);
             var itemWidth = ItemWidth(available, columns);
 
             var y = bounds.Top + padding.Top;
-            for (var start = 0; start < visible.Count; start += columns)
+            for (var start = 0; start < _visible.Count; start += columns)
             {
-                var row = visible.Skip(start).Take(columns).ToList();
-                var rowHeight = row.Max(c => c.DesiredSize.Height);
-                for (var i = 0; i < row.Count; i++)
+                var end = Math.Min(start + columns, _visible.Count);
+                var rowHeight = 0d;
+                for (var i = start; i < end; i++)
                 {
-                    var x = bounds.Left + padding.Left + (i * (itemWidth + grid.ColumnSpacing));
-                    row[i].Arrange(new Rect(x, y, itemWidth, rowHeight));
+                    rowHeight = Math.Max(rowHeight, _visible[i].DesiredSize.Height);
+                }
+
+                for (var i = start; i < end; i++)
+                {
+                    var x = bounds.Left + padding.Left + ((i - start) * (itemWidth + grid.ColumnSpacing));
+                    _visible[i].Arrange(new Rect(x, y, itemWidth, rowHeight));
                 }
 
                 y += rowHeight + grid.RowSpacing;
             }
 
             return bounds.Size;
+        }
+
+        private void CollectVisibleChildren()
+        {
+            _visible.Clear();
+            for (var i = 0; i < grid.Count; i++)
+            {
+                if (grid[i].Visibility != Visibility.Collapsed)
+                {
+                    _visible.Add(grid[i]);
+                }
+            }
         }
 
         private double ItemWidth(double available, int columns) =>

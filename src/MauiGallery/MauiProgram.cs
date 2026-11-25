@@ -62,6 +62,7 @@ public static class MauiProgram
         .AddSingleton<IThemeService, ThemeService>()
         .AddSingleton<IFavoritesService, FavoritesService>()
         .AddSingleton<IRecentsService, RecentsService>()
+        .AddSingleton<ActiveWindowTracker>()
         .AddSingleton<INavigationService, ShellNavigationService>()
         .AddSingleton<IWindowService, WindowService>()
         .AddSingleton<GalleryWindowFactory>()

@@ -1,12 +1,14 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using MauiGallery.Core.Catalog;
 using MauiGallery.Core.Navigation;
+using MauiGallery.Services;
 
 namespace MauiGallery.Features.Samples;
 
 /// <summary>Header, favorite, link and related-item state shared by every sample page.</summary>
-public sealed partial class SamplePageViewModel : ObservableObject
+public sealed partial class SamplePageViewModel : ObservableObject, IRecipient<FavoritesChangedMessage>
 {
     private readonly SamplePageServices _services;
 
@@ -20,6 +22,7 @@ public sealed partial class SamplePageViewModel : ObservableObject
         NativeMappings = [.. item.NativeMappings.Select(NativeMappingDisplay.From)];
         Related = [.. item.RelatedIds.Select(services.Catalog.Find).OfType<GalleryItem>()];
         IsFavorite = services.Favorites.IsFavorite(item.Id);
+        services.Messenger.Register(this);
     }
 
     public GalleryItem Item { get; }
@@ -44,6 +47,15 @@ public sealed partial class SamplePageViewModel : ObservableObject
     public partial bool LinkCopied { get; set; }
 
     public void OnAppearing() => _services.Recents.Add(Item.Id);
+
+    /// <summary>Keeps the star in sync when the item is favorited elsewhere, such as in another window.</summary>
+    public void Receive(FavoritesChangedMessage message)
+    {
+        if (message.ItemId == Item.Id)
+        {
+            IsFavorite = message.IsFavorite;
+        }
+    }
 
     [RelayCommand]
     private void ToggleFavorite()
