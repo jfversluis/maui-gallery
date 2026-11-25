@@ -404,3 +404,8 @@ dotnet_diagnostic.IDE0044.severity = warning
 # Platform entry points follow Apple/Android naming conventions (AppDelegate, SceneDelegate)
 [src/MauiGallery/Platforms/**.cs]
 dotnet_diagnostic.CA1711.severity = none
+
+# CsWinRT1032 flags collection expressions typed as IReadOnlyList<T>. The app never hands these lists to WinRT
+# APIs directly: MAUI wraps ItemsSource collections in its own types on Windows.
+[src/MauiGallery/**.cs]
+dotnet_diagnostic.CsWinRT1032.severity = none
