@@ -9,21 +9,24 @@
             BackgroundColor="{DynamicResource ColorSurface}"
             IsVisible="False"
             AutomationId="native-view-badge">
-        <HorizontalStackLayout Spacing="6">
+        <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="6">
             <Label Style="{StaticResource TextIcon}"
                    FontSize="{StaticResource IconSizeSmall}"
                    TextColor="{DynamicResource ColorAccentText}"
                    Text="{x:Static icons:FluentIconsRegular.DeveloperBoard24}" />
             <Label x:Name="TypeNameLabel"
+                   Grid.Column="1"
                    FontFamily="{StaticResource FontCode}"
                    FontSize="12"
                    VerticalTextAlignment="Center"
                    TextColor="{DynamicResource ColorTextPrimary}" />
             <Label x:Name="NamespaceLabel"
+                   Grid.Column="2"
                    Style="{StaticResource TextCaption}"
+                   LineBreakMode="TailTruncation"
                    FontSize="11"
                    VerticalTextAlignment="Center"
                    TextColor="{DynamicResource ColorTextTertiary}" />
-        </HorizontalStackLayout>
+        </Grid>
     </Border>
 </ContentView>

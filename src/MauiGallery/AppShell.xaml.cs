@@ -28,6 +28,18 @@ public partial class AppShell : Shell
         _sidebar.FocusSearch();
     }
 
+    /// <summary>
+    /// With the sidebar, root pages need no title bar: the sidebar shows where you are. Pushed pages keep it for Back.
+    /// Unlike TabBarIsVisible, NavBarIsVisible is not inherited from the Tab, so it is set on the current page.
+    /// </summary>
+    private void UpdateNavBar()
+    {
+        if (CurrentPage is { } page && page.Navigation.NavigationStack.Count <= 1)
+        {
+            SetNavBarIsVisible(page, FlyoutBehavior != FlyoutBehavior.Locked);
+        }
+    }
+
     private void OnSearchClicked(object? sender, EventArgs e)
     {
         if (FlyoutBehavior == FlyoutBehavior.Disabled)
@@ -56,17 +68,18 @@ public partial class AppShell : Shell
             FlyoutIsPresented = false;
         }
 
-        // With the sidebar, root pages need neither tabs nor a title bar; pushed pages opt back in for Back.
         foreach (var tab in Items.SelectMany(item => item.Items))
         {
             SetTabBarIsVisible(tab, useTabs);
-            SetNavBarIsVisible(tab, useTabs);
         }
+
+        UpdateNavBar();
     }
 
     protected override void OnNavigated(ShellNavigatedEventArgs args)
     {
         base.OnNavigated(args);
+        UpdateNavBar();
         _sidebarViewModel.UpdateSelection(CurrentState.Location.OriginalString);
         if (FlyoutBehavior == FlyoutBehavior.Flyout)
         {

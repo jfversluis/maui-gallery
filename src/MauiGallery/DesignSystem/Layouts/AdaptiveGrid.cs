@@ -44,15 +44,22 @@ public sealed class AdaptiveGrid : Layout
         set => SetValue(RowSpacingProperty, value);
     }
 
-    internal int ColumnsFor(double width)
+    internal int ColumnsFor(double width, int itemCount)
     {
         if (double.IsInfinity(width) || width <= 0)
         {
             return 1;
         }
 
-        var columns = (int)((width + ColumnSpacing) / (MinItemWidth + ColumnSpacing));
-        return Math.Clamp(columns, 1, Math.Max(1, MaxColumns));
+        var columns = Math.Clamp((int)((width + ColumnSpacing) / (MinItemWidth + ColumnSpacing)), 1, Math.Max(1, MaxColumns));
+        if (itemCount <= columns)
+        {
+            return columns;
+        }
+
+        // Balance the rows: four items in three columns become two rows of two rather than three and one.
+        var rows = (int)Math.Ceiling(itemCount / (double)columns);
+        return (int)Math.Ceiling(itemCount / (double)rows);
     }
 
     protected override ILayoutManager CreateLayoutManager() => new AdaptiveGridLayoutManager(this);
@@ -68,11 +75,11 @@ public sealed class AdaptiveGrid : Layout
         {
             var padding = grid.Padding;
             var available = widthConstraint - padding.HorizontalThickness;
-            var columns = grid.ColumnsFor(available);
+            var visible = grid.Where(c => c.Visibility != Visibility.Collapsed).ToList();
+            var columns = grid.ColumnsFor(available, visible.Count);
             var itemWidth = ItemWidth(available, columns);
 
             _rowHeightTotal = 0;
-            var visible = grid.Where(c => c.Visibility != Visibility.Collapsed).ToList();
             for (var start = 0; start < visible.Count; start += columns)
             {
                 var rowHeight = 0d;
@@ -94,11 +101,11 @@ public sealed class AdaptiveGrid : Layout
         {
             var padding = grid.Padding;
             var available = bounds.Width - padding.HorizontalThickness;
-            var columns = grid.ColumnsFor(available);
+            var visible = grid.Where(c => c.Visibility != Visibility.Collapsed).ToList();
+            var columns = grid.ColumnsFor(available, visible.Count);
             var itemWidth = ItemWidth(available, columns);
 
             var y = bounds.Top + padding.Top;
-            var visible = grid.Where(c => c.Visibility != Visibility.Collapsed).ToList();
             for (var start = 0; start < visible.Count; start += columns)
             {
                 var row = visible.Skip(start).Take(columns).ToList();

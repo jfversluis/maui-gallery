@@ -34,6 +34,11 @@
     <CodesignEntitlements Condition="'$(Configuration)' != 'Debug'">Platforms/MacCatalyst/Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
 
+  <!-- Android edge-to-edge: let the Shell's app bar color fill the status bar area (opt-in in .NET 11). -->
+  <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+    <RuntimeHostConfigurationOption Include="Microsoft.Maui.RuntimeFeature.UseMauiAndroidSystemBarBackgrounds" Value="true" Trim="true" />
+  </ItemGroup>
+
   <ItemGroup>
     <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
     <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
