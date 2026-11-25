@@ -63,8 +63,9 @@ Known quirks:
 - Switch themes through the app (Settings, then Theme, AutomationIds `theme-light` / `theme-dark`), or system-wide
   with `xcrun simctl ui <udid> appearance dark` and `adb shell cmd uimode night yes`. The nuget.org DevFlow agent
   does not implement `maui_set_theme` or `maui_menu_list` yet.
-- On Mac Catalyst the app uses the iPad idiom (`UIDeviceFamily` 2), scaled to 77%. The Mac idiom (6) is not an
-  option: it throws on `UIStepper`.
+- On Mac Catalyst the app uses MAUI's default iPad idiom (`UIDeviceFamily` 2), scaled to 77%. Keep it that way: in
+  the Mac idiom (6) UIKit throws `_UICatalystUnsupportedMacIdiomBehavior` for `UIStepper`, `UIRefreshControl` and the
+  `UIPickerView` that `Picker` opens, and MAUI buttons lose custom backgrounds, borders and corner radius.
 - `Shell` itself never receives a layout size. Use `Window.SizeChanged` for window-level breakpoints.
 - A XAML `ContentView` subclass with `[ContentProperty]` must wrap its own root content in
   `<ContentView.Content>`, or the content is assigned to the custom property (see `ControlExample.xaml`).
