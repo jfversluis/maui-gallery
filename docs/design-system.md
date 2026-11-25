@@ -10,7 +10,7 @@ that .NET MAUI renders **real native controls**. The design system resolves this
 - **The stage** is the dotted canvas where a sample renders. Samples use **platform defaults**: no app styles reach
   them, because the design system defines **no implicit styles** for core controls. Every chrome style is keyed.
 - The stage toolbar makes the point explicit: a badge shows the native type the control became (read from
-  `Handler.PlatformView` at runtime), **Native / Styled** applies an example brand style to just that sample, and
+  `Handler.PlatformView` at runtime), **Default / Styled** applies an example app-wide style to just that sample (the control stays native either way), and
   **RTL** mirrors it.
 
 ## Tokens
@@ -85,7 +85,7 @@ work in narrow windows and next to the sidebar.
 
 | Component | Purpose |
 | --- | --- |
-| `ControlExample` | Stage, native badge, Native/Styled and RTL toggles, options, event output and code |
+| `ControlExample` | Stage, native badge, Default/Styled and LTR/RTL toggles, options, event output and code |
 | `CodeViewer` | XAML and C# tabs, syntax highlighting, line numbers, copy |
 | `NativeViewBadge` | Shows the platform type behind any view |
 | `ItemCard` | Tappable tile for a gallery item, with a desktop context menu |

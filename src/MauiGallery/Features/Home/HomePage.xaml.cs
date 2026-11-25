@@ -32,6 +32,7 @@ public sealed partial class HomePage : ContentPage
             Grid.SetColumn(HeroShowcase, 1);
             Grid.SetRow(HeroShowcase, 0);
             Hero.Padding = new Thickness(48, 44);
+            HeroTitle.FontSize = 40;
         }
         else
         {
@@ -40,6 +41,7 @@ public sealed partial class HomePage : ContentPage
             Grid.SetColumn(HeroShowcase, 0);
             Grid.SetRow(HeroShowcase, 1);
             Hero.Padding = new Thickness(24, 28);
+            HeroTitle.FontSize = 32;
         }
     }
 }

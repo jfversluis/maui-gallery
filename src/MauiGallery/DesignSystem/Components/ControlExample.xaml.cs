@@ -27,6 +27,10 @@ public partial class ControlExample : ContentView
     public static readonly BindableProperty NativeTargetProperty =
         BindableProperty.Create(nameof(NativeTarget), typeof(View), typeof(ControlExample), propertyChanged: (b, _, _) => ((ControlExample)b).UpdateBadgeTarget());
 
+    public static readonly BindableProperty ShowStyleToggleProperty =
+        BindableProperty.Create(nameof(ShowStyleToggle), typeof(bool), typeof(ControlExample), true,
+            propertyChanged: (b, _, value) => ((ControlExample)b).StyleToggle.IsVisible = (bool)value);
+
     public static readonly BindableProperty OutputProperty =
         BindableProperty.Create(nameof(Output), typeof(string), typeof(ControlExample));
 
@@ -97,6 +101,16 @@ public partial class ControlExample : ContentView
     {
         get => (View?)GetValue(NativeTargetProperty);
         set => SetValue(NativeTargetProperty, value);
+    }
+
+    /// <summary>
+    /// Whether the Default/Styled toggle is shown. Turn it off for examples that set appearance properties
+    /// explicitly, where an app-wide style would not change anything.
+    /// </summary>
+    public bool ShowStyleToggle
+    {
+        get => (bool)GetValue(ShowStyleToggleProperty);
+        set => SetValue(ShowStyleToggleProperty, value);
     }
 
     /// <summary>A short log line describing the last event the sample raised.</summary>
@@ -249,7 +263,7 @@ public partial class ControlExample : ContentView
         StageHost.Resources = _isStyled ? StyledLook.Value : NativeLook.Value;
         NativeModeButton.Style = (Style)Resources[_isStyled ? "SegmentButton" : "SegmentButtonSelected"];
         StyledModeButton.Style = (Style)Resources[_isStyled ? "SegmentButtonSelected" : "SegmentButton"];
-        SemanticProperties.SetDescription(NativeModeButton, _isStyled ? "Native look" : "Native look, selected");
+        SemanticProperties.SetDescription(NativeModeButton, _isStyled ? "Default look" : "Default look, selected");
         SemanticProperties.SetDescription(StyledModeButton, _isStyled ? "Styled look, selected" : "Styled look");
     }
 
@@ -269,7 +283,8 @@ public partial class ControlExample : ContentView
     {
         var rtl = StageHost.FlowDirection != FlowDirection.RightToLeft;
         StageHost.FlowDirection = rtl ? FlowDirection.RightToLeft : FlowDirection.MatchParent;
+        RtlButton.Text = rtl ? "RTL" : "LTR";
         RtlButton.Style = (Style)Resources[rtl ? "SegmentButtonSelected" : "SegmentButton"];
-        SemanticProperties.SetDescription(RtlButton, rtl ? "Right-to-left layout, on" : "Right-to-left layout, off");
+        SemanticProperties.SetDescription(RtlButton, rtl ? "Layout direction: right to left" : "Layout direction: left to right");
     }
 }

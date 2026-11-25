@@ -81,6 +81,7 @@
 
             <!-- 3. Appearance -->
             <ControlExample Title="Customize the appearance"
+                            ShowStyleToggle="False"
                             Description="Colors, corners, borders and fonts are regular properties. The control stays native; MAUI maps each property to the platform."
                             XamlSource="ButtonAppearance.xaml.txt"
                             CSharpSource="ButtonAppearance.cs.txt">

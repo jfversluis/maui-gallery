@@ -30,6 +30,19 @@ public partial class NativeViewBadge : ContentView
         return current;
     }
 
+    /// <summary>A short name for the UI framework a type belongs to; the full namespace is in the tooltip.</summary>
+    internal static string FrameworkName(string? ns) => ns switch
+    {
+        null => string.Empty,
+        _ when ns.StartsWith("UIKit", StringComparison.Ordinal) => "UIKit",
+        _ when ns.StartsWith("AppKit", StringComparison.Ordinal) => "AppKit",
+        _ when ns.StartsWith("Google.Android.Material", StringComparison.Ordinal) => "Material",
+        _ when ns.StartsWith("AndroidX", StringComparison.Ordinal) => "AndroidX",
+        _ when ns.StartsWith("Android", StringComparison.Ordinal) => "Android",
+        _ when ns.StartsWith("Microsoft.UI.Xaml", StringComparison.Ordinal) => "WinUI",
+        _ => ns,
+    };
+
     private static void OnTargetChanged(BindableObject bindable, object? oldValue, object? newValue)
     {
         var badge = (NativeViewBadge)bindable;
@@ -59,7 +72,7 @@ public partial class NativeViewBadge : ContentView
         var actualType = platformView.GetType();
         var platformType = PlatformTypeOf(actualType);
         TypeNameLabel.Text = platformType.Name;
-        NamespaceLabel.Text = platformType.Namespace;
+        NamespaceLabel.Text = FrameworkName(platformType.Namespace);
         Pill.IsVisible = true;
 
         var description = actualType == platformType
