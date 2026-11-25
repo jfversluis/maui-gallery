@@ -15,6 +15,7 @@ public class SamplePage : ContentPage
         ViewModel = new SamplePageViewModel(item, services);
         BindingContext = ViewModel;
         Title = item.Title;
+        Shell.SetNavBarIsVisible(this, true);
         SetDynamicResource(BackgroundColorProperty, "ColorBackground");
     }
 

@@ -1,5 +1,5 @@
 using MauiGallery.Core.Layout;
-using MauiGallery.Features.Shell;
+using MauiGallery.Features.Chrome;
 
 namespace MauiGallery;
 
@@ -8,9 +8,10 @@ public partial class AppShell : Shell
     private readonly SidebarView _sidebar;
     private readonly SidebarViewModel _sidebarViewModel;
 
-    public AppShell(SidebarView sidebar)
+    public AppShell(SidebarView sidebar, AppShellViewModel viewModel)
     {
         InitializeComponent();
+        BindingContext = viewModel;
         _sidebar = sidebar;
         _sidebarViewModel = sidebar.ViewModel;
         FlyoutContent = sidebar;
@@ -25,6 +26,17 @@ public partial class AppShell : Shell
         }
 
         _sidebar.FocusSearch();
+    }
+
+    private void OnSearchClicked(object? sender, EventArgs e)
+    {
+        if (FlyoutBehavior == FlyoutBehavior.Disabled)
+        {
+            _ = GoToAsync(Features.Catalog.Routes.Search);
+            return;
+        }
+
+        FocusSearch();
     }
 
     /// <summary>
@@ -44,9 +56,11 @@ public partial class AppShell : Shell
             FlyoutIsPresented = false;
         }
 
+        // With the sidebar, root pages need neither tabs nor a title bar; pushed pages opt back in for Back.
         foreach (var tab in Items.SelectMany(item => item.Items))
         {
             SetTabBarIsVisible(tab, useTabs);
+            SetNavBarIsVisible(tab, useTabs);
         }
     }
 

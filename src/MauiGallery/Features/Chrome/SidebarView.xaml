@@ -1,6 +1,6 @@
-<ContentView x:Class="MauiGallery.Features.Shell.SidebarView"
+<ContentView x:Class="MauiGallery.Features.Chrome.SidebarView"
              xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-             xmlns:local="clr-namespace:MauiGallery.Features.Shell"
+             xmlns:local="clr-namespace:MauiGallery.Features.Chrome"
              x:DataType="local:SidebarViewModel"
              BackgroundColor="{DynamicResource ColorSidebar}">
     <ContentView.Resources>

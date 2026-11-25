@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace MauiGallery.Features.Shell;
+namespace MauiGallery.Features.Chrome;
 
 /// <summary>One navigable row in the sidebar.</summary>
 public sealed partial class SidebarEntry(string title, string glyph, string route, string? itemId = null) : ObservableObject

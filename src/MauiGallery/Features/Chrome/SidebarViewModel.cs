@@ -5,7 +5,7 @@ using IconFont.Maui.FluentIcons;
 using MauiGallery.Features.Catalog;
 using MauiGallery.Services;
 
-namespace MauiGallery.Features.Shell;
+namespace MauiGallery.Features.Chrome;
 
 public sealed partial class SidebarViewModel : ObservableObject
 {

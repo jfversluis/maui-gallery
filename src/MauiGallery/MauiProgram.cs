@@ -6,7 +6,7 @@ using MauiGallery.Features.Home;
 using MauiGallery.Features.Samples;
 using MauiGallery.Features.Search;
 using MauiGallery.Features.Settings;
-using MauiGallery.Features.Shell;
+using MauiGallery.Features.Chrome;
 using MauiGallery.Services;
 #if DEBUG
 using Microsoft.Extensions.Logging;
@@ -31,7 +31,8 @@ public static class MauiProgram
                 fonts.AddFont("Inter-Bold.ttf", "InterBold");
                 fonts.AddFont("CascadiaCode-Regular.ttf", "CascadiaCode");
             })
-            .ConfigureMauiHandlers(_ => BorderlessEntry.Register());
+            .ConfigureMauiHandlers(_ => BorderlessEntry.Register())
+            .ConfigureDeepLinks();
 
         var catalog = new GalleryCatalog();
         builder.Services
@@ -62,10 +63,15 @@ public static class MauiProgram
         .AddSingleton<IFavoritesService, FavoritesService>()
         .AddSingleton<IRecentsService, RecentsService>()
         .AddSingleton<INavigationService, ShellNavigationService>()
-        .AddSingleton<SamplePageServices>();
+        .AddSingleton<IWindowService, WindowService>()
+        .AddSingleton<GalleryWindowFactory>()
+        .AddSingleton<DeepLinkRouter>()
+        .AddSingleton<SamplePageServices>()
+        .AddSingleton<ItemActions>();
 
     private static IServiceCollection AddShell(this IServiceCollection services) => services
         .AddTransient<AppShell>()
+        .AddTransient<AppShellViewModel>()
         .AddTransient<SidebarView>()
         .AddTransient<SidebarViewModel>()
         .AddTransient<HomePage>()

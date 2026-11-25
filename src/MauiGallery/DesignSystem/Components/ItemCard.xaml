@@ -2,7 +2,8 @@
              xmlns:catalog="clr-namespace:MauiGallery.Core.Catalog;assembly=MauiGallery.Core"
              x:Name="Self"
              x:DataType="catalog:GalleryItem">
-    <Border Style="{StaticResource InteractiveCard}"
+    <Border x:Name="CardBorder"
+            Style="{StaticResource InteractiveCard}"
             Padding="16"
             AutomationId="{Binding Id, StringFormat='item-card-{0}'}"
             SemanticProperties.Description="{Binding Title}"

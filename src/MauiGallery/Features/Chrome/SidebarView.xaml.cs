@@ -1,4 +1,4 @@
-namespace MauiGallery.Features.Shell;
+namespace MauiGallery.Features.Chrome;
 
 /// <summary>The desktop and tablet navigation pane: app identity, search and the catalog, grouped by category.</summary>
 public partial class SidebarView : ContentView

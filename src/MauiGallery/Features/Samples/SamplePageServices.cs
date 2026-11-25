@@ -10,4 +10,5 @@ public sealed record SamplePageServices(
     IRecentsService Recents,
     INavigationService Navigation,
     IBrowser Browser,
-    IClipboard Clipboard);
+    IClipboard Clipboard,
+    IWindowService Windows);

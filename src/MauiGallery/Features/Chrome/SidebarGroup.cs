@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using MauiGallery.Core.Catalog;
 
-namespace MauiGallery.Features.Shell;
+namespace MauiGallery.Features.Chrome;
 
 /// <summary>A collapsible category in the sidebar.</summary>
 public sealed partial class SidebarGroup(GalleryCategory category, IReadOnlyList<SidebarEntry> entries) : ObservableObject

@@ -3,6 +3,7 @@
              xmlns:local="clr-namespace:MauiGallery.Features.Catalog"
              x:DataType="local:CategoryViewModel"
              Title="{Binding Category.Title}"
+             Shell.NavBarIsVisible="True"
              Style="{StaticResource PageChrome}">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">

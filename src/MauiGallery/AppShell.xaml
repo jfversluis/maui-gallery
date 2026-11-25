@@ -4,6 +4,9 @@
        xmlns:catalog="clr-namespace:MauiGallery.Features.Catalog"
        xmlns:search="clr-namespace:MauiGallery.Features.Search"
        xmlns:settings="clr-namespace:MauiGallery.Features.Settings"
+       xmlns:shell="clr-namespace:MauiGallery.Features.Chrome"
+       xmlns:services="clr-namespace:MauiGallery.Services"
+       x:DataType="shell:AppShellViewModel"
        Title=".NET MAUI Gallery"
        FlyoutWidth="{StaticResource SidebarWidth}"
        FlyoutBackgroundColor="{DynamicResource ColorSidebar}"
@@ -13,6 +16,52 @@
        Shell.TabBarForegroundColor="{DynamicResource ColorAccentText}"
        Shell.TabBarTitleColor="{DynamicResource ColorAccentText}"
        Shell.TabBarUnselectedColor="{DynamicResource ColorTextSecondary}">
+
+    <!-- Desktop menu bar (Mac Catalyst and Windows). Shortcuts use Cmd on Mac and Ctrl on Windows. -->
+    <Shell.MenuBarItems>
+        <MenuBarItem Text="File">
+            <MenuFlyoutItem Text="New Window" Command="{Binding NewWindowCommand}" IsEnabled="{Binding CanOpenWindows}">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="{OnPlatform MacCatalyst=Cmd, Default=Ctrl}" Key="N" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+        </MenuBarItem>
+        <MenuBarItem Text="View">
+            <MenuFlyoutSubItem Text="Theme">
+                <MenuFlyoutItem Text="System" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static services:ThemePreference.System}" />
+                <MenuFlyoutItem Text="Light" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static services:ThemePreference.Light}" />
+                <MenuFlyoutItem Text="Dark" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static services:ThemePreference.Dark}" />
+            </MenuFlyoutSubItem>
+        </MenuBarItem>
+        <MenuBarItem Text="Go">
+            <MenuFlyoutItem Text="Home" Command="{Binding GoToCommand}" CommandParameter="{x:Static shell:AppShellViewModel.HomeRoute}">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="{OnPlatform MacCatalyst=Cmd, Default=Ctrl}" Key="1" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="All Controls" Command="{Binding GoToCommand}" CommandParameter="{x:Static shell:AppShellViewModel.AllControlsRoute}">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="{OnPlatform MacCatalyst=Cmd, Default=Ctrl}" Key="2" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Search" Clicked="OnSearchClicked">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="{OnPlatform MacCatalyst=Cmd, Default=Ctrl}" Key="K" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem Text="Settings" Command="{Binding GoToCommand}" CommandParameter="{x:Static shell:AppShellViewModel.SettingsRoute}">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="{OnPlatform MacCatalyst=Cmd, Default=Ctrl}" Key="," />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+        </MenuBarItem>
+        <MenuBarItem Text="Help">
+            <MenuFlyoutItem Text=".NET MAUI Documentation" Command="{Binding OpenDocsCommand}" />
+            <MenuFlyoutItem Text="Gallery Source Code" Command="{Binding OpenRepositoryCommand}" />
+            <MenuFlyoutItem Text="Report an Issue" Command="{Binding ReportIssueCommand}" />
+        </MenuBarItem>
+    </Shell.MenuBarItems>
 
     <!--
         One Shell for every form factor. Phones use the bottom tabs. Wider windows hide the tabs and show the

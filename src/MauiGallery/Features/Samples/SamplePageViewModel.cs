@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiGallery.Core.Catalog;
+using MauiGallery.Core.Navigation;
 
 namespace MauiGallery.Features.Samples;
 
@@ -34,7 +35,7 @@ public sealed partial class SamplePageViewModel : ObservableObject
     public bool HasRelated => Related.Count > 0;
 
     /// <summary>The link that opens this page directly, for example <c>mauigallery://item/button</c>.</summary>
-    public string DeepLink => $"{DeepLinks.Scheme}://item/{Item.Id}";
+    public string Link => DeepLink.ForItem(Item.Id).ToString();
 
     [ObservableProperty]
     public partial bool IsFavorite { get; set; }
@@ -58,7 +59,7 @@ public sealed partial class SamplePageViewModel : ObservableObject
     [RelayCommand]
     private async Task CopyLinkAsync()
     {
-        await _services.Clipboard.SetTextAsync(DeepLink);
+        await _services.Clipboard.SetTextAsync(Link);
         LinkCopied = true;
         SemanticScreenReader.Announce("Link copied");
         await Task.Delay(TimeSpan.FromSeconds(1.5));
@@ -67,4 +68,9 @@ public sealed partial class SamplePageViewModel : ObservableObject
 
     [RelayCommand]
     private Task OpenItemAsync(GalleryItem item) => _services.Navigation.GoToItemAsync(item.Id);
+
+    [RelayCommand(CanExecute = nameof(CanOpenInNewWindow))]
+    private void OpenInNewWindow() => _services.Windows.OpenItem(Item.Id);
+
+    private bool CanOpenInNewWindow() => _services.Windows.CanOpenWindows;
 }
