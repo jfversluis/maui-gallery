@@ -39,18 +39,35 @@
                 </ImageButton.Source>
             </ImageButton>
         </Grid>
-        <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Default">
-            <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="16" Padding="16,4,24,18">
-                <Label x:Name="LineNumbers"
-                       Style="{StaticResource TextCode}"
-                       TextColor="{DynamicResource ColorTextTertiary}"
-                       HorizontalTextAlignment="End"
-                       AutomationProperties.IsInAccessibleTree="False" />
-                <Label x:Name="CodeLabel"
-                       Grid.Column="1"
-                       Style="{StaticResource TextCode}"
-                       AutomationId="code-text" />
-            </Grid>
-        </ScrollView>
+        <!-- Overlay scrollbars on phones give no hint that long lines continue; the fade does. -->
+        <Grid Grid.Row="1">
+            <ScrollView x:Name="CodeScroll"
+                        Orientation="Horizontal"
+                        Scrolled="OnCodeLayoutChanged"
+                        SizeChanged="OnCodeLayoutChanged"
+                        HorizontalScrollBarVisibility="Default">
+                <Grid x:Name="CodeContent"
+                      ColumnDefinitions="Auto,Auto"
+                      ColumnSpacing="16"
+                      Padding="16,4,24,18"
+                      SizeChanged="OnCodeLayoutChanged">
+                    <Label x:Name="LineNumbers"
+                           Style="{StaticResource TextCode}"
+                           TextColor="{DynamicResource ColorTextTertiary}"
+                           HorizontalTextAlignment="End"
+                           AutomationProperties.IsInAccessibleTree="False" />
+                    <Label x:Name="CodeLabel"
+                           Grid.Column="1"
+                           Style="{StaticResource TextCode}"
+                           AutomationId="code-text" />
+                </Grid>
+            </ScrollView>
+            <BoxView x:Name="OverflowFade"
+                     WidthRequest="48"
+                     HorizontalOptions="End"
+                     Background="{DynamicResource BrushCodeFade}"
+                     InputTransparent="True"
+                     IsVisible="False" />
+        </Grid>
     </Grid>
 </ContentView>

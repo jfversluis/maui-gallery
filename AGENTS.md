@@ -67,6 +67,11 @@ Known quirks:
   the Mac idiom (6) UIKit throws `_UICatalystUnsupportedMacIdiomBehavior` for `UIStepper`, `UIRefreshControl` and the
   `UIPickerView` that `Picker` opens, and MAUI buttons lose custom backgrounds, borders and corner radius.
 - `Shell` itself never receives a layout size. Use `Window.SizeChanged` for window-level breakpoints.
+- Don't put `AdaptiveTrigger` in a shared `Style`: MAUI shares the trigger instances between every element that uses
+  the style, so only the last one follows resizes (dotnet/maui#14259). Use `WindowSizeStates.IsEnabled` with
+  `Compact`/`Medium`/`Expanded` visual states instead (see the `PageContent` style).
+- DevFlow's Mac Catalyst screenshot crops wide windows at the screen width. For full-window captures use
+  `screencapture -l <window id>`.
 - A XAML `ContentView` subclass with `[ContentProperty]` must wrap its own root content in
   `<ContentView.Content>`, or the content is assigned to the custom property (see `ControlExample.xaml`).
 - Snippet files are embedded with `WithCulture="false"`: MSBuild otherwise reads `Name.cs.txt` as the Czech culture.

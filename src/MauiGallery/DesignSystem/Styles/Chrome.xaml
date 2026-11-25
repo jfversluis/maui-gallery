@@ -29,26 +29,17 @@
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="WindowWidth">
                     <VisualState x:Name="Compact">
-                        <VisualState.StateTriggers>
-                            <AdaptiveTrigger MinWindowWidth="0" />
-                        </VisualState.StateTriggers>
                         <VisualState.Setters>
                             <!-- The bottom inset keeps the last controls clear of floating tab bars. -->
                             <Setter Property="Padding" Value="16,12,16,112" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="Medium">
-                        <VisualState.StateTriggers>
-                            <AdaptiveTrigger MinWindowWidth="640" />
-                        </VisualState.StateTriggers>
                         <VisualState.Setters>
                             <Setter Property="Padding" Value="32,24,32,48" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="Expanded">
-                        <VisualState.StateTriggers>
-                            <AdaptiveTrigger MinWindowWidth="1100" />
-                        </VisualState.StateTriggers>
                         <VisualState.Setters>
                             <Setter Property="Padding" Value="48,32,48,64" />
                         </VisualState.Setters>
@@ -56,6 +47,8 @@
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
+        <!-- States follow the window width; see WindowSizeStates for why this is not an AdaptiveTrigger. -->
+        <Setter Property="behaviors:WindowSizeStates.IsEnabled" Value="True" />
     </Style>
 
     <Style x:Key="OptionLabel" TargetType="Label" BasedOn="{StaticResource TextCaptionStrong}">

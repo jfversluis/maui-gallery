@@ -58,6 +58,11 @@
     <SolidColorBrush x:Key="BrushOutline" Color="#2B2736" />
     <SolidColorBrush x:Key="BrushOutlineStrong" Color="#3D384B" />
     <SolidColorBrush x:Key="BrushAccent" Color="#9B87F5" />
+    <!-- Fades code into the code background at the right edge while more code is off-screen. -->
+    <LinearGradientBrush x:Key="BrushCodeFade" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="#00121018" Offset="0" />
+        <GradientStop Color="#121018" Offset="1" />
+    </LinearGradientBrush>
     <LinearGradientBrush x:Key="BrushHero" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="#4524B8" Offset="0" />
         <GradientStop Color="#3730A3" Offset="0.55" />

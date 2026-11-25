@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Material accent for native controls in night mode: lighter purple keeps sliders and switches legible. -->
-    <color name="colorPrimary">#9B87F5</color>
-    <color name="colorPrimaryDark">#2B0B98</color>
-    <color name="colorAccent">#9B87F5</color>
-</resources>

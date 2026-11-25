@@ -92,6 +92,9 @@ public partial class CodeViewer : ContentView
         Render();
     }
 
+    private void OnCodeLayoutChanged(object? sender, EventArgs e) =>
+        OverflowFade.IsVisible = CodeContent.Width - CodeScroll.ScrollX - CodeScroll.Width > 1;
+
     private async void OnCopyClicked(object? sender, EventArgs e)
     {
         if (string.IsNullOrEmpty(CurrentCode))

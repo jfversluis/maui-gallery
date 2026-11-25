@@ -32,7 +32,8 @@ public static class MauiProgram
                 fonts.AddFont("CascadiaCode-Regular.ttf", "CascadiaCode");
             })
             .ConfigureMauiHandlers(_ => BorderlessEntry.Register())
-            .ConfigureDeepLinks();
+            .ConfigureDeepLinks()
+            .ConfigureWindowChrome();
 
         var catalog = new GalleryCatalog();
         builder.Services
