@@ -1,0 +1,19 @@
+<Project>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <Deterministic>true</Deterministic>
+    <!-- Required for IDE0005 (unused usings) to run at build time. Public API docs are not mandatory. -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+
+    <Authors>Gerald Versluis and contributors</Authors>
+    <Copyright>Copyright (c) Gerald Versluis</Copyright>
+    <RepositoryUrl>https://github.com/jfversluis/maui-gallery</RepositoryUrl>
+  </PropertyGroup>
+</Project>

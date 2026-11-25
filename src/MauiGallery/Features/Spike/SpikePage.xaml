@@ -1,0 +1,23 @@
+<ContentPage x:Class="MauiGallery.Features.Spike.SpikePage"
+             xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+             Title="Spike">
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16">
+            <Label Text="Inter SemiBold 28" FontFamily="InterSemiBold" FontSize="28" />
+            <Label Text="Inter Regular 15 — The quick brown fox" FontFamily="Inter" FontSize="15" />
+            <Label Text="var x = new Button(); // Cascadia" FontFamily="CascadiaCode" FontSize="13" />
+            <Label Text="{x:Static icons:FluentIconsRegular.Home24}" FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" FontSize="32" />
+            <Button x:Name="NativeButton" Text="Native button" Clicked="OnClicked" />
+            <Label x:Name="NativeTypeLabel" FontFamily="CascadiaCode" FontSize="12" />
+            <Switch IsToggled="True" />
+            <CheckBox IsChecked="True" />
+            <Slider Value="0.4" />
+            <Stepper />
+            <Entry Placeholder="Entry" />
+            <DatePicker />
+            <Picker Title="Picker" />
+            <ProgressBar Progress="0.6" />
+            <ActivityIndicator IsRunning="True" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

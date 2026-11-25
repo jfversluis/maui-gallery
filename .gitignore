@@ -1,0 +1,24 @@
+# Build outputs
+bin/
+obj/
+artifacts/
+TestResults/
+
+# IDE and OS files
+.vs/
+.idea/
+*.user
+*.suo
+.DS_Store
+
+# DevFlow and local agent state
+.mauidevflow
+*.binlog
+
+# Secrets (Android Maps key, signing) are injected by CI, never committed
+*.keystore
+*.jks
+secrets.props
+
+# maui ai CLI lock file
+.maui/*.lock

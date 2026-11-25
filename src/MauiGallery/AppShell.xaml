@@ -1,0 +1,18 @@
+<Shell x:Class="MauiGallery.AppShell" Title=".NET MAUI Gallery" FlyoutWidth="280">
+    <Shell.FlyoutContent>
+        <VerticalStackLayout Padding="16" Spacing="8" BackgroundColor="#F4F2FB">
+            <Label Text="SIDEBAR" FontFamily="InterSemiBold" />
+            <Button Text="Home" Clicked="OnNav" CommandParameter="//main/home" />
+            <Button Text="Controls" Clicked="OnNav" CommandParameter="//main/controls" />
+            <Button Text="Button sample" Clicked="OnNav" CommandParameter="//main/controls/detail" />
+            <Button Text="Settings" Clicked="OnNav" CommandParameter="//main/settings" />
+            <Label x:Name="ModeLabel" FontFamily="CascadiaCode" FontSize="11" />
+        </VerticalStackLayout>
+    </Shell.FlyoutContent>
+    <FlyoutItem Route="main" FlyoutDisplayOptions="AsSingleItem">
+        <Tab Title="Home" Route="home"><ShellContent ContentTemplate="{DataTemplate SpikePage}" /></Tab>
+        <Tab Title="Controls" Route="controls"><ShellContent ContentTemplate="{DataTemplate SpikePage}" /></Tab>
+        <Tab Title="Search" Route="search"><ShellContent ContentTemplate="{DataTemplate SpikePage}" /></Tab>
+        <Tab Title="Settings" Route="settings"><ShellContent ContentTemplate="{DataTemplate SpikePage}" /></Tab>
+    </FlyoutItem>
+</Shell>
