@@ -14,10 +14,15 @@ so code quality and visual polish both matter.
 | Path | Purpose |
 | --- | --- |
 | `src/MauiGallery` | The app (Android, iOS, Mac Catalyst, Windows). Feature folders under `Features/`. |
-| `src/MauiGallery/DesignSystem` | Design tokens, keyed chrome styles and chrome components. |
+| `src/MauiGallery/DesignSystem` | Design tokens, keyed chrome styles and chrome components (`ControlExample`, `CodeViewer`, ...). |
+| `src/MauiGallery/Features/Catalog` | `GalleryCatalog`: every page, its route, metadata and category. Routes and DI come from it. |
+| `src/MauiGallery/Features/Chrome` | `AppShell` view model, sidebar and menu bar. |
+| `src/MauiGallery/Features/Samples` | `SamplePage` base class, page header and related items. |
+| `src/MauiGallery/Features/Controls/...` | One folder per sample page, with a `Snippets` folder for its code. |
 | `src/MauiGallery.Core` | Platform-agnostic logic (catalog model, search, snippet templates, syntax highlighting). No MAUI dependency. |
 | `tests/MauiGallery.Core.Tests` | xUnit v3 tests for `MauiGallery.Core` (Microsoft.Testing.Platform). |
-| `.github/skills` | Agent skills from [dotnet/maui-labs](https://github.com/dotnet/maui-labs), installed with `maui ai init`. |
+| `.github/skills` | Agent skills from [dotnet/maui-labs](https://github.com/dotnet/maui-labs) (installed with `maui ai init`) and the repo's own `add-gallery-sample`. |
+| `docs/` | Design system, agent setup, privacy policy. |
 | `.maui/ai-assets.json` | Provenance of installed agent assets. Refresh with `maui ai update`. |
 
 ## Build, test, run
@@ -45,16 +50,26 @@ adb -s <serial> forward tcp:<port> tcp:<port>    # agent port from `maui devflow
 maui devflow wait --wait-platform <iOS|Android|MacCatalyst>
 ```
 
-Use the DevFlow MCP tools (`maui_screenshot`, `maui_tree`, `maui_query`, `maui_tap`, `maui_resize`,
-`maui_set_theme`, `maui_layout_diagnostics`, `maui_logs`) to verify UI changes on a running app.
-Use a dedicated simulator/emulator named `MauiGallery-*`; other projects may share this machine.
+Use the DevFlow MCP tools (`maui_tree`, `maui_query`, `maui_tap`, `maui_navigate`, `maui_resize`,
+`maui_layout_diagnostics`, `maui_logs`) to verify UI changes on a running app. Pages are reachable by route:
+`maui devflow ui navigate "//main/controls/<item-id>" --agent-port <port>`.
+Use a dedicated simulator/emulator named `MauiGallery-*`; other projects may share this machine. With several apps
+connected, always pass `--agent-port` (CLI) or `agentPort` (MCP), and `--wait-platform` to `maui devflow wait`.
 
 Known quirks:
 
+- Screenshots: prefer `maui devflow ui screenshot --output file.png` (CLI). On Mac Catalyst the MCP tool can crop the
+  window, and on Android it can return a stale image; `adb exec-out screencap -p` is a reliable fallback.
+- Switch themes through the app (Settings, then Theme, AutomationIds `theme-light` / `theme-dark`), or system-wide
+  with `xcrun simctl ui <udid> appearance dark` and `adb shell cmd uimode night yes`. The nuget.org DevFlow agent
+  does not implement `maui_set_theme` or `maui_menu_list` yet.
 - On Mac Catalyst the app uses the iPad idiom (`UIDeviceFamily` 2), scaled to 77%. The Mac idiom (6) is not an
-  option: it throws on `UIStepper`. Full-window DevFlow screenshots after a resize can be cropped; capture the root
-  content element with `maui_screenshot elementId=...` instead.
+  option: it throws on `UIStepper`.
 - `Shell` itself never receives a layout size. Use `Window.SizeChanged` for window-level breakpoints.
+- A XAML `ContentView` subclass with `[ContentProperty]` must wrap its own root content in
+  `<ContentView.Content>`, or the content is assigned to the custom property (see `ControlExample.xaml`).
+- Snippet files are embedded with `WithCulture="false"`: MSBuild otherwise reads `Name.cs.txt` as the Czech culture.
+- Navigation failures are caught and logged by `ShellNavigationService`; check `maui_logs` when a page does not open.
 
 ## Architecture rules
 
@@ -90,3 +105,4 @@ no `async void` except event handlers, `ConfigureAwait` not needed in app code. 
 | WebView, HybridWebView, Blazor | `maui-blazor-hybrid` |
 | Deep links | `maui-notifications-deep-links` |
 | Icons, splash, assets | `maui-app-assets-lifecycle`, `maui-project-structure` |
+| Add a gallery page | `add-gallery-sample` (this repo's own workflow) |
