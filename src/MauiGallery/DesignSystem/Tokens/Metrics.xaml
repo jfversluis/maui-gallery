@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Spacing (4-pt grid), shape and window breakpoints. Theme-independent. -->
+<ResourceDictionary x:Class="MauiGallery.DesignSystem.Tokens.Metrics">
+
+    <x:Double x:Key="Space2">2</x:Double>
+    <x:Double x:Key="Space4">4</x:Double>
+    <x:Double x:Key="Space8">8</x:Double>
+    <x:Double x:Key="Space12">12</x:Double>
+    <x:Double x:Key="Space16">16</x:Double>
+    <x:Double x:Key="Space24">24</x:Double>
+    <x:Double x:Key="Space32">32</x:Double>
+    <x:Double x:Key="Space48">48</x:Double>
+    <x:Double x:Key="Space64">64</x:Double>
+
+    <x:Double x:Key="RadiusInput">6</x:Double>
+    <x:Double x:Key="RadiusCard">12</x:Double>
+    <x:Double x:Key="RadiusHero">20</x:Double>
+
+    <RoundRectangle x:Key="ShapeInput" CornerRadius="6" />
+    <RoundRectangle x:Key="ShapeCard" CornerRadius="12" />
+    <RoundRectangle x:Key="ShapeHero" CornerRadius="20" />
+    <RoundRectangle x:Key="ShapePill" CornerRadius="999" />
+
+    <x:Double x:Key="IconSizeSmall">16</x:Double>
+    <x:Double x:Key="IconSize">20</x:Double>
+    <x:Double x:Key="IconSizeLarge">24</x:Double>
+    <x:Double x:Key="IconSizeHero">32</x:Double>
+
+    <x:Double x:Key="SidebarWidth">288</x:Double>
+    <x:Double x:Key="ContentMaxWidth">1280</x:Double>
+    <x:Double x:Key="OptionsPaneWidth">280</x:Double>
+
+</ResourceDictionary>

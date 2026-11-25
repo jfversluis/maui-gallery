@@ -1,8 +1,14 @@
+using MauiGallery.Services;
+
 namespace MauiGallery;
 
 public partial class App : Application
 {
-    public App() => InitializeComponent();
+    public App(IThemeService themeService)
+    {
+        InitializeComponent();
+        themeService.Initialize(this);
+    }
 
     protected override Window CreateWindow(IActivationState? activationState)
     {

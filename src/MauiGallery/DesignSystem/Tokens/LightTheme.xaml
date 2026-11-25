@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Light theme. Every theme dictionary defines exactly the same keys; ThemeService swaps them at runtime. -->
+<ResourceDictionary x:Class="MauiGallery.DesignSystem.Tokens.LightTheme">
+
+    <!-- Surfaces -->
+    <Color x:Key="ColorBackground">#F6F5FA</Color>
+    <Color x:Key="ColorSurface">#FFFFFF</Color>
+    <Color x:Key="ColorSurfaceAlt">#F0EEF6</Color>
+    <Color x:Key="ColorSurfaceHover">#EAE7F3</Color>
+    <Color x:Key="ColorSidebar">#F1EFF7</Color>
+    <Color x:Key="ColorSelection">#E7E1FB</Color>
+    <Color x:Key="ColorOutline">#E4E1EC</Color>
+    <Color x:Key="ColorOutlineStrong">#CBC6D9</Color>
+
+    <!-- Text -->
+    <Color x:Key="ColorTextPrimary">#16131D</Color>
+    <Color x:Key="ColorTextSecondary">#57536A</Color>
+    <Color x:Key="ColorTextTertiary">#6B677D</Color>
+
+    <!-- Accent: .NET purple -->
+    <Color x:Key="ColorAccent">#512BD4</Color>
+    <Color x:Key="ColorAccentHover">#4322B5</Color>
+    <Color x:Key="ColorAccentSubtle">#EDE8FC</Color>
+    <Color x:Key="ColorOnAccent">#FFFFFF</Color>
+    <Color x:Key="ColorAccentText">#512BD4</Color>
+
+    <!-- Status -->
+    <Color x:Key="ColorSuccess">#1A7F37</Color>
+    <Color x:Key="ColorSuccessSubtle">#DAFBE1</Color>
+    <Color x:Key="ColorWarning">#9A6700</Color>
+    <Color x:Key="ColorWarningSubtle">#FFF4D4</Color>
+    <Color x:Key="ColorError">#CF222E</Color>
+    <Color x:Key="ColorErrorSubtle">#FFE5E7</Color>
+    <Color x:Key="ColorInfo">#0969DA</Color>
+    <Color x:Key="ColorInfoSubtle">#DDF4FF</Color>
+
+    <!-- Sample stage: deliberately neutral so native controls look like themselves -->
+    <Color x:Key="ColorStage">#FBFBFD</Color>
+    <Color x:Key="ColorStageDot">#D9D6E2</Color>
+
+    <!-- Code viewer -->
+    <Color x:Key="ColorCodeBackground">#F7F6FB</Color>
+
+    <!-- Syntax highlighting (GitHub Primer light) -->
+    <Color x:Key="ColorSyntaxPlain">#1F2328</Color>
+    <Color x:Key="ColorSyntaxPunctuation">#57606A</Color>
+    <Color x:Key="ColorSyntaxComment">#6E7781</Color>
+    <Color x:Key="ColorSyntaxKeyword">#CF222E</Color>
+    <Color x:Key="ColorSyntaxString">#0A3069</Color>
+    <Color x:Key="ColorSyntaxNumber">#0550AE</Color>
+    <Color x:Key="ColorSyntaxType">#953800</Color>
+    <Color x:Key="ColorSyntaxMethod">#8250DF</Color>
+    <Color x:Key="ColorSyntaxElement">#116329</Color>
+    <Color x:Key="ColorSyntaxAttribute">#0550AE</Color>
+    <Color x:Key="ColorSyntaxMarkup">#8250DF</Color>
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="BrushOutline" Color="#E4E1EC" />
+    <SolidColorBrush x:Key="BrushOutlineStrong" Color="#CBC6D9" />
+    <SolidColorBrush x:Key="BrushAccent" Color="#512BD4" />
+    <LinearGradientBrush x:Key="BrushHero" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#5B2FD9" Offset="0" />
+        <GradientStop Color="#4F46E5" Offset="0.55" />
+        <GradientStop Color="#2563EB" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Elevation: soft shadows in light mode -->
+    <Shadow x:Key="ShadowCard" Brush="#1D1640" Opacity="0.07" Offset="0,4" Radius="16" />
+    <Shadow x:Key="ShadowRaised" Brush="#1D1640" Opacity="0.12" Offset="0,8" Radius="28" />
+
+</ResourceDictionary>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Type ramp (Inter, Cascadia Code for code). Keyed styles only: core controls keep platform defaults. -->
+<ResourceDictionary x:Class="MauiGallery.DesignSystem.Tokens.Typography">
+
+    <x:String x:Key="FontRegular">Inter</x:String>
+    <x:String x:Key="FontMedium">InterMedium</x:String>
+    <x:String x:Key="FontSemiBold">InterSemiBold</x:String>
+    <x:String x:Key="FontBold">InterBold</x:String>
+    <x:String x:Key="FontCode">CascadiaCode</x:String>
+
+    <Style x:Key="TextBase" TargetType="Label">
+        <Setter Property="FontFamily" Value="{StaticResource FontRegular}" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorTextPrimary}" />
+        <Setter Property="LineHeight" Value="1.35" />
+    </Style>
+
+    <Style x:Key="TextDisplay" TargetType="Label" BasedOn="{StaticResource TextBase}">
+        <Setter Property="FontFamily" Value="{StaticResource FontBold}" />
+        <Setter Property="FontSize" Value="40" />
+        <Setter Property="LineHeight" Value="1.1" />
+        <Setter Property="CharacterSpacing" Value="-0.8" />
+        <Setter Property="SemanticProperties.HeadingLevel" Value="Level1" />
+    </Style>
+
+    <Style x:Key="TextTitle1" TargetType="Label" BasedOn="{StaticResource TextBase}">
+        <Setter Property="FontFamily" Value="{StaticResource FontSemiBold}" />
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="LineHeight" Value="1.15" />
+        <Setter Property="CharacterSpacing" Value="-0.4" />
+        <Setter Property="SemanticProperties.HeadingLevel" Value="Level1" />
+    </Style>
+
+    <Style x:Key="TextTitle2" TargetType="Label" BasedOn="{StaticResource TextBase}">
+        <Setter Property="FontFamily" Value="{StaticResource FontSemiBold}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="LineHeight" Value="1.2" />
+        <Setter Property="CharacterSpacing" Value="-0.2" />
+        <Setter Property="SemanticProperties.HeadingLevel" Value="Level2" />
+    </Style>
+
+    <Style x:Key="TextTitle3" TargetType="Label" BasedOn="{StaticResource TextBase}">
+        <Setter Property="FontFamily" Value="{StaticResource FontSemiBold}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="LineHeight" Value="1.25" />
+        <Setter Property="SemanticProperties.HeadingLevel" Value="Level3" />
+    </Style>
+
+    <Style x:Key="TextBody" TargetType="Label" BasedOn="{StaticResource TextBase}" />
+
+    <Style x:Key="TextBodySecondary" TargetType="Label" BasedOn="{StaticResource TextBase}">
+        <Setter Property="TextColor" Value="{DynamicResource ColorTextSecondary}" />
+    </Style>
+
+    <Style x:Key="TextBodyStrong" TargetType="Label" BasedOn="{StaticResource TextBase}">
+        <Setter Property="FontFamily" Value="{StaticResource FontSemiBold}" />
+    </Style>
+
+    <Style x:Key="TextCaption" TargetType="Label" BasedOn="{StaticResource TextBase}">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorTextSecondary}" />
+    </Style>
+
+    <Style x:Key="TextCaptionStrong" TargetType="Label" BasedOn="{StaticResource TextCaption}">
+        <Setter Property="FontFamily" Value="{StaticResource FontMedium}" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorTextPrimary}" />
+    </Style>
+
+    <Style x:Key="TextOverline" TargetType="Label" BasedOn="{StaticResource TextBase}">
+        <Setter Property="FontFamily" Value="{StaticResource FontSemiBold}" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="CharacterSpacing" Value="1" />
+        <Setter Property="TextTransform" Value="Uppercase" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorTextTertiary}" />
+    </Style>
+
+    <Style x:Key="TextCode" TargetType="Label">
+        <Setter Property="FontFamily" Value="{StaticResource FontCode}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="LineHeight" Value="1.5" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorSyntaxPlain}" />
+    </Style>
+
+    <Style x:Key="TextIcon" TargetType="Label">
+        <Setter Property="FontFamily" Value="FluentIcons" />
+        <Setter Property="FontSize" Value="{StaticResource IconSize}" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorTextPrimary}" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="SemanticProperties.Description" Value="" />
+    </Style>
+
+</ResourceDictionary>

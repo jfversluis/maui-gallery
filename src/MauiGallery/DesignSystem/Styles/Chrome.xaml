@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Keyed chrome styles. Never add implicit styles here: samples must render with platform defaults. -->
+<ResourceDictionary x:Class="MauiGallery.DesignSystem.Styles.Chrome">
+
+    <Style x:Key="PageChrome" TargetType="ContentPage">
+        <Setter Property="BackgroundColor" Value="{DynamicResource ColorBackground}" />
+    </Style>
+
+    <Style x:Key="Card" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{DynamicResource ColorSurface}" />
+        <Setter Property="Stroke" Value="{DynamicResource BrushOutline}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape" Value="{StaticResource ShapeCard}" />
+        <Setter Property="Shadow" Value="{DynamicResource ShadowCard}" />
+        <Setter Property="Padding" Value="20" />
+    </Style>
+
+    <!-- A card that reacts to pointer hover and press, for navigation tiles. -->
+    <Style x:Key="InteractiveCard" TargetType="Border" BasedOn="{StaticResource Card}">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Stroke" Value="{DynamicResource BrushOutlineStrong}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource ColorSurfaceAlt}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.98" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SubtlePanel" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{DynamicResource ColorSurfaceAlt}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="{StaticResource ShapeCard}" />
+        <Setter Property="Padding" Value="16" />
+    </Style>
+
+    <Style x:Key="Divider" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="1" />
+        <Setter Property="Color" Value="{DynamicResource ColorOutline}" />
+    </Style>
+
+    <Style x:Key="AccentButton" TargetType="Button">
+        <Setter Property="FontFamily" Value="{StaticResource FontSemiBold}" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorOnAccent}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource ColorAccent}" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="18,10" />
+        <Setter Property="MinimumHeightRequest" Value="40" />
+    </Style>
+
+    <Style x:Key="SecondaryButton" TargetType="Button">
+        <Setter Property="FontFamily" Value="{StaticResource FontSemiBold}" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorTextPrimary}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource ColorSurface}" />
+        <Setter Property="BorderColor" Value="{DynamicResource ColorOutlineStrong}" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="18,10" />
+        <Setter Property="MinimumHeightRequest" Value="40" />
+    </Style>
+
+    <!-- Buttons placed on the brand gradient. -->
+    <Style x:Key="HeroButton" TargetType="Button" BasedOn="{StaticResource AccentButton}">
+        <Setter Property="TextColor" Value="#2A1477" />
+        <Setter Property="BackgroundColor" Value="#FFFFFF" />
+    </Style>
+
+    <Style x:Key="HeroSecondaryButton" TargetType="Button" BasedOn="{StaticResource AccentButton}">
+        <Setter Property="TextColor" Value="#FFFFFF" />
+        <Setter Property="BackgroundColor" Value="#33FFFFFF" />
+        <Setter Property="BorderColor" Value="#66FFFFFF" />
+        <Setter Property="BorderWidth" Value="1" />
+    </Style>
+
+</ResourceDictionary>

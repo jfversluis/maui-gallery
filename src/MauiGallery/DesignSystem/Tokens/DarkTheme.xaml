@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Dark theme. Every theme dictionary defines exactly the same keys; ThemeService swaps them at runtime. -->
+<ResourceDictionary x:Class="MauiGallery.DesignSystem.Tokens.DarkTheme">
+
+    <!-- Surfaces -->
+    <Color x:Key="ColorBackground">#0E0C13</Color>
+    <Color x:Key="ColorSurface">#17151E</Color>
+    <Color x:Key="ColorSurfaceAlt">#1E1B27</Color>
+    <Color x:Key="ColorSurfaceHover">#262231</Color>
+    <Color x:Key="ColorSidebar">#121018</Color>
+    <Color x:Key="ColorSelection">#2A2340</Color>
+    <Color x:Key="ColorOutline">#2B2736</Color>
+    <Color x:Key="ColorOutlineStrong">#3D384B</Color>
+
+    <!-- Text -->
+    <Color x:Key="ColorTextPrimary">#F4F2F9</Color>
+    <Color x:Key="ColorTextSecondary">#B4AFC4</Color>
+    <Color x:Key="ColorTextTertiary">#8E889F</Color>
+
+    <!-- Accent: .NET purple -->
+    <Color x:Key="ColorAccent">#9B87F5</Color>
+    <Color x:Key="ColorAccentHover">#AE9DF8</Color>
+    <Color x:Key="ColorAccentSubtle">#2A2240</Color>
+    <Color x:Key="ColorOnAccent">#120F1A</Color>
+    <Color x:Key="ColorAccentText">#B3A3FF</Color>
+
+    <!-- Status -->
+    <Color x:Key="ColorSuccess">#3FB950</Color>
+    <Color x:Key="ColorSuccessSubtle">#12261A</Color>
+    <Color x:Key="ColorWarning">#D29922</Color>
+    <Color x:Key="ColorWarningSubtle">#2B2111</Color>
+    <Color x:Key="ColorError">#F85149</Color>
+    <Color x:Key="ColorErrorSubtle">#2D1517</Color>
+    <Color x:Key="ColorInfo">#58A6FF</Color>
+    <Color x:Key="ColorInfoSubtle">#0F2238</Color>
+
+    <!-- Sample stage: deliberately neutral so native controls look like themselves -->
+    <Color x:Key="ColorStage">#121118</Color>
+    <Color x:Key="ColorStageDot">#2A2733</Color>
+
+    <!-- Code viewer -->
+    <Color x:Key="ColorCodeBackground">#121018</Color>
+
+    <!-- Syntax highlighting (GitHub Primer dark) -->
+    <Color x:Key="ColorSyntaxPlain">#E6EDF3</Color>
+    <Color x:Key="ColorSyntaxPunctuation">#8B949E</Color>
+    <Color x:Key="ColorSyntaxComment">#8B949E</Color>
+    <Color x:Key="ColorSyntaxKeyword">#FF7B72</Color>
+    <Color x:Key="ColorSyntaxString">#A5D6FF</Color>
+    <Color x:Key="ColorSyntaxNumber">#79C0FF</Color>
+    <Color x:Key="ColorSyntaxType">#FFA657</Color>
+    <Color x:Key="ColorSyntaxMethod">#D2A8FF</Color>
+    <Color x:Key="ColorSyntaxElement">#7EE787</Color>
+    <Color x:Key="ColorSyntaxAttribute">#79C0FF</Color>
+    <Color x:Key="ColorSyntaxMarkup">#D2A8FF</Color>
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="BrushOutline" Color="#2B2736" />
+    <SolidColorBrush x:Key="BrushOutlineStrong" Color="#3D384B" />
+    <SolidColorBrush x:Key="BrushAccent" Color="#9B87F5" />
+    <LinearGradientBrush x:Key="BrushHero" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#4524B8" Offset="0" />
+        <GradientStop Color="#3730A3" Offset="0.55" />
+        <GradientStop Color="#1D4ED8" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Elevation: outlines carry depth in dark mode, so shadows are transparent -->
+    <Shadow x:Key="ShadowCard" Brush="#000000" Opacity="0" Offset="0,0" Radius="0" />
+    <Shadow x:Key="ShadowRaised" Brush="#000000" Opacity="0.4" Offset="0,8" Radius="28" />
+
+</ResourceDictionary>

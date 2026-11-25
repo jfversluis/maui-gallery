@@ -1,4 +1,5 @@
 using IconFont.Maui.FluentIcons;
+using MauiGallery.Services;
 #if DEBUG
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.DevFlow.Agent;
@@ -22,6 +23,9 @@ public static class MauiProgram
                 fonts.AddFont("Inter-Bold.ttf", "InterBold");
                 fonts.AddFont("CascadiaCode-Regular.ttf", "CascadiaCode");
             });
+
+        builder.Services.AddSingleton(Preferences.Default);
+        builder.Services.AddSingleton<IThemeService, ThemeService>();
 
 #if DEBUG
         builder.Logging.AddDebug();

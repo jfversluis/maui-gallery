@@ -1,1 +1,12 @@
-<Application x:Class="MauiGallery.App" />
+<Application x:Class="MauiGallery.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- ThemeService adds LightTheme or DarkTheme at startup. -->
+                <tokens:Metrics xmlns:tokens="clr-namespace:MauiGallery.DesignSystem.Tokens" />
+                <tokens:Typography xmlns:tokens="clr-namespace:MauiGallery.DesignSystem.Tokens" />
+                <styles:Chrome xmlns:styles="clr-namespace:MauiGallery.DesignSystem.Styles" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
