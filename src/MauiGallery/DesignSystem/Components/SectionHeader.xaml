@@ -1,0 +1,14 @@
+<ContentView x:Class="MauiGallery.DesignSystem.Components.SectionHeader"
+             x:Name="Self"
+             x:DataType="SectionHeader">
+    <Grid ColumnDefinitions="*,Auto" Padding="0,0,0,4">
+        <Label Text="{Binding Title, Source={x:Reference Self}}"
+               Style="{StaticResource TextTitle3}"
+               VerticalTextAlignment="Center" />
+        <Button Grid.Column="1"
+                Text="{Binding ActionText, Source={x:Reference Self}}"
+                Command="{Binding Command, Source={x:Reference Self}}"
+                IsVisible="{Binding ActionText, Source={x:Reference Self}, Converter={StaticResource IsNotNullOrEmpty}}"
+                Style="{StaticResource LinkButton}" />
+    </Grid>
+</ContentView>

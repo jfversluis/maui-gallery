@@ -1,0 +1,184 @@
+<ContentView x:Class="MauiGallery.Features.Shell.SidebarView"
+             xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+             xmlns:local="clr-namespace:MauiGallery.Features.Shell"
+             x:DataType="local:SidebarViewModel"
+             BackgroundColor="{DynamicResource ColorSidebar}">
+    <ContentView.Resources>
+        <DataTemplate x:Key="EntryTemplate" x:DataType="local:SidebarEntry">
+            <Border x:Name="Row"
+                    Padding="10,0"
+                    HeightRequest="38"
+                    StrokeThickness="0"
+                    StrokeShape="{StaticResource ShapeInput}"
+                    BackgroundColor="Transparent"
+                    AutomationId="{Binding AutomationId}"
+                    SemanticProperties.Description="{Binding Title}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NavigateCommand, Source={RelativeSource AncestorType={x:Type local:SidebarViewModel}}, x:DataType=local:SidebarViewModel}"
+                                          CommandParameter="{Binding .}" />
+                </Border.GestureRecognizers>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{DynamicResource ColorSurfaceHover}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+                <Border.Triggers>
+                    <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                        <Setter Property="BackgroundColor" Value="{DynamicResource ColorSelection}" />
+                    </DataTrigger>
+                </Border.Triggers>
+                <Grid ColumnDefinitions="3,Auto,*" ColumnSpacing="10">
+                    <BoxView WidthRequest="3"
+                             HeightRequest="16"
+                             CornerRadius="2"
+                             Color="{DynamicResource ColorAccent}"
+                             VerticalOptions="Center"
+                             IsVisible="{Binding IsSelected}" />
+                    <Label Grid.Column="1"
+                           Text="{Binding Glyph}"
+                           Style="{StaticResource TextIcon}"
+                           TextColor="{DynamicResource ColorTextSecondary}">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                <Setter Property="TextColor" Value="{DynamicResource ColorAccentText}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Label Grid.Column="2"
+                           Text="{Binding Title}"
+                           Style="{StaticResource TextBody}"
+                           FontSize="14"
+                           VerticalTextAlignment="Center"
+                           LineBreakMode="TailTruncation">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                <Setter Property="FontFamily" Value="{StaticResource FontSemiBold}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </ContentView.Resources>
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="12,16,12,12" RowSpacing="12" SafeAreaEdges="Container">
+        <!-- App identity -->
+        <HorizontalStackLayout Spacing="10" Padding="6,4,0,4">
+            <Border WidthRequest="32"
+                    HeightRequest="32"
+                    StrokeThickness="0"
+                    StrokeShape="{StaticResource ShapeInput}"
+                    Background="{DynamicResource BrushHero}">
+                <Label Text="{x:Static icons:FluentIconsFilled.Sparkle24}"
+                       FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}"
+                       Style="{StaticResource TextIcon}"
+                       FontSize="18"
+                       TextColor="White" />
+            </Border>
+            <Label Text=".NET MAUI Gallery"
+                   Style="{StaticResource TextBodyStrong}"
+                   FontSize="16"
+                   VerticalTextAlignment="Center"
+                   SemanticProperties.HeadingLevel="Level1" />
+        </HorizontalStackLayout>
+
+        <!-- Search -->
+        <Border Grid.Row="1"
+                Padding="10,0"
+                HeightRequest="38"
+                StrokeShape="{StaticResource ShapeInput}"
+                Stroke="{DynamicResource BrushOutline}"
+                BackgroundColor="{DynamicResource ColorSurface}">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                <Label Text="{x:Static icons:FluentIconsRegular.Search24}"
+                       Style="{StaticResource TextIcon}"
+                       FontSize="{StaticResource IconSizeSmall}"
+                       TextColor="{DynamicResource ColorTextTertiary}" />
+                <BorderlessEntry x:Name="SearchEntry"
+                                 Grid.Column="1"
+                                 Placeholder="Search controls and APIs"
+                                 Text="{Binding Query}"
+                                 ReturnCommand="{Binding OpenFirstResultCommand}"
+                                 FontFamily="{StaticResource FontRegular}"
+                                 FontSize="14"
+                                 TextColor="{DynamicResource ColorTextPrimary}"
+                                 PlaceholderColor="{DynamicResource ColorTextTertiary}"
+                                 ClearButtonVisibility="WhileEditing"
+                                 VerticalOptions="Center"
+                                 AutomationId="sidebar-search"
+                                 SemanticProperties.Description="Search the gallery" />
+            </Grid>
+        </Border>
+
+        <ScrollView Grid.Row="2" Margin="0,4,0,0">
+            <Grid>
+                <!-- Navigation -->
+                <VerticalStackLayout Spacing="2" IsVisible="{Binding IsSearching, Converter={StaticResource InvertedBool}}">
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding TopEntries}"
+                                         BindableLayout.ItemTemplate="{StaticResource EntryTemplate}"
+                                         Spacing="2" />
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Groups}" Spacing="2" Margin="0,8,0,0">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="local:SidebarGroup">
+                                <VerticalStackLayout Spacing="2">
+                                    <Grid ColumnDefinitions="*,Auto"
+                                          Padding="12,12,8,4"
+                                          AutomationId="{Binding Category.Id, StringFormat='nav-group-{0}'}"
+                                          SemanticProperties.Description="{Binding Category.Title}"
+                                          SemanticProperties.HeadingLevel="Level2">
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding ToggleGroupCommand, Source={RelativeSource AncestorType={x:Type local:SidebarViewModel}}, x:DataType=local:SidebarViewModel}"
+                                                                  CommandParameter="{Binding .}" />
+                                        </Grid.GestureRecognizers>
+                                        <Label Text="{Binding Category.Title}" Style="{StaticResource TextOverline}" />
+                                        <Label Grid.Column="1"
+                                               Text="{x:Static icons:FluentIconsRegular.ChevronDown24}"
+                                               Style="{StaticResource TextIcon}"
+                                               FontSize="12"
+                                               TextColor="{DynamicResource ColorTextTertiary}">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsExpanded}" Value="False">
+                                                    <Setter Property="Rotation" Value="-90" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </Grid>
+                                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Entries}"
+                                                         BindableLayout.ItemTemplate="{StaticResource EntryTemplate}"
+                                                         IsVisible="{Binding IsExpanded}"
+                                                         Spacing="2" />
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- Search results -->
+                <VerticalStackLayout Spacing="2" IsVisible="{Binding IsSearching}">
+                    <Label Text="Results" Style="{StaticResource TextOverline}" Padding="12,4,0,4" />
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding SearchResults}"
+                                         BindableLayout.ItemTemplate="{StaticResource EntryTemplate}"
+                                         Spacing="2" />
+                    <Label Text="No matches. Try another word."
+                           Style="{StaticResource TextCaption}"
+                           Padding="12,4"
+                           IsVisible="{Binding HasNoResults}" />
+                </VerticalStackLayout>
+            </Grid>
+        </ScrollView>
+
+        <!-- Footer -->
+        <VerticalStackLayout Grid.Row="3" Spacing="8">
+            <BoxView Style="{StaticResource Divider}" />
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding FooterEntries}"
+                                 BindableLayout.ItemTemplate="{StaticResource EntryTemplate}" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentView>

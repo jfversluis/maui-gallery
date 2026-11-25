@@ -1,0 +1,6 @@
+<VerticalStackLayout x:DataType="local:CartViewModel" Spacing="12">
+    <Button
+        Text="Add to cart"
+        Command="{Binding AddToCartCommand}" />
+    <Label Text="{Binding CartSummary}" />
+</VerticalStackLayout>

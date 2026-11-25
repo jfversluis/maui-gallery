@@ -1,41 +1,62 @@
-using MauiGallery.Features.Spike;
+using MauiGallery.Core.Layout;
+using MauiGallery.Features.Shell;
 
 namespace MauiGallery;
 
 public partial class AppShell : Shell
 {
-    public AppShell()
+    private readonly SidebarView _sidebar;
+    private readonly SidebarViewModel _sidebarViewModel;
+
+    public AppShell(SidebarView sidebar)
     {
         InitializeComponent();
-        Routing.RegisterRoute("detail", typeof(SpikePage));
+        _sidebar = sidebar;
+        _sidebarViewModel = sidebar.ViewModel;
+        FlyoutContent = sidebar;
     }
 
-    public void ApplyMode(double width)
+    /// <summary>Moves focus to the sidebar search box, if the sidebar is showing.</summary>
+    public void FocusSearch()
     {
-        var phone = DeviceInfo.Idiom == DeviceIdiom.Phone;
-        var mode = phone ? FlyoutBehavior.Disabled : width >= 1100 ? FlyoutBehavior.Locked : FlyoutBehavior.Flyout;
-        if (FlyoutBehavior != mode)
+        if (FlyoutBehavior == FlyoutBehavior.Flyout)
         {
-            FlyoutBehavior = mode;
+            FlyoutIsPresented = true;
+        }
+
+        _sidebar.FocusSearch();
+    }
+
+    /// <summary>
+    /// Chooses the navigation chrome for the window width. Called by the window on every resize, because Shell
+    /// itself is never measured and so never raises <c>SizeChanged</c>.
+    /// </summary>
+    public void ApplyLayout(double windowWidth)
+    {
+        var useTabs = DeviceInfo.Idiom == DeviceIdiom.Phone;
+        var behavior = useTabs ? FlyoutBehavior.Disabled
+            : Breakpoints.Classify(windowWidth) == SizeClass.Expanded ? FlyoutBehavior.Locked
+            : FlyoutBehavior.Flyout;
+
+        if (FlyoutBehavior != behavior)
+        {
+            FlyoutBehavior = behavior;
             FlyoutIsPresented = false;
         }
 
-        foreach (var tab in Items.SelectMany(i => i.Items))
+        foreach (var tab in Items.SelectMany(item => item.Items))
         {
-            SetTabBarIsVisible(tab, phone);
+            SetTabBarIsVisible(tab, useTabs);
         }
-        ModeLabel.Text = $"{width:0} → {mode}";
     }
 
-    private async void OnNav(object? sender, EventArgs e)
+    protected override void OnNavigated(ShellNavigatedEventArgs args)
     {
-        if (sender is Button { CommandParameter: string route })
+        base.OnNavigated(args);
+        _sidebarViewModel.UpdateSelection(CurrentState.Location.OriginalString);
+        if (FlyoutBehavior == FlyoutBehavior.Flyout)
         {
-            await GoToAsync(route);
-            if (FlyoutBehavior == FlyoutBehavior.Flyout)
-            {
-                FlyoutIsPresented = false;
-            }
+            FlyoutIsPresented = false;
         }
     }
 }

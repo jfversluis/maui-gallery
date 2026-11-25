@@ -1,0 +1,15 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class CartViewModel : ObservableObject
+{
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CartSummary))]
+    [NotifyCanExecuteChangedFor(nameof(AddToCartCommand))]
+    public partial int ItemCount { get; set; }
+
+    public string CartSummary => $"{ItemCount} items in your cart";
+
+    [RelayCommand(CanExecute = nameof(CanAddToCart))]
+    private void AddToCart() => ItemCount++;
+
+    private bool CanAddToCart() => ItemCount < 3;
+}

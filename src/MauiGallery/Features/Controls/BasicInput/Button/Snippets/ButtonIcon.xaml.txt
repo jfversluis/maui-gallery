@@ -1,0 +1,10 @@
+<Button
+    Text="Add to cart"
+    ContentLayout="$(ContentLayout)">
+    <Button.ImageSource>
+        <FontImageSource
+            FontFamily="FluentIcons"
+            Glyph="{x:Static icons:FluentIconsRegular.Cart24}"
+            Size="20" />
+    </Button.ImageSource>
+</Button>

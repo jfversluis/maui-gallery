@@ -1,0 +1,56 @@
+<ContentView x:Class="MauiGallery.DesignSystem.Components.CodeViewer"
+             xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+             x:Name="Self"
+             x:DataType="CodeViewer">
+    <ContentView.Resources>
+        <Style x:Key="Tab" TargetType="Button">
+            <Setter Property="FontFamily" Value="{StaticResource FontMedium}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Padding" Value="12,4" />
+            <Setter Property="MinimumHeightRequest" Value="30" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="BackgroundColor" Value="Transparent" />
+            <Setter Property="TextColor" Value="{DynamicResource ColorTextSecondary}" />
+        </Style>
+        <Style x:Key="SelectedTab" TargetType="Button" BasedOn="{StaticResource Tab}">
+            <Setter Property="BackgroundColor" Value="{DynamicResource ColorAccentSubtle}" />
+            <Setter Property="TextColor" Value="{DynamicResource ColorAccentText}" />
+        </Style>
+    </ContentView.Resources>
+    <Grid RowDefinitions="Auto,*" BackgroundColor="{DynamicResource ColorCodeBackground}">
+        <Grid ColumnDefinitions="*,Auto" Padding="12,8,8,8">
+            <HorizontalStackLayout x:Name="Tabs" Spacing="4" VerticalOptions="Center">
+                <Button x:Name="XamlTab" Text="XAML" Clicked="OnXamlTabClicked" AutomationId="code-tab-xaml" />
+                <Button x:Name="CSharpTab" Text="C#" Clicked="OnCSharpTabClicked" AutomationId="code-tab-csharp" />
+            </HorizontalStackLayout>
+            <ImageButton x:Name="CopyButton"
+                         Grid.Column="1"
+                         Style="{StaticResource IconButton}"
+                         Clicked="OnCopyClicked"
+                         AutomationId="code-copy"
+                         SemanticProperties.Description="Copy code"
+                         ToolTipProperties.Text="Copy code">
+                <ImageButton.Source>
+                    <FontImageSource x:Name="CopyGlyph"
+                                     FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                     Glyph="{x:Static icons:FluentIconsRegular.Copy24}"
+                                     Color="{DynamicResource ColorTextSecondary}"
+                                     Size="18" />
+                </ImageButton.Source>
+            </ImageButton>
+        </Grid>
+        <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Default">
+            <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="16" Padding="16,4,24,18">
+                <Label x:Name="LineNumbers"
+                       Style="{StaticResource TextCode}"
+                       TextColor="{DynamicResource ColorTextTertiary}"
+                       HorizontalTextAlignment="End"
+                       AutomationProperties.IsInAccessibleTree="False" />
+                <Label x:Name="CodeLabel"
+                       Grid.Column="1"
+                       Style="{StaticResource TextCode}"
+                       AutomationId="code-text" />
+            </Grid>
+        </ScrollView>
+    </Grid>
+</ContentView>

@@ -1,0 +1,9 @@
+<Button
+    Text="Get started"
+    TextColor="White"
+    BackgroundColor="$(BackgroundColor)"
+    CornerRadius="$(CornerRadius)"
+    BorderWidth="$(BorderWidth)"
+    BorderColor="{AppThemeBinding Light=#1F1A33, Dark=White}"
+    FontSize="$(FontSize)"
+    Padding="24,12" />

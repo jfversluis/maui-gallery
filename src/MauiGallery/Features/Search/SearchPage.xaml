@@ -1,0 +1,39 @@
+<ContentPage x:Class="MauiGallery.Features.Search.SearchPage"
+             xmlns:catalog="clr-namespace:MauiGallery.Core.Catalog;assembly=MauiGallery.Core"
+             xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+             xmlns:local="clr-namespace:MauiGallery.Features.Search"
+             x:DataType="local:SearchViewModel"
+             Title="Search"
+             Style="{StaticResource PageChrome}">
+    <Grid RowDefinitions="Auto,*">
+        <SearchBar Text="{Binding Query}"
+                   Placeholder="Search controls and APIs"
+                   Margin="8,8,8,0"
+                   AutomationId="search-box" />
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Results}"
+                        AutomationId="search-results">
+            <CollectionView.Header>
+                <Label Text="{Binding ResultsTitle}" Style="{StaticResource TextOverline}" Padding="16,16,16,4" />
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="catalog:GalleryItem">
+                    <ItemCard Margin="16,6"
+                              Command="{Binding OpenItemCommand, Source={RelativeSource AncestorType={x:Type local:SearchViewModel}}, x:DataType=local:SearchViewModel}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Padding="32,48" Spacing="8" HorizontalOptions="Center" AutomationId="search-empty">
+                    <Label Text="{x:Static icons:FluentIconsRegular.SearchInfo24}"
+                           Style="{StaticResource TextIcon}"
+                           FontSize="40"
+                           TextColor="{DynamicResource ColorTextTertiary}" />
+                    <Label Text="No matches" Style="{StaticResource TextTitle3}" HorizontalTextAlignment="Center" />
+                    <Label Text="Try a control name like Button, or a concept like binding."
+                           Style="{StaticResource TextBodySecondary}"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </Grid>
+</ContentPage>

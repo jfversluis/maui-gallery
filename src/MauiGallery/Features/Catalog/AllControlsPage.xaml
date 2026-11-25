@@ -1,0 +1,32 @@
+<ContentPage x:Class="MauiGallery.Features.Catalog.AllControlsPage"
+             xmlns:catalog="clr-namespace:MauiGallery.Core.Catalog;assembly=MauiGallery.Core"
+             xmlns:local="clr-namespace:MauiGallery.Features.Catalog"
+             x:DataType="local:AllControlsViewModel"
+             Title="All controls"
+             Style="{StaticResource PageChrome}">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}" Spacing="32">
+            <VerticalStackLayout Spacing="8">
+                <Label Text="All controls" Style="{StaticResource TextTitle1}" />
+                <Label Text="{Binding ItemCount, StringFormat='{0} pages of controls, APIs and guidance. Every sample runs live on this device.'}"
+                       Style="{StaticResource TextBodySecondary}" />
+            </VerticalStackLayout>
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Sections}" Spacing="32">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="local:CategorySection">
+                        <VerticalStackLayout Spacing="12">
+                            <SectionHeader Title="{Binding Category.Title}" />
+                            <AdaptiveGrid MinItemWidth="260" BindableLayout.ItemsSource="{Binding Items}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="catalog:GalleryItem">
+                                        <ItemCard Command="{Binding OpenItemCommand, Source={RelativeSource AncestorType={x:Type local:AllControlsViewModel}}, x:DataType=local:AllControlsViewModel}" />
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </AdaptiveGrid>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

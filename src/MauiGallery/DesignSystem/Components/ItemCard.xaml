@@ -1,0 +1,34 @@
+<ContentView x:Class="MauiGallery.DesignSystem.Components.ItemCard"
+             xmlns:catalog="clr-namespace:MauiGallery.Core.Catalog;assembly=MauiGallery.Core"
+             x:Name="Self"
+             x:DataType="catalog:GalleryItem">
+    <Border Style="{StaticResource InteractiveCard}"
+            Padding="16"
+            AutomationId="{Binding Id, StringFormat='item-card-{0}'}"
+            SemanticProperties.Description="{Binding Title}"
+            SemanticProperties.Hint="{Binding Description}">
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding Command, Source={x:Reference Self}, x:DataType=ItemCard}"
+                                  CommandParameter="{Binding .}" />
+        </Border.GestureRecognizers>
+        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+            <Border WidthRequest="40"
+                    HeightRequest="40"
+                    VerticalOptions="Start"
+                    StrokeThickness="0"
+                    StrokeShape="{StaticResource ShapeInput}"
+                    BackgroundColor="{DynamicResource ColorAccentSubtle}">
+                <Label Text="{Binding IconGlyph}"
+                       Style="{StaticResource TextIcon}"
+                       TextColor="{DynamicResource ColorAccentText}" />
+            </Border>
+            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                <Label Text="{Binding Title}" Style="{StaticResource TextBodyStrong}" />
+                <Label Text="{Binding Description}"
+                       Style="{StaticResource TextCaption}"
+                       MaxLines="2"
+                       LineBreakMode="TailTruncation" />
+            </VerticalStackLayout>
+        </Grid>
+    </Border>
+</ContentView>

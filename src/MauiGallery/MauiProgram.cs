@@ -1,4 +1,12 @@
+using CommunityToolkit.Mvvm.Messaging;
 using IconFont.Maui.FluentIcons;
+using MauiGallery.DesignSystem.Components;
+using MauiGallery.Features.Catalog;
+using MauiGallery.Features.Home;
+using MauiGallery.Features.Samples;
+using MauiGallery.Features.Search;
+using MauiGallery.Features.Settings;
+using MauiGallery.Features.Shell;
 using MauiGallery.Services;
 #if DEBUG
 using Microsoft.Extensions.Logging;
@@ -22,10 +30,15 @@ public static class MauiProgram
                 fonts.AddFont("Inter-SemiBold.ttf", "InterSemiBold");
                 fonts.AddFont("Inter-Bold.ttf", "InterBold");
                 fonts.AddFont("CascadiaCode-Regular.ttf", "CascadiaCode");
-            });
+            })
+            .ConfigureMauiHandlers(_ => BorderlessEntry.Register());
 
-        builder.Services.AddSingleton(Preferences.Default);
-        builder.Services.AddSingleton<IThemeService, ThemeService>();
+        var catalog = new GalleryCatalog();
+        builder.Services
+            .AddPlatformServices()
+            .AddAppServices(catalog)
+            .AddShell()
+            .AddPages(catalog);
 
 #if DEBUG
         builder.Logging.AddDebug();
@@ -33,5 +46,49 @@ public static class MauiProgram
 #endif
 
         return builder.Build();
+    }
+
+    private static IServiceCollection AddPlatformServices(this IServiceCollection services) => services
+        .AddSingleton(Preferences.Default)
+        .AddSingleton(Browser.Default)
+        .AddSingleton(Clipboard.Default)
+        .AddSingleton(AppInfo.Current)
+        .AddSingleton(DeviceInfo.Current)
+        .AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
+
+    private static IServiceCollection AddAppServices(this IServiceCollection services, GalleryCatalog catalog) => services
+        .AddSingleton(catalog)
+        .AddSingleton<IThemeService, ThemeService>()
+        .AddSingleton<IFavoritesService, FavoritesService>()
+        .AddSingleton<IRecentsService, RecentsService>()
+        .AddSingleton<INavigationService, ShellNavigationService>()
+        .AddSingleton<SamplePageServices>();
+
+    private static IServiceCollection AddShell(this IServiceCollection services) => services
+        .AddTransient<AppShell>()
+        .AddTransient<SidebarView>()
+        .AddTransient<SidebarViewModel>()
+        .AddTransient<HomePage>()
+        .AddTransient<HomeViewModel>()
+        .AddTransient<AllControlsPage>()
+        .AddTransient<AllControlsViewModel>()
+        .AddTransient<SearchPage>()
+        .AddTransient<SearchViewModel>()
+        .AddTransient<SettingsPage>()
+        .AddTransient<SettingsViewModel>();
+
+    /// <summary>Registers every gallery page with DI and Shell routing, using the catalog id as the route.</summary>
+    private static IServiceCollection AddPages(this IServiceCollection services, GalleryCatalog catalog)
+    {
+        services.AddTransient<CategoryPage>().AddTransient<CategoryViewModel>();
+        Routing.RegisterRoute(Routes.Category, typeof(CategoryPage));
+
+        foreach (var item in catalog.Items)
+        {
+            services.AddTransient(item.PageType);
+            Routing.RegisterRoute(item.Id, item.PageType);
+        }
+
+        return services;
     }
 }

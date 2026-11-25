@@ -1,0 +1,184 @@
+<ContentPage x:Class="MauiGallery.Features.Home.HomePage"
+             xmlns:catalog="clr-namespace:MauiGallery.Core.Catalog;assembly=MauiGallery.Core"
+             xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+             xmlns:local="clr-namespace:MauiGallery.Features.Home"
+             x:DataType="local:HomeViewModel"
+             Title="Home"
+             Style="{StaticResource PageChrome}">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}" Spacing="40">
+
+            <!-- Hero -->
+            <Border x:Name="Hero"
+                    Background="{DynamicResource BrushHero}"
+                    StrokeThickness="0"
+                    StrokeShape="{StaticResource ShapeHero}"
+                    Shadow="{DynamicResource ShadowRaised}"
+                    Padding="28,32">
+                <Grid x:Name="HeroGrid" ColumnSpacing="40" RowSpacing="28">
+                    <VerticalStackLayout x:Name="HeroText" Spacing="16" VerticalOptions="Center">
+                        <Label Text=".NET MAUI GALLERY"
+                               Style="{StaticResource TextOverline}"
+                               TextColor="#D9D2FF" />
+                        <Label Text="One codebase. Truly native."
+                               Style="{StaticResource TextDisplay}"
+                               TextColor="White" />
+                        <Label Text="Explore every control, API and pattern in .NET MAUI. Each sample renders with the platform's own controls: change its options, read the code, and copy it into your app."
+                               Style="{StaticResource TextBody}"
+                               FontSize="16"
+                               TextColor="#EDE9FF" />
+                        <FlexLayout Wrap="Wrap" Margin="0,8,0,0">
+                            <Button Text="Browse controls"
+                                    Style="{StaticResource HeroButton}"
+                                    Command="{Binding BrowseControlsCommand}"
+                                    Margin="0,0,12,8"
+                                    AutomationId="home-browse" />
+                            <Button Text="Get started"
+                                    Style="{StaticResource HeroSecondaryButton}"
+                                    Command="{Binding OpenLinkCommand}"
+                                    CommandParameter="{Binding GetStarted[0]}"
+                                    Margin="0,0,12,8"
+                                    AutomationId="home-get-started" />
+                        </FlexLayout>
+                    </VerticalStackLayout>
+
+                    <!-- Live native controls, with the platform type each one became -->
+                    <Border x:Name="HeroShowcase"
+                            BackgroundColor="{DynamicResource ColorStage}"
+                            StrokeThickness="0"
+                            StrokeShape="{StaticResource ShapeCard}"
+                            Padding="0"
+                            VerticalOptions="Center">
+                        <Grid>
+                            <DotGridView DotColor="{DynamicResource ColorStageDot}" />
+                            <VerticalStackLayout Padding="24,20" Spacing="18">
+                                <Label Text="These are real native controls"
+                                       Style="{StaticResource TextCaptionStrong}" />
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                    <NativeViewBadge Target="{x:Reference ShowcaseSwitch}" HorizontalOptions="Start" VerticalOptions="Center" />
+                                    <Switch x:Name="ShowcaseSwitch" Grid.Column="1" IsToggled="True" />
+                                </Grid>
+                                <VerticalStackLayout Spacing="8">
+                                    <NativeViewBadge Target="{x:Reference ShowcaseSlider}" HorizontalOptions="Start" />
+                                    <Slider x:Name="ShowcaseSlider" Value="0.6" />
+                                </VerticalStackLayout>
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                    <NativeViewBadge Target="{x:Reference ShowcaseButton}" HorizontalOptions="Start" VerticalOptions="Center" />
+                                    <Button x:Name="ShowcaseButton" Grid.Column="1" Text="Button" />
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Get started -->
+            <VerticalStackLayout Spacing="12">
+                <SectionHeader Title="Get started" />
+                <AdaptiveGrid MinItemWidth="240" BindableLayout.ItemsSource="{Binding GetStarted}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="local:GetStartedLink">
+                            <Border Style="{StaticResource InteractiveCard}"
+                                    Padding="16"
+                                    SemanticProperties.Description="{Binding Title}"
+                                    SemanticProperties.Hint="{Binding Description}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenLinkCommand, Source={RelativeSource AncestorType={x:Type local:HomeViewModel}}, x:DataType=local:HomeViewModel}"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                                    <Label Text="{Binding IconGlyph}"
+                                           Style="{StaticResource TextIcon}"
+                                           FontSize="{StaticResource IconSizeLarge}"
+                                           TextColor="{DynamicResource ColorAccentText}"
+                                           VerticalOptions="Start" />
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                        <Label Text="{Binding Title}" Style="{StaticResource TextBodyStrong}" />
+                                        <Label Text="{Binding Description}" Style="{StaticResource TextCaption}" />
+                                    </VerticalStackLayout>
+                                    <Label Grid.Column="2"
+                                           Text="{x:Static icons:FluentIconsRegular.Open24}"
+                                           Style="{StaticResource TextIcon}"
+                                           FontSize="{StaticResource IconSizeSmall}"
+                                           TextColor="{DynamicResource ColorTextTertiary}"
+                                           VerticalOptions="Start" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </AdaptiveGrid>
+            </VerticalStackLayout>
+
+            <!-- Recently visited -->
+            <VerticalStackLayout Spacing="12" IsVisible="{Binding HasRecents}">
+                <SectionHeader Title="Recently visited" />
+                <AdaptiveGrid MinItemWidth="260" BindableLayout.ItemsSource="{Binding Recents}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="catalog:GalleryItem">
+                            <ItemCard Command="{Binding OpenItemCommand, Source={RelativeSource AncestorType={x:Type local:HomeViewModel}}, x:DataType=local:HomeViewModel}" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </AdaptiveGrid>
+            </VerticalStackLayout>
+
+            <!-- Favorites -->
+            <VerticalStackLayout Spacing="12" IsVisible="{Binding HasFavorites}">
+                <SectionHeader Title="Favorites" />
+                <AdaptiveGrid MinItemWidth="260" BindableLayout.ItemsSource="{Binding Favorites}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="catalog:GalleryItem">
+                            <ItemCard Command="{Binding OpenItemCommand, Source={RelativeSource AncestorType={x:Type local:HomeViewModel}}, x:DataType=local:HomeViewModel}" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </AdaptiveGrid>
+            </VerticalStackLayout>
+
+            <!-- Featured -->
+            <VerticalStackLayout Spacing="12">
+                <SectionHeader Title="Featured" />
+                <AdaptiveGrid MinItemWidth="260" BindableLayout.ItemsSource="{Binding Featured}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="catalog:GalleryItem">
+                            <ItemCard Command="{Binding OpenItemCommand, Source={RelativeSource AncestorType={x:Type local:HomeViewModel}}, x:DataType=local:HomeViewModel}" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </AdaptiveGrid>
+            </VerticalStackLayout>
+
+            <!-- Categories -->
+            <VerticalStackLayout Spacing="12">
+                <SectionHeader Title="Browse by category" ActionText="All controls" Command="{Binding BrowseControlsCommand}" />
+                <AdaptiveGrid MinItemWidth="240" BindableLayout.ItemsSource="{Binding Categories}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="local:CategoryTile">
+                            <Border Style="{StaticResource InteractiveCard}"
+                                    AutomationId="{Binding Category.Id, StringFormat='category-{0}'}"
+                                    SemanticProperties.Description="{Binding Category.Title}"
+                                    SemanticProperties.Hint="{Binding Category.Description}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenCategoryCommand, Source={RelativeSource AncestorType={x:Type local:HomeViewModel}}, x:DataType=local:HomeViewModel}"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <VerticalStackLayout Spacing="12">
+                                    <Border WidthRequest="44"
+                                            HeightRequest="44"
+                                            HorizontalOptions="Start"
+                                            StrokeThickness="0"
+                                            StrokeShape="{StaticResource ShapeCard}"
+                                            Background="{DynamicResource BrushHero}">
+                                        <Label Text="{Binding Category.IconGlyph}" Style="{StaticResource TextIcon}" TextColor="White" />
+                                    </Border>
+                                    <VerticalStackLayout Spacing="4">
+                                        <Label Text="{Binding Category.Title}" Style="{StaticResource TextBodyStrong}" FontSize="16" />
+                                        <Label Text="{Binding Category.Description}" Style="{StaticResource TextCaption}" />
+                                    </VerticalStackLayout>
+                                    <Label Text="{Binding CountText}" Style="{StaticResource TextCaptionStrong}" TextColor="{DynamicResource ColorAccentText}" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </AdaptiveGrid>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,18 +1,47 @@
-<Shell x:Class="MauiGallery.AppShell" Title=".NET MAUI Gallery" FlyoutWidth="280">
-    <Shell.FlyoutContent>
-        <VerticalStackLayout Padding="16" Spacing="8" BackgroundColor="#F4F2FB">
-            <Label Text="SIDEBAR" FontFamily="InterSemiBold" />
-            <Button Text="Home" Clicked="OnNav" CommandParameter="//main/home" />
-            <Button Text="Controls" Clicked="OnNav" CommandParameter="//main/controls" />
-            <Button Text="Button sample" Clicked="OnNav" CommandParameter="//main/controls/detail" />
-            <Button Text="Settings" Clicked="OnNav" CommandParameter="//main/settings" />
-            <Label x:Name="ModeLabel" FontFamily="CascadiaCode" FontSize="11" />
-        </VerticalStackLayout>
-    </Shell.FlyoutContent>
+<Shell x:Class="MauiGallery.AppShell"
+       xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+       xmlns:home="clr-namespace:MauiGallery.Features.Home"
+       xmlns:catalog="clr-namespace:MauiGallery.Features.Catalog"
+       xmlns:search="clr-namespace:MauiGallery.Features.Search"
+       xmlns:settings="clr-namespace:MauiGallery.Features.Settings"
+       Title=".NET MAUI Gallery"
+       FlyoutWidth="{StaticResource SidebarWidth}"
+       FlyoutBackgroundColor="{DynamicResource ColorSidebar}"
+       Shell.BackgroundColor="{DynamicResource ColorBackground}"
+       Shell.ForegroundColor="{DynamicResource ColorAccentText}"
+       Shell.TitleColor="{DynamicResource ColorTextPrimary}"
+       Shell.TabBarForegroundColor="{DynamicResource ColorAccentText}"
+       Shell.TabBarTitleColor="{DynamicResource ColorAccentText}"
+       Shell.TabBarUnselectedColor="{DynamicResource ColorTextSecondary}">
+
+    <!--
+        One Shell for every form factor. Phones use the bottom tabs. Wider windows hide the tabs and show the
+        sidebar (FlyoutContent) instead: docked when there is room, as an overlay otherwise. See ApplyLayout.
+    -->
     <FlyoutItem Route="main" FlyoutDisplayOptions="AsSingleItem">
-        <Tab Title="Home" Route="home"><ShellContent ContentTemplate="{DataTemplate SpikePage}" /></Tab>
-        <Tab Title="Controls" Route="controls"><ShellContent ContentTemplate="{DataTemplate SpikePage}" /></Tab>
-        <Tab Title="Search" Route="search"><ShellContent ContentTemplate="{DataTemplate SpikePage}" /></Tab>
-        <Tab Title="Settings" Route="settings"><ShellContent ContentTemplate="{DataTemplate SpikePage}" /></Tab>
+        <Tab Title="Home" Route="home">
+            <Tab.Icon>
+                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Home24}" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate home:HomePage}" />
+        </Tab>
+        <Tab Title="Controls" Route="controls">
+            <Tab.Icon>
+                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Apps24}" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate catalog:AllControlsPage}" />
+        </Tab>
+        <Tab Title="Search" Route="search">
+            <Tab.Icon>
+                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Search24}" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate search:SearchPage}" />
+        </Tab>
+        <Tab Title="Settings" Route="settings">
+            <Tab.Icon>
+                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Settings24}" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate settings:SettingsPage}" />
+        </Tab>
     </FlyoutItem>
 </Shell>

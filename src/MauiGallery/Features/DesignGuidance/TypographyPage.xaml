@@ -1,0 +1,78 @@
+<SamplePage x:Class="MauiGallery.Features.DesignGuidance.TypographyPage"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <Border Style="{StaticResource Card}" Padding="0">
+                <VerticalStackLayout>
+                    <Grid ColumnDefinitions="*,Auto" Padding="20,16">
+                        <Label Text="Display" Style="{StaticResource TextDisplay}" />
+                        <Label Grid.Column="1" Text="Bold · 40" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                    </Grid>
+                    <BoxView Style="{StaticResource Divider}" />
+                    <Grid ColumnDefinitions="*,Auto" Padding="20,16">
+                        <Label Text="Title 1" Style="{StaticResource TextTitle1}" />
+                        <Label Grid.Column="1" Text="SemiBold · 28" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                    </Grid>
+                    <BoxView Style="{StaticResource Divider}" />
+                    <Grid ColumnDefinitions="*,Auto" Padding="20,16">
+                        <Label Text="Title 2" Style="{StaticResource TextTitle2}" />
+                        <Label Grid.Column="1" Text="SemiBold · 22" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                    </Grid>
+                    <BoxView Style="{StaticResource Divider}" />
+                    <Grid ColumnDefinitions="*,Auto" Padding="20,16">
+                        <Label Text="Title 3" Style="{StaticResource TextTitle3}" />
+                        <Label Grid.Column="1" Text="SemiBold · 18" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                    </Grid>
+                    <BoxView Style="{StaticResource Divider}" />
+                    <Grid ColumnDefinitions="*,Auto" Padding="20,16">
+                        <Label Text="Body: the quick brown fox jumps over the lazy dog." Style="{StaticResource TextBody}" />
+                        <Label Grid.Column="1" Text="Regular · 15" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                    </Grid>
+                    <BoxView Style="{StaticResource Divider}" />
+                    <Grid ColumnDefinitions="*,Auto" Padding="20,16">
+                        <Label Text="Body strong" Style="{StaticResource TextBodyStrong}" />
+                        <Label Grid.Column="1" Text="SemiBold · 15" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                    </Grid>
+                    <BoxView Style="{StaticResource Divider}" />
+                    <Grid ColumnDefinitions="*,Auto" Padding="20,16">
+                        <Label Text="Caption: supporting text and metadata" Style="{StaticResource TextCaption}" />
+                        <Label Grid.Column="1" Text="Regular · 12" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                    </Grid>
+                    <BoxView Style="{StaticResource Divider}" />
+                    <Grid ColumnDefinitions="*,Auto" Padding="20,16">
+                        <Label Text="Overline" Style="{StaticResource TextOverline}" />
+                        <Label Grid.Column="1" Text="SemiBold · 11 · caps" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                    </Grid>
+                    <BoxView Style="{StaticResource Divider}" />
+                    <Grid ColumnDefinitions="*,Auto" Padding="20,16">
+                        <Label Text="var button = new Button();" Style="{StaticResource TextCode}" />
+                        <Label Grid.Column="1" Text="Cascadia Code · 13" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <ControlExample Title="Use a custom font"
+                            Description="Add the font file to Resources/Fonts, register it with an alias in MauiProgram, then use the alias as FontFamily. Text scales with the user's accessibility text size unless you set FontAutoScalingEnabled to false."
+                            XamlSource="TypographyFont.xaml.txt"
+                            CSharpSource="TypographyFont.cs.txt">
+                <Label Text="Inter, scaled with the system text size"
+                       FontFamily="InterSemiBold"
+                       FontSize="22"
+                       FontAutoScalingEnabled="{Binding IsToggled, Source={x:Reference AutoScale}, x:DataType=Switch}" />
+                <ControlExample.Options>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="FontAutoScalingEnabled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                        <Switch x:Name="AutoScale" Grid.Column="1" IsToggled="True" />
+                    </Grid>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="AutoScale" Value="{Binding IsToggled, Source={x:Reference AutoScale}, x:DataType=Switch}" Default="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

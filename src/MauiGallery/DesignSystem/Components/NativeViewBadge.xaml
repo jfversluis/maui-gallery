@@ -1,0 +1,29 @@
+<ContentView x:Class="MauiGallery.DesignSystem.Components.NativeViewBadge"
+             xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+             x:Name="Self"
+             x:DataType="NativeViewBadge">
+    <Border x:Name="Pill"
+            Padding="10,5"
+            StrokeShape="{StaticResource ShapePill}"
+            Stroke="{DynamicResource BrushOutline}"
+            BackgroundColor="{DynamicResource ColorSurface}"
+            IsVisible="False"
+            AutomationId="native-view-badge">
+        <HorizontalStackLayout Spacing="6">
+            <Label Style="{StaticResource TextIcon}"
+                   FontSize="{StaticResource IconSizeSmall}"
+                   TextColor="{DynamicResource ColorAccentText}"
+                   Text="{x:Static icons:FluentIconsRegular.DeveloperBoard24}" />
+            <Label x:Name="TypeNameLabel"
+                   FontFamily="{StaticResource FontCode}"
+                   FontSize="12"
+                   VerticalTextAlignment="Center"
+                   TextColor="{DynamicResource ColorTextPrimary}" />
+            <Label x:Name="NamespaceLabel"
+                   Style="{StaticResource TextCaption}"
+                   FontSize="11"
+                   VerticalTextAlignment="Center"
+                   TextColor="{DynamicResource ColorTextTertiary}" />
+        </HorizontalStackLayout>
+    </Border>
+</ContentView>

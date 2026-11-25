@@ -1,0 +1,14 @@
+// MauiProgram.cs
+builder.ConfigureFonts(fonts =>
+{
+    fonts.AddFont("Inter-SemiBold.ttf", "InterSemiBold");
+});
+
+// Anywhere in your UI
+var label = new Label
+{
+    Text = "Inter, scaled with the system text size",
+    FontFamily = "InterSemiBold",
+    FontSize = 22,
+    FontAutoScalingEnabled = $(AutoScale),
+};

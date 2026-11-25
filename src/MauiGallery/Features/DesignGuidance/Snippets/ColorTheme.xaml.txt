@@ -1,0 +1,9 @@
+<!-- One-off value -->
+<Label
+    Text="Hello, themes!"
+    TextColor="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}" />
+
+<!-- Design token: same key in LightTheme.xaml and DarkTheme.xaml -->
+<Label
+    Text="Hello, themes!"
+    TextColor="{DynamicResource ColorAccentText}" />

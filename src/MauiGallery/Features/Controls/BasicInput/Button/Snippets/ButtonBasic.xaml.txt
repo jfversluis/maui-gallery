@@ -1,0 +1,4 @@
+<Button
+    Text="$(Text)"
+    IsEnabled="$(IsEnabled)"
+    Clicked="OnButtonClicked" />

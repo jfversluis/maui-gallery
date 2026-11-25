@@ -1,0 +1,11 @@
+var button = new Button
+{
+    Text = $(Text),
+    IsEnabled = $(IsEnabled),
+};
+button.Clicked += OnButtonClicked;
+
+void OnButtonClicked(object? sender, EventArgs e)
+{
+    // Respond to the click
+}

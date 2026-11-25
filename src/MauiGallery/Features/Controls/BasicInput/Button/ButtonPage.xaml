@@ -1,0 +1,134 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.BasicInput.ButtonPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.BasicInput"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="A simple button"
+                            Description="Set Text, and handle Clicked (or bind Command) to respond to taps, clicks and keyboard activation."
+                            XamlSource="ButtonBasic.xaml.txt"
+                            CSharpSource="ButtonBasic.cs.txt">
+                <Button x:Name="BasicButton"
+                        Text="{Binding Text, Source={x:Reference BasicText}, x:DataType=Entry}"
+                        IsEnabled="{Binding IsToggled, Source={x:Reference BasicEnabled}, x:DataType=Switch}"
+                        Clicked="OnBasicButtonClicked"
+                        AutomationId="sample-basic-button" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Text" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="BasicText" Text="Click me" AutomationId="option-basic-text" />
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
+                            <Label Text="IsEnabled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="BasicEnabled" Grid.Column="1" IsToggled="True" AutomationId="option-basic-enabled" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Text" Value="{Binding Text, Source={x:Reference BasicText}, x:DataType=Entry}" />
+                    <Substitution Key="IsEnabled" Value="{Binding IsToggled, Source={x:Reference BasicEnabled}, x:DataType=Switch}" Default="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Text and an image -->
+            <ControlExample x:Name="IconExample"
+                            Title="Text and an image"
+                            Description="Any ImageSource works, including font icons. ContentLayout positions the image relative to the text."
+                            XamlSource="ButtonIcon.xaml.txt"
+                            CSharpSource="ButtonIcon.cs.txt">
+                <Button x:Name="IconButton" Text="Add to cart" AutomationId="sample-icon-button">
+                    <Button.ImageSource>
+                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                         Glyph="{x:Static icons:FluentIconsRegular.Cart24}"
+                                         Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}"
+                                         Size="20" />
+                    </Button.ImageSource>
+                </Button>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Image position" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="IconPosition"
+                                SelectedIndexChanged="OnIconLayoutChanged"
+                                AutomationId="option-icon-position">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Left</x:String>
+                                    <x:String>Top</x:String>
+                                    <x:String>Right</x:String>
+                                    <x:String>Bottom</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <Label Text="{Binding Value, Source={x:Reference IconSpacing}, StringFormat='Spacing: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="IconSpacing"
+                                Minimum="0"
+                                Maximum="24"
+                                Value="10"
+                                ValueChanged="OnIconLayoutChanged"
+                                AutomationId="option-icon-spacing" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="IconLayoutSubstitution" Key="ContentLayout" />
+                    <Substitution x:Name="IconPositionSubstitution" Key="Position" IsExpression="True" />
+                    <Substitution x:Name="IconSpacingSubstitution" Key="Spacing" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Appearance -->
+            <ControlExample Title="Customize the appearance"
+                            Description="Colors, corners, borders and fonts are regular properties. The control stays native; MAUI maps each property to the platform."
+                            XamlSource="ButtonAppearance.xaml.txt"
+                            CSharpSource="ButtonAppearance.cs.txt">
+                <Button Text="Get started"
+                        TextColor="White"
+                        BackgroundColor="{Binding SelectedColor, Source={x:Reference AppearanceColor}, x:DataType=SwatchPicker}"
+                        CornerRadius="{Binding Value, Source={x:Reference AppearanceCorner}, x:DataType=Slider}"
+                        BorderWidth="{Binding Value, Source={x:Reference AppearanceBorder}, x:DataType=Slider}"
+                        BorderColor="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}"
+                        FontSize="{Binding Value, Source={x:Reference AppearanceFontSize}, x:DataType=Slider}"
+                        Padding="24,12"
+                        AutomationId="sample-appearance-button" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="BackgroundColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="AppearanceColor" SelectedColor="#512BD4" />
+                        <Label Text="{Binding Value, Source={x:Reference AppearanceCorner}, StringFormat='CornerRadius: {0:0}', x:DataType=Slider}" Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="AppearanceCorner" Minimum="0" Maximum="28" Value="8" AutomationId="option-corner" />
+                        <Label Text="{Binding Value, Source={x:Reference AppearanceBorder}, StringFormat='BorderWidth: {0:0}', x:DataType=Slider}" Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="AppearanceBorder" Minimum="0" Maximum="4" Value="0" AutomationId="option-border" />
+                        <Label Text="{Binding Value, Source={x:Reference AppearanceFontSize}, StringFormat='FontSize: {0:0}', x:DataType=Slider}" Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="AppearanceFontSize" Minimum="12" Maximum="24" Value="16" AutomationId="option-font-size" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="BackgroundColor" Value="{Binding SelectedColor, Source={x:Reference AppearanceColor}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="CornerRadius" Value="{Binding Value, Source={x:Reference AppearanceCorner}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                    <Substitution Key="BorderWidth" Value="{Binding Value, Source={x:Reference AppearanceBorder}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                    <Substitution Key="FontSize" Value="{Binding Value, Source={x:Reference AppearanceFontSize}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 4. Commands -->
+            <ControlExample x:Name="CommandExample"
+                            Title="Bind to a command"
+                            Description="With MVVM, bind Command to an ICommand on your view model. When CanExecute returns false, the button disables itself."
+                            XamlSource="ButtonCommand.xaml.txt"
+                            CSharpSource="ButtonCommand.cs.txt">
+                <VerticalStackLayout x:Name="CommandSample" Spacing="12" x:DataType="local:ButtonCommandViewModel">
+                    <Button x:Name="CommandButton"
+                            Text="Add to cart"
+                            Command="{Binding AddToCartCommand}"
+                            AutomationId="sample-command-button" />
+                    <Label Text="{Binding CartSummary}" HorizontalOptions="Center" AutomationId="sample-command-summary" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

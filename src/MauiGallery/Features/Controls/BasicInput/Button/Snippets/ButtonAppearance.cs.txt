@@ -1,0 +1,10 @@
+var button = new Button
+{
+    Text = "Get started",
+    TextColor = Colors.White,
+    BackgroundColor = $(BackgroundColor),
+    CornerRadius = $(CornerRadius),
+    BorderWidth = $(BorderWidth),
+    FontSize = $(FontSize),
+    Padding = new Thickness(24, 12),
+};

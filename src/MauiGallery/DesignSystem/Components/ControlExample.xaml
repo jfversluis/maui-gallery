@@ -1,0 +1,131 @@
+<ContentView x:Class="MauiGallery.DesignSystem.Components.ControlExample"
+             xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+             x:Name="Self"
+             x:DataType="ControlExample">
+    <ContentView.Resources>
+        <Style x:Key="SegmentButton" TargetType="Button">
+            <Setter Property="FontFamily" Value="{StaticResource FontMedium}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Padding" Value="10,0" />
+            <Setter Property="HeightRequest" Value="28" />
+            <Setter Property="MinimumHeightRequest" Value="28" />
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="BackgroundColor" Value="Transparent" />
+            <Setter Property="TextColor" Value="{DynamicResource ColorTextSecondary}" />
+        </Style>
+        <Style x:Key="SegmentButtonSelected" TargetType="Button" BasedOn="{StaticResource SegmentButton}">
+            <Setter Property="BackgroundColor" Value="{DynamicResource ColorSurface}" />
+            <Setter Property="TextColor" Value="{DynamicResource ColorTextPrimary}" />
+            <Setter Property="Shadow" Value="{DynamicResource ShadowCard}" />
+        </Style>
+    </ContentView.Resources>
+
+    <!-- Explicit because this class's [ContentProperty] is Example, which is for the consumer's sample. -->
+    <ContentView.Content>
+        <Border Style="{StaticResource Card}" Padding="0">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto">
+
+                <!-- Header -->
+                <VerticalStackLayout Padding="20,18,20,16" Spacing="4">
+                    <Label Text="{Binding Title, Source={x:Reference Self}}"
+                           Style="{StaticResource TextTitle3}" />
+                    <Label Text="{Binding Description, Source={x:Reference Self}}"
+                           Style="{StaticResource TextBodySecondary}"
+                           IsVisible="{Binding Description, Source={x:Reference Self}, Converter={StaticResource IsNotNullOrEmpty}}" />
+                </VerticalStackLayout>
+
+                <!-- Stage and options. Columns and rows are assigned in code from the available width. -->
+                <Grid x:Name="Body" Grid.Row="1">
+                    <Grid x:Name="Stage"
+                          RowDefinitions="Auto,*"
+                          BackgroundColor="{DynamicResource ColorStage}"
+                          MinimumHeightRequest="200">
+                        <DotGridView Grid.RowSpan="2" DotColor="{DynamicResource ColorStageDot}" />
+                        <BoxView Grid.RowSpan="2" Style="{StaticResource Divider}" VerticalOptions="Start" />
+
+                        <!-- Stage toolbar -->
+                        <FlexLayout Padding="12,12,12,0" Wrap="Wrap" JustifyContent="SpaceBetween" AlignItems="Center">
+                            <NativeViewBadge x:Name="Badge" Margin="0,0,8,8" />
+                            <HorizontalStackLayout Spacing="8" Margin="0,0,0,8">
+                                <Border Padding="2"
+                                        StrokeShape="{StaticResource ShapePill}"
+                                        StrokeThickness="0"
+                                        BackgroundColor="{DynamicResource ColorSurfaceAlt}">
+                                    <HorizontalStackLayout>
+                                        <Button x:Name="NativeModeButton"
+                                                Text="Native"
+                                                Clicked="OnNativeModeClicked"
+                                                AutomationId="stage-native"
+                                                ToolTipProperties.Text="Show the platform's default look" />
+                                        <Button x:Name="StyledModeButton"
+                                                Text="Styled"
+                                                Clicked="OnStyledModeClicked"
+                                                AutomationId="stage-styled"
+                                                ToolTipProperties.Text="Apply an example app style to the sample" />
+                                    </HorizontalStackLayout>
+                                </Border>
+                                <Border Padding="2"
+                                    StrokeShape="{StaticResource ShapePill}"
+                                    StrokeThickness="0"
+                                    BackgroundColor="{DynamicResource ColorSurfaceAlt}">
+                                <Button x:Name="RtlButton"
+                                        Text="RTL"
+                                        Style="{StaticResource SegmentButton}"
+                                        Clicked="OnRtlClicked"
+                                        AutomationId="stage-rtl"
+                                        SemanticProperties.Description="Right-to-left layout, off"
+                                        ToolTipProperties.Text="Mirror the sample for right-to-left languages" />
+                            </Border>
+                            </HorizontalStackLayout>
+                        </FlexLayout>
+
+                        <!-- The sample itself, at platform defaults -->
+                        <ContentView x:Name="StageHost"
+                                     Grid.Row="1"
+                                     Padding="24,16,24,32"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center" />
+                    </Grid>
+
+                    <Border x:Name="OptionsPanel"
+                            StrokeThickness="0"
+                            Padding="20,16"
+                            BackgroundColor="{DynamicResource ColorSurface}">
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="Options" Style="{StaticResource TextOverline}" />
+                            <ContentView x:Name="OptionsHost" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <BoxView x:Name="OptionsDivider" Color="{DynamicResource ColorOutline}" />
+                </Grid>
+
+                <!-- Event output -->
+                <Grid x:Name="OutputRow"
+                      Grid.Row="2"
+                      ColumnDefinitions="Auto,*"
+                      ColumnSpacing="8"
+                      Padding="20,10"
+                      BackgroundColor="{DynamicResource ColorSurfaceAlt}"
+                      IsVisible="{Binding Output, Source={x:Reference Self}, Converter={StaticResource IsNotNullOrEmpty}}">
+                    <BoxView Grid.ColumnSpan="2" Style="{StaticResource Divider}" VerticalOptions="Start" Margin="-20,-10,-20,0" />
+                    <Label Style="{StaticResource TextIcon}"
+                           FontSize="{StaticResource IconSizeSmall}"
+                           TextColor="{DynamicResource ColorAccentText}"
+                           Text="{x:Static icons:FluentIconsRegular.Flash24}" />
+                    <Label Grid.Column="1"
+                           Text="{Binding Output, Source={x:Reference Self}}"
+                           Style="{StaticResource TextCode}"
+                           TextColor="{DynamicResource ColorTextSecondary}"
+                           VerticalTextAlignment="Center"
+                           AutomationId="example-output" />
+                </Grid>
+
+                <!-- Source -->
+                <Grid Grid.Row="3">
+                    <CodeViewer x:Name="Code" />
+                    <BoxView Style="{StaticResource Divider}" VerticalOptions="Start" />
+                </Grid>
+            </Grid>
+        </Border>
+    </ContentView.Content>
+</ContentView>

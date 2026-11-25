@@ -1,0 +1,11 @@
+var button = new Button
+{
+    Text = "Add to cart",
+    ImageSource = new FontImageSource
+    {
+        FontFamily = "FluentIcons",
+        Glyph = FluentIconsRegular.Cart24,
+        Size = 20,
+    },
+    ContentLayout = new Button.ButtonContentLayout($(Position), $(Spacing)),
+};

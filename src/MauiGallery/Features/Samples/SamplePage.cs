@@ -1,0 +1,28 @@
+namespace MauiGallery.Features.Samples;
+
+/// <summary>
+/// Base class for every gallery page. Looks up the page's catalog entry and exposes a
+/// <see cref="SamplePageViewModel"/> for the header, favorite and related-items UI.
+/// </summary>
+public class SamplePage : ContentPage
+{
+    public SamplePage(SamplePageServices services)
+    {
+        ArgumentNullException.ThrowIfNull(services);
+
+        var item = services.Catalog.FindByPage(GetType())
+            ?? throw new InvalidOperationException($"{GetType().Name} has no entry in the gallery catalog.");
+        ViewModel = new SamplePageViewModel(item, services);
+        BindingContext = ViewModel;
+        Title = item.Title;
+        SetDynamicResource(BackgroundColorProperty, "ColorBackground");
+    }
+
+    protected SamplePageViewModel ViewModel { get; }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        ViewModel.OnAppearing();
+    }
+}

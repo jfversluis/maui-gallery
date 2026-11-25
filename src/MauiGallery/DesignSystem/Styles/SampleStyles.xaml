@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    The "Styled" look for the sample stage: an example of how an app brands native controls with implicit styles.
+    Applied only to the stage, never to the gallery's chrome.
+-->
+<ResourceDictionary x:Class="MauiGallery.DesignSystem.Styles.SampleStyles">
+
+    <Style TargetType="Button">
+        <Setter Property="FontFamily" Value="InterSemiBold" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorOnAccent}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource ColorAccent}" />
+        <Setter Property="CornerRadius" Value="22" />
+        <Setter Property="Padding" Value="22,12" />
+        <!-- Custom colors replace the platform's disabled look, so restyle the Disabled state too. -->
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{DynamicResource ColorSurfaceHover}" />
+                            <Setter Property="TextColor" Value="{DynamicResource ColorTextTertiary}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ImageButton">
+        <Setter Property="BackgroundColor" Value="{DynamicResource ColorAccentSubtle}" />
+        <Setter Property="CornerRadius" Value="22" />
+        <Setter Property="Padding" Value="10" />
+    </Style>
+
+    <Style TargetType="Label">
+        <Setter Property="FontFamily" Value="Inter" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorTextPrimary}" />
+    </Style>
+
+    <Style TargetType="Entry">
+        <Setter Property="FontFamily" Value="Inter" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorTextPrimary}" />
+        <Setter Property="PlaceholderColor" Value="{DynamicResource ColorTextTertiary}" />
+    </Style>
+
+    <Style TargetType="Editor">
+        <Setter Property="FontFamily" Value="Inter" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorTextPrimary}" />
+        <Setter Property="PlaceholderColor" Value="{DynamicResource ColorTextTertiary}" />
+    </Style>
+
+    <Style TargetType="CheckBox">
+        <Setter Property="Color" Value="{DynamicResource ColorAccent}" />
+    </Style>
+
+    <Style TargetType="RadioButton">
+        <Setter Property="FontFamily" Value="Inter" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorTextPrimary}" />
+    </Style>
+
+    <Style TargetType="Switch">
+        <Setter Property="OnColor" Value="{DynamicResource ColorAccent}" />
+    </Style>
+
+    <Style TargetType="Slider">
+        <Setter Property="MinimumTrackColor" Value="{DynamicResource ColorAccent}" />
+        <Setter Property="ThumbColor" Value="{DynamicResource ColorAccent}" />
+    </Style>
+
+    <Style TargetType="ProgressBar">
+        <Setter Property="ProgressColor" Value="{DynamicResource ColorAccent}" />
+    </Style>
+
+    <Style TargetType="ActivityIndicator">
+        <Setter Property="Color" Value="{DynamicResource ColorAccent}" />
+    </Style>
+
+    <Style TargetType="Picker">
+        <Setter Property="FontFamily" Value="Inter" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorTextPrimary}" />
+    </Style>
+
+    <Style TargetType="DatePicker">
+        <Setter Property="FontFamily" Value="Inter" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorTextPrimary}" />
+    </Style>
+
+    <Style TargetType="TimePicker">
+        <Setter Property="FontFamily" Value="Inter" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorTextPrimary}" />
+    </Style>
+
+</ResourceDictionary>

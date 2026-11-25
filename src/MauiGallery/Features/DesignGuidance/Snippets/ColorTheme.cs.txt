@@ -1,0 +1,11 @@
+var label = new Label { Text = "Hello, themes!" };
+
+// One-off value
+label.SetAppThemeColor(Label.TextColorProperty,
+    Color.FromArgb("#512BD4"), Color.FromArgb("#B3A3FF"));
+
+// Design token that updates when the theme dictionary is swapped
+label.SetDynamicResource(Label.TextColorProperty, "ColorAccentText");
+
+// Let the user pick a theme (Unspecified follows the system)
+Application.Current!.UserAppTheme = AppTheme.Dark;
