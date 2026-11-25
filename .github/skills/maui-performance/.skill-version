@@ -1,0 +1,10 @@
+{
+  "contentHash": "e2eba52605bdebf012bb3ad20f678850aaa6c351549916d4eb92097e51244cd8",
+  "resolvedCommit": "81b5d39cb7bceb04ea418b28df4bacd155bcbc21",
+  "name": "maui-performance",
+  "commit": "a90865a2da0513b3f16c5317e455af7c12566d5c",
+  "branch": "main",
+  "updatedAt": "2026-11-25T13:58:45.6218210Z",
+  "source": "dotnet/maui-labs",
+  "pluginPath": "plugins/dotnet-maui/skills/maui-performance"
+}

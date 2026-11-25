@@ -1,0 +1,10 @@
+{
+  "contentHash": "ab070ce0e1b1272c3cd9f78e41408f6bb77dc3806528f5d380d88c3f21bfb973",
+  "resolvedCommit": "81b5d39cb7bceb04ea418b28df4bacd155bcbc21",
+  "name": "maui-blazor-hybrid",
+  "commit": "a90865a2da0513b3f16c5317e455af7c12566d5c",
+  "branch": "main",
+  "updatedAt": "2026-11-25T13:58:45.5430840Z",
+  "source": "dotnet/maui-labs",
+  "pluginPath": "plugins/dotnet-maui/skills/maui-blazor-hybrid"
+}

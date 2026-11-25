@@ -1,0 +1,10 @@
+{
+  "contentHash": "fc376afec8a00d08784c9c657f759b79ada95faf41c5d5e4eedd5b2e93d2ef7e",
+  "resolvedCommit": "81b5d39cb7bceb04ea418b28df4bacd155bcbc21",
+  "name": "maui-custom-handlers",
+  "commit": "a90865a2da0513b3f16c5317e455af7c12566d5c",
+  "branch": "main",
+  "updatedAt": "2026-11-25T13:58:45.5885570Z",
+  "source": "dotnet/maui-labs",
+  "pluginPath": "plugins/dotnet-maui/skills/maui-custom-handlers"
+}

@@ -1,0 +1,10 @@
+{
+  "contentHash": "7165aa721abcb249d5630700155cecabf0c7e25af62ed9ad1c41a0aa77050653",
+  "resolvedCommit": "81b5d39cb7bceb04ea418b28df4bacd155bcbc21",
+  "name": "maui-localization-theming",
+  "commit": "a90865a2da0513b3f16c5317e455af7c12566d5c",
+  "branch": "main",
+  "updatedAt": "2026-11-25T13:58:45.6107830Z",
+  "source": "dotnet/maui-labs",
+  "pluginPath": "plugins/dotnet-maui/skills/maui-localization-theming"
+}

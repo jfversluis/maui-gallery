@@ -1,0 +1,10 @@
+{
+  "contentHash": "17ae09c82b1ce91976778f3ae8138445022f2f35cb1937a74c9764dd797e1b72",
+  "resolvedCommit": "81b5d39cb7bceb04ea418b28df4bacd155bcbc21",
+  "name": "maui-controls-deep-dive",
+  "commit": "a90865a2da0513b3f16c5317e455af7c12566d5c",
+  "branch": "main",
+  "updatedAt": "2026-11-25T13:58:45.5642900Z",
+  "source": "dotnet/maui-labs",
+  "pluginPath": "plugins/dotnet-maui/skills/maui-controls-deep-dive"
+}

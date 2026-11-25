@@ -1,0 +1,10 @@
+{
+  "contentHash": "0b1208ea45457803cd533daf84945e7fb1d109891ab133d3f774ae81ee9e92a8",
+  "resolvedCommit": "81b5d39cb7bceb04ea418b28df4bacd155bcbc21",
+  "name": "maui-device-capabilities",
+  "commit": "a90865a2da0513b3f16c5317e455af7c12566d5c",
+  "branch": "main",
+  "updatedAt": "2026-11-25T13:58:45.6005050Z",
+  "source": "dotnet/maui-labs",
+  "pluginPath": "plugins/dotnet-maui/skills/maui-device-capabilities"
+}

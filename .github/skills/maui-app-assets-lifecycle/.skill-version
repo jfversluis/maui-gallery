@@ -1,0 +1,10 @@
+{
+  "contentHash": "344fc0c6ad91ec1b19a394786053d62cb471ffb5fe950ad77bba18dce853cf15",
+  "resolvedCommit": "81b5d39cb7bceb04ea418b28df4bacd155bcbc21",
+  "name": "maui-app-assets-lifecycle",
+  "commit": "a90865a2da0513b3f16c5317e455af7c12566d5c",
+  "branch": "main",
+  "updatedAt": "2026-11-25T13:58:45.5202080Z",
+  "source": "dotnet/maui-labs",
+  "pluginPath": "plugins/dotnet-maui/skills/maui-app-assets-lifecycle"
+}

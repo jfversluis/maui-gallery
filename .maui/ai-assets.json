@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "installations": [
+    {
+      "kind": "mcp",
+      "name": "maui-devflow",
+      "scope": "project",
+      "path": ".vscode/mcp.json",
+      "entryKey": "maui-devflow",
+      "environments": [
+        "VsCode"
+      ],
+      "owner": "maui-cli",
+      "origin": null,
+      "contentHash": "ab2e78205c9fc272b45f3c7b2bafda359fb545a5167576e590bc074205792064"
+    }
+  ]
+}
