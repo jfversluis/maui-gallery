@@ -1,0 +1,9 @@
+<!-- SwatchPage.xaml -->
+<ContentPage x:Class="MyApp.SwatchPage" Title="Swatch">
+    <VerticalStackLayout Padding="24" Spacing="16">
+        <Label x:Name="ColorLabel" FontSize="20" FontAttributes="Bold" />
+        <Label x:Name="NoteLabel" />
+        <Entry x:Name="ReplyEntry" Placeholder="Reply" />
+        <Button Text="Send the reply back" Clicked="OnSendBackClicked" />
+    </VerticalStackLayout>
+</ContentPage>

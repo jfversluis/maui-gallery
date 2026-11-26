@@ -1,0 +1,24 @@
+// App.xaml.cs
+protected override Window CreateWindow(IActivationState? activationState)
+{
+    var shell = new AppShell();
+    var window = new Window(shell);
+
+    // Shell is never measured, so follow the window's size instead
+    window.SizeChanged += (_, _) => shell.ApplyLayout(window.Width);
+    return window;
+}
+
+// AppShell.xaml.cs
+public void ApplyLayout(double windowWidth)
+{
+    var useTabs = DeviceInfo.Idiom == DeviceIdiom.Phone;
+    FlyoutBehavior = useTabs ? FlyoutBehavior.Disabled
+        : windowWidth >= 1100 ? FlyoutBehavior.Locked
+        : FlyoutBehavior.Flyout;
+
+    foreach (var tab in Items.SelectMany(item => item.Items))
+    {
+        Shell.SetTabBarIsVisible(tab, useTabs);
+    }
+}

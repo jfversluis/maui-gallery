@@ -1,0 +1,179 @@
+<SamplePage x:Class="MauiGallery.Features.Navigation.ShellSamplePage"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Routes -->
+            <ControlExample x:Name="RoutesExample"
+                            Title="Navigate with a route"
+                            Description="This app is a Shell, so this page is a live sample. GoToAsync takes a URI. A relative route, such as a page's registered name, pushes onto the current stack. An absolute route starts with // and replaces the whole location. Shell.Current.CurrentState.Location always tells you where you are."
+                            XamlSource="ShellRoutes.xaml.txt"
+                            CSharpSource="ShellRoutes.cs.txt"
+                            ShowStyleToggle="False">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=420}">
+                    <Label Text="CurrentState.Location" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                    <Label x:Name="RoutesLocation"
+                           HorizontalTextAlignment="Center"
+                           AutomationId="sample-routes-location" />
+                    <Button x:Name="RoutesButton"
+                            Text="Go to the route"
+                            Clicked="OnRoutesClicked"
+                            HorizontalOptions="Center"
+                            AutomationId="sample-routes-go" />
+                    <Label x:Name="RoutesHint"
+                           FontSize="13"
+                           Opacity="0.7"
+                           HorizontalTextAlignment="Center"
+                           AutomationId="sample-routes-hint" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Route" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="RoutesPicker"
+                                SelectedIndexChanged="OnRoutesPickerChanged"
+                                AutomationId="option-routes-route">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>button</x:String>
+                                    <x:String>//main/controls/button</x:String>
+                                    <x:String>//main/settings</x:String>
+                                    <x:String>//main/home</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Route" Value="{Binding SelectedItem, Source={x:Reference RoutesPicker}, x:DataType=Picker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Parameters -->
+            <ControlExample x:Name="ParametersExample"
+                            Title="Pass data to a page, and back"
+                            Description="Register a route with a {color} path parameter (new in .NET 11) and add more values in the query string. The page receives both in IQueryAttributable.ApplyQueryAttributes, which is trim-safe. Going back with &quot;..&quot; can carry values too: the page you return to receives them the same way."
+                            XamlSource="ShellParameters.xaml.txt"
+                            CSharpSource="ShellParameters.cs.txt"
+                            ShowStyleToggle="False">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=420}">
+                    <Button x:Name="ParametersButton"
+                            Text="Open the swatch page"
+                            Clicked="OnParametersClicked"
+                            HorizontalOptions="Center"
+                            AutomationId="sample-parameters-open" />
+                    <Label x:Name="ParametersReply"
+                           Text="No reply yet"
+                           HorizontalTextAlignment="Center"
+                           AutomationId="sample-parameters-reply" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="color (path parameter)" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ParametersColor" AutomationId="option-parameters-color">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>teal</x:String>
+                                    <x:String>orange</x:String>
+                                    <x:String>pink</x:String>
+                                    <x:String>blue</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <Label Text="note (query string)" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="ParametersNote" Text="Hello from Shell!" AutomationId="option-parameters-note" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Color" Value="{Binding SelectedItem, Source={x:Reference ParametersColor}, x:DataType=Picker}" />
+                    <Substitution Key="Note" Value="{Binding Text, Source={x:Reference ParametersNote}, x:DataType=Entry}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Chrome per page -->
+            <ControlExample x:Name="ChromeExample"
+                            Title="Hide Shell chrome on a page"
+                            Description="Shell's attached properties change the navigation bar, tab bar and flyout for one page, and they win over values set higher up. They apply only while that page is showing: leave this page and the app's own navigation comes back."
+                            XamlSource="ShellChrome.xaml.txt"
+                            CSharpSource="ShellChrome.cs.txt"
+                            ShowStyleToggle="False">
+                <VerticalStackLayout Spacing="8" WidthRequest="{OnIdiom Phone=280, Default=420}">
+                    <Label x:Name="ChromeStatus"
+                           HorizontalTextAlignment="Center"
+                           AutomationId="sample-chrome-status" />
+                    <Label x:Name="ChromeHint"
+                           FontSize="13"
+                           Opacity="0.7"
+                           HorizontalTextAlignment="Center"
+                           AutomationId="sample-chrome-hint" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Shell.NavBarIsVisible" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="ChromeNavBar"
+                                    Grid.Column="1"
+                                    IsToggled="True"
+                                    Toggled="OnChromeChanged"
+                                    AutomationId="option-chrome-navbar" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Shell.TabBarIsVisible" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="ChromeTabBar"
+                                    Grid.Column="1"
+                                    IsToggled="True"
+                                    Toggled="OnChromeChanged"
+                                    AutomationId="option-chrome-tabbar" />
+                        </Grid>
+                        <Label Text="Shell.FlyoutBehavior" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ChromeFlyout"
+                                SelectedIndexChanged="OnChromeChanged"
+                                AutomationId="option-chrome-flyout">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Not set</x:String>
+                                    <x:String>Disabled</x:String>
+                                    <x:String>Flyout</x:String>
+                                    <x:String>Locked</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="NavBar" Value="{Binding IsToggled, Source={x:Reference ChromeNavBar}, x:DataType=Switch}" />
+                    <Substitution Key="TabBar" Value="{Binding IsToggled, Source={x:Reference ChromeTabBar}, x:DataType=Switch}" />
+                    <Substitution x:Name="ChromeFlyoutSubstitution" Key="Flyout" />
+                    <Substitution x:Name="ChromeFlyoutCodeSubstitution" Key="FlyoutCode" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 4. Adaptive -->
+            <ControlExample x:Name="AdaptiveExample"
+                            Title="Adapt the navigation to the window"
+                            Description="One Shell serves every form factor in this app. Phones get bottom tabs. Wider windows hide the tabs and use the flyout as a sidebar: an overlay at medium widths, and Locked (always visible) when the window is wide. Shell itself is never measured, so the window's SizeChanged event drives the switch."
+                            CSharpSource="ShellAdaptive.cs.txt"
+                            ShowStyleToggle="False">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=420}">
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="6">
+                        <Label Text="Window.Width" FontAttributes="Bold" />
+                        <Label x:Name="AdaptiveWidth" Grid.Column="1" AutomationId="sample-adaptive-width" />
+                        <Label Grid.Row="1" Text="FlyoutBehavior" FontAttributes="Bold" />
+                        <Label x:Name="AdaptiveFlyout" Grid.Row="1" Grid.Column="1" AutomationId="sample-adaptive-flyout" />
+                        <Label Grid.Row="2" Text="TabBarIsVisible" FontAttributes="Bold" />
+                        <Label x:Name="AdaptiveTabs" Grid.Row="2" Grid.Column="1" AutomationId="sample-adaptive-tabs" />
+                        <Label Grid.Row="3" Text="Stack depth" FontAttributes="Bold" />
+                        <Label x:Name="AdaptiveDepth" Grid.Row="3" Grid.Column="1" AutomationId="sample-adaptive-depth" />
+                    </Grid>
+                    <Label x:Name="AdaptiveHint"
+                           FontSize="13"
+                           Opacity="0.7"
+                           HorizontalTextAlignment="Center"
+                           AutomationId="sample-adaptive-hint" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

@@ -1,0 +1,4 @@
+// In the page's constructor, or any time while it shows
+Shell.SetNavBarIsVisible(this, $(NavBar));
+Shell.SetTabBarIsVisible(this, $(TabBar));
+Shell.SetFlyoutBehavior(this, $(FlyoutCode));

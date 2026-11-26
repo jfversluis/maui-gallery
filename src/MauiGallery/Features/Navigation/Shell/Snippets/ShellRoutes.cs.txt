@@ -1,0 +1,11 @@
+// AppShell.xaml.cs: pages outside the Shell hierarchy need a route
+Routing.RegisterRoute("button", typeof(ButtonPage));
+
+// Navigate from anywhere
+await Shell.Current.GoToAsync($(Route));
+
+// Where am I? For example "//main/controls/shell"
+string location = Shell.Current.CurrentState.Location.OriginalString;
+
+// Back one page
+await Shell.Current.GoToAsync("..");

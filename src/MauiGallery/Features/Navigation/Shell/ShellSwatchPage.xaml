@@ -1,0 +1,19 @@
+<ContentPage x:Class="MauiGallery.Features.Navigation.ShellSwatchPage"
+             xmlns:local="clr-namespace:MauiGallery.Features.Navigation"
+             x:DataType="local:ShellSwatchPage"
+             Title="Swatch">
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16" MaximumWidthRequest="520">
+            <BoxView x:Name="Swatch"
+                     HeightRequest="120"
+                     CornerRadius="12"
+                     AutomationId="swatch-color" />
+            <Label x:Name="ColorLabel" FontSize="20" FontAttributes="Bold" AutomationId="swatch-color-name" />
+            <Label x:Name="NoteLabel" AutomationId="swatch-note" />
+            <Label Text="Reply" />
+            <Entry x:Name="ReplyEntry" Text="Looks great!" AutomationId="swatch-reply" />
+            <Button Text="Send the reply back" Clicked="OnSendBackClicked" AutomationId="swatch-send-back" />
+            <Button Text="Back without a reply" Clicked="OnBackClicked" AutomationId="swatch-back" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,8 @@
+<ContentPage
+    x:Class="MyApp.DetailsPage"
+    Shell.NavBarIsVisible="$(NavBar)"
+    Shell.TabBarIsVisible="$(TabBar)"
+    Shell.FlyoutBehavior="$(Flyout)"
+    Title="Details">
+    <!-- Page content -->
+</ContentPage>

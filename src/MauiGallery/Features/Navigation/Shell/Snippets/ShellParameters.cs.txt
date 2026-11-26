@@ -1,0 +1,31 @@
+// AppShell.xaml.cs: {color} is a path parameter (new in .NET 11)
+Routing.RegisterRoute("swatch/{color}", typeof(SwatchPage));
+
+// The calling page. Route templates only resolve in absolute URIs in .NET 11,
+// so append the route to the current location instead of using "swatch/teal".
+string color = $(Color);
+string note = $(Note);
+string here = Shell.Current.CurrentState.Location.OriginalString;
+await Shell.Current.GoToAsync($"{here}/swatch/{color}?note={Uri.EscapeDataString(note)}");
+
+// SwatchPage.xaml.cs
+public partial class SwatchPage : ContentPage, IQueryAttributable
+{
+    public SwatchPage() => InitializeComponent();
+
+    // Path parameters and the query string arrive together
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        ColorLabel.Text = (string)query["color"];
+        NoteLabel.Text = query.TryGetValue("note", out var note) ? (string)note : "";
+    }
+
+    async void OnSendBackClicked(object? sender, EventArgs e)
+    {
+        // The page you return to receives "reply" in its own ApplyQueryAttributes
+        await Shell.Current.GoToAsync("..", new ShellNavigationQueryParameters
+        {
+            ["reply"] = ReplyEntry.Text,
+        });
+    }
+}

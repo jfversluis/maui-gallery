@@ -1,0 +1,14 @@
+<!-- AppShell.xaml: Route names build the absolute URI, such as //main/controls -->
+<Shell x:Class="MyApp.AppShell">
+    <FlyoutItem Route="main" FlyoutDisplayOptions="AsSingleItem">
+        <Tab Title="Home" Route="home">
+            <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
+        </Tab>
+        <Tab Title="Controls" Route="controls">
+            <ShellContent ContentTemplate="{DataTemplate local:ControlsPage}" />
+        </Tab>
+        <Tab Title="Settings" Route="settings">
+            <ShellContent ContentTemplate="{DataTemplate local:SettingsPage}" />
+        </Tab>
+    </FlyoutItem>
+</Shell>
