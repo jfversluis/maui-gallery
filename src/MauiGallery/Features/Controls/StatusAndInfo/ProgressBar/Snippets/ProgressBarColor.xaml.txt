@@ -1,0 +1,3 @@
+<ProgressBar
+    Progress="0.7"
+    ProgressColor="$(ProgressColor)" />

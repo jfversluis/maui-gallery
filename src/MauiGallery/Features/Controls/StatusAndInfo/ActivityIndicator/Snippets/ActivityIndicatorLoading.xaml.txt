@@ -1,0 +1,5 @@
+<VerticalStackLayout x:DataType="local:ForecastViewModel" Spacing="12">
+    <Button Text="Refresh forecast" Command="{Binding RefreshCommand}" />
+    <ActivityIndicator IsRunning="{Binding RefreshCommand.IsRunning}" />
+    <Label Text="{Binding Status}" />
+</VerticalStackLayout>

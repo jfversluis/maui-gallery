@@ -1,0 +1,21 @@
+<Grid ColumnDefinitions="Auto,Auto,*,Auto" ColumnSpacing="8">
+    <Label
+        Text="Auto-save"
+        VerticalOptions="Center"
+        ToolTipProperties.Text="Saves your work every few minutes" />
+    <Image
+        Grid.Column="1"
+        WidthRequest="18"
+        HeightRequest="18"
+        ToolTipProperties.Text="Changes are kept on this device only"
+        SemanticProperties.Description="Changes are kept on this device only">
+        <Image.Source>
+            <FontImageSource FontFamily="FluentIcons" Glyph="{x:Static icons:FluentIconsRegular.Info24}" />
+        </Image.Source>
+    </Image>
+    <Switch
+        Grid.Column="3"
+        IsToggled="True"
+        ToolTipProperties.Text="Turn auto-save on or off"
+        SemanticProperties.Description="Auto-save" />
+</Grid>

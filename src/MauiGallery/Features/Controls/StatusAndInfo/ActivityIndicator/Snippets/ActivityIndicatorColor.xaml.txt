@@ -1,0 +1,3 @@
+<ActivityIndicator
+    IsRunning="True"
+    Color="$(Color)" />

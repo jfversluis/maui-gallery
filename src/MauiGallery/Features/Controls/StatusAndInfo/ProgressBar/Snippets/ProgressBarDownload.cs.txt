@@ -1,0 +1,32 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class DownloadViewModel(IFileService files) : ObservableObject
+{
+    [ObservableProperty]
+    public partial double Progress { get; set; }
+
+    [ObservableProperty]
+    public partial string Status { get; set; } = "Ready to download";
+
+    // IncludeCancelCommand also generates DownloadCancelCommand, enabled while the download runs.
+    // Expose it through a declared property: compiled bindings can't see it directly.
+    public ICommand CancelCommand => DownloadCancelCommand;
+
+    [RelayCommand(IncludeCancelCommand = true)]
+    private async Task DownloadAsync(CancellationToken cancellationToken)
+    {
+        // Progress<T> raises its callback on the UI thread
+        var progress = new Progress<double>(value => Progress = value);
+        Status = "Downloading…";
+
+        try
+        {
+            await files.DownloadAsync("report.pdf", progress, cancellationToken);
+            Status = "Download complete";
+        }
+        catch (OperationCanceledException)
+        {
+            Progress = 0;
+            Status = "Download cancelled";
+        }
+    }
+}

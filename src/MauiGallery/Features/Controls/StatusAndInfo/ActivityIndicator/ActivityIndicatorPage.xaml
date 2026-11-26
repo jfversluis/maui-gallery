@@ -1,0 +1,76 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.StatusAndInfo.ActivityIndicatorPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.StatusAndInfo"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample Title="Show that something is happening"
+                            Description="An activity indicator spins while IsRunning is true. Use it when you can't tell how long the work will take; otherwise prefer a ProgressBar."
+                            XamlSource="ActivityIndicatorBasic.xaml.txt"
+                            CSharpSource="ActivityIndicatorBasic.cs.txt">
+                <ActivityIndicator IsRunning="{Binding IsToggled, Source={x:Reference BasicRunning}, x:DataType=Switch}"
+                                   SemanticProperties.Description="Loading"
+                                   AutomationId="sample-basic-indicator" />
+                <ControlExample.Options>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="IsRunning" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                        <Switch x:Name="BasicRunning" Grid.Column="1" IsToggled="True" AutomationId="option-basic-running" />
+                    </Grid>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="IsRunning" Value="{Binding IsToggled, Source={x:Reference BasicRunning}, x:DataType=Switch}" Default="False" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Color -->
+            <ControlExample Title="Change the color"
+                            ShowStyleToggle="False"
+                            Description="Set Color to match your brand. Leave it unset to use the platform's default, which already adapts to light and dark themes."
+                            XamlSource="ActivityIndicatorColor.xaml.txt"
+                            CSharpSource="ActivityIndicatorColor.cs.txt">
+                <ActivityIndicator IsRunning="True"
+                                   Color="{Binding SelectedColor, Source={x:Reference ColorPicker}, x:DataType=SwatchPicker}"
+                                   SemanticProperties.Description="Loading"
+                                   AutomationId="sample-color-indicator" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Color" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="ColorPicker" SelectedColor="#0D9488" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Color" Value="{Binding SelectedColor, Source={x:Reference ColorPicker}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Busy state from an async command -->
+            <ControlExample x:Name="LoadExample"
+                            Title="Show a busy state while loading"
+                            Description="An async RelayCommand exposes IsRunning while its task is in flight. Bind the indicator to it; the button disables itself until the work is done."
+                            XamlSource="ActivityIndicatorLoading.xaml.txt"
+                            CSharpSource="ActivityIndicatorLoading.cs.txt">
+                <VerticalStackLayout x:Name="LoadSample"
+                                     x:DataType="local:ActivityIndicatorForecastViewModel"
+                                     Spacing="12"
+                                     WidthRequest="240">
+                    <Button Text="Refresh forecast"
+                            Command="{Binding RefreshCommand}"
+                            HorizontalOptions="Center"
+                            AutomationId="sample-load-refresh" />
+                    <ActivityIndicator x:Name="LoadIndicator"
+                                       IsRunning="{Binding RefreshCommand.IsRunning}"
+                                       SemanticProperties.Description="Loading the forecast"
+                                       AutomationId="sample-load-indicator" />
+                    <Label Text="{Binding Status}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           AutomationId="sample-load-status" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

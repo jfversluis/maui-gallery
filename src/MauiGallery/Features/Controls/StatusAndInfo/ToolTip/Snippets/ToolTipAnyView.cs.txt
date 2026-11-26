@@ -1,0 +1,15 @@
+var label = new Label { Text = "Auto-save", VerticalOptions = LayoutOptions.Center };
+ToolTipProperties.SetText(label, "Saves your work every few minutes");
+
+var info = new Image
+{
+    WidthRequest = 18,
+    HeightRequest = 18,
+    Source = new FontImageSource { FontFamily = "FluentIcons", Glyph = FluentIconsRegular.Info24 },
+};
+ToolTipProperties.SetText(info, "Changes are kept on this device only");
+SemanticProperties.SetDescription(info, "Changes are kept on this device only");
+
+var autoSave = new Switch { IsToggled = true };
+ToolTipProperties.SetText(autoSave, "Turn auto-save on or off");
+SemanticProperties.SetDescription(autoSave, "Auto-save");

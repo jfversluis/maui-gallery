@@ -1,0 +1,3 @@
+<ActivityIndicator
+    IsRunning="$(IsRunning)"
+    SemanticProperties.Description="Loading" />

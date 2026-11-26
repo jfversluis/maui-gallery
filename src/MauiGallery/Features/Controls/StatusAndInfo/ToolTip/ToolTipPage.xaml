@@ -1,0 +1,119 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.StatusAndInfo.ToolTipPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Add a tooltip to a control"
+                            Description="Set ToolTipProperties.Text on any view. It shows on pointer hover on Windows, Mac and iPad, and on long-press on Android. iPhone has no pointer, so it never shows there."
+                            XamlSource="ToolTipBasic.xaml.txt"
+                            CSharpSource="ToolTipBasic.cs.txt">
+                <Button x:Name="BasicButton"
+                        Text="Save"
+                        ToolTipProperties.Text="{Binding Text, Source={x:Reference BasicText}, x:DataType=Entry}"
+                        Clicked="OnBasicClicked"
+                        AutomationId="sample-basic-button" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="ToolTipProperties.Text" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="BasicText" Text="Save your changes" AutomationId="option-basic-text" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="ToolTip" Value="{Binding Text, Source={x:Reference BasicText}, x:DataType=Entry}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Icon-only buttons -->
+            <ControlExample x:Name="ToolbarExample"
+                            Title="Label icon-only buttons"
+                            Description="Icons save space but hide their meaning. A tooltip tells pointer users what each one does; pair it with SemanticProperties.Description for screen readers."
+                            XamlSource="ToolTipToolbar.xaml.txt"
+                            CSharpSource="ToolTipToolbar.cs.txt">
+                <HorizontalStackLayout Spacing="8">
+                    <ImageButton x:Name="BoldButton"
+                                 WidthRequest="44"
+                                 HeightRequest="44"
+                                 Padding="10"
+                                 ToolTipProperties.Text="Make the selected text bold"
+                                 SemanticProperties.Description="Bold"
+                                 Clicked="OnToolbarClicked"
+                                 AutomationId="sample-toolbar-bold">
+                        <ImageButton.Source>
+                            <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                             Glyph="{x:Static icons:FluentIconsRegular.TextBold24}"
+                                             Color="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                    <ImageButton WidthRequest="44"
+                                 HeightRequest="44"
+                                 Padding="10"
+                                 ToolTipProperties.Text="Italicize the selected text"
+                                 SemanticProperties.Description="Italic"
+                                 Clicked="OnToolbarClicked"
+                                 AutomationId="sample-toolbar-italic">
+                        <ImageButton.Source>
+                            <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                             Glyph="{x:Static icons:FluentIconsRegular.TextItalic24}"
+                                             Color="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                    <ImageButton WidthRequest="44"
+                                 HeightRequest="44"
+                                 Padding="10"
+                                 ToolTipProperties.Text="Underline the selected text"
+                                 SemanticProperties.Description="Underline"
+                                 Clicked="OnToolbarClicked"
+                                 AutomationId="sample-toolbar-underline">
+                        <ImageButton.Source>
+                            <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                             Glyph="{x:Static icons:FluentIconsRegular.TextUnderline24}"
+                                             Color="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                </HorizontalStackLayout>
+            </ControlExample>
+
+            <!-- 3. Any view -->
+            <ControlExample x:Name="AnyViewExample"
+                            Title="Explain a setting"
+                            Description="Tooltips aren't limited to buttons. Use them for short hints on labels, inputs and icons, but keep anything essential visible: touch users may never see a tooltip."
+                            XamlSource="ToolTipAnyView.xaml.txt"
+                            CSharpSource="ToolTipAnyView.cs.txt">
+                <Grid x:Name="AnyViewSample"
+                      ColumnDefinitions="Auto,Auto,*,Auto"
+                      ColumnSpacing="8"
+                      MinimumWidthRequest="260">
+                    <Label Text="Auto-save"
+                           VerticalOptions="Center"
+                           ToolTipProperties.Text="Saves your work every few minutes"
+                           AutomationId="sample-anyview-label" />
+                    <Image Grid.Column="1"
+                           WidthRequest="18"
+                           HeightRequest="18"
+                           VerticalOptions="Center"
+                           ToolTipProperties.Text="Changes are kept on this device only"
+                           SemanticProperties.Description="Changes are kept on this device only"
+                           AutomationId="sample-anyview-info">
+                        <Image.Source>
+                            <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                             Glyph="{x:Static icons:FluentIconsRegular.Info24}"
+                                             Color="{AppThemeBinding Light=#5C5770, Dark=#B8B4C8}" />
+                        </Image.Source>
+                    </Image>
+                    <Switch x:Name="AutoSaveSwitch"
+                            Grid.Column="3"
+                            IsToggled="True"
+                            ToolTipProperties.Text="Turn auto-save on or off"
+                            SemanticProperties.Description="Auto-save"
+                            AutomationId="sample-anyview-switch" />
+                </Grid>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

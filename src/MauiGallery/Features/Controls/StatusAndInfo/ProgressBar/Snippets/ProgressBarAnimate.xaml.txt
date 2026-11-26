@@ -1,0 +1,5 @@
+<VerticalStackLayout Spacing="16">
+    <ProgressBar x:Name="AnimatedBar" />
+    <!-- OnAnimateClicked calls ProgressTo: see the C# tab -->
+    <Button Text="Animate" Clicked="OnAnimateClicked" />
+</VerticalStackLayout>

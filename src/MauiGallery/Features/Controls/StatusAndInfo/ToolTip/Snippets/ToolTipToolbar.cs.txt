@@ -1,0 +1,21 @@
+ImageButton CreateToolbarButton(string glyph, string name, string toolTip)
+{
+    var button = new ImageButton
+    {
+        Source = new FontImageSource { FontFamily = "FluentIcons", Glyph = glyph },
+    };
+    ToolTipProperties.SetText(button, toolTip);
+    SemanticProperties.SetDescription(button, name);
+    return button;
+}
+
+var toolbar = new HorizontalStackLayout
+{
+    Spacing = 8,
+    Children =
+    {
+        CreateToolbarButton(FluentIconsRegular.TextBold24, "Bold", "Make the selected text bold"),
+        CreateToolbarButton(FluentIconsRegular.TextItalic24, "Italic", "Italicize the selected text"),
+        CreateToolbarButton(FluentIconsRegular.TextUnderline24, "Underline", "Underline the selected text"),
+    },
+};

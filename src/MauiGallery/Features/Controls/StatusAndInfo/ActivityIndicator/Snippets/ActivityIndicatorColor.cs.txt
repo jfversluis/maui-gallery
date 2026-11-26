@@ -1,0 +1,5 @@
+var indicator = new ActivityIndicator
+{
+    IsRunning = true,
+    Color = $(Color),
+};

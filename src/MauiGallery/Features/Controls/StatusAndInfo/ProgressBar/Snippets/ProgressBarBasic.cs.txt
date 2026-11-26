@@ -1,0 +1,5 @@
+var uploadProgress = new ProgressBar
+{
+    Progress = $(Progress),
+};
+SemanticProperties.SetDescription(uploadProgress, "Upload progress");

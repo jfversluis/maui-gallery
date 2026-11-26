@@ -1,0 +1,4 @@
+<Button
+    Text="Save"
+    ToolTipProperties.Text="$(ToolTip)"
+    Clicked="OnSaveClicked" />

@@ -1,0 +1,14 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class ForecastViewModel(IWeatherService weather) : ObservableObject
+{
+    [ObservableProperty]
+    public partial string Status { get; set; } = "Tap refresh to load the forecast";
+
+    // Generates RefreshCommand, an IAsyncRelayCommand whose IsRunning is true while this method runs
+    [RelayCommand]
+    private async Task RefreshAsync()
+    {
+        Status = "Loading…";
+        Status = await weather.GetForecastAsync();
+    }
+}

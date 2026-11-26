@@ -1,0 +1,5 @@
+var storageUsed = new ProgressBar
+{
+    Progress = 0.7,
+    ProgressColor = $(ProgressColor),
+};

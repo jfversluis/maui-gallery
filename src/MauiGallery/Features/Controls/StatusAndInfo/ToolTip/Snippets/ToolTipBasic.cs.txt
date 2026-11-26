@@ -1,0 +1,3 @@
+var saveButton = new Button { Text = "Save" };
+ToolTipProperties.SetText(saveButton, $(ToolTip));
+saveButton.Clicked += OnSaveClicked;

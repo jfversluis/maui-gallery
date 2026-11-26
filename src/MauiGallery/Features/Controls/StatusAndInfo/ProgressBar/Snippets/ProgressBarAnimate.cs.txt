@@ -1,0 +1,8 @@
+async void OnAnimateClicked(object? sender, EventArgs e)
+{
+    AnimatedBar.Progress = 0;
+
+    // Animates Progress to 1 over the given length in milliseconds.
+    // Returns true if the animation was cancelled before it finished.
+    bool cancelled = await AnimatedBar.ProgressTo(1, $(Length), $(Easing));
+}

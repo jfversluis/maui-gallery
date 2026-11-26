@@ -1,0 +1,127 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.StatusAndInfo.ProgressBarPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.StatusAndInfo"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Show how far along a task is"
+                            Description="Progress runs from 0 to 1. Use a progress bar when you know how much work is left; otherwise use an ActivityIndicator."
+                            XamlSource="ProgressBarBasic.xaml.txt"
+                            CSharpSource="ProgressBarBasic.cs.txt">
+                <VerticalStackLayout Spacing="8" WidthRequest="280">
+                    <ProgressBar x:Name="BasicProgressBar"
+                                 Progress="{Binding Value, Source={x:Reference BasicProgress}, x:DataType=Slider}"
+                                 SemanticProperties.Description="Upload progress"
+                                 AutomationId="sample-basic-progress" />
+                    <Label Text="{Binding Progress, Source={x:Reference BasicProgressBar}, StringFormat='{0:P0} uploaded', x:DataType=ProgressBar}"
+                           HorizontalOptions="Center"
+                           AutomationId="sample-basic-value" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference BasicProgress}, StringFormat='Progress: {0:0.00}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="BasicProgress" Minimum="0" Maximum="1" Value="0.4" ValueChanged="OnBasicProgressChanged" AutomationId="option-basic-progress" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="ProgressSubstitution" Key="Progress" Default="0" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Color -->
+            <ControlExample Title="Change the color"
+                            ShowStyleToggle="False"
+                            Description="ProgressColor tints the filled part of the bar. Leave it unset to follow the platform's accent color."
+                            XamlSource="ProgressBarColor.xaml.txt"
+                            CSharpSource="ProgressBarColor.cs.txt">
+                <ProgressBar WidthRequest="280"
+                             Progress="0.7"
+                             ProgressColor="{Binding SelectedColor, Source={x:Reference ColorPicker}, x:DataType=SwatchPicker}"
+                             SemanticProperties.Description="Storage used"
+                             AutomationId="sample-color-progress" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="ProgressColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="ColorPicker" SelectedColor="#EA580C" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="ProgressColor" Value="{Binding SelectedColor, Source={x:Reference ColorPicker}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. ProgressTo -->
+            <ControlExample x:Name="AnimateExample"
+                            Title="Animate with ProgressTo"
+                            Description="ProgressTo animates Progress to a new value over time with an easing curve, so the bar glides instead of jumping. Await it to know when it's done."
+                            XamlSource="ProgressBarAnimate.xaml.txt"
+                            CSharpSource="ProgressBarAnimate.cs.txt">
+                <VerticalStackLayout Spacing="16" WidthRequest="280">
+                    <ProgressBar x:Name="AnimatedBar"
+                                 SemanticProperties.Description="Animated progress"
+                                 AutomationId="sample-animate-progress" />
+                    <Button Text="Animate"
+                            Clicked="OnAnimateClicked"
+                            HorizontalOptions="Center"
+                            AutomationId="sample-animate-button" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Easing" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="AnimateEasing" SelectedIndexChanged="OnAnimateOptionsChanged" AutomationId="option-animate-easing">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Linear</x:String>
+                                    <x:String>CubicInOut</x:String>
+                                    <x:String>SinOut</x:String>
+                                    <x:String>BounceOut</x:String>
+                                    <x:String>SpringOut</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <Label Text="{Binding Value, Source={x:Reference AnimateDuration}, StringFormat='Length: {0:0} ms', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="AnimateDuration"
+                                Minimum="250"
+                                Maximum="4000"
+                                Value="1500"
+                                ValueChanged="OnAnimateOptionsChanged"
+                                AutomationId="option-animate-length" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="EasingSubstitution" Key="Easing" IsExpression="True" />
+                    <Substitution x:Name="LengthSubstitution" Key="Length" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 4. IProgress<T> and MVVM -->
+            <ControlExample x:Name="DownloadExample"
+                            Title="Report progress from async work"
+                            Description="Pass an IProgress&lt;double&gt; into long-running work and bind Progress to what it reports. A cancellation token lets the user stop it."
+                            XamlSource="ProgressBarDownload.xaml.txt"
+                            CSharpSource="ProgressBarDownload.cs.txt">
+                <VerticalStackLayout x:Name="DownloadSample"
+                                     x:DataType="local:ProgressBarDownloadViewModel"
+                                     Spacing="12"
+                                     WidthRequest="280">
+                    <ProgressBar x:Name="DownloadBar"
+                                 Progress="{Binding Progress}"
+                                 SemanticProperties.Description="Download progress"
+                                 AutomationId="sample-download-progress" />
+                    <Label Text="{Binding Status}" HorizontalOptions="Center" AutomationId="sample-download-status" />
+                    <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
+                        <Button Text="Download" Command="{Binding DownloadCommand}" AutomationId="sample-download-start" />
+                        <Button Text="Cancel" Command="{Binding CancelCommand}" AutomationId="sample-download-cancel" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

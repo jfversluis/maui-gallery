@@ -1,0 +1,26 @@
+<HorizontalStackLayout Spacing="8">
+    <ImageButton
+        ToolTipProperties.Text="Make the selected text bold"
+        SemanticProperties.Description="Bold"
+        Clicked="OnBoldClicked">
+        <ImageButton.Source>
+            <FontImageSource FontFamily="FluentIcons" Glyph="{x:Static icons:FluentIconsRegular.TextBold24}" />
+        </ImageButton.Source>
+    </ImageButton>
+    <ImageButton
+        ToolTipProperties.Text="Italicize the selected text"
+        SemanticProperties.Description="Italic"
+        Clicked="OnItalicClicked">
+        <ImageButton.Source>
+            <FontImageSource FontFamily="FluentIcons" Glyph="{x:Static icons:FluentIconsRegular.TextItalic24}" />
+        </ImageButton.Source>
+    </ImageButton>
+    <ImageButton
+        ToolTipProperties.Text="Underline the selected text"
+        SemanticProperties.Description="Underline"
+        Clicked="OnUnderlineClicked">
+        <ImageButton.Source>
+            <FontImageSource FontFamily="FluentIcons" Glyph="{x:Static icons:FluentIconsRegular.TextUnderline24}" />
+        </ImageButton.Source>
+    </ImageButton>
+</HorizontalStackLayout>

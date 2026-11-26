@@ -1,0 +1,3 @@
+<ProgressBar
+    Progress="$(Progress)"
+    SemanticProperties.Description="Upload progress" />

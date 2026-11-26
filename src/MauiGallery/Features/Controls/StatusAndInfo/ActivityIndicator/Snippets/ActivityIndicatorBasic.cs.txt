@@ -1,0 +1,5 @@
+var indicator = new ActivityIndicator
+{
+    IsRunning = $(IsRunning),
+};
+SemanticProperties.SetDescription(indicator, "Loading");
