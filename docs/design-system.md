@@ -85,8 +85,8 @@ work in narrow windows and next to the sidebar.
 
 | Component | Purpose |
 | --- | --- |
-| `ControlExample` | Stage, native badge, Default/Styled and LTR/RTL toggles, options, event output and code |
-| `CodeViewer` | XAML and C# tabs, syntax highlighting, line numbers, copy |
+| `ControlExample` | Stage, native badge, Default/Styled and LTR/RTL toggles (each can be turned off), a notice for prerequisites, options, event output and code. When wide, the options form a rail beside the stage and code |
+| `CodeViewer` | XAML and C# tabs, syntax highlighting, line numbers, copy; long snippets start collapsed |
 | `NativeViewBadge` | Shows the platform type behind any view |
 | `ItemCard` | Tappable tile for a gallery item, with a desktop context menu |
 | `SectionHeader` | Section title with an optional action |
