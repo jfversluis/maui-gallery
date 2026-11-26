@@ -23,7 +23,9 @@ public sealed partial class ShellNavigationService(ActiveWindowTracker windows, 
 
         try
         {
-            await shell.GoToAsync(route);
+            // Next to a sidebar, navigating swaps the content like a desktop app does; a slide would only delay the
+            // page. On phones, pushed pages keep the platform's transition.
+            await shell.GoToAsync(route, animate: shell.FlyoutBehavior == FlyoutBehavior.Disabled);
         }
         catch (Exception ex)
         {
