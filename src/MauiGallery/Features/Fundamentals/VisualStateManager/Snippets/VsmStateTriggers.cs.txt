@@ -1,0 +1,15 @@
+public partial class EmailValidationViewModel : ObservableObject
+{
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsEmpty))]
+    [NotifyPropertyChangedFor(nameof(IsValid))]
+    [NotifyPropertyChangedFor(nameof(IsInvalid))]
+    public partial string? Email { get; set; }
+
+    // One flag per state: when no trigger is active, the state doesn't change
+    public bool IsEmpty => string.IsNullOrWhiteSpace(Email);
+
+    public bool IsValid => !IsEmpty && MailAddress.TryCreate(Email, out _);
+
+    public bool IsInvalid => !IsEmpty && !IsValid;
+}

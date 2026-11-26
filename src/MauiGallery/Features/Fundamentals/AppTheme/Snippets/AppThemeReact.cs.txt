@@ -1,0 +1,15 @@
+var app = Application.Current!;
+
+// The theme in effect, what the app asked for, and what the system uses
+requested.Text = app.RequestedTheme.ToString();
+user.Text = app.UserAppTheme.ToString();
+platform.Text = app.PlatformAppTheme.ToString();
+
+// Override the system theme, or follow it again with AppTheme.Unspecified
+app.UserAppTheme = AppTheme.Dark;
+
+// React when either one changes
+app.RequestedThemeChanged += (sender, e) =>
+{
+    requested.Text = e.RequestedTheme.ToString();
+};

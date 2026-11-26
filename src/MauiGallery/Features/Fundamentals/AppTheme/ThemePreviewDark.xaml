@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Dark colors for the "Swap theme dictionaries" sample. Both dictionaries define the same keys. -->
+<ResourceDictionary x:Class="MauiGallery.Features.Fundamentals.ThemePreviewDark">
+    <Color x:Key="PreviewBackground">#1C1B22</Color>
+    <Color x:Key="PreviewText">#FFFFFF</Color>
+    <Color x:Key="PreviewSecondaryText">#C8C6C4</Color>
+    <Color x:Key="PreviewAccent">#B3A3FF</Color>
+    <SolidColorBrush x:Key="PreviewStroke" Color="#3B3A42" />
+</ResourceDictionary>

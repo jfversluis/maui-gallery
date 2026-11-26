@@ -1,0 +1,24 @@
+<!-- BrandResources.xaml -->
+<ResourceDictionary x:Class="MyApp.Resources.BrandResources">
+    <Color x:Key="BrandPrimary">#512BD4</Color>
+    <Color x:Key="BrandSecondary">#0D9488</Color>
+    <Color x:Key="BrandTertiary">#EA580C</Color>
+    <Style x:Key="BrandBadge" TargetType="Label">
+        <Setter Property="BackgroundColor" Value="{StaticResource BrandPrimary}" />
+        <Setter Property="TextColor" Value="White" />
+    </Style>
+</ResourceDictionary>
+
+<!-- Merge it into a page, or into App.xaml to share it app-wide -->
+<ContentPage.Resources>
+    <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <local:BrandResources />
+            <!-- A dictionary without code-behind can be merged by file name -->
+            <ResourceDictionary Source="Resources/Spacing.xaml" />
+        </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+</ContentPage.Resources>
+
+<BoxView Color="{StaticResource BrandPrimary}" />
+<Label Text="From BrandResources.xaml" Style="{StaticResource BrandBadge}" />

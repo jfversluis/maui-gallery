@@ -1,0 +1,10 @@
+<VerticalStackLayout x:DataType="local:UsernameViewModel" Spacing="8">
+    <Entry x:Name="username" Placeholder="Try maui or your name">
+        <Entry.Behaviors>
+            <local:UnfocusedCommandBehavior
+                Command="{Binding CheckAvailabilityCommand}"
+                CommandParameter="{Binding Text, Source={x:Reference username}, x:DataType=Entry}" />
+        </Entry.Behaviors>
+    </Entry>
+    <Label Text="{Binding Status}" />
+</VerticalStackLayout>

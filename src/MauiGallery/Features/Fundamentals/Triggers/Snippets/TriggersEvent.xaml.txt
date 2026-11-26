@@ -1,0 +1,8 @@
+<Button Text="Wrong PIN">
+    <Button.Triggers>
+        <EventTrigger Event="Clicked">
+            <local:ShakeTriggerAction
+                Distance="$(Distance)" />
+        </EventTrigger>
+    </Button.Triggers>
+</Button>

@@ -1,0 +1,7 @@
+<Entry Placeholder="Tap to focus">
+    <Entry.Triggers>
+        <Trigger TargetType="Entry" Property="IsFocused" Value="True">
+            <Setter Property="BackgroundColor" Value="#33512BD4" />
+        </Trigger>
+    </Entry.Triggers>
+</Entry>

@@ -1,0 +1,14 @@
+<!-- LightColors.xaml and DarkColors.xaml define the same keys -->
+<ResourceDictionary x:Class="MyApp.Resources.DarkColors">
+    <Color x:Key="PreviewBackground">#1C1B22</Color>
+    <Color x:Key="PreviewText">#FFFFFF</Color>
+    <Color x:Key="PreviewAccent">#B3A3FF</Color>
+</ResourceDictionary>
+
+<!-- Use DynamicResource, so the views follow when the dictionary is swapped -->
+<Border BackgroundColor="{DynamicResource PreviewBackground}">
+    <VerticalStackLayout>
+        <Label Text="Weekly summary" TextColor="{DynamicResource PreviewText}" />
+        <Label Text="See details" TextColor="{DynamicResource PreviewAccent}" />
+    </VerticalStackLayout>
+</Border>

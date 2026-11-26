@@ -1,0 +1,97 @@
+<SamplePage x:Class="MauiGallery.Features.Fundamentals.BehaviorsPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Fundamentals"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Behavior<T> -->
+            <ControlExample x:Name="ValidationExample"
+                            Title="Write a Behavior&lt;T&gt;"
+                            Description="A behavior adds code to a control without subclassing it. Subscribe to events in OnAttachedTo and unsubscribe in OnDetachingFrom. Behaviors are bindable objects, so they can have bindable properties both ways: here AllowDecimals is an input and IsValid an output. Use triggers to set property values declaratively, and a behavior when you need code."
+                            XamlSource="BehaviorValidation.xaml.txt"
+                            CSharpSource="BehaviorValidation.cs.txt">
+                <VerticalStackLayout Spacing="8" WidthRequest="{OnIdiom Phone=240, Default=280}">
+                    <Label Text="Quantity" />
+                    <Entry x:Name="ValidationEntry"
+                           Keyboard="Numeric"
+                           Placeholder="Enter a number"
+                           AutomationId="sample-behavior-number">
+                        <Entry.Behaviors>
+                            <local:NumericValidationBehavior x:Name="ValidationBehavior"
+                                                             AllowDecimals="{Binding IsToggled, Source={x:Reference ValidationDecimals}, x:DataType=Switch}" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Label Text="That's not a valid number."
+                           TextColor="Red"
+                           FontSize="13"
+                           IsVisible="{Binding IsValid, Source={x:Reference ValidationBehavior}, Converter={StaticResource InvertedBool}, x:DataType=local:NumericValidationBehavior}"
+                           AutomationId="sample-behavior-error" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="AllowDecimals" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                        <Switch x:Name="ValidationDecimals" Grid.Column="1" AutomationId="option-behavior-decimals" />
+                    </Grid>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="AllowDecimals" Value="{Binding IsToggled, Source={x:Reference ValidationDecimals}, x:DataType=Switch}" Default="False" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Attached behavior -->
+            <ControlExample x:Name="AttachedExample"
+                            Title="An attached behavior"
+                            Description="An attached behavior is an attached property whose change handler subscribes to the element's events. It's set like any property, so unlike a Behavior&lt;T&gt; instance, which holds state for one element, it can also be set from a Style and shared by many elements."
+                            XamlSource="BehaviorAttached.xaml.txt"
+                            CSharpSource="BehaviorAttached.cs.txt">
+                <VerticalStackLayout Spacing="8" WidthRequest="{OnIdiom Phone=240, Default=280}">
+                    <Label Text="Coupon code" />
+                    <Entry x:Name="AttachedEntry"
+                           Text="SPRING-2026-SAVE20"
+                           local:SelectAllOnFocus.IsEnabled="{Binding IsToggled, Source={x:Reference AttachedEnabled}, x:DataType=Switch}"
+                           AutomationId="sample-behavior-select-all" />
+                    <Label Text="Tap the field: all of its text is selected, ready to copy or replace."
+                           FontSize="13"
+                           Opacity="0.7" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="SelectAllOnFocus.IsEnabled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                        <Switch x:Name="AttachedEnabled" Grid.Column="1" IsToggled="True" AutomationId="option-behavior-select-all" />
+                    </Grid>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="IsEnabled" Value="{Binding IsToggled, Source={x:Reference AttachedEnabled}, x:DataType=Switch}" Default="False" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Event to command -->
+            <ControlExample x:Name="CommandExample"
+                            Title="Run a command on an event"
+                            Description="Not every event has a matching command. A behavior can bridge the gap and keep the logic in the view model: this one runs a command when the field loses focus. Behaviors don't inherit the BindingContext, so it borrows its element's. The .NET MAUI Community Toolkit's EventToCommandBehavior does the same for any event."
+                            XamlSource="BehaviorEventToCommand.xaml.txt"
+                            CSharpSource="BehaviorEventToCommand.cs.txt">
+                <VerticalStackLayout x:Name="CommandSample"
+                                     x:DataType="local:UsernameViewModel"
+                                     Spacing="8"
+                                     WidthRequest="{OnIdiom Phone=260, Default=300}">
+                    <Label Text="Username" />
+                    <Entry x:Name="CommandUsername"
+                           Placeholder="Try maui or your name"
+                           AutomationId="sample-behavior-username">
+                        <Entry.Behaviors>
+                            <local:UnfocusedCommandBehavior Command="{Binding CheckAvailabilityCommand}"
+                                                            CommandParameter="{Binding Text, Source={x:Reference CommandUsername}, x:DataType=Entry}" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Label Text="{Binding Status}" FontSize="13" AutomationId="sample-behavior-status" />
+                    <Label Text="Email" Margin="0,8,0,0" />
+                    <Entry Placeholder="name@example.com" Keyboard="Email" AutomationId="sample-behavior-email" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

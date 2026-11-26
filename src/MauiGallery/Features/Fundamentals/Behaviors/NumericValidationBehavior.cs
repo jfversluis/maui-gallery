@@ -1,0 +1,66 @@
+using System.Globalization;
+
+namespace MauiGallery.Features.Fundamentals;
+
+/// <summary>Validates that an entry holds a number, colors invalid text, and exposes the result as <see cref="IsValid"/>.</summary>
+public sealed class NumericValidationBehavior : Behavior<Entry>
+{
+    public static readonly BindableProperty AllowDecimalsProperty =
+        BindableProperty.Create(nameof(AllowDecimals), typeof(bool), typeof(NumericValidationBehavior), false,
+            propertyChanged: (bindable, _, _) => ((NumericValidationBehavior)bindable).Validate());
+
+    public static readonly BindableProperty IsValidProperty =
+        BindableProperty.Create(nameof(IsValid), typeof(bool), typeof(NumericValidationBehavior), true);
+
+    private Entry? _entry;
+
+    public bool AllowDecimals
+    {
+        get => (bool)GetValue(AllowDecimalsProperty);
+        set => SetValue(AllowDecimalsProperty, value);
+    }
+
+    public bool IsValid
+    {
+        get => (bool)GetValue(IsValidProperty);
+        private set => SetValue(IsValidProperty, value);
+    }
+
+    protected override void OnAttachedTo(Entry bindable)
+    {
+        base.OnAttachedTo(bindable);
+        _entry = bindable;
+        bindable.TextChanged += OnTextChanged;
+        Validate();
+    }
+
+    protected override void OnDetachingFrom(Entry bindable)
+    {
+        bindable.TextChanged -= OnTextChanged;
+        _entry = null;
+        base.OnDetachingFrom(bindable);
+    }
+
+    private void OnTextChanged(object? sender, TextChangedEventArgs e) => Validate();
+
+    private void Validate()
+    {
+        if (_entry is null)
+        {
+            return;
+        }
+
+        var text = _entry.Text;
+        var style = AllowDecimals ? NumberStyles.Float : NumberStyles.Integer;
+        IsValid = string.IsNullOrEmpty(text) || double.TryParse(text, style, CultureInfo.CurrentCulture, out _);
+
+        if (IsValid)
+        {
+            _entry.ClearValue(Entry.TextColorProperty);
+        }
+        else
+        {
+            _entry.TextColor = Colors.Red;
+        }
+    }
+}

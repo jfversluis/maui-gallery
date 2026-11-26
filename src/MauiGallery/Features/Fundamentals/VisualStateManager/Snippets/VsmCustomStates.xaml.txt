@@ -1,0 +1,32 @@
+<Border x:Name="orderCard" Padding="20,16" StrokeShape="RoundRectangle 12">
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroupList>
+            <VisualStateGroup x:Name="OrderStates">
+                <VisualState x:Name="Placed">
+                    <VisualState.Setters>
+                        <Setter TargetName="status" Property="Label.Text" Value="Order placed" />
+                        <Setter TargetName="progress" Property="ProgressBar.Progress" Value="0.1" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Shipped">
+                    <VisualState.Setters>
+                        <Setter TargetName="status" Property="Label.Text" Value="On its way" />
+                        <Setter TargetName="progress" Property="ProgressBar.Progress" Value="0.6" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Delivered">
+                    <VisualState.Setters>
+                        <Setter TargetName="status" Property="Label.Text" Value="Delivered" />
+                        <Setter TargetName="progress" Property="ProgressBar.Progress" Value="1" />
+                        <Setter Property="Stroke" Value="{StaticResource SuccessBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateGroupList>
+    </VisualStateManager.VisualStateGroups>
+    <VerticalStackLayout Spacing="12">
+        <Label Text="Order #1042" />
+        <Label x:Name="status" FontSize="20" FontAttributes="Bold" />
+        <ProgressBar x:Name="progress" />
+    </VerticalStackLayout>
+</Border>

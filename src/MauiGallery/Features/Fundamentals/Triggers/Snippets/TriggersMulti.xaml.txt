@@ -1,0 +1,13 @@
+<CheckBox x:Name="seatBelt" />
+<CheckBox x:Name="doors" />
+<Button Text="Take off" IsEnabled="False">
+    <Button.Triggers>
+        <MultiTrigger TargetType="Button">
+            <MultiTrigger.Conditions>
+                <BindingCondition Binding="{Binding IsChecked, Source={x:Reference seatBelt}, x:DataType=CheckBox}" Value="True" />
+                <BindingCondition Binding="{Binding IsChecked, Source={x:Reference doors}, x:DataType=CheckBox}" Value="True" />
+            </MultiTrigger.Conditions>
+            <Setter Property="IsEnabled" Value="True" />
+        </MultiTrigger>
+    </Button.Triggers>
+</Button>

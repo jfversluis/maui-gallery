@@ -1,0 +1,22 @@
+<HorizontalStackLayout.Resources>
+    <Style x:Key="BaseButton" TargetType="Button">
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="Padding" Value="20,10" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <!-- Implicit: no x:Key, so every Button in scope gets it -->
+    <Style TargetType="Button" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="BackgroundColor" Value="#E8E3FA" />
+        <Setter Property="TextColor" Value="#3B1F9E" />
+    </Style>
+
+    <!-- Explicit: applied only where it's asked for -->
+    <Style x:Key="DangerButton" TargetType="Button" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="BackgroundColor" Value="#C42B1C" />
+        <Setter Property="TextColor" Value="White" />
+    </Style>
+</HorizontalStackLayout.Resources>
+
+<Button Text="Save" />
+<Button Text="Delete" Style="{StaticResource DangerButton}" />

@@ -1,0 +1,10 @@
+var entry = new Entry { Placeholder = "Tap to focus" };
+entry.Triggers.Add(new Trigger(typeof(Entry))
+{
+    Property = VisualElement.IsFocusedProperty,
+    Value = true,
+    Setters =
+    {
+        new Setter { Property = VisualElement.BackgroundColorProperty, Value = Color.FromArgb("#33512BD4") },
+    },
+});

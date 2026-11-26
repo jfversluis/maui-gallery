@@ -1,0 +1,257 @@
+<SamplePage x:Class="MauiGallery.Features.Fundamentals.TriggersPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Fundamentals"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Property trigger -->
+            <ControlExample Title="Property trigger"
+                            Description="A Trigger applies its setters while one of the element's own properties has a given value, and removes them when it doesn't. Here the entry highlights while it has focus."
+                            ShowStyleToggle="False"
+                            XamlSource="TriggersProperty.xaml.txt"
+                            CSharpSource="TriggersProperty.cs.txt">
+                <Entry Placeholder="Tap to focus"
+                       WidthRequest="{OnIdiom Phone=240, Default=280}"
+                       AutomationId="sample-trigger-entry">
+                    <Entry.Triggers>
+                        <Trigger TargetType="Entry" Property="IsFocused" Value="True">
+                            <Setter Property="BackgroundColor" Value="#33512BD4" />
+                        </Trigger>
+                    </Entry.Triggers>
+                </Entry>
+            </ControlExample>
+
+            <!-- 2. DataTrigger -->
+            <ControlExample x:Name="DataExample"
+                            Title="DataTrigger"
+                            Description="A DataTrigger watches a binding instead, so it can react to another element or to the view model. The button stays disabled until the message has text."
+                            ShowStyleToggle="False"
+                            XamlSource="TriggersData.xaml.txt">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=240, Default=280}">
+                    <Entry x:Name="DataMessage"
+                           Text=""
+                           Placeholder="Write a message"
+                           AutomationId="sample-trigger-message" />
+                    <Button x:Name="DataButton"
+                            Text="Send"
+                            HorizontalOptions="Center"
+                            Clicked="OnSendClicked"
+                            AutomationId="sample-trigger-send">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding Text.Length, Source={x:Reference DataMessage}, x:DataType=Entry}"
+                                         Value="0">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 3. EventTrigger -->
+            <ControlExample x:Name="EventExample"
+                            Title="EventTrigger and TriggerAction"
+                            Description="An EventTrigger runs a TriggerAction when an event fires. Actions are small reusable classes: this one shakes the element, a common way to say &quot;try again&quot;."
+                            ShowStyleToggle="False"
+                            XamlSource="TriggersEvent.xaml.txt"
+                            CSharpSource="TriggersEvent.cs.txt">
+                <Button x:Name="EventButton"
+                        Text="Wrong PIN"
+                        Clicked="OnWrongPinClicked"
+                        AutomationId="sample-trigger-shake">
+                    <Button.Triggers>
+                        <EventTrigger Event="Clicked">
+                            <local:ShakeTriggerAction x:Name="EventShake" />
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference EventDistance}, StringFormat='Distance: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="EventDistance"
+                                Minimum="4"
+                                Maximum="40"
+                                Value="12"
+                                ValueChanged="OnShakeDistanceChanged"
+                                AutomationId="option-trigger-distance" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Distance" Value="{Binding Value, Source={x:Reference EventDistance}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="12" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 4. MultiTrigger -->
+            <ControlExample x:Name="MultiExample"
+                            Title="MultiTrigger"
+                            Description="A MultiTrigger applies its setters only when all of its conditions are true. Conditions can test the element's properties or any binding."
+                            ShowStyleToggle="False"
+                            XamlSource="TriggersMulti.xaml.txt">
+                <VerticalStackLayout Spacing="8">
+                    <HorizontalStackLayout Spacing="8">
+                        <CheckBox x:Name="MultiSeatBelt" AutomationId="sample-trigger-seatbelt" />
+                        <Label Text="Seat belt fastened" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="8">
+                        <CheckBox x:Name="MultiDoors" AutomationId="sample-trigger-doors" />
+                        <Label Text="Doors closed" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <Button x:Name="MultiButton"
+                            Text="Take off"
+                            IsEnabled="False"
+                            Margin="0,8,0,0"
+                            Clicked="OnTakeOffClicked"
+                            AutomationId="sample-trigger-takeoff">
+                        <Button.Triggers>
+                            <MultiTrigger TargetType="Button">
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition Binding="{Binding IsChecked, Source={x:Reference MultiSeatBelt}, x:DataType=CheckBox}" Value="True" />
+                                    <BindingCondition Binding="{Binding IsChecked, Source={x:Reference MultiDoors}, x:DataType=CheckBox}" Value="True" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="True" />
+                            </MultiTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 5. State triggers -->
+            <ControlExample Title="State triggers"
+                            Description="State triggers activate a visual state when a condition holds: AdaptiveTrigger on the window size, OrientationStateTrigger on the device orientation, DeviceStateTrigger on the platform, and CompareStateTrigger when a property equals a value. Resize the window or rotate the device to see them change."
+                            ShowStyleToggle="False"
+                            XamlSource="TriggersState.xaml.txt">
+                <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="10">
+                    <Label Text="AdaptiveTrigger" FontSize="13" Opacity="0.7" VerticalOptions="Center" />
+                    <Label Grid.Column="1" AutomationId="sample-trigger-adaptive">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="WindowWidthStates">
+                                    <VisualState x:Name="Narrow">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="0" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Property="Text" Value="Narrow window" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Wide">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="720" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Property="Text" Value="Wide window (720 or more)" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </Label>
+
+                    <Label Grid.Row="1" Text="OrientationStateTrigger" FontSize="13" Opacity="0.7" VerticalOptions="Center" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="Unknown" AutomationId="sample-trigger-orientation">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="OrientationStates">
+                                    <VisualState x:Name="Portrait">
+                                        <VisualState.StateTriggers>
+                                            <OrientationStateTrigger Orientation="Portrait" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Property="Text" Value="Portrait" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Landscape">
+                                        <VisualState.StateTriggers>
+                                            <OrientationStateTrigger Orientation="Landscape" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Property="Text" Value="Landscape" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </Label>
+
+                    <Label Grid.Row="2" Text="DeviceStateTrigger" FontSize="13" Opacity="0.7" VerticalOptions="Center" />
+                    <Label Grid.Row="2" Grid.Column="1" AutomationId="sample-trigger-device">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="DeviceStates">
+                                    <VisualState x:Name="iOS">
+                                        <VisualState.StateTriggers>
+                                            <DeviceStateTrigger Device="iOS" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Property="Text" Value="Running on iOS" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Android">
+                                        <VisualState.StateTriggers>
+                                            <DeviceStateTrigger Device="Android" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Property="Text" Value="Running on Android" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="MacCatalyst">
+                                        <VisualState.StateTriggers>
+                                            <DeviceStateTrigger Device="MacCatalyst" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Property="Text" Value="Running on Mac Catalyst" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="WinUI">
+                                        <VisualState.StateTriggers>
+                                            <DeviceStateTrigger Device="WinUI" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Property="Text" Value="Running on Windows" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </Label>
+
+                    <Label Grid.Row="3" Text="CompareStateTrigger" FontSize="13" Opacity="0.7" VerticalOptions="Center" />
+                    <Label Grid.Row="3" Grid.Column="1" AutomationId="sample-trigger-compare">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="ShippingStates">
+                                    <VisualState x:Name="Express">
+                                        <VisualState.StateTriggers>
+                                            <CompareStateTrigger Property="{Binding IsChecked, Source={x:Reference StateExpress}, x:DataType=CheckBox}" Value="True" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Property="Text" Value="Arrives tomorrow" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Standard">
+                                        <VisualState.StateTriggers>
+                                            <CompareStateTrigger Property="{Binding IsChecked, Source={x:Reference StateExpress}, x:DataType=CheckBox}" Value="False" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Property="Text" Value="Arrives in 3 to 5 days" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </Label>
+                </Grid>
+                <ControlExample.Options>
+                    <HorizontalStackLayout Spacing="8">
+                        <CheckBox x:Name="StateExpress" AutomationId="option-trigger-express" />
+                        <Label Text="Express shipping (IsChecked)" Style="{StaticResource OptionLabel}" VerticalOptions="Center" Margin="0" />
+                    </HorizontalStackLayout>
+                </ControlExample.Options>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

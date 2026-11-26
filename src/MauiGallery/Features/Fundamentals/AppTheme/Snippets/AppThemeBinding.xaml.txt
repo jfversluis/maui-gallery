@@ -1,0 +1,23 @@
+<Border
+    Padding="20"
+    StrokeShape="RoundRectangle 16"
+    Stroke="{AppThemeBinding Light=#E1DFDD, Dark=#3B3A42}"
+    BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1C1B22}">
+    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+        <Image WidthRequest="40" HeightRequest="40">
+            <Image.Source>
+                <FontImageSource
+                    FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                    Glyph="{AppThemeBinding Light={x:Static icons:FluentIconsRegular.WeatherSunnyHigh24}, Dark={x:Static icons:FluentIconsRegular.WeatherMoon24}}"
+                    Color="{AppThemeBinding Light=#EA580C, Dark=#B3A3FF}" />
+            </Image.Source>
+        </Image>
+        <VerticalStackLayout Grid.Column="1">
+            <Label
+                Text="{AppThemeBinding Light='Good morning', Dark='Good evening'}"
+                TextColor="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}" />
+            <!-- Default covers every theme you don't list -->
+            <Label Text="This card follows the app theme." TextColor="{AppThemeBinding Default=#605E5C, Dark=#C8C6C4}" />
+        </VerticalStackLayout>
+    </Grid>
+</Border>

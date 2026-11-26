@@ -1,0 +1,5 @@
+// Replace the resource: only the DynamicResource label changes
+panel.Resources["Highlight"] = $(Highlight);
+
+// In code, DynamicResource is SetDynamicResource
+label.SetDynamicResource(VisualElement.BackgroundColorProperty, "Highlight");

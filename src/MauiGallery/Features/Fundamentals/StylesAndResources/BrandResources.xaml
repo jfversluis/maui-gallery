@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- A resource dictionary in its own file, merged into the "Merge resource dictionaries" sample. -->
+<ResourceDictionary x:Class="MauiGallery.Features.Fundamentals.BrandResources">
+    <Color x:Key="BrandPrimary">#512BD4</Color>
+    <Color x:Key="BrandSecondary">#0D9488</Color>
+    <Color x:Key="BrandTertiary">#EA580C</Color>
+
+    <Style x:Key="BrandBadge" TargetType="Label">
+        <Setter Property="BackgroundColor" Value="{StaticResource BrandPrimary}" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="Padding" Value="12,6" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+</ResourceDictionary>

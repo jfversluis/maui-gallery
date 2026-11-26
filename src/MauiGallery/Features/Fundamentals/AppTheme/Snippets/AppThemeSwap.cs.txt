@@ -1,0 +1,17 @@
+var app = Application.Current!;
+app.RequestedThemeChanged += (sender, e) => ApplyColors(e.RequestedTheme);
+ApplyColors(app.RequestedTheme);
+
+void ApplyColors(AppTheme theme)
+{
+    var merged = app.Resources.MergedDictionaries;
+    var current = merged.FirstOrDefault(d => d is LightColors or DarkColors);
+    ResourceDictionary next = theme == AppTheme.Dark ? new DarkColors() : new LightColors();
+
+    // Add the new colors before removing the old ones, so no lookup sees a missing key
+    merged.Add(next);
+    if (current is not null)
+    {
+        merged.Remove(current);
+    }
+}

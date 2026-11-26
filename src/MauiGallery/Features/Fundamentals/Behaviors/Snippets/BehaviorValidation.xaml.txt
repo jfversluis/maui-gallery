@@ -1,0 +1,11 @@
+<Entry Keyboard="Numeric" Placeholder="Enter a number">
+    <Entry.Behaviors>
+        <local:NumericValidationBehavior
+            x:Name="validation"
+            AllowDecimals="$(AllowDecimals)" />
+    </Entry.Behaviors>
+</Entry>
+<Label
+    Text="That's not a valid number."
+    TextColor="Red"
+    IsVisible="{Binding IsValid, Source={x:Reference validation}, Converter={StaticResource InvertedBool}, x:DataType=local:NumericValidationBehavior}" />

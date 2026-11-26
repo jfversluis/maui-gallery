@@ -1,0 +1,146 @@
+<SamplePage x:Class="MauiGallery.Features.Fundamentals.StylesAndResourcesPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Fundamentals"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. StaticResource and DynamicResource -->
+            <ControlExample x:Name="ResourceExample"
+                            Title="StaticResource and DynamicResource"
+                            Description="Any element's Resources can hold colors, numbers, styles and templates, found by key up the tree and then in App.Resources. StaticResource looks the value up once; DynamicResource keeps watching the key. Pick a color to replace the resource and see which label follows."
+                            ShowStyleToggle="False"
+                            XamlSource="ResourcesStaticDynamic.xaml.txt"
+                            CSharpSource="ResourcesStaticDynamic.cs.txt">
+                <VerticalStackLayout x:Name="ResourceSample" Spacing="12" WidthRequest="220">
+                    <VerticalStackLayout.Resources>
+                        <Color x:Key="Highlight">#512BD4</Color>
+                    </VerticalStackLayout.Resources>
+                    <Label Text="StaticResource"
+                           TextColor="White"
+                           Padding="16,10"
+                           HorizontalTextAlignment="Center"
+                           BackgroundColor="{StaticResource Highlight}"
+                           AutomationId="sample-resource-static" />
+                    <Label Text="DynamicResource"
+                           TextColor="White"
+                           Padding="16,10"
+                           HorizontalTextAlignment="Center"
+                           BackgroundColor="{DynamicResource Highlight}"
+                           AutomationId="sample-resource-dynamic" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Resources[&quot;Highlight&quot;]" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="ResourceColor" SelectedColor="#512BD4" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Highlight" Value="{Binding SelectedColor, Source={x:Reference ResourceColor}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Implicit and explicit styles -->
+            <ControlExample Title="Implicit and explicit styles, BasedOn"
+                            Description="A Style sets properties on every element it applies to. Without an x:Key it's implicit and applies to every element of its TargetType in scope; with a key it's explicit and elements opt in with Style. BasedOn builds one style on another. These styles live in the sample's own Resources, so they don't leak into the rest of the app."
+                            ShowStyleToggle="False"
+                            XamlSource="StylesImplicitExplicit.xaml.txt">
+                <HorizontalStackLayout Spacing="12">
+                    <HorizontalStackLayout.Resources>
+                        <Style x:Key="BaseButton" TargetType="Button">
+                            <Setter Property="CornerRadius" Value="20" />
+                            <Setter Property="Padding" Value="20,10" />
+                            <Setter Property="FontAttributes" Value="Bold" />
+                        </Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource BaseButton}">
+                            <Setter Property="BackgroundColor" Value="#E8E3FA" />
+                            <Setter Property="TextColor" Value="#3B1F9E" />
+                        </Style>
+                        <Style x:Key="DangerButton" TargetType="Button" BasedOn="{StaticResource BaseButton}">
+                            <Setter Property="BackgroundColor" Value="#C42B1C" />
+                            <Setter Property="TextColor" Value="White" />
+                        </Style>
+                    </HorizontalStackLayout.Resources>
+                    <Button Text="Save" AutomationId="sample-style-implicit" />
+                    <Button Text="Delete" Style="{StaticResource DangerButton}" AutomationId="sample-style-explicit" />
+                </HorizontalStackLayout>
+            </ControlExample>
+
+            <!-- 3. Style classes -->
+            <ControlExample x:Name="ClassExample"
+                            Title="Combine style classes"
+                            Description="Styles with a Class are applied through StyleClass, and an element can list several, like CSS classes. Small, single-purpose classes then combine freely; when two set the same property, the later class wins."
+                            ShowStyleToggle="False"
+                            XamlSource="StylesClasses.xaml.txt">
+                <Label x:Name="ClassLabel"
+                       Text="Featured"
+                       StyleClass="Tag,Accent"
+                       AutomationId="sample-style-class">
+                    <Label.Resources>
+                        <Style TargetType="Label" Class="Tag">
+                            <Setter Property="Padding" Value="12,4" />
+                            <Setter Property="BackgroundColor" Value="#808A8886" />
+                            <Setter Property="FontSize" Value="13" />
+                        </Style>
+                        <Style TargetType="Label" Class="Accent">
+                            <Setter Property="BackgroundColor" Value="#512BD4" />
+                            <Setter Property="TextColor" Value="White" />
+                        </Style>
+                        <Style TargetType="Label" Class="Large">
+                            <Setter Property="FontSize" Value="22" />
+                            <Setter Property="Padding" Value="16,8" />
+                        </Style>
+                    </Label.Resources>
+                </Label>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="StyleClass" Style="{StaticResource OptionLabel}" />
+                        <HorizontalStackLayout Spacing="8">
+                            <CheckBox x:Name="ClassTag" IsChecked="True" CheckedChanged="OnStyleClassChanged" AutomationId="option-class-tag" />
+                            <Label Text="Tag" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="8">
+                            <CheckBox x:Name="ClassAccent" IsChecked="True" CheckedChanged="OnStyleClassChanged" AutomationId="option-class-accent" />
+                            <Label Text="Accent" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="8">
+                            <CheckBox x:Name="ClassLarge" CheckedChanged="OnStyleClassChanged" AutomationId="option-class-large" />
+                            <Label Text="Large" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="ClassSubstitution" Key="StyleClass" Value="Tag,Accent" Default="" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 4. Merged dictionaries -->
+            <ControlExample Title="Merge resource dictionaries"
+                            Description="Keep related resources in their own ResourceDictionary file and merge it wherever it's needed. This gallery does the same: its design tokens and styles are separate dictionaries merged into App.Resources."
+                            ShowStyleToggle="False"
+                            XamlSource="ResourcesMerged.xaml.txt"
+                            CSharpSource="ResourcesMerged.cs.txt">
+                <VerticalStackLayout Spacing="16">
+                    <VerticalStackLayout.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <local:BrandResources />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </VerticalStackLayout.Resources>
+                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <BoxView Color="{StaticResource BrandPrimary}" WidthRequest="40" HeightRequest="40" CornerRadius="20" />
+                        <BoxView Color="{StaticResource BrandSecondary}" WidthRequest="40" HeightRequest="40" CornerRadius="20" />
+                        <BoxView Color="{StaticResource BrandTertiary}" WidthRequest="40" HeightRequest="40" CornerRadius="20" />
+                    </HorizontalStackLayout>
+                    <Label Text="From BrandResources.xaml"
+                           Style="{StaticResource BrandBadge}"
+                           HorizontalOptions="Center"
+                           AutomationId="sample-merged-badge" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

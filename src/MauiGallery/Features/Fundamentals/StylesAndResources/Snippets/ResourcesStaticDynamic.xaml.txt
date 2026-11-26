@@ -1,0 +1,10 @@
+<VerticalStackLayout x:Name="panel" Spacing="12">
+    <VerticalStackLayout.Resources>
+        <Color x:Key="Highlight">#512BD4</Color>
+    </VerticalStackLayout.Resources>
+
+    <!-- Looked up once, when the page loads -->
+    <Label Text="StaticResource" BackgroundColor="{StaticResource Highlight}" TextColor="White" />
+    <!-- Follows every change to the resource -->
+    <Label Text="DynamicResource" BackgroundColor="{DynamicResource Highlight}" TextColor="White" />
+</VerticalStackLayout>

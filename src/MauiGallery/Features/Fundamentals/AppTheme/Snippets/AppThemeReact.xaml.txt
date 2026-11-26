@@ -1,0 +1,8 @@
+<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="16">
+    <Label Text="RequestedTheme" />
+    <Label x:Name="requested" Grid.Column="1" />
+    <Label Grid.Row="1" Text="UserAppTheme" />
+    <Label x:Name="user" Grid.Row="1" Grid.Column="1" />
+    <Label Grid.Row="2" Text="PlatformAppTheme" />
+    <Label x:Name="platform" Grid.Row="2" Grid.Column="1" />
+</Grid>

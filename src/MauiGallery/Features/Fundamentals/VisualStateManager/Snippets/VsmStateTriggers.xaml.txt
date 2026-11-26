@@ -1,0 +1,39 @@
+<VerticalStackLayout x:DataType="local:EmailValidationViewModel" Spacing="8">
+    <Entry Text="{Binding Email}" Placeholder="name@example.com" Keyboard="Email">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="ValidationStates">
+                    <VisualState x:Name="Empty">
+                        <VisualState.StateTriggers>
+                            <StateTrigger IsActive="{Binding IsEmpty}" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter TargetName="message" Property="Label.Text" Value="We'll never share it." />
+                            <Setter TargetName="message" Property="Label.TextColor" Value="#8A8886" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Valid">
+                        <VisualState.StateTriggers>
+                            <StateTrigger IsActive="{Binding IsValid}" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter TargetName="message" Property="Label.Text" Value="Looks good." />
+                            <Setter TargetName="message" Property="Label.TextColor" Value="#13A10E" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Invalid">
+                        <VisualState.StateTriggers>
+                            <StateTrigger IsActive="{Binding IsInvalid}" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="#D13438" />
+                            <Setter TargetName="message" Property="Label.Text" Value="That doesn't look like an email address." />
+                            <Setter TargetName="message" Property="Label.TextColor" Value="#D13438" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </VisualStateManager.VisualStateGroups>
+    </Entry>
+    <Label x:Name="message" FontSize="13" />
+</VerticalStackLayout>

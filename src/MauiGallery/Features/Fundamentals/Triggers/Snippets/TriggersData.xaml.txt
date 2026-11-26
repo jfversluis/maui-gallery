@@ -1,0 +1,12 @@
+<!-- Text starts empty rather than null, so Text.Length is 0 -->
+<Entry x:Name="message" Text="" Placeholder="Write a message" />
+<Button Text="Send">
+    <Button.Triggers>
+        <DataTrigger
+            TargetType="Button"
+            Binding="{Binding Text.Length, Source={x:Reference message}, x:DataType=Entry}"
+            Value="0">
+            <Setter Property="IsEnabled" Value="False" />
+        </DataTrigger>
+    </Button.Triggers>
+</Button>

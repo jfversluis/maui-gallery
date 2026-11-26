@@ -1,0 +1,117 @@
+<SamplePage x:Class="MauiGallery.Features.Fundamentals.AppThemePage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:local="clr-namespace:MauiGallery.Features.Fundamentals"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. AppThemeBinding -->
+            <ControlExample Title="Follow the theme with AppThemeBinding"
+                            Description="AppThemeBinding picks a value for the light and the dark theme, and updates when the theme changes. It works for any property type: colors, strings, even an icon glyph. Default is used for a theme you don't list. Switch the gallery's theme in Settings to see this card change."
+                            ShowStyleToggle="False"
+                            XamlSource="AppThemeBinding.xaml.txt"
+                            CSharpSource="AppThemeBinding.cs.txt">
+                <Border Padding="20"
+                        StrokeShape="RoundRectangle 16"
+                        StrokeThickness="1"
+                        Stroke="{AppThemeBinding Light=#E1DFDD, Dark=#3B3A42}"
+                        BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1C1B22}"
+                        WidthRequest="{OnIdiom Phone=260, Default=300}"
+                        AutomationId="sample-theme-card">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+                        <Image WidthRequest="40" HeightRequest="40" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                 Glyph="{AppThemeBinding Light={x:Static icons:FluentIconsRegular.WeatherSunnyHigh24}, Dark={x:Static icons:FluentIconsRegular.WeatherMoon24}}"
+                                                 Color="{AppThemeBinding Light=#EA580C, Dark=#B3A3FF}"
+                                                 Size="40" />
+                            </Image.Source>
+                        </Image>
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                            <Label Text="{AppThemeBinding Light='Good morning', Dark='Good evening'}"
+                                   TextColor="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   AutomationId="sample-theme-title" />
+                            <Label Text="This card follows the app theme."
+                                   TextColor="{AppThemeBinding Default=#605E5C, Dark=#C8C6C4}" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+            </ControlExample>
+
+            <!-- 2. Read and react -->
+            <ControlExample x:Name="ReactExample"
+                            Title="Read and react to the theme"
+                            Description="RequestedTheme is the theme in effect: UserAppTheme when the app sets one, otherwise the system's PlatformAppTheme. Set UserAppTheme to override the system, and handle RequestedThemeChanged to react in code. The gallery's own Settings > Theme uses exactly this API."
+                            ShowStyleToggle="False"
+                            XamlSource="AppThemeReact.xaml.txt"
+                            CSharpSource="AppThemeReact.cs.txt">
+                <VerticalStackLayout Spacing="16">
+                    <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="6" HorizontalOptions="Center">
+                        <Label Text="RequestedTheme" FontAttributes="Bold" />
+                        <Label x:Name="ReactRequested" Grid.Column="1" FontAttributes="Bold" AutomationId="sample-theme-requested" />
+                        <Label Grid.Row="1" Text="UserAppTheme" />
+                        <Label x:Name="ReactUser" Grid.Row="1" Grid.Column="1" AutomationId="sample-theme-user" />
+                        <Label Grid.Row="2" Text="PlatformAppTheme" />
+                        <Label x:Name="ReactPlatform" Grid.Row="2" Grid.Column="1" AutomationId="sample-theme-platform" />
+                    </Grid>
+                    <Button x:Name="ReactSettingsButton"
+                            Text="Change the theme in Settings"
+                            Clicked="OnOpenSettingsClicked"
+                            HorizontalOptions="Center"
+                            AutomationId="sample-theme-settings" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 3. Swap dictionaries -->
+            <ControlExample x:Name="SwapExample"
+                            Title="Swap theme dictionaries"
+                            Description="For a full design system, put each theme's colors in its own ResourceDictionary with the same keys, use DynamicResource everywhere, and swap the merged dictionary when RequestedThemeChanged fires. That's how this gallery themes its chrome (see DesignSystem/Tokens and ThemeService). This preview swaps a local dictionary, so the rest of the app keeps its theme."
+                            ShowStyleToggle="False"
+                            XamlSource="AppThemeSwap.xaml.txt"
+                            CSharpSource="AppThemeSwap.cs.txt">
+                <Border x:Name="SwapSample"
+                        Padding="20"
+                        StrokeShape="RoundRectangle 16"
+                        StrokeThickness="1"
+                        Stroke="{DynamicResource PreviewStroke}"
+                        BackgroundColor="{DynamicResource PreviewBackground}"
+                        WidthRequest="{OnIdiom Phone=260, Default=300}"
+                        AutomationId="sample-theme-preview">
+                    <Border.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <local:ThemePreviewLight />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </Border.Resources>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Weekly summary" TextColor="{DynamicResource PreviewText}" FontSize="20" FontAttributes="Bold" />
+                        <Label Text="You walked 42 km this week, 8 km more than last week."
+                               TextColor="{DynamicResource PreviewSecondaryText}" />
+                        <Label Text="See details" TextColor="{DynamicResource PreviewAccent}" FontAttributes="Bold" />
+                    </VerticalStackLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Merged dictionary" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="SwapTheme"
+                                SelectedIndexChanged="OnSwapThemeChanged"
+                                AutomationId="option-theme-dictionary">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>ThemePreviewLight</x:String>
+                                    <x:String>ThemePreviewDark</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

@@ -1,0 +1,8 @@
+<Entry
+    Text="SPRING-2026-SAVE20"
+    local:SelectAllOnFocus.IsEnabled="$(IsEnabled)" />
+
+<!-- Attached behaviors can be set from a style -->
+<Style x:Key="CodeEntry" TargetType="Entry">
+    <Setter Property="local:SelectAllOnFocus.IsEnabled" Value="True" />
+</Style>

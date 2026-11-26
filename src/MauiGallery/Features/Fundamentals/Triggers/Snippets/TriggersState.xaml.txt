@@ -1,0 +1,29 @@
+<Label>
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroupList>
+            <VisualStateGroup x:Name="WindowWidthStates">
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Property="Text" Value="Narrow window" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Property="Text" Value="Wide window (720 or more)" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateGroupList>
+    </VisualStateManager.VisualStateGroups>
+</Label>
+
+<!-- The other state triggers work the same way -->
+<OrientationStateTrigger Orientation="Landscape" />
+<DeviceStateTrigger Device="Android" />
+<CompareStateTrigger Property="{Binding IsChecked, Source={x:Reference express}, x:DataType=CheckBox}" Value="True" />

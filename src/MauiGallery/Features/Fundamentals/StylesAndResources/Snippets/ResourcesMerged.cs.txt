@@ -1,0 +1,8 @@
+// BrandResources.xaml.cs
+public partial class BrandResources : ResourceDictionary
+{
+    public BrandResources() => InitializeComponent();
+}
+
+// Merge it in code
+Resources.MergedDictionaries.Add(new BrandResources());

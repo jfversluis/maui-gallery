@@ -1,0 +1,256 @@
+<SamplePage x:Class="MauiGallery.Features.Fundamentals.VisualStateManagerPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Fundamentals"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <!-- Border.Stroke is a Brush, so the state colors are brushes too. -->
+        <SolidColorBrush x:Key="VsmNeutralStroke" Color="#8A8886" />
+        <SolidColorBrush x:Key="VsmValidStroke" Color="#13A10E" />
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Common states -->
+            <ControlExample x:Name="CommonExample"
+                            Title="Common states"
+                            Description="Controls move through the CommonStates group on their own: Normal, Disabled, Focused, PointerOver (desktop) and, for buttons, Pressed. Add setters for a state to restyle the control in it; leaving the state undoes them. Name the states exactly like this, and include Normal so the group can return to it."
+                            ShowStyleToggle="False"
+                            XamlSource="VsmCommonStates.xaml.txt">
+                <VerticalStackLayout Spacing="16" WidthRequest="{OnIdiom Phone=240, Default=280}">
+                    <Entry x:Name="CommonEntry"
+                           Placeholder="Tap to focus"
+                           IsEnabled="{Binding IsToggled, Source={x:Reference CommonEnabled}, x:DataType=Switch}"
+                           AutomationId="sample-vsm-entry">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="#1A512BD4" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Focused">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="#33512BD4" />
+                                            <Setter Property="Scale" Value="1.04" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Property="Opacity" Value="0.4" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </Entry>
+                    <Button x:Name="CommonButton"
+                            Text="Hover or press me"
+                            HorizontalOptions="Center"
+                            IsEnabled="{Binding IsToggled, Source={x:Reference CommonEnabled}, x:DataType=Switch}"
+                            AutomationId="sample-vsm-button">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Property="Scale" Value="1.06" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Property="Scale" Value="0.94" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Property="Opacity" Value="0.4" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </Button>
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="IsEnabled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                        <Switch x:Name="CommonEnabled" Grid.Column="1" IsToggled="True" AutomationId="option-vsm-enabled" />
+                    </Grid>
+                </ControlExample.Options>
+            </ControlExample>
+
+            <!-- 2. Selected -->
+            <ControlExample x:Name="SelectedExample"
+                            Title="The Selected state"
+                            Description="CollectionView puts the root of a selected item's template in the Selected state, so the template decides how selection looks."
+                            ShowStyleToggle="False"
+                            XamlSource="VsmSelected.xaml.txt">
+                <CollectionView x:Name="SelectedList"
+                                SelectionMode="Single"
+                                SelectionChanged="OnSelectedChanged"
+                                WidthRequest="{OnIdiom Phone=260, Default=300}"
+                                HeightRequest="176"
+                                AutomationId="sample-vsm-collection">
+                    <CollectionView.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Inbox</x:String>
+                            <x:String>Drafts</x:String>
+                            <x:String>Sent</x:String>
+                            <x:String>Archive</x:String>
+                        </x:Array>
+                    </CollectionView.ItemsSource>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <Grid Padding="16,12">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="Selected">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="#40512BD4" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+                                <Label Text="{Binding .}" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ControlExample>
+
+            <!-- 3. Custom states -->
+            <ControlExample x:Name="CustomExample"
+                            Title="Custom states with GoToState"
+                            Description="Define your own groups and states, then switch with VisualStateManager.GoToState. A state can set properties on child elements through TargetName, so all of a look's details live in one place in XAML."
+                            ShowStyleToggle="False"
+                            XamlSource="VsmCustomStates.xaml.txt"
+                            CSharpSource="VsmCustomStates.cs.txt">
+                <Border x:Name="OrderCard"
+                        Padding="20,16"
+                        StrokeShape="RoundRectangle 12"
+                        WidthRequest="{OnIdiom Phone=260, Default=300}"
+                        AutomationId="sample-vsm-order">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup x:Name="OrderStates">
+                                <VisualState x:Name="Placed">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="OrderStatus" Property="Label.Text" Value="Order placed" />
+                                        <Setter TargetName="OrderProgress" Property="ProgressBar.Progress" Value="0.1" />
+                                        <Setter Property="Stroke" Value="{StaticResource VsmNeutralStroke}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Shipped">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="OrderStatus" Property="Label.Text" Value="On its way" />
+                                        <Setter TargetName="OrderProgress" Property="ProgressBar.Progress" Value="0.6" />
+                                        <Setter Property="Stroke" Value="{StaticResource VsmNeutralStroke}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Delivered">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="OrderStatus" Property="Label.Text" Value="Delivered" />
+                                        <Setter TargetName="OrderProgress" Property="ProgressBar.Progress" Value="1" />
+                                        <Setter Property="Stroke" Value="{StaticResource VsmValidStroke}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Order #1042" FontSize="12" Opacity="0.7" />
+                        <Label x:Name="OrderStatus" FontSize="20" FontAttributes="Bold" AutomationId="sample-vsm-order-status" />
+                        <ProgressBar x:Name="OrderProgress" />
+                    </VerticalStackLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="State" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="CustomState"
+                                SelectedIndexChanged="OnCustomStateChanged"
+                                AutomationId="option-vsm-state">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Placed</x:String>
+                                    <x:String>Shipped</x:String>
+                                    <x:String>Delivered</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="State" Value="{Binding SelectedItem, Source={x:Reference CustomState}, x:DataType=Picker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 4. State triggers -->
+            <ControlExample Title="Let the data pick the state"
+                            Description="State triggers move to a state when their condition is true, with no code-behind: StateTrigger follows a bound bool. AdaptiveTrigger reacts to the window size, but don't put it in a shared Style: every element would share one trigger and only the last would follow resizes (dotnet/maui#14259). This app uses a small WindowSizeStates attached property for its breakpoints instead."
+                            ShowStyleToggle="False"
+                            XamlSource="VsmStateTriggers.xaml.txt"
+                            CSharpSource="VsmStateTriggers.cs.txt">
+                <VerticalStackLayout x:Name="TriggerSample"
+                                     x:DataType="local:EmailValidationViewModel"
+                                     Spacing="8"
+                                     WidthRequest="{OnIdiom Phone=260, Default=300}">
+                    <Label Text="Email" />
+                    <Entry Text="{Binding Email}"
+                           Placeholder="name@example.com"
+                           Keyboard="Email"
+                           SemanticProperties.Description="Email"
+                           AutomationId="sample-vsm-email">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="Empty">
+                                        <VisualState.StateTriggers>
+                                            <StateTrigger IsActive="{Binding IsEmpty}" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter TargetName="EmailMessage" Property="Label.Text" Value="We'll never share it." />
+                                            <Setter TargetName="EmailMessage" Property="Label.TextColor" Value="#8A8886" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Valid">
+                                        <VisualState.StateTriggers>
+                                            <StateTrigger IsActive="{Binding IsValid}" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter TargetName="EmailMessage" Property="Label.Text" Value="Looks good." />
+                                            <Setter TargetName="EmailMessage" Property="Label.TextColor" Value="#13A10E" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Invalid">
+                                        <VisualState.StateTriggers>
+                                            <StateTrigger IsActive="{Binding IsInvalid}" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Property="TextColor" Value="#D13438" />
+                                            <Setter TargetName="EmailMessage" Property="Label.Text" Value="That doesn't look like an email address." />
+                                            <Setter TargetName="EmailMessage" Property="Label.TextColor" Value="#D13438" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </Entry>
+                    <Label x:Name="EmailMessage" FontSize="13" AutomationId="sample-vsm-email-message" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

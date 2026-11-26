@@ -1,0 +1,5 @@
+border.SetAppThemeColor(VisualElement.BackgroundColorProperty, Color.FromArgb("#FFFFFF"), Color.FromArgb("#1C1B22"));
+title.SetAppThemeColor(Label.TextColorProperty, Color.FromArgb("#1F1A33"), Colors.White);
+
+// Any type works with SetAppTheme<T>
+title.SetAppTheme(Label.TextProperty, "Good morning", "Good evening");

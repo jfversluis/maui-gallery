@@ -1,0 +1,19 @@
+<ContentPage.Resources>
+    <Style TargetType="Label" Class="Tag">
+        <Setter Property="Padding" Value="12,4" />
+        <Setter Property="BackgroundColor" Value="#808A8886" />
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+    <Style TargetType="Label" Class="Accent">
+        <Setter Property="BackgroundColor" Value="#512BD4" />
+        <Setter Property="TextColor" Value="White" />
+    </Style>
+    <Style TargetType="Label" Class="Large">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Padding" Value="16,8" />
+    </Style>
+</ContentPage.Resources>
+
+<Label
+    Text="Featured"
+    StyleClass="$(StyleClass)" />
