@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 using MauiGallery.Core.Snippets;
@@ -76,6 +77,26 @@ public sealed class RepositoryIntegrityTests
         var context = new XmlParserContext(null, namespaces, null, XmlSpace.None);
         using var reader = XmlReader.Create(path, new XmlReaderSettings(), context);
         return XDocument.Load(reader);
+    }
+
+    [Fact]
+    public void EveryCustomViewHasAHandler()
+    {
+        // A class deriving straight from View has no handler unless the app registers one, and MAUI then throws
+        // HandlerNotFoundException as soon as a page containing it is created.
+        var app = Path.Combine(Repository.Root, "src", "MauiGallery");
+        var sources = Directory.EnumerateFiles(app, "*.cs", SearchOption.AllDirectories)
+            .Where(p => !p.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}", StringComparison.Ordinal))
+            .Select(File.ReadAllText)
+            .ToList();
+        var registrations = string.Concat(sources);
+
+        var unregistered = sources
+            .SelectMany(source => Regex.Matches(source, @"class\s+(\w+)\s*:\s*View\b").Select(m => m.Groups[1].Value))
+            .Where(type => !registrations.Contains($"AddHandler<{type},", StringComparison.Ordinal))
+            .ToList();
+
+        Assert.True(unregistered.Count == 0, $"Register a handler for, or derive from a concrete view: {string.Join(", ", unregistered)}");
     }
 
     private static HashSet<string> Keys(string path) =>

@@ -10,8 +10,9 @@ public sealed record ColorTokenGroup(string Title, IReadOnlyList<ColorToken> Tok
 /// <summary>
 /// Reads the design system's color tokens from the active theme. An invisible element in the page, so it is told
 /// about theme changes through the resource system and can refresh the swatches without event subscriptions.
+/// It derives from ContentView rather than View because every view in the tree needs a handler.
 /// </summary>
-public sealed class ColorPalette : View
+public sealed class ColorPalette : ContentView
 {
     public static readonly BindableProperty GroupsProperty =
         BindableProperty.Create(nameof(Groups), typeof(IReadOnlyList<ColorTokenGroup>), typeof(ColorPalette), Array.Empty<ColorTokenGroup>());
