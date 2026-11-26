@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using IconFont.Maui.FluentIcons;
 using MauiGallery.Core.Catalog;
+using MauiGallery.Core.Collections;
 using MauiGallery.Features.Catalog;
 using MauiGallery.Services;
 
@@ -87,22 +88,18 @@ public sealed partial class HomeViewModel : ObservableObject,
 
     private void RefreshFavorites()
     {
-        Replace(Favorites, _favorites.Ids);
+        Sync(Favorites, _favorites.Ids);
         HasFavorites = Favorites.Count > 0;
     }
 
+    // Opening a page updates the recents while Home is out of sight: change only the cards that moved, rather than
+    // rebuilding all of them on every navigation.
     private void RefreshRecents()
     {
-        Replace(Recents, _recents.Ids.Take(4));
+        Sync(Recents, _recents.Ids.Take(4));
         HasRecents = Recents.Count > 0;
     }
 
-    private void Replace(ObservableCollection<GalleryItem> target, IEnumerable<string> ids)
-    {
-        target.Clear();
-        foreach (var item in ids.Select(_catalog.Find).OfType<GalleryItem>())
-        {
-            target.Add(item);
-        }
-    }
+    private void Sync(ObservableCollection<GalleryItem> target, IEnumerable<string> ids) =>
+        target.SyncWith([.. ids.Select(_catalog.Find).OfType<GalleryItem>()]);
 }
