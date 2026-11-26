@@ -1,0 +1,7 @@
+<Editor
+    WidthRequest="280"
+    HeightRequest="120"
+    Placeholder="$(Placeholder)"
+    IsReadOnly="$(IsReadOnly)"
+    TextChanged="OnTextChanged"
+    Completed="OnCompleted" />

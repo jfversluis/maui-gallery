@@ -1,0 +1,4 @@
+<Editor
+    WidthRequest="280"
+    Placeholder="Type a few lines to see it grow"
+    AutoSize="$(AutoSize)" />

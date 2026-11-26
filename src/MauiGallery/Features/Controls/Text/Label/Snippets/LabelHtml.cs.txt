@@ -1,0 +1,7 @@
+var label = new Label
+{
+    WidthRequest = 280,
+    TextType = TextType.$(TextType),
+    Text = "<span style=\"font: -apple-system-body\">Text can be <strong>bold</strong> or <em>italic</em>,<br/>and lines break where you choose.</span>",
+};
+label.SetAppThemeColor(Label.TextColorProperty, Colors.Black, Colors.White);

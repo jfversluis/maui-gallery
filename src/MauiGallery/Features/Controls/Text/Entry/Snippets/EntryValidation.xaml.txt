@@ -1,0 +1,25 @@
+<VerticalStackLayout
+    x:DataType="local:SubscribeViewModel"
+    WidthRequest="280"
+    Spacing="8">
+    <Entry
+        Text="{Binding Email}"
+        Placeholder="name@example.com"
+        Keyboard="Email"
+        ReturnType="Done"
+        MaxLength="{Binding MaxLength}"
+        IsSpellCheckEnabled="False"
+        IsTextPredictionEnabled="False"
+        ReturnCommand="{Binding SubscribeCommand}" />
+    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+        <Label
+            Text="{Binding ErrorMessage}"
+            TextColor="{AppThemeBinding Light=#C42B1C, Dark=#FF99A4}"
+            FontSize="13" />
+        <Label
+            Grid.Column="1"
+            Text="{Binding CharacterCount}"
+            FontSize="13" />
+    </Grid>
+    <Button Text="Subscribe" Command="{Binding SubscribeCommand}" />
+</VerticalStackLayout>

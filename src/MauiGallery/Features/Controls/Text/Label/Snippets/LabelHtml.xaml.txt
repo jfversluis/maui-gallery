@@ -1,0 +1,6 @@
+<Label
+    WidthRequest="280"
+    TextColor="{AppThemeBinding Light=Black, Dark=White}"
+    TextType="$(TextType)">
+    <![CDATA[<span style="font: -apple-system-body">Text can be <strong>bold</strong> or <em>italic</em>,<br/>and lines break where you choose.</span>]]>
+</Label>

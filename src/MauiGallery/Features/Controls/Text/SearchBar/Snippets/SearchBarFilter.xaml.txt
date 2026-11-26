@@ -1,0 +1,16 @@
+<VerticalStackLayout x:DataType="local:FruitListViewModel" WidthRequest="300" Spacing="12">
+    <SearchBar Text="{Binding Query}" Placeholder="Filter fruit" />
+    <VerticalStackLayout
+        BindableLayout.ItemsSource="{Binding Results}"
+        Spacing="6"
+        Padding="12,0">
+        <BindableLayout.ItemTemplate>
+            <DataTemplate x:DataType="x:String">
+                <Label Text="{Binding .}" />
+            </DataTemplate>
+        </BindableLayout.ItemTemplate>
+        <BindableLayout.EmptyView>
+            <Label Text="No fruit matches your search" />
+        </BindableLayout.EmptyView>
+    </VerticalStackLayout>
+</VerticalStackLayout>

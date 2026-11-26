@@ -1,0 +1,6 @@
+var label = new Label
+{
+    Text = $(Text),
+    FontSize = $(FontSize),
+    FontAttributes = FontAttributes.$(FontAttributes),
+};

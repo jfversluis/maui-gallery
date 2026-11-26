@@ -1,0 +1,6 @@
+<Entry
+    WidthRequest="280"
+    Placeholder="$(Placeholder)"
+    ClearButtonVisibility="$(ClearButtonVisibility)"
+    IsReadOnly="$(IsReadOnly)"
+    TextChanged="OnTextChanged" />

@@ -30,7 +30,7 @@ public sealed partial class GalleryCatalog
             IconGlyph = FluentIconsRegular.TextFont24,
             PageType = typeof(TypographyPage),
             Keywords = ["fonts", "text styles", "Inter", "type ramp", "font size"],
-            RelatedIds = ["color"],
+            RelatedIds = ["color", "label"],
             DocsUrl = new(DocsRoot + "user-interface/fonts"),
             SourceUrl = new(SourceRoot + "DesignGuidance"),
         },

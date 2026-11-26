@@ -1,0 +1,28 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class SubscribeViewModel : ObservableObject
+{
+    public int MaxLength { get; } = 40;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ErrorMessage), nameof(CharacterCount))]
+    [NotifyCanExecuteChangedFor(nameof(SubscribeCommand))]
+    public partial string Email { get; set; } = string.Empty;
+
+    public string ErrorMessage => Email.Length == 0 || IsValidEmail
+        ? string.Empty
+        : "Enter an email address like name@example.com";
+
+    public string CharacterCount => $"{Email.Length}/{MaxLength}";
+
+    private bool IsValidEmail => EmailPattern().IsMatch(Email);
+
+    [RelayCommand(CanExecute = nameof(IsValidEmail))]
+    private void Subscribe()
+    {
+        // Save Email, then clear the form
+        Email = string.Empty;
+    }
+
+    [GeneratedRegex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")]
+    private static partial Regex EmailPattern();
+}

@@ -1,0 +1,13 @@
+var entry = new Entry
+{
+    WidthRequest = 280,
+    Placeholder = $(Placeholder),
+    ClearButtonVisibility = ClearButtonVisibility.$(ClearButtonVisibility),
+    IsReadOnly = $(IsReadOnly),
+};
+entry.TextChanged += OnTextChanged;
+
+void OnTextChanged(object? sender, TextChangedEventArgs e)
+{
+    // e.OldTextValue and e.NewTextValue hold the text before and after the change
+}

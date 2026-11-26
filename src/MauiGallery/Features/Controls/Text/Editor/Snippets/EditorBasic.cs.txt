@@ -1,0 +1,19 @@
+var editor = new Editor
+{
+    WidthRequest = 280,
+    HeightRequest = 120,
+    Placeholder = $(Placeholder),
+    IsReadOnly = $(IsReadOnly),
+};
+editor.TextChanged += OnTextChanged;
+editor.Completed += OnCompleted;
+
+void OnTextChanged(object? sender, TextChangedEventArgs e)
+{
+    // e.NewTextValue holds the current text
+}
+
+void OnCompleted(object? sender, EventArgs e)
+{
+    // The editor lost focus
+}
