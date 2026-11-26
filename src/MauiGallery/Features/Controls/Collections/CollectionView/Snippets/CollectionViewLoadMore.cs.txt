@@ -1,12 +1,17 @@
 // Uses the CommunityToolkit.Mvvm source generators
 public partial class OrdersViewModel(IOrderService orders) : ObservableObject
 {
+    private const int PageSize = 20;
+
     public ObservableCollection<Order> Orders { get; } = [];
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Status))]
     public partial bool IsLoading { get; private set; }
 
     public bool HasMore { get; private set; } = true;
+
+    public string Status => IsLoading ? "Loading more orders…" : HasMore ? $"{Orders.Count} orders" : "All orders loaded";
 
     [RelayCommand]
     private async Task LoadMoreAsync()
@@ -17,16 +22,31 @@ public partial class OrdersViewModel(IOrderService orders) : ObservableObject
         }
 
         IsLoading = true;
-        var page = await orders.GetOrdersAsync(skip: Orders.Count, take: 20);
-        foreach (var order in page)
+        try
         {
-            Orders.Add(order);
-        }
+            var page = await orders.GetOrdersAsync(skip: Orders.Count, take: PageSize);
+            foreach (var order in page)
+            {
+                Orders.Add(order);
+            }
 
-        HasMore = page.Count == 20;
-        IsLoading = false;
+            HasMore = page.Count == PageSize;
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 }
+
+// An empty list never reaches the threshold: load the first page when the page appears
+Loaded += async (_, _) =>
+{
+    if (viewModel.Orders.Count == 0)
+    {
+        await viewModel.LoadMoreCommand.ExecuteAsync(null);
+    }
+};
 
 var collectionView = new CollectionView
 {

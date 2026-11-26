@@ -1,7 +1,10 @@
+// Cmd on Mac, Ctrl on Windows
+var command = DeviceInfo.Platform == DevicePlatform.MacCatalyst ? KeyboardAcceleratorModifiers.Cmd : KeyboardAcceleratorModifiers.Ctrl;
+
 var bold = new MenuFlyoutItem { Text = "Bold" };
 bold.KeyboardAccelerators.Add(new KeyboardAccelerator
 {
-    Modifiers = KeyboardAcceleratorModifiers.Cmd | KeyboardAcceleratorModifiers.Shift,
+    Modifiers = command | KeyboardAcceleratorModifiers.Shift,
     Key = "B",
 });
 bold.Clicked += OnBoldClicked;
