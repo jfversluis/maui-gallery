@@ -1,0 +1,5 @@
+<ContentPage.ToolbarItems>
+    <ToolbarItem Text="Rename" Order="Secondary" Clicked="OnRenameClicked" />
+    <ToolbarItem Text="Duplicate" Order="Secondary" Clicked="OnDuplicateClicked" />
+    <ToolbarItem Text="Print" Order="Secondary" Clicked="OnPrintClicked" />
+</ContentPage.ToolbarItems>

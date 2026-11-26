@@ -1,0 +1,6 @@
+<Border Padding="16,12" StrokeShape="RoundRectangle 8">
+    <Label Text="Beach.jpg" />
+    <Border.GestureRecognizers>
+        <LongPressGestureRecognizer LongPressed="OnPhotoLongPressed" />
+    </Border.GestureRecognizers>
+</Border>

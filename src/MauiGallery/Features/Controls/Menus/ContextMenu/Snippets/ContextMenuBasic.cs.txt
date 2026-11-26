@@ -1,0 +1,20 @@
+var open = new MenuFlyoutItem
+{
+    Text = "Open",
+    IconImageSource = new FontImageSource { FontFamily = "FluentIcons", Glyph = FluentIconsRegular.Open24 },
+};
+open.Clicked += OnOpenClicked;
+
+var delete = new MenuFlyoutItem
+{
+    Text = "Delete",
+    IsEnabled = $(IsEnabled),
+};
+delete.Clicked += OnDeleteClicked;
+
+var menu = new MenuFlyout();
+menu.Add(open);
+menu.Add(new MenuFlyoutSeparator());
+menu.Add(delete);
+
+FlyoutBase.SetContextFlyout(reportTile, menu);

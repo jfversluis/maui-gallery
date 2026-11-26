@@ -1,0 +1,29 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class FileItem(string name, string folder) : ObservableObject
+{
+    public string Name { get; } = name;
+
+    [ObservableProperty]
+    public partial string Folder { get; set; } = folder;
+
+    [RelayCommand]
+    private void MoveTo(string folder) => Folder = folder;
+}
+
+public partial class FilesViewModel : ObservableObject
+{
+    public ObservableCollection<FileItem> Files { get; } =
+    [
+        new("Budget.xlsx", "Documents"),
+        new("Trip notes.txt", "Desktop"),
+    ];
+
+    [RelayCommand]
+    private async Task OpenAsync(FileItem file)
+    {
+        // Open the file
+    }
+
+    [RelayCommand]
+    private void Delete(FileItem file) => Files.Remove(file);
+}

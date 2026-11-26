@@ -1,0 +1,119 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Menus.MenuBarPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            x:DataType="SamplePageViewModel">
+
+    <!-- Shown in the menu bar, next to the app's own menus, while this page is visible -->
+    <SamplePage.MenuBarItems>
+        <MenuBarItem x:Name="SampleMenu"
+                     Text="Sample"
+                     IsEnabled="{Binding IsToggled, Source={x:Reference BasicEnabled}, x:DataType=Switch}">
+            <MenuFlyoutItem x:Name="BoldItem" Text="Bold" Clicked="OnBoldClicked">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="{OnPlatform MacCatalyst='Cmd,Shift', Default='Ctrl,Shift'}" Key="B" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem x:Name="ItalicItem" Text="Italic" Clicked="OnItalicClicked">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="{OnPlatform MacCatalyst='Cmd,Shift', Default='Ctrl,Shift'}" Key="I" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator />
+            <MenuFlyoutSubItem Text="Text Size">
+                <MenuFlyoutItem x:Name="SmallItem" Text="Small" Clicked="OnSizeClicked" CommandParameter="14" />
+                <MenuFlyoutItem x:Name="MediumItem" Text="Medium" Clicked="OnSizeClicked" CommandParameter="18" />
+                <MenuFlyoutItem x:Name="LargeItem" Text="Large" Clicked="OnSizeClicked" CommandParameter="24" />
+            </MenuFlyoutSubItem>
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem Text="Reset" Clicked="OnResetClicked" />
+        </MenuBarItem>
+    </SamplePage.MenuBarItems>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <Border Style="{StaticResource SubtlePanel}" IsVisible="{OnPlatform Android=True, iOS=True, Default=False}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Style="{StaticResource TextIcon}"
+                           Text="{x:Static icons:FluentIconsRegular.Desktop24}"
+                           TextColor="{DynamicResource ColorAccentText}"
+                           VerticalOptions="Start" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                        <Label Text="A desktop feature" Style="{StaticResource TextBodyStrong}" />
+                        <Label Style="{StaticResource TextBodySecondary}"
+                               Text="Menu bars show on Mac and Windows. iPhone and Android have no menu bar, so the menus on this page don't appear here. Open the gallery on a Mac or PC to try them; the code below works unchanged." />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- 1. A page menu -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Add a menu to the menu bar"
+                            Description="Add MenuBarItems to a page and they join the app's menu bar while the page is shown. A menu holds MenuFlyoutItems, MenuFlyoutSubItems for submenus and MenuFlyoutSeparators. Open the Sample menu in the menu bar to format the text below."
+                            XamlSource="MenuBarBasic.xaml.txt"
+                            CSharpSource="MenuBarBasic.cs.txt">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=420}">
+                    <Label x:Name="BasicText"
+                           Text="The quick brown fox jumps over the lazy dog."
+                           FontSize="18"
+                           HorizontalTextAlignment="Center"
+                           AutomationId="sample-basic-text" />
+                    <Label x:Name="BasicHint"
+                           IsVisible="{OnPlatform iOS=False, Android=False, Default=True}"
+                           FontSize="13"
+                           HorizontalTextAlignment="Center"
+                           Opacity="0.7"
+                           AutomationId="sample-basic-hint" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="IsEnabled (Sample menu)" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                        <Switch x:Name="BasicEnabled" Grid.Column="1" IsToggled="True" AutomationId="option-basic-enabled" />
+                    </Grid>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="IsEnabled" Value="{Binding IsToggled, Source={x:Reference BasicEnabled}, x:DataType=Switch}" Default="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Run-time menus -->
+            <ControlExample x:Name="DynamicExample"
+                            Title="Add and remove menus at run time"
+                            Description="MenuBarItems is a regular collection: add a menu when a feature becomes available and remove it when it doesn't apply. Priority orders the menus; the gallery's Help menu has a higher Priority, so page menus go before it. On Mac, a menu named after a system menu, like Edit, merges its items into that menu."
+                            CSharpSource="MenuBarDynamic.cs.txt">
+                <Label x:Name="DynamicStatus"
+                       HorizontalTextAlignment="Center"
+                       WidthRequest="{OnIdiom Phone=280, Default=420}"
+                       AutomationId="sample-dynamic-status" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Add the menu" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="DynamicShow"
+                                    Grid.Column="1"
+                                    IsToggled="True"
+                                    Toggled="OnDynamicChanged"
+                                    AutomationId="option-dynamic-show" />
+                        </Grid>
+                        <Label Text="Text" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="DynamicTitle"
+                                SelectedIndexChanged="OnDynamicChanged"
+                                AutomationId="option-dynamic-title">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Tools</x:String>
+                                    <x:String>Edit</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Text" Value="{Binding SelectedItem, Source={x:Reference DynamicTitle}, x:DataType=Picker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

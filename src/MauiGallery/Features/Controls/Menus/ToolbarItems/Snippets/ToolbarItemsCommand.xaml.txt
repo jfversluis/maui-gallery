@@ -1,0 +1,10 @@
+<ContentPage x:DataType="local:NoteViewModel">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="Save"
+            IconImageSource="save.png"
+            Command="{Binding SaveCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <Entry Text="{Binding Text}" Placeholder="Write a note" />
+</ContentPage>

@@ -1,0 +1,174 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Menus.ContextMenuPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Menus"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <Color x:Key="TileStrokeLight">#D1D1D6</Color>
+        <Color x:Key="TileStrokeDark">#48484A</Color>
+        <Color x:Key="IconLight">#1F1A33</Color>
+        <Color x:Key="IconDark">#FFFFFF</Color>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <Border Style="{StaticResource SubtlePanel}" IsVisible="{OnPlatform Android=True, iOS=True, Default=False}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Style="{StaticResource TextIcon}"
+                           Text="{x:Static icons:FluentIconsRegular.Desktop24}"
+                           TextColor="{DynamicResource ColorAccentText}"
+                           VerticalOptions="Start" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                        <Label Text="Context menus are a desktop feature for now" Style="{StaticResource TextBodyStrong}" />
+                        <Label Style="{StaticResource TextBodySecondary}"
+                               Text="In .NET MAUI 11, ContextFlyout menus show on Mac and Windows only; iOS and Android ignore them. On phones, use a long-press that shows an action sheet instead, as in the last example." />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Add a context menu to a view"
+                            Description="Set FlyoutBase.ContextFlyout to a MenuFlyout. It opens on right-click on Windows, and on right-click or Control-click on Mac. Items can have icons, and separators group them."
+                            XamlSource="ContextMenuBasic.xaml.txt"
+                            CSharpSource="ContextMenuBasic.cs.txt">
+                <Border x:Name="BasicTile"
+                        Padding="16,12"
+                        StrokeShape="RoundRectangle 8"
+                        Stroke="{AppThemeBinding Light={StaticResource TileStrokeLight}, Dark={StaticResource TileStrokeDark}}"
+                        AutomationId="sample-basic-tile">
+                    <HorizontalStackLayout Spacing="12">
+                        <Image WidthRequest="28" HeightRequest="28">
+                            <Image.Source>
+                                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                 Glyph="{x:Static icons:FluentIconsRegular.DocumentPdf24}"
+                                                 Color="{AppThemeBinding Light={StaticResource IconLight}, Dark={StaticResource IconDark}}" />
+                            </Image.Source>
+                        </Image>
+                        <Label Text="Quarterly report.pdf" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <FlyoutBase.ContextFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Open" Clicked="OnBasicItemClicked">
+                                <MenuFlyoutItem.IconImageSource>
+                                    <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                     Glyph="{x:Static icons:FluentIconsRegular.Open24}"
+                                                     Color="{AppThemeBinding Light={StaticResource IconLight}, Dark={StaticResource IconDark}}" />
+                                </MenuFlyoutItem.IconImageSource>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Copy Link" Clicked="OnBasicItemClicked">
+                                <MenuFlyoutItem.IconImageSource>
+                                    <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                     Glyph="{x:Static icons:FluentIconsRegular.Link24}"
+                                                     Color="{AppThemeBinding Light={StaticResource IconLight}, Dark={StaticResource IconDark}}" />
+                                </MenuFlyoutItem.IconImageSource>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutSeparator />
+                            <MenuFlyoutItem Text="Delete"
+                                            Clicked="OnBasicItemClicked"
+                                            IsEnabled="{Binding IsToggled, Source={x:Reference BasicDeleteEnabled}, x:DataType=Switch}">
+                                <MenuFlyoutItem.IconImageSource>
+                                    <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                     Glyph="{x:Static icons:FluentIconsRegular.Delete24}"
+                                                     Color="{AppThemeBinding Light={StaticResource IconLight}, Dark={StaticResource IconDark}}" />
+                                </MenuFlyoutItem.IconImageSource>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </FlyoutBase.ContextFlyout>
+                </Border>
+                <ControlExample.Options>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="IsEnabled (Delete)" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                        <Switch x:Name="BasicDeleteEnabled" Grid.Column="1" IsToggled="True" AutomationId="option-basic-delete-enabled" />
+                    </Grid>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="IsEnabled" Value="{Binding IsToggled, Source={x:Reference BasicDeleteEnabled}, x:DataType=Switch}" Default="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Lists, submenus and commands -->
+            <ControlExample x:Name="ListExample"
+                            Title="Submenus and commands in a list"
+                            Description="Give every item in a list its own context menu from the DataTemplate. MenuFlyoutSubItem nests a submenu, and Command with CommandParameter sends the item to your view model."
+                            XamlSource="ContextMenuList.xaml.txt"
+                            CSharpSource="ContextMenuList.cs.txt">
+                <VerticalStackLayout x:Name="ListSample"
+                                     x:DataType="local:FilesViewModel"
+                                     BindableLayout.ItemsSource="{Binding Files}"
+                                     WidthRequest="{OnIdiom Phone=280, Default=400}"
+                                     Spacing="4">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="local:FileItem">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" Padding="8" AutomationId="{Binding Name, StringFormat='sample-file-{0}'}">
+                                <Image WidthRequest="24" HeightRequest="24" VerticalOptions="Center">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                         Glyph="{x:Static icons:FluentIconsRegular.DocumentText24}"
+                                                         Color="{AppThemeBinding Light={StaticResource IconLight}, Dark={StaticResource IconDark}}" />
+                                    </Image.Source>
+                                </Image>
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                    <Label Text="{Binding Name}" />
+                                    <Label Text="{Binding Folder}" FontSize="12" Opacity="0.7" />
+                                </VerticalStackLayout>
+                                <FlyoutBase.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Open"
+                                                        Command="{Binding OpenCommand, Source={RelativeSource AncestorType={x:Type local:FilesViewModel}}, x:DataType=local:FilesViewModel}"
+                                                        CommandParameter="{Binding .}" />
+                                        <MenuFlyoutSubItem Text="Move To">
+                                            <MenuFlyoutItem Text="Documents" Command="{Binding MoveToCommand}" CommandParameter="Documents" />
+                                            <MenuFlyoutItem Text="Desktop" Command="{Binding MoveToCommand}" CommandParameter="Desktop" />
+                                            <MenuFlyoutItem Text="Archive" Command="{Binding MoveToCommand}" CommandParameter="Archive" />
+                                        </MenuFlyoutSubItem>
+                                        <MenuFlyoutSeparator />
+                                        <MenuFlyoutItem Text="Delete"
+                                                        Command="{Binding DeleteCommand, Source={RelativeSource AncestorType={x:Type local:FilesViewModel}}, x:DataType=local:FilesViewModel}"
+                                                        CommandParameter="{Binding .}" />
+                                    </MenuFlyout>
+                                </FlyoutBase.ContextFlyout>
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <Button x:Name="ListRestore"
+                            Text="Restore files"
+                            HorizontalOptions="Start"
+                            AutomationId="option-list-restore" />
+                </ControlExample.Options>
+            </ControlExample>
+
+            <!-- 3. Phones -->
+            <ControlExample x:Name="LongPressExample"
+                            Title="Long-press for actions on phones"
+                            Description="Phone users expect actions on a long-press. A LongPressGestureRecognizer that opens an action sheet works on every platform, including iOS and Android where ContextFlyout doesn't show."
+                            XamlSource="ContextMenuLongPress.xaml.txt"
+                            CSharpSource="ContextMenuLongPress.cs.txt">
+                <Border x:Name="LongPressTile"
+                        Padding="16,12"
+                        StrokeShape="RoundRectangle 8"
+                        Stroke="{AppThemeBinding Light={StaticResource TileStrokeLight}, Dark={StaticResource TileStrokeDark}}"
+                        AutomationId="sample-longpress-tile">
+                    <HorizontalStackLayout Spacing="12">
+                        <Image WidthRequest="28" HeightRequest="28">
+                            <Image.Source>
+                                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                 Glyph="{x:Static icons:FluentIconsRegular.Image24}"
+                                                 Color="{AppThemeBinding Light={StaticResource IconLight}, Dark={StaticResource IconDark}}" />
+                            </Image.Source>
+                        </Image>
+                        <Label Text="Beach.jpg" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <Border.GestureRecognizers>
+                        <LongPressGestureRecognizer LongPressed="OnTileLongPressed" />
+                    </Border.GestureRecognizers>
+                </Border>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

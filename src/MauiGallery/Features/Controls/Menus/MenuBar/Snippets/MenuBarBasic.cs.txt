@@ -1,0 +1,24 @@
+var bold = new MenuFlyoutItem { Text = "Bold" };
+bold.KeyboardAccelerators.Add(new KeyboardAccelerator
+{
+    Modifiers = KeyboardAcceleratorModifiers.Cmd | KeyboardAcceleratorModifiers.Shift,
+    Key = "B",
+});
+bold.Clicked += OnBoldClicked;
+
+var textSize = new MenuFlyoutSubItem { Text = "Text Size" };
+textSize.Add(new MenuFlyoutItem { Text = "Small", Command = SetSizeCommand, CommandParameter = "14" });
+textSize.Add(new MenuFlyoutItem { Text = "Medium", Command = SetSizeCommand, CommandParameter = "18" });
+textSize.Add(new MenuFlyoutItem { Text = "Large", Command = SetSizeCommand, CommandParameter = "24" });
+
+var sample = new MenuBarItem
+{
+    Text = "Sample",
+    IsEnabled = $(IsEnabled),
+};
+sample.Add(bold);
+sample.Add(new MenuFlyoutSeparator());
+sample.Add(textSize);
+
+// A page's MenuBarItems join the app's menu bar while the page is shown
+MenuBarItems.Add(sample);

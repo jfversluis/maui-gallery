@@ -1,0 +1,18 @@
+<Border Padding="16,12" StrokeShape="RoundRectangle 8">
+    <Label Text="Quarterly report.pdf" />
+    <FlyoutBase.ContextFlyout>
+        <MenuFlyout>
+            <MenuFlyoutItem Text="Open" Clicked="OnOpenClicked">
+                <MenuFlyoutItem.IconImageSource>
+                    <FontImageSource FontFamily="FluentIcons" Glyph="{x:Static icons:FluentIconsRegular.Open24}" />
+                </MenuFlyoutItem.IconImageSource>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Copy Link" Clicked="OnCopyLinkClicked" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                Text="Delete"
+                IsEnabled="$(IsEnabled)"
+                Clicked="OnDeleteClicked" />
+        </MenuFlyout>
+    </FlyoutBase.ContextFlyout>
+</Border>

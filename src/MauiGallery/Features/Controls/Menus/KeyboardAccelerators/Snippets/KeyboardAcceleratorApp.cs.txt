@@ -1,0 +1,12 @@
+// Every menu item with a shortcut, from the window's Shell
+var shell = (Shell)Window.Page!;
+var shortcuts = shell.MenuBarItems.SelectMany(menu => ShortcutsIn(menu));
+
+static IEnumerable<(string Text, KeyboardAccelerator Accelerator)> ShortcutsIn(IEnumerable<IMenuElement> items) =>
+    items.SelectMany(item => item switch
+    {
+        // MenuFlyoutSubItem derives from MenuFlyoutItem, so match it first
+        MenuFlyoutSubItem submenu => ShortcutsIn(submenu),
+        MenuFlyoutItem { KeyboardAccelerators: [var accelerator, ..] } menuItem => [(menuItem.Text, accelerator)],
+        _ => [],
+    });

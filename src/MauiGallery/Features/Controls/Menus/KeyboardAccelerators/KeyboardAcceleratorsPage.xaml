@@ -1,0 +1,124 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Menus.KeyboardAcceleratorsPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Menus"
+            x:DataType="SamplePageViewModel">
+
+    <SamplePage.MenuBarItems>
+        <MenuBarItem x:Name="ShortcutsMenu" Text="Shortcuts">
+            <MenuFlyoutItem x:Name="DuplicateItem" Text="Duplicate" Clicked="OnDuplicateClicked" />
+        </MenuBarItem>
+    </SamplePage.MenuBarItems>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <Border Style="{StaticResource SubtlePanel}" IsVisible="{OnPlatform Android=True, iOS=True, Default=False}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Style="{StaticResource TextIcon}"
+                           Text="{x:Static icons:FluentIconsRegular.Desktop24}"
+                           TextColor="{DynamicResource ColorAccentText}"
+                           VerticalOptions="Start" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                        <Label Text="A desktop feature" Style="{StaticResource TextBodyStrong}" />
+                        <Label Style="{StaticResource TextBodySecondary}"
+                               Text="Keyboard accelerators belong to menu bar items, which show on Mac and Windows. Open the gallery on a Mac or PC to try the shortcuts on this page." />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- 1. A shortcut -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Add a shortcut to a menu item"
+                            Description="Add a KeyboardAccelerator to a MenuFlyoutItem with a Key and Modifiers. The menu shows the shortcut next to the item, and pressing it runs the item. Choose a shortcut, then try it."
+                            XamlSource="KeyboardAcceleratorBasic.xaml.txt"
+                            CSharpSource="KeyboardAcceleratorBasic.cs.txt">
+                <VerticalStackLayout Spacing="8" WidthRequest="{OnIdiom Phone=280, Default=420}">
+                    <Label x:Name="BasicHint"
+                           FontSize="18"
+                           HorizontalTextAlignment="Center"
+                           AutomationId="sample-basic-hint" />
+                    <Label x:Name="BasicCount"
+                           Text="Duplicated 0 times"
+                           HorizontalTextAlignment="Center"
+                           Opacity="0.7"
+                           AutomationId="sample-basic-count" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Key" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="BasicKey" SelectedIndexChanged="OnShortcutChanged" AutomationId="option-basic-key">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>D</x:String>
+                                    <x:String>L</x:String>
+                                    <x:String>R</x:String>
+                                    <x:String>Y</x:String>
+                                    <x:String>5</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <Label Text="Modifiers" Style="{StaticResource OptionLabel}" />
+                        <Grid x:Name="BasicCmdRow" ColumnDefinitions="Auto,*" ColumnSpacing="8" IsVisible="{OnPlatform MacCatalyst=True, iOS=True, Default=False}">
+                            <CheckBox x:Name="BasicCmd" CheckedChanged="OnShortcutChanged" AutomationId="option-basic-cmd" />
+                            <Label Grid.Column="1" Text="Cmd (⌘ Command)" VerticalOptions="Center" Style="{StaticResource OptionLabel}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                            <CheckBox x:Name="BasicCtrl" CheckedChanged="OnShortcutChanged" AutomationId="option-basic-ctrl" />
+                            <Label Grid.Column="1" x:Name="BasicCtrlLabel" Text="Ctrl" VerticalOptions="Center" Style="{StaticResource OptionLabel}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                            <CheckBox x:Name="BasicAlt" CheckedChanged="OnShortcutChanged" AutomationId="option-basic-alt" />
+                            <Label Grid.Column="1" x:Name="BasicAltLabel" Text="Alt" VerticalOptions="Center" Style="{StaticResource OptionLabel}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                            <CheckBox x:Name="BasicShift" IsChecked="True" CheckedChanged="OnShortcutChanged" AutomationId="option-basic-shift" />
+                            <Label Grid.Column="1" x:Name="BasicShiftLabel" Text="Shift" VerticalOptions="Center" Style="{StaticResource OptionLabel}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="BasicModifiersSubstitution" Key="Modifiers" />
+                    <Substitution x:Name="BasicModifiersCodeSubstitution" Key="ModifiersCode" IsExpression="True" />
+                    <Substitution Key="Key" Value="{Binding SelectedItem, Source={x:Reference BasicKey}, x:DataType=Picker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Platform modifiers -->
+            <ControlExample x:Name="PlatformExample"
+                            Title="Use each platform's modifier"
+                            Description="Mac shortcuts use Command where Windows uses Ctrl, so set Modifiers per platform with OnPlatform. Cmd only exists on Mac and Windows only on Windows; Ctrl, Alt and Shift work on both."
+                            XamlSource="KeyboardAcceleratorPlatform.xaml.txt"
+                            CSharpSource="KeyboardAcceleratorPlatform.cs.txt">
+                <Grid x:Name="PlatformTable"
+                      ColumnDefinitions="*,*,*"
+                      RowSpacing="8"
+                      ColumnSpacing="12"
+                      WidthRequest="{OnIdiom Phone=280, Default=400}"
+                      AutomationId="sample-platform-table" />
+            </ControlExample>
+
+            <!-- 3. The gallery's own shortcuts -->
+            <ControlExample x:Name="AppExample"
+                            Title="Shortcuts in this app"
+                            Description="The gallery's menu bar is defined on its Shell, so you can read its shortcuts from Shell.MenuBarItems at run time. This list is built that way, from the menus you see in the menu bar."
+                            CSharpSource="KeyboardAcceleratorApp.cs.txt">
+                <VerticalStackLayout x:Name="AppShortcuts"
+                                     Spacing="8"
+                                     WidthRequest="{OnIdiom Phone=280, Default=360}"
+                                     AutomationId="sample-app-shortcuts">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="local:ShortcutRow">
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                <Label Text="{Binding Command}" />
+                                <Label Grid.Column="1" Text="{Binding Shortcut}" FontAttributes="Bold" HorizontalOptions="End" />
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

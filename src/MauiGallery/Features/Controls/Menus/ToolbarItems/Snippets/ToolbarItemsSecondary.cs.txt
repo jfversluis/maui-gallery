@@ -1,0 +1,7 @@
+var rename = new ToolbarItem
+{
+    Text = "Rename",
+    Order = ToolbarItemOrder.Secondary,
+};
+rename.Clicked += OnRenameClicked;
+ToolbarItems.Add(rename);

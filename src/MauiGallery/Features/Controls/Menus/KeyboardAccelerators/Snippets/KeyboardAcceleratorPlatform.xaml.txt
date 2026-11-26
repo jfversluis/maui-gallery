@@ -1,0 +1,6 @@
+<MenuFlyoutItem Text="Save" Command="{Binding SaveCommand}">
+    <MenuFlyoutItem.KeyboardAccelerators>
+        <!-- ⌘S on Mac, Ctrl+S on Windows -->
+        <KeyboardAccelerator Modifiers="{OnPlatform MacCatalyst=Cmd, Default=Ctrl}" Key="S" />
+    </MenuFlyoutItem.KeyboardAccelerators>
+</MenuFlyoutItem>

@@ -1,0 +1,10 @@
+var share = new ToolbarItem
+{
+    Text = "Share",
+    IconImageSource = "share.png",
+};
+share.Clicked += OnShareClicked;
+ToolbarItems.Add(share);
+
+// Remove it when it no longer applies
+ToolbarItems.Remove(share);

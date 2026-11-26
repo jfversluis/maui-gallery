@@ -1,0 +1,10 @@
+var save = new MenuFlyoutItem { Text = "Save", Command = SaveCommand };
+
+// ⌘S on Mac, Ctrl+S on Windows
+save.KeyboardAccelerators.Add(new KeyboardAccelerator
+{
+    Modifiers = DeviceInfo.Platform == DevicePlatform.MacCatalyst
+        ? KeyboardAcceleratorModifiers.Cmd
+        : KeyboardAcceleratorModifiers.Ctrl,
+    Key = "S",
+});

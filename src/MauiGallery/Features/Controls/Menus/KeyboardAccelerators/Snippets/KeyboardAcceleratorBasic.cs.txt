@@ -1,0 +1,11 @@
+var duplicate = new MenuFlyoutItem { Text = "Duplicate" };
+duplicate.KeyboardAccelerators.Add(new KeyboardAccelerator
+{
+    Modifiers = $(ModifiersCode),
+    Key = $(Key),
+});
+duplicate.Clicked += OnDuplicateClicked;
+
+var shortcuts = new MenuBarItem { Text = "Shortcuts" };
+shortcuts.Add(duplicate);
+MenuBarItems.Add(shortcuts);

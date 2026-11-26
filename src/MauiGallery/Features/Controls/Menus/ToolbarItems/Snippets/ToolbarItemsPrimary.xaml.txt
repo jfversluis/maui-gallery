@@ -1,0 +1,4 @@
+<ContentPage.ToolbarItems>
+    <ToolbarItem Text="$(Add)" IconImageSource="add.png" Clicked="OnAddClicked" />
+    <ToolbarItem Text="$(Share)" IconImageSource="share.png" Clicked="OnShareClicked" />
+</ContentPage.ToolbarItems>

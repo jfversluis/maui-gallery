@@ -1,0 +1,24 @@
+<ContentPage.MenuBarItems>
+    <MenuBarItem
+        Text="Sample"
+        IsEnabled="$(IsEnabled)">
+        <MenuFlyoutItem Text="Bold" Clicked="OnBoldClicked">
+            <MenuFlyoutItem.KeyboardAccelerators>
+                <KeyboardAccelerator Modifiers="{OnPlatform MacCatalyst='Cmd,Shift', Default='Ctrl,Shift'}" Key="B" />
+            </MenuFlyoutItem.KeyboardAccelerators>
+        </MenuFlyoutItem>
+        <MenuFlyoutItem Text="Italic" Clicked="OnItalicClicked">
+            <MenuFlyoutItem.KeyboardAccelerators>
+                <KeyboardAccelerator Modifiers="{OnPlatform MacCatalyst='Cmd,Shift', Default='Ctrl,Shift'}" Key="I" />
+            </MenuFlyoutItem.KeyboardAccelerators>
+        </MenuFlyoutItem>
+        <MenuFlyoutSeparator />
+        <MenuFlyoutSubItem Text="Text Size">
+            <MenuFlyoutItem Text="Small" Command="{Binding SetSizeCommand}" CommandParameter="14" />
+            <MenuFlyoutItem Text="Medium" Command="{Binding SetSizeCommand}" CommandParameter="18" />
+            <MenuFlyoutItem Text="Large" Command="{Binding SetSizeCommand}" CommandParameter="24" />
+        </MenuFlyoutSubItem>
+        <MenuFlyoutSeparator />
+        <MenuFlyoutItem Text="Reset" Clicked="OnResetClicked" />
+    </MenuBarItem>
+</ContentPage.MenuBarItems>

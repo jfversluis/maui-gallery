@@ -1,0 +1,10 @@
+private async void OnPhotoLongPressed(object? sender, LongPressedEventArgs e)
+{
+    string action = await DisplayActionSheetAsync(
+        "Beach.jpg",
+        "Cancel",
+        "Delete",
+        "Share", "Duplicate");
+
+    // Handle the chosen action
+}

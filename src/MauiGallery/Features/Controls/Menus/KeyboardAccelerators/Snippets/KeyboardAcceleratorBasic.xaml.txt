@@ -1,0 +1,7 @@
+<MenuBarItem Text="Shortcuts">
+    <MenuFlyoutItem Text="Duplicate" Clicked="OnDuplicateClicked">
+        <MenuFlyoutItem.KeyboardAccelerators>
+            <KeyboardAccelerator Modifiers="$(Modifiers)" Key="$(Key)" />
+        </MenuFlyoutItem.KeyboardAccelerators>
+    </MenuFlyoutItem>
+</MenuBarItem>

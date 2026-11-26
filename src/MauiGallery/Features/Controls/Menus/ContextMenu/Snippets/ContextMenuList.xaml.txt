@@ -1,0 +1,30 @@
+<VerticalStackLayout
+    x:DataType="local:FilesViewModel"
+    BindableLayout.ItemsSource="{Binding Files}">
+    <BindableLayout.ItemTemplate>
+        <DataTemplate x:DataType="local:FileItem">
+            <VerticalStackLayout Padding="8">
+                <Label Text="{Binding Name}" />
+                <Label Text="{Binding Folder}" FontSize="12" />
+                <FlyoutBase.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            Text="Open"
+                            Command="{Binding OpenCommand, Source={RelativeSource AncestorType={x:Type local:FilesViewModel}}, x:DataType=local:FilesViewModel}"
+                            CommandParameter="{Binding .}" />
+                        <MenuFlyoutSubItem Text="Move To">
+                            <MenuFlyoutItem Text="Documents" Command="{Binding MoveToCommand}" CommandParameter="Documents" />
+                            <MenuFlyoutItem Text="Desktop" Command="{Binding MoveToCommand}" CommandParameter="Desktop" />
+                            <MenuFlyoutItem Text="Archive" Command="{Binding MoveToCommand}" CommandParameter="Archive" />
+                        </MenuFlyoutSubItem>
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem
+                            Text="Delete"
+                            Command="{Binding DeleteCommand, Source={RelativeSource AncestorType={x:Type local:FilesViewModel}}, x:DataType=local:FilesViewModel}"
+                            CommandParameter="{Binding .}" />
+                    </MenuFlyout>
+                </FlyoutBase.ContextFlyout>
+            </VerticalStackLayout>
+        </DataTemplate>
+    </BindableLayout.ItemTemplate>
+</VerticalStackLayout>

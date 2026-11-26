@@ -1,0 +1,23 @@
+MenuBarItem? _tools;
+
+void ShowToolsMenu()
+{
+    var wordCount = new MenuFlyoutItem { Text = "Word Count" };
+    wordCount.Clicked += OnWordCountClicked;
+
+    _tools = new MenuBarItem { Text = $(Text) };
+    _tools.Add(wordCount);
+    _tools.Add(new MenuFlyoutSeparator());
+    _tools.Add(new MenuFlyoutItem { Text = "Character Count", Command = CountCharactersCommand });
+
+    MenuBarItems.Add(_tools);
+}
+
+void HideToolsMenu()
+{
+    if (_tools is not null)
+    {
+        MenuBarItems.Remove(_tools);
+        _tools = null;
+    }
+}

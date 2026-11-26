@@ -1,0 +1,95 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Menus.ToolbarItemsPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Menus"
+            x:DataType="SamplePageViewModel">
+
+    <SamplePage.ToolbarItems>
+        <ToolbarItem x:Name="AddItem" Text="Add" Clicked="OnPrimaryClicked" AutomationId="sample-toolbar-add">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Add24}" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+        <ToolbarItem x:Name="ShareItem" Text="Share" Clicked="OnPrimaryClicked" AutomationId="sample-toolbar-share">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Share24}" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+        <ToolbarItem x:Name="SaveItem" Text="Save" AutomationId="sample-toolbar-save">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Save24}" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+        <ToolbarItem x:Name="RenameItem" Text="Rename" Order="Secondary" Clicked="OnSecondaryClicked" AutomationId="sample-toolbar-rename" />
+        <ToolbarItem x:Name="DuplicateItem" Text="Duplicate" Order="Secondary" Clicked="OnSecondaryClicked" AutomationId="sample-toolbar-duplicate" />
+        <ToolbarItem x:Name="PrintItem" Text="Print" Order="Secondary" Clicked="OnSecondaryClicked" AutomationId="sample-toolbar-print" />
+    </SamplePage.ToolbarItems>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Primary items -->
+            <ControlExample x:Name="PrimaryExample"
+                            Title="Add items to the toolbar"
+                            Description="ToolbarItems appear in the page's navigation bar. Primary items show their icon, or their text when there is no icon. Add and remove them at any time; on phones, keep to a few so the page title still fits."
+                            XamlSource="ToolbarItemsPrimary.xaml.txt"
+                            CSharpSource="ToolbarItemsPrimary.cs.txt">
+                <Label x:Name="PrimaryHint"
+                       Text="Tap the items in the toolbar at the top of this page."
+                       HorizontalTextAlignment="Center"
+                       WidthRequest="{OnIdiom Phone=280, Default=420}"
+                       AutomationId="sample-primary-hint" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Show the Add item" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="PrimaryShowAdd" Grid.Column="1" IsToggled="True" Toggled="OnPrimaryOptionChanged" AutomationId="option-primary-add" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Show the Share item" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="PrimaryShowShare" Grid.Column="1" IsToggled="False" Toggled="OnPrimaryOptionChanged" AutomationId="option-primary-share" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="PrimaryAddSubstitution" Key="Add" />
+                    <Substitution x:Name="PrimaryShareSubstitution" Key="Share" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Secondary items -->
+            <ControlExample x:Name="SecondaryExample"
+                            Title="Move less common items into a menu"
+                            Description="Set Order to Secondary to keep items out of the bar. iOS and Mac show them in a menu behind a ⋯ button, Android in the overflow menu behind ⋮, and Windows behind the command bar's More button."
+                            XamlSource="ToolbarItemsSecondary.xaml.txt"
+                            CSharpSource="ToolbarItemsSecondary.cs.txt">
+                <Label Text="Open the ⋯ or ⋮ menu in the toolbar at the top of this page."
+                       HorizontalTextAlignment="Center"
+                       WidthRequest="{OnIdiom Phone=280, Default=420}"
+                       AutomationId="sample-secondary-hint" />
+                <ControlExample.Options>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Show the secondary items" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                        <Switch x:Name="SecondaryShow" Grid.Column="1" IsToggled="True" Toggled="OnSecondaryOptionChanged" AutomationId="option-secondary-show" />
+                    </Grid>
+                </ControlExample.Options>
+            </ControlExample>
+
+            <!-- 3. Commands -->
+            <ControlExample x:Name="CommandExample"
+                            Title="Enable items with a command"
+                            Description="Bind Command to a view model. The item disables itself while CanExecute returns false: type a note and the Save item in the toolbar becomes available."
+                            XamlSource="ToolbarItemsCommand.xaml.txt"
+                            CSharpSource="ToolbarItemsCommand.cs.txt">
+                <Entry x:Name="CommandNote"
+                       x:DataType="local:NoteViewModel"
+                       Text="{Binding Text}"
+                       Placeholder="Write a note"
+                       WidthRequest="{OnIdiom Phone=260, Default=320}"
+                       AutomationId="sample-command-note" />
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

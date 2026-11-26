@@ -17,7 +17,10 @@
        Shell.TabBarTitleColor="{DynamicResource ColorAccentText}"
        Shell.TabBarUnselectedColor="{DynamicResource ColorTextSecondary}">
 
-    <!-- Desktop menu bar (Mac Catalyst and Windows). Shortcuts use Cmd on Mac and Ctrl on Windows. -->
+    <!--
+        Desktop menu bar (Mac Catalyst and Windows). Shortcuts use Cmd on Mac and Ctrl on Windows. Help has a higher
+        Priority so that menus added by a page (see the Menu bar sample) come before it.
+    -->
     <Shell.MenuBarItems>
         <MenuBarItem Text="File">
             <MenuFlyoutItem Text="New Window" Command="{Binding NewWindowCommand}" IsEnabled="{Binding CanOpenWindows}">
@@ -56,7 +59,7 @@
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
         </MenuBarItem>
-        <MenuBarItem Text="Help">
+        <MenuBarItem Text="Help" Priority="1">
             <MenuFlyoutItem Text=".NET MAUI Documentation" Command="{Binding OpenDocsCommand}" />
             <MenuFlyoutItem Text="Gallery Source Code" Command="{Binding OpenRepositoryCommand}" />
             <MenuFlyoutItem Text="Report an Issue" Command="{Binding ReportIssueCommand}" />

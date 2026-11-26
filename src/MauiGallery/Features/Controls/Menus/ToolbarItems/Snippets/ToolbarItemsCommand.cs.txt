@@ -1,0 +1,15 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class NoteViewModel : ObservableObject
+{
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(SaveCommand))]
+    public partial string? Text { get; set; }
+
+    [RelayCommand(CanExecute = nameof(CanSave))]
+    private async Task SaveAsync()
+    {
+        // Save the note
+    }
+
+    private bool CanSave() => !string.IsNullOrWhiteSpace(Text);
+}
