@@ -1,0 +1,108 @@
+<SamplePage x:Class="MauiGallery.Features.Navigation.TabbedPageSamplePage"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Tabs and colors -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Show pages as tabs"
+                            Description="A TabbedPage shows one tab per child page, using each page's Title and IconImageSource. The bar colors are optional; leave them unset for the platform look. This app is a Shell, so the sample opens modally: close it from any tab."
+                            XamlSource="TabbedPageBasic.xaml.txt"
+                            CSharpSource="TabbedPageBasic.cs.txt">
+                <Button x:Name="BasicButton"
+                        Text="Open the tabbed page"
+                        Clicked="OnBasicClicked"
+                        AutomationId="sample-basic-open" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="BarBackgroundColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="BasicBarColor" AutomationId="option-basic-bar" />
+                        <Label Text="SelectedTabColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="BasicSelectedColor" AutomationId="option-basic-selected" />
+                        <Label Text="UnselectedTabColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="BasicUnselectedColor" AutomationId="option-basic-unselected" />
+                        <Button Text="Use platform colors"
+                                Clicked="OnBasicResetClicked"
+                                HorizontalOptions="Start"
+                                AutomationId="option-basic-reset" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="BarBackgroundColor" Value="{Binding SelectedColor, Source={x:Reference BasicBarColor}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="SelectedTabColor" Value="{Binding SelectedColor, Source={x:Reference BasicSelectedColor}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="UnselectedTabColor" Value="{Binding SelectedColor, Source={x:Reference BasicUnselectedColor}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Badges -->
+            <ControlExample x:Name="BadgeExample"
+                            Title="Show a badge on a tab"
+                            Description="New in .NET 11: the TabbedPage.BadgeText attached property puts a badge on a child page's tab, such as an unread count. An empty string shows a dot, and null removes the badge. Open the sample and select Mark all as read to clear it."
+                            XamlSource="TabbedPageBadge.xaml.txt"
+                            CSharpSource="TabbedPageBadge.cs.txt">
+                <Button x:Name="BadgeButton"
+                        Text="Open the tabbed page"
+                        Clicked="OnBadgeClicked"
+                        AutomationId="sample-badge-open" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="BadgeText" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="BadgeText" Text="3" Placeholder="Empty shows a dot" AutomationId="option-badge-text" />
+                        <Label Text="BadgeColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="BadgeColor" AutomationId="option-badge-color" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="BadgeText" Value="{Binding Text, Source={x:Reference BadgeText}, x:DataType=Entry}" />
+                    <Substitution Key="BadgeColor" Value="{Binding SelectedColor, Source={x:Reference BadgeColor}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Android placement -->
+            <ControlExample x:Name="PlacementExample"
+                            Title="Put the tabs at the bottom on Android"
+                            Description="Android shows tabs at the top by default. The ToolbarPlacement platform-specific moves them to the bottom, like iOS, and IsSwipePagingEnabled turns swiping between tabs on or off. Set both before the page is shown. Other platforms ignore them."
+                            XamlSource="TabbedPagePlacement.xaml.txt"
+                            CSharpSource="TabbedPagePlacement.cs.txt">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=420}">
+                    <Button x:Name="PlacementButton"
+                            Text="Open the tabbed page"
+                            Clicked="OnPlacementClicked"
+                            HorizontalOptions="Center"
+                            AutomationId="sample-placement-open" />
+                    <Label x:Name="PlacementHint"
+                           FontSize="13"
+                           Opacity="0.7"
+                           HorizontalTextAlignment="Center"
+                           AutomationId="sample-placement-hint" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="ToolbarPlacement" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="PlacementPicker" AutomationId="option-placement">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Default</x:String>
+                                    <x:String>Top</x:String>
+                                    <x:String>Bottom</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="IsSwipePagingEnabled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="PlacementSwipe" Grid.Column="1" IsToggled="True" AutomationId="option-placement-swipe" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Placement" Value="{Binding SelectedItem, Source={x:Reference PlacementPicker}, x:DataType=Picker}" />
+                    <Substitution x:Name="PlacementCodeSubstitution" Key="PlacementCode" IsExpression="True" />
+                    <Substitution Key="Swipe" Value="{Binding IsToggled, Source={x:Reference PlacementSwipe}, x:DataType=Switch}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

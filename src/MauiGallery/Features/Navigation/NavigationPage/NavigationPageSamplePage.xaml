@@ -1,0 +1,77 @@
+<SamplePage x:Class="MauiGallery.Features.Navigation.NavigationPageSamplePage"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Push and pop -->
+            <ControlExample x:Name="StackExample"
+                            Title="Push and pop pages"
+                            Description="A NavigationPage keeps a stack of pages with a navigation bar and a back button. PushAsync adds a page, PopAsync goes back one and PopToRootAsync returns to the first. Use it in apps that don't use Shell. This app is a Shell, so the sample opens modally."
+                            XamlSource="NavigationPageStack.xaml.txt"
+                            CSharpSource="NavigationPageStack.cs.txt">
+                <Button x:Name="StackButton"
+                        Text="Open the navigation page"
+                        Clicked="OnStackClicked"
+                        AutomationId="sample-stack-open" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="BarBackgroundColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="StackBarColor" AutomationId="option-stack-bar" />
+                        <Label Text="BarTextColor" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="StackTextColor" AutomationId="option-stack-text">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Default</x:String>
+                                    <x:String>White</x:String>
+                                    <x:String>Black</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <Button Text="Use platform colors"
+                                Clicked="OnStackResetClicked"
+                                HorizontalOptions="Start"
+                                AutomationId="option-stack-reset" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="BarBackgroundColor" Value="{Binding SelectedColor, Source={x:Reference StackBarColor}, x:DataType=SwatchPicker}" />
+                    <Substitution x:Name="StackTextCodeSubstitution" Key="BarTextColorCode" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. The bar -->
+            <ControlExample x:Name="BarExample"
+                            Title="Customize the navigation bar"
+                            Description="Attached properties on each page shape the bar. Here the first page uses TitleView to replace its title with a custom view. BackButtonTitle sets the text of the back button that returns to a page (iOS and Mac), HasBackButton hides that button, and HasNavigationBar hides the whole bar."
+                            XamlSource="NavigationPageBar.xaml.txt"
+                            CSharpSource="NavigationPageBar.cs.txt">
+                <Button x:Name="BarButton"
+                        Text="Open the navigation page"
+                        Clicked="OnBarClicked"
+                        AutomationId="sample-bar-open" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="BackButtonTitle" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="BarBackTitle" Text="Inbox" Placeholder="Previous page's title" AutomationId="option-bar-back-title" />
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="HasBackButton (pushed pages)" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="BarBackButton" Grid.Column="1" IsToggled="True" AutomationId="option-bar-back-button" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="HasNavigationBar (pushed pages)" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="BarNavigationBar" Grid.Column="1" IsToggled="True" AutomationId="option-bar-navigation-bar" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="BackButtonTitle" Value="{Binding Text, Source={x:Reference BarBackTitle}, x:DataType=Entry}" Default="" />
+                    <Substitution Key="HasBackButton" Value="{Binding IsToggled, Source={x:Reference BarBackButton}, x:DataType=Switch}" />
+                    <Substitution Key="HasNavigationBar" Value="{Binding IsToggled, Source={x:Reference BarNavigationBar}, x:DataType=Switch}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

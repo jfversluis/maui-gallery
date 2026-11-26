@@ -1,0 +1,28 @@
+<FlyoutPage x:Class="MyApp.MailPage">
+    <FlyoutPage.Flyout>
+        <!-- The flyout page must have a Title -->
+        <ContentPage Title="Menu">
+            <CollectionView SelectionMode="Single" SelectionChanged="OnMenuSelectionChanged">
+                <CollectionView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Inbox</x:String>
+                        <x:String>Sent</x:String>
+                        <x:String>Archive</x:String>
+                    </x:Array>
+                </CollectionView.ItemsSource>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <Label Text="{Binding .}" Padding="8,12" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ContentPage>
+    </FlyoutPage.Flyout>
+    <FlyoutPage.Detail>
+        <NavigationPage>
+            <x:Arguments>
+                <local:FolderPage Title="Inbox" />
+            </x:Arguments>
+        </NavigationPage>
+    </FlyoutPage.Detail>
+</FlyoutPage>

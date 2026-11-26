@@ -1,0 +1,13 @@
+<TabbedPage
+    x:Class="MyApp.MainTabsPage"
+    BarBackgroundColor="$(BarBackgroundColor)"
+    SelectedTabColor="$(SelectedTabColor)"
+    UnselectedTabColor="$(UnselectedTabColor)">
+    <ContentPage Title="Inbox" IconImageSource="inbox.png">
+        <!-- Page content -->
+    </ContentPage>
+    <ContentPage Title="Calendar" IconImageSource="calendar.png">
+        <!-- Page content -->
+    </ContentPage>
+    <local:SettingsPage Title="Settings" IconImageSource="settings.png" />
+</TabbedPage>

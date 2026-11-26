@@ -1,0 +1,7 @@
+<FlyoutPage
+    x:Class="MyApp.MailPage"
+    FlyoutLayoutBehavior="$(Behavior)"
+    IsPresented="$(IsPresented)"
+    IsGestureEnabled="$(IsGestureEnabled)">
+    <!-- Flyout and Detail -->
+</FlyoutPage>

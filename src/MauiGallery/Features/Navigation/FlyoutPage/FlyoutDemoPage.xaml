@@ -1,0 +1,32 @@
+<FlyoutPage x:Class="MauiGallery.Features.Navigation.FlyoutDemoPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Navigation"
+            x:DataType="local:FlyoutDemoPage"
+            Title="Flyout page">
+    <FlyoutPage.Flyout>
+        <!-- The flyout page must have a Title. -->
+        <ContentPage Title="Menu">
+            <Grid RowDefinitions="Auto,*,Auto" Padding="16" RowSpacing="12">
+                <Label Text="Mail" FontSize="24" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level1" />
+                <CollectionView x:Name="MenuList"
+                                Grid.Row="1"
+                                SelectionMode="Single"
+                                SelectionChanged="OnMenuSelectionChanged"
+                                AutomationId="flyout-menu">
+                    <CollectionView.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Inbox</x:String>
+                            <x:String>Sent</x:String>
+                            <x:String>Archive</x:String>
+                        </x:Array>
+                    </CollectionView.ItemsSource>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <Label Text="{Binding .}" Padding="8,12" FontSize="17" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Button Grid.Row="2" Text="Close" Clicked="OnCloseClicked" AutomationId="flyout-close-menu" />
+            </Grid>
+        </ContentPage>
+    </FlyoutPage.Flyout>
+</FlyoutPage>

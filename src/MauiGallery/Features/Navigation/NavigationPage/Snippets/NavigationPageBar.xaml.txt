@@ -1,0 +1,23 @@
+<!-- The first page -->
+<ContentPage
+    x:Class="MyApp.InboxPage"
+    Title="Inbox"
+    NavigationPage.BackButtonTitle="$(BackButtonTitle)">
+    <NavigationPage.TitleView>
+        <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+            <Image Source="inbox.png" />
+            <Label Text="Inbox" FontAttributes="Bold" VerticalOptions="Center" />
+            <Label Text="3 unread" FontSize="12" VerticalOptions="Center" />
+        </HorizontalStackLayout>
+    </NavigationPage.TitleView>
+    <!-- Page content -->
+</ContentPage>
+
+<!-- A page pushed on top -->
+<ContentPage
+    x:Class="MyApp.MessagePage"
+    Title="Message"
+    NavigationPage.HasBackButton="$(HasBackButton)"
+    NavigationPage.HasNavigationBar="$(HasNavigationBar)">
+    <!-- Page content -->
+</ContentPage>

@@ -1,0 +1,6 @@
+using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
+
+var tabs = new MainTabsPage();
+tabs.On<Android>().SetToolbarPlacement($(PlacementCode));
+tabs.On<Android>().SetIsSwipePagingEnabled($(Swipe));

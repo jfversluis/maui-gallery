@@ -1,0 +1,48 @@
+<TabbedPage x:Class="MauiGallery.Features.Navigation.TabbedDemoPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:local="clr-namespace:MauiGallery.Features.Navigation"
+            x:DataType="local:TabbedDemoPage"
+            Title="Tabbed page">
+    <ContentPage x:Name="InboxPage" Title="Inbox">
+        <ContentPage.IconImageSource>
+            <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.MailInbox24}" />
+        </ContentPage.IconImageSource>
+        <ScrollView>
+            <VerticalStackLayout Padding="24" Spacing="16" MaximumWidthRequest="520">
+                <Label Text="Inbox" FontSize="28" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level1" />
+                <Label Text="Each tab is a page. Select another tab, or swipe between tabs on Android." />
+                <Button x:Name="MarkReadButton"
+                        Text="Mark all as read"
+                        Clicked="OnMarkReadClicked"
+                        IsVisible="False"
+                        AutomationId="tabbed-mark-read" />
+                <Button Text="Close" Clicked="OnCloseClicked" AutomationId="tabbed-close" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </ContentPage>
+    <ContentPage x:Name="CalendarPage" Title="Calendar">
+        <ContentPage.IconImageSource>
+            <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Calendar24}" />
+        </ContentPage.IconImageSource>
+        <ScrollView>
+            <VerticalStackLayout Padding="24" Spacing="16" MaximumWidthRequest="520">
+                <Label Text="Calendar" FontSize="28" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level1" />
+                <Label Text="No events today." />
+                <Button Text="Go to Settings" Clicked="OnGoToSettingsClicked" AutomationId="tabbed-go-settings" />
+                <Button Text="Close" Clicked="OnCloseClicked" AutomationId="tabbed-close-calendar" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </ContentPage>
+    <ContentPage x:Name="SettingsPage" Title="Settings">
+        <ContentPage.IconImageSource>
+            <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Settings24}" />
+        </ContentPage.IconImageSource>
+        <ScrollView>
+            <VerticalStackLayout Padding="24" Spacing="16" MaximumWidthRequest="520">
+                <Label Text="Settings" FontSize="28" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level1" />
+                <Label Text="Selecting a tab in code sets CurrentPage." />
+                <Button Text="Close" Clicked="OnCloseClicked" AutomationId="tabbed-close-settings" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </ContentPage>
+</TabbedPage>

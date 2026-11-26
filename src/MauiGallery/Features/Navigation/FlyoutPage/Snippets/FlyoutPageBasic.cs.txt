@@ -1,0 +1,16 @@
+void OnMenuSelectionChanged(object? sender, SelectionChangedEventArgs e)
+{
+    if (e.CurrentSelection is [string folder])
+    {
+        Detail = new NavigationPage(new FolderPage { Title = folder });
+
+        // Close the menu, unless it's shown beside the detail: IsPresented can't be false there
+        if (!((IFlyoutPageController)this).ShouldShowSplitMode)
+        {
+            IsPresented = false;
+        }
+    }
+}
+
+// Open the menu from a button in the detail page
+void OnShowMenuClicked(object? sender, EventArgs e) => IsPresented = true;

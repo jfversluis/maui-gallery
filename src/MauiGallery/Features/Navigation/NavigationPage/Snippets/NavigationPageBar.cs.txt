@@ -1,0 +1,17 @@
+// InboxPage constructor
+NavigationPage.SetTitleView(this, new HorizontalStackLayout
+{
+    Spacing = 8,
+    HorizontalOptions = LayoutOptions.Center,
+    Children =
+    {
+        new Image { Source = "inbox.png" },
+        new Label { Text = "Inbox", FontAttributes = FontAttributes.Bold, VerticalOptions = LayoutOptions.Center },
+        new Label { Text = "3 unread", FontSize = 12, VerticalOptions = LayoutOptions.Center },
+    },
+});
+NavigationPage.SetBackButtonTitle(this, $(BackButtonTitle));
+
+// MessagePage constructor
+NavigationPage.SetHasBackButton(this, $(HasBackButton));
+NavigationPage.SetHasNavigationBar(this, $(HasNavigationBar));

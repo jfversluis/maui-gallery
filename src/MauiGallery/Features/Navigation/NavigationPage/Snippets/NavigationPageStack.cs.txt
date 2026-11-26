@@ -1,0 +1,18 @@
+// App.xaml.cs
+protected override Window CreateWindow(IActivationState? activationState)
+{
+    var navigation = new NavigationPage(new InboxPage())
+    {
+        BarBackgroundColor = $(BarBackgroundColor),
+        BarTextColor = $(BarTextColorCode),
+    };
+    navigation.Pushed += (_, e) => Debug.WriteLine($"Pushed {e.Page.Title}");
+    return new Window(navigation);
+}
+
+// InboxPage.xaml.cs
+async void OnPushClicked(object? sender, EventArgs e) => await Navigation.PushAsync(new MessagePage());
+
+async void OnPopClicked(object? sender, EventArgs e) => await Navigation.PopAsync();
+
+async void OnPopToRootClicked(object? sender, EventArgs e) => await Navigation.PopToRootAsync();

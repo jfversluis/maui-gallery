@@ -1,0 +1,7 @@
+var mail = new MailPage
+{
+    FlyoutLayoutBehavior = $(BehaviorCode),
+    IsPresented = $(IsPresented),
+    IsGestureEnabled = $(IsGestureEnabled),
+};
+mail.IsPresentedChanged += (_, _) => Debug.WriteLine($"Menu open: {mail.IsPresented}");

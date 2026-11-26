@@ -1,0 +1,14 @@
+<ContentPage x:Class="MauiGallery.Features.Navigation.NavigationDemoPage"
+             xmlns:local="clr-namespace:MauiGallery.Features.Navigation"
+             x:DataType="local:NavigationDemoPage">
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16" MaximumWidthRequest="520">
+            <Label x:Name="Heading" FontSize="28" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level1" />
+            <Label x:Name="DepthLabel" AutomationId="navigation-depth" />
+            <Button Text="Push a page" Clicked="OnPushClicked" AutomationId="navigation-push" />
+            <Button x:Name="PopButton" Text="Pop this page" Clicked="OnPopClicked" AutomationId="navigation-pop" />
+            <Button x:Name="PopToRootButton" Text="Pop to the first page" Clicked="OnPopToRootClicked" AutomationId="navigation-pop-root" />
+            <Button Text="Close" Clicked="OnCloseClicked" AutomationId="navigation-close" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

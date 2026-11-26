@@ -1,0 +1,72 @@
+<SamplePage x:Class="MauiGallery.Features.Navigation.FlyoutPageSamplePage"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Flyout and detail -->
+            <ControlExample x:Name="BasicExample"
+                            Title="A menu next to the content"
+                            Description="A FlyoutPage has two pages: Flyout, usually a menu, and Detail, the content. Wrap the detail in a NavigationPage to get a navigation bar with a menu button. When the user picks an item, replace Detail and set IsPresented to false to close the menu. This app is a Shell, so the sample opens modally."
+                            XamlSource="FlyoutPageBasic.xaml.txt"
+                            CSharpSource="FlyoutPageBasic.cs.txt">
+                <Button x:Name="BasicButton"
+                        Text="Open the flyout page"
+                        Clicked="OnBasicClicked"
+                        AutomationId="sample-basic-open" />
+            </ControlExample>
+
+            <!-- 2. Layout behavior -->
+            <ControlExample x:Name="LayoutExample"
+                            Title="Choose how the flyout is shown"
+                            Description="FlyoutLayoutBehavior decides whether the flyout overlays the detail (Popover) or sits beside it (Split), or splits in one orientation only. It applies on tablets and desktops; phones always use a popover. IsPresented opens or closes the flyout in code, and IsGestureEnabled controls the swipe that opens it."
+                            XamlSource="FlyoutPageLayout.xaml.txt"
+                            CSharpSource="FlyoutPageLayout.cs.txt">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=420}">
+                    <Button x:Name="LayoutButton"
+                            Text="Open the flyout page"
+                            Clicked="OnLayoutClicked"
+                            HorizontalOptions="Center"
+                            AutomationId="sample-layout-open" />
+                    <Label x:Name="LayoutHint"
+                           FontSize="13"
+                           Opacity="0.7"
+                           HorizontalTextAlignment="Center"
+                           AutomationId="sample-layout-hint" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="FlyoutLayoutBehavior" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="LayoutBehavior" AutomationId="option-layout-behavior">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Default</x:String>
+                                    <x:String>Popover</x:String>
+                                    <x:String>Split</x:String>
+                                    <x:String>SplitOnLandscape</x:String>
+                                    <x:String>SplitOnPortrait</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="IsPresented" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="LayoutPresented" Grid.Column="1" AutomationId="option-layout-presented" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="IsGestureEnabled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="LayoutGesture" Grid.Column="1" IsToggled="True" AutomationId="option-layout-gesture" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Behavior" Value="{Binding SelectedItem, Source={x:Reference LayoutBehavior}, x:DataType=Picker}" />
+                    <Substitution x:Name="LayoutBehaviorCode" Key="BehaviorCode" IsExpression="True" />
+                    <Substitution Key="IsPresented" Value="{Binding IsToggled, Source={x:Reference LayoutPresented}, x:DataType=Switch}" />
+                    <Substitution Key="IsGestureEnabled" Value="{Binding IsToggled, Source={x:Reference LayoutGesture}, x:DataType=Switch}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

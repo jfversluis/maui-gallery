@@ -1,0 +1,5 @@
+TabbedPage.SetBadgeText(inboxPage, $(BadgeText));
+TabbedPage.SetBadgeColor(inboxPage, $(BadgeColor));
+
+// Later: remove the badge
+TabbedPage.SetBadgeText(inboxPage, null);

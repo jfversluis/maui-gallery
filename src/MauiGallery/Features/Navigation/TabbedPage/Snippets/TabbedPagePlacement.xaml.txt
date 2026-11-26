@@ -1,0 +1,7 @@
+<TabbedPage
+    xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+    x:Class="MyApp.MainTabsPage"
+    android:TabbedPage.ToolbarPlacement="$(Placement)"
+    android:TabbedPage.IsSwipePagingEnabled="$(Swipe)">
+    <!-- Child pages -->
+</TabbedPage>

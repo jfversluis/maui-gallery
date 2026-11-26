@@ -1,0 +1,16 @@
+var tabs = new TabbedPage
+{
+    BarBackgroundColor = $(BarBackgroundColor),
+    SelectedTabColor = $(SelectedTabColor),
+    UnselectedTabColor = $(UnselectedTabColor),
+    Children =
+    {
+        new InboxPage { Title = "Inbox", IconImageSource = "inbox.png" },
+        new CalendarPage { Title = "Calendar", IconImageSource = "calendar.png" },
+        new SettingsPage { Title = "Settings", IconImageSource = "settings.png" },
+    },
+};
+tabs.CurrentPageChanged += (_, _) => Debug.WriteLine(tabs.CurrentPage.Title);
+
+// Select a tab in code
+tabs.CurrentPage = tabs.Children[2];

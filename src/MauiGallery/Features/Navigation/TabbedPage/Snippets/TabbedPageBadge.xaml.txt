@@ -1,0 +1,10 @@
+<TabbedPage x:Class="MyApp.MainTabsPage">
+    <ContentPage
+        Title="Inbox"
+        IconImageSource="inbox.png"
+        TabbedPage.BadgeText="$(BadgeText)"
+        TabbedPage.BadgeColor="$(BadgeColor)">
+        <!-- Page content -->
+    </ContentPage>
+    <ContentPage Title="Calendar" IconImageSource="calendar.png" />
+</TabbedPage>

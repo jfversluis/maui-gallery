@@ -1,0 +1,8 @@
+<!-- App.xaml.cs creates the window: new Window(new NavigationPage(new InboxPage())) -->
+<!-- InboxPage.xaml -->
+<ContentPage x:Class="MyApp.InboxPage" Title="Inbox">
+    <VerticalStackLayout Padding="24" Spacing="16">
+        <Button Text="Push a page" Clicked="OnPushClicked" />
+        <Button Text="Pop to the first page" Clicked="OnPopToRootClicked" />
+    </VerticalStackLayout>
+</ContentPage>
