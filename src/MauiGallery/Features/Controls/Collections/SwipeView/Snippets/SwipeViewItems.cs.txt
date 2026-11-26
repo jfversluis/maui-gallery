@@ -1,6 +1,7 @@
 var archive = new SwipeItem
 {
     Text = "Archive",
+    TextColor = Colors.White,
     BackgroundColor = Color.FromArgb("#16A34A"),
     IconImageSource = new FontImageSource { FontFamily = "FluentIcons", Glyph = FluentIconsRegular.Archive24, Color = Colors.White },
     Command = viewModel.ArchiveCommand,

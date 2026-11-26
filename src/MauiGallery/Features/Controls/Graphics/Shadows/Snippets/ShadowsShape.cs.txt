@@ -1,0 +1,21 @@
+using Microsoft.Maui.Controls.Shapes;
+
+var star = new Polygon
+{
+    Points =
+    [
+        new(60, 6), new(74.1, 42.6), new(113.3, 44.7), new(82.8, 69.4), new(92.9, 107.3),
+        new(60, 86), new(27.1, 107.3), new(37.2, 69.4), new(6.7, 44.7), new(45.9, 42.6),
+    ],
+    WidthRequest = 120,
+    HeightRequest = 114,
+    Fill = Color.FromArgb("#FBBF24"),
+    StrokeThickness = 0,
+    Shadow = new Shadow
+    {
+        Brush = Color.FromArgb("#7C2D12"),
+        Offset = new Point(0, $(OffsetY)),
+        Radius = $(Radius),
+        Opacity = 0.6f,
+    },
+};

@@ -1,0 +1,11 @@
+<Image
+    Source="landscape.png"
+    Aspect="AspectFill"
+    WidthRequest="240"
+    HeightRequest="160">
+    <Image.Clip>
+        <RoundRectangleGeometry
+            Rect="0,0,240,160"
+            CornerRadius="$(CornerRadius)" />
+    </Image.Clip>
+</Image>

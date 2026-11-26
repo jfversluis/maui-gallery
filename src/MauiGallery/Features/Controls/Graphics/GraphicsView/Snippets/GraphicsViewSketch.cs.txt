@@ -1,0 +1,50 @@
+public sealed class SketchDrawable : IDrawable
+{
+    private readonly List<(PathF Path, Color Color, float Size)> _strokes = [];
+
+    public Color InkColor { get; set; } = Colors.Black;
+    public float InkSize { get; set; } = 6;
+
+    public void StartStroke(PointF point)
+    {
+        var path = new PathF(point);
+        path.LineTo(point); // A tap still draws a dot.
+        _strokes.Add((path, InkColor, InkSize));
+    }
+
+    public void ContinueStroke(PointF point) => _strokes[^1].Path.LineTo(point);
+
+    public void Draw(ICanvas canvas, RectF dirtyRect)
+    {
+        canvas.StrokeLineCap = LineCap.Round;
+        canvas.StrokeLineJoin = LineJoin.Round;
+        foreach (var (path, color, size) in _strokes)
+        {
+            canvas.StrokeColor = color;
+            canvas.StrokeSize = size;
+            canvas.DrawPath(path);
+        }
+    }
+}
+
+// In the page: keep a sketch, add the touch points to it, then redraw.
+private readonly SketchDrawable _sketch = new()
+{
+    InkColor = $(InkColor),
+    InkSize = $(InkSize),
+};
+
+// In the constructor, after InitializeComponent():
+// SketchView.Drawable = _sketch;
+
+private void OnSketchStart(object? sender, TouchEventArgs e)
+{
+    _sketch.StartStroke(e.Touches[0]);
+    SketchView.Invalidate();
+}
+
+private void OnSketchDrag(object? sender, TouchEventArgs e)
+{
+    _sketch.ContinueStroke(e.Touches[0]);
+    SketchView.Invalidate();
+}

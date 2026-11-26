@@ -1,0 +1,20 @@
+var pass = new Border
+{
+    WidthRequest = 180,
+    HeightRequest = 120,
+    Padding = 16,
+    StrokeThickness = 0,
+    StrokeShape = new RoundRectangle { CornerRadius = 16 },
+    BackgroundColor = Color.FromArgb("#2563EB"),
+    RotationX = $(RotationX),
+    RotationY = $(RotationY),
+    Content = new VerticalStackLayout
+    {
+        VerticalOptions = LayoutOptions.End,
+        Children =
+        {
+            new Label { Text = "Boarding pass", TextColor = Colors.White, FontSize = 18, FontAttributes = FontAttributes.Bold },
+            new Label { Text = "AMS → SEA, gate D7", TextColor = Colors.White },
+        },
+    },
+};

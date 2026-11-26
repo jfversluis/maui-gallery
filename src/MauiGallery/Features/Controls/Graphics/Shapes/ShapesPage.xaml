@@ -1,0 +1,208 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Graphics.ShapesPage"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="DashOptions" Type="{x:Type x:String}">
+            <x:String>None</x:String>
+            <x:String>2,2</x:String>
+            <x:String>4,2</x:String>
+            <x:String>1,2</x:String>
+        </x:Array>
+        <x:Array x:Key="LineCapOptions" Type="{x:Type PenLineCap}">
+            <x:Static Member="PenLineCap.Flat" />
+            <x:Static Member="PenLineCap.Round" />
+            <x:Static Member="PenLineCap.Square" />
+        </x:Array>
+        <x:Array x:Key="LineJoinOptions" Type="{x:Type PenLineJoin}">
+            <x:Static Member="PenLineJoin.Miter" />
+            <x:Static Member="PenLineJoin.Bevel" />
+            <x:Static Member="PenLineJoin.Round" />
+        </x:Array>
+        <x:Array x:Key="FillRuleOptions" Type="{x:Type FillRule}">
+            <x:Static Member="FillRule.EvenOdd" />
+            <x:Static Member="FillRule.Nonzero" />
+        </x:Array>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Rectangle and Ellipse -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Draw rectangles and ellipses"
+                            Description="Shapes are views you size like any other. Fill paints the inside, Stroke and StrokeThickness draw the outline, and RadiusX and RadiusY round a rectangle's corners."
+                            ShowStyleToggle="False"
+                            XamlSource="ShapesBasic.xaml.txt"
+                            CSharpSource="ShapesBasic.cs.txt">
+                <HorizontalStackLayout Spacing="24">
+                    <Rectangle x:Name="BasicRectangle"
+                               WidthRequest="140"
+                               HeightRequest="96"
+                               RadiusX="{Binding Value, Source={x:Reference BasicRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                               RadiusY="{Binding Value, Source={x:Reference BasicRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                               Fill="{Binding SelectedColor, Source={x:Reference BasicFill}, x:DataType=SwatchPicker}"
+                               Stroke="{Binding SelectedColor, Source={x:Reference BasicStroke}, x:DataType=SwatchPicker}"
+                               StrokeThickness="{Binding Value, Source={x:Reference BasicThickness}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                               AutomationId="sample-basic-rectangle" />
+                    <Ellipse WidthRequest="96"
+                             HeightRequest="96"
+                             Fill="{Binding SelectedColor, Source={x:Reference BasicFill}, x:DataType=SwatchPicker}"
+                             Stroke="{Binding SelectedColor, Source={x:Reference BasicStroke}, x:DataType=SwatchPicker}"
+                             StrokeThickness="{Binding Value, Source={x:Reference BasicThickness}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                             AutomationId="sample-basic-ellipse" />
+                </HorizontalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Fill" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="BasicFill" SelectedColor="#0D9488" />
+                        <Label Text="Stroke" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="BasicStroke" SelectedColor="#512BD4" />
+                        <Label Text="{Binding Value, Source={x:Reference BasicThickness}, StringFormat='StrokeThickness: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="BasicThickness" Minimum="0" Maximum="12" Value="4" AutomationId="option-basic-thickness" />
+                        <Label Text="{Binding Value, Source={x:Reference BasicRadius}, StringFormat='RadiusX, RadiusY: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="BasicRadius" Minimum="0" Maximum="48" Value="16" AutomationId="option-basic-radius" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Fill" Value="{Binding SelectedColor, Source={x:Reference BasicFill}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="Stroke" Value="{Binding SelectedColor, Source={x:Reference BasicStroke}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="StrokeThickness" Value="{Binding Value, Source={x:Reference BasicThickness}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="1" />
+                    <Substitution Key="Radius" Value="{Binding Value, Source={x:Reference BasicRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Line and Polyline -->
+            <ControlExample x:Name="LinesExample"
+                            Title="Draw lines and polylines"
+                            Description="Line connects two points and Polyline connects many. StrokeDashArray dashes the stroke, StrokeLineCap shapes the ends and StrokeLineJoin shapes the corners."
+                            ShowStyleToggle="False"
+                            XamlSource="ShapesLines.xaml.txt"
+                            CSharpSource="ShapesLines.cs.txt">
+                <VerticalStackLayout Spacing="16" WidthRequest="260">
+                    <Line x:Name="SampleLine"
+                          X1="12"
+                          Y1="12"
+                          X2="248"
+                          Y2="12"
+                          HeightRequest="24"
+                          Stroke="{Binding SelectedColor, Source={x:Reference LinesStroke}, x:DataType=SwatchPicker}"
+                          StrokeThickness="{Binding Value, Source={x:Reference LinesThickness}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                          StrokeLineCap="{Binding SelectedItem, Source={x:Reference LinesCap}, x:DataType=Picker}"
+                          AutomationId="sample-line" />
+                    <Polyline x:Name="SamplePolyline"
+                              Points="12,92 60,32 108,80 156,24 204,72 248,36"
+                              HeightRequest="112"
+                              Stroke="{Binding SelectedColor, Source={x:Reference LinesStroke}, x:DataType=SwatchPicker}"
+                              StrokeThickness="{Binding Value, Source={x:Reference LinesThickness}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                              StrokeLineCap="{Binding SelectedItem, Source={x:Reference LinesCap}, x:DataType=Picker}"
+                              StrokeLineJoin="{Binding SelectedItem, Source={x:Reference LinesJoin}, x:DataType=Picker}"
+                              AutomationId="sample-polyline" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Stroke" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="LinesStroke" SelectedColor="#2563EB" />
+                        <Label Text="{Binding Value, Source={x:Reference LinesThickness}, StringFormat='StrokeThickness: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="LinesThickness" Minimum="1" Maximum="12" Value="8" AutomationId="option-lines-thickness" />
+                        <Label Text="StrokeDashArray" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="LinesDash"
+                                ItemsSource="{StaticResource DashOptions}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnLinesDashChanged"
+                                AutomationId="option-lines-dash" />
+                        <Label Text="StrokeLineCap" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="LinesCap"
+                                ItemsSource="{StaticResource LineCapOptions}"
+                                SelectedIndex="1"
+                                AutomationId="option-lines-cap" />
+                        <Label Text="StrokeLineJoin" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="LinesJoin"
+                                ItemsSource="{StaticResource LineJoinOptions}"
+                                SelectedIndex="2"
+                                AutomationId="option-lines-join" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Stroke" Value="{Binding SelectedColor, Source={x:Reference LinesStroke}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="StrokeThickness" Value="{Binding Value, Source={x:Reference LinesThickness}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="1" />
+                    <Substitution x:Name="LinesDashText" Key="StrokeDashArray" />
+                    <Substitution x:Name="LinesDashCode" Key="StrokeDashArrayCode" IsExpression="True" />
+                    <Substitution Key="StrokeLineCap" Value="{Binding SelectedItem, Source={x:Reference LinesCap}, x:DataType=Picker}" Default="Flat" IsExpression="True" />
+                    <Substitution Key="StrokeLineJoin" Value="{Binding SelectedItem, Source={x:Reference LinesJoin}, x:DataType=Picker}" Default="Miter" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Polygon -->
+            <ControlExample x:Name="PolygonExample"
+                            Title="Fill a polygon"
+                            Description="Polygon closes its points into a filled outline. Where edges cross, FillRule decides what is inside: EvenOdd leaves this star's center empty, Nonzero fills it."
+                            ShowStyleToggle="False"
+                            XamlSource="ShapesPolygon.xaml.txt"
+                            CSharpSource="ShapesPolygon.cs.txt">
+                <Polygon Points="60,6 92.9,107.3 6.7,44.7 113.3,44.7 27.1,107.3"
+                         WidthRequest="120"
+                         HeightRequest="114"
+                         Fill="{Binding SelectedColor, Source={x:Reference PolygonFill}, x:DataType=SwatchPicker}"
+                         Stroke="{Binding SelectedColor, Source={x:Reference PolygonFill}, x:DataType=SwatchPicker}"
+                         StrokeThickness="3"
+                         StrokeLineJoin="Round"
+                         FillRule="{Binding SelectedItem, Source={x:Reference PolygonFillRule}, x:DataType=Picker}"
+                         AutomationId="sample-polygon" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Fill" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="PolygonFill" SelectedColor="#EA580C" />
+                        <Label Text="FillRule" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="PolygonFillRule"
+                                ItemsSource="{StaticResource FillRuleOptions}"
+                                SelectedIndex="0"
+                                AutomationId="option-polygon-fill-rule" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Fill" Value="{Binding SelectedColor, Source={x:Reference PolygonFill}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="FillRule" Value="{Binding SelectedItem, Source={x:Reference PolygonFillRule}, x:DataType=Picker}" Default="EvenOdd" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 4. Layering shapes -->
+            <ControlExample x:Name="SceneExample"
+                            Title="Layer shapes into an illustration"
+                            Description="Shapes overlap when they share a Grid cell, later children on top. Gradient fills and a rounded Border turn a few simple shapes into an illustration that scales with no image assets."
+                            ShowStyleToggle="False"
+                            XamlSource="ShapesScene.xaml.txt"
+                            CSharpSource="ShapesScene.cs.txt">
+                <Border WidthRequest="280"
+                        HeightRequest="180"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 20"
+                        AutomationId="sample-scene">
+                    <Grid>
+                        <Rectangle>
+                            <Rectangle.Fill>
+                                <LinearGradientBrush EndPoint="0,1">
+                                    <GradientStop Color="#38BDF8" Offset="0" />
+                                    <GradientStop Color="#FDE68A" Offset="1" />
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Ellipse x:Name="SceneSun"
+                                 WidthRequest="56"
+                                 HeightRequest="56"
+                                 Margin="0,28,40,0"
+                                 HorizontalOptions="End"
+                                 VerticalOptions="Start"
+                                 Fill="#FBBF24" />
+                        <Polygon Points="0,180 0,120 70,56 130,118 190,70 280,140 280,180" Fill="#6366F1" />
+                        <Polygon Points="0,180 0,150 60,124 130,156 200,128 280,152 280,180" Fill="#0F766E" />
+                    </Grid>
+                </Border>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

@@ -19,6 +19,9 @@ public sealed partial class RefreshViewPage : SamplePage
         weather.Refreshed += (_, _) => ListExample.Output = $"RefreshCommand finished. {weather.LastUpdated}";
         ListSample.BindingContext = weather;
         ListExample.NativeTarget = ListRefresh;
+
+        NestedRefresh.KeepPullInside(ListRefresh);
+        NestedRefresh.KeepPullInside(BudgetRefresh);
     }
 
     private async void OnBudgetRefreshing(object? sender, EventArgs e)

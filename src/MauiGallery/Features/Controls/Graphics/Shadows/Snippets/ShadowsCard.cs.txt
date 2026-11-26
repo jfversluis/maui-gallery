@@ -1,0 +1,24 @@
+var card = new Border
+{
+    WidthRequest = 240,
+    Padding = 20,
+    StrokeThickness = 0,
+    StrokeShape = new RoundRectangle { CornerRadius = 16 },
+    Shadow = new Shadow
+    {
+        Brush = $(Brush),
+        Offset = $(OffsetCode),
+        Radius = $(Radius),
+        Opacity = $(Opacity)f,
+    },
+    Content = new VerticalStackLayout
+    {
+        Spacing = 4,
+        Children =
+        {
+            new Label { Text = "Weekly goal", FontAttributes = FontAttributes.Bold, FontSize = 18 },
+            new Label { Text = "4 of 5 workouts done" },
+        },
+    },
+};
+card.SetAppThemeColor(VisualElement.BackgroundColorProperty, Colors.White, Color.FromArgb("#2C2C2E"));

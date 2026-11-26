@@ -1,0 +1,132 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Graphics.BrushesPage"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="DirectionOptions" Type="{x:Type x:String}">
+            <x:String>Horizontal</x:String>
+            <x:String>Vertical</x:String>
+            <x:String>Diagonal</x:String>
+        </x:Array>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. SolidColorBrush -->
+            <ControlExample x:Name="SolidExample"
+                            Title="Paint with a solid color"
+                            Description="Background, Fill and Stroke take a Brush. SolidColorBrush paints one color; its alpha channel makes it translucent. In XAML a color name or hex value creates one for you."
+                            ShowStyleToggle="False"
+                            XamlSource="BrushesSolid.xaml.txt"
+                            CSharpSource="BrushesSolid.cs.txt">
+                <BoxView x:Name="SolidBox"
+                         WidthRequest="220"
+                         HeightRequest="120"
+                         CornerRadius="16"
+                         AutomationId="sample-solid-box" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Color" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="SolidColor" SelectedColor="#0D9488" />
+                        <Label Text="{Binding Value, Source={x:Reference SolidAlpha}, StringFormat='Alpha: {0:0%}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="SolidAlpha" Minimum="0.1" Maximum="1" Value="1" ValueChanged="OnSolidChanged" AutomationId="option-solid-alpha" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="SolidColorText" Key="Color" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. LinearGradientBrush -->
+            <ControlExample x:Name="LinearExample"
+                            Title="Blend colors along a line"
+                            Description="LinearGradientBrush blends its GradientStops from StartPoint to EndPoint. Points are relative to the view: 0,0 is the top-left corner and 1,1 the bottom-right."
+                            ShowStyleToggle="False"
+                            XamlSource="BrushesLinear.xaml.txt"
+                            CSharpSource="BrushesLinear.cs.txt">
+                <Border WidthRequest="260"
+                        HeightRequest="150"
+                        Padding="20"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 20"
+                        AutomationId="sample-linear-border">
+                    <Border.Background>
+                        <LinearGradientBrush x:Name="LinearBrush">
+                            <GradientStop Color="{Binding SelectedColor, Source={x:Reference LinearStart}, x:DataType=SwatchPicker}" Offset="0" />
+                            <GradientStop Color="{Binding SelectedColor, Source={x:Reference LinearEnd}, x:DataType=SwatchPicker}" Offset="1" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <VerticalStackLayout VerticalOptions="End">
+                        <Label Text="Premium" FontSize="22" FontAttributes="Bold" TextColor="White" />
+                        <Label Text="Unlock every feature" TextColor="White" />
+                    </VerticalStackLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Direction" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="LinearDirection"
+                                ItemsSource="{StaticResource DirectionOptions}"
+                                SelectedIndex="2"
+                                SelectedIndexChanged="OnLinearDirectionChanged"
+                                AutomationId="option-linear-direction" />
+                        <Label Text="First stop" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="LinearStart" SelectedColor="#512BD4" />
+                        <Label Text="Last stop" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="LinearEnd" SelectedColor="#DB2777" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="LinearEndPoint" Key="EndPoint" Default="1,1" />
+                    <Substitution x:Name="LinearEndPointCode" Key="EndPointCode" IsExpression="True" Default="new Point(1, 1)" />
+                    <Substitution Key="StartColor" Value="{Binding SelectedColor, Source={x:Reference LinearStart}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="EndColor" Value="{Binding SelectedColor, Source={x:Reference LinearEnd}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. RadialGradientBrush -->
+            <ControlExample x:Name="RadialExample"
+                            Title="Radiate colors from a point"
+                            Description="RadialGradientBrush blends its stops outward from Center to Radius, both relative to the view. Moving the center off-axis turns a flat circle into a lit sphere."
+                            ShowStyleToggle="False"
+                            XamlSource="BrushesRadial.xaml.txt"
+                            CSharpSource="BrushesRadial.cs.txt">
+                <Ellipse WidthRequest="160"
+                         HeightRequest="160"
+                         AutomationId="sample-radial-ellipse">
+                    <Ellipse.Fill>
+                        <RadialGradientBrush x:Name="RadialBrush"
+                                             Radius="{Binding Value, Source={x:Reference RadialRadius}, x:DataType=Slider}">
+                            <GradientStop Color="White" Offset="0" />
+                            <GradientStop Color="{Binding SelectedColor, Source={x:Reference RadialColor}, x:DataType=SwatchPicker}" Offset="0.45" />
+                            <GradientStop Color="#1E1B4B" Offset="1" />
+                        </RadialGradientBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference RadialCenterX}, StringFormat='Center X: {0:0.0#}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="RadialCenterX" Minimum="0" Maximum="1" Value="0.35" ValueChanged="OnRadialCenterChanged" AutomationId="option-radial-center-x" />
+                        <Label Text="{Binding Value, Source={x:Reference RadialCenterY}, StringFormat='Center Y: {0:0.0#}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="RadialCenterY" Minimum="0" Maximum="1" Value="0.35" ValueChanged="OnRadialCenterChanged" AutomationId="option-radial-center-y" />
+                        <Label Text="{Binding Value, Source={x:Reference RadialRadius}, StringFormat='Radius: {0:0.0#}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="RadialRadius" Minimum="0.2" Maximum="1.2" Value="0.75" ValueChanged="OnRadialRadiusChanged" AutomationId="option-radial-radius" />
+                        <Label Text="Color" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="RadialColor" SelectedColor="#2563EB" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="RadialCenterText" Key="Center" Default="0.5,0.5" />
+                    <Substitution x:Name="RadialCenterCode" Key="CenterCode" IsExpression="True" Default="new Point(0.5, 0.5)" />
+                    <Substitution x:Name="RadialRadiusText" Key="Radius" Default="0.5" />
+                    <Substitution Key="Color" Value="{Binding SelectedColor, Source={x:Reference RadialColor}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

@@ -1,0 +1,14 @@
+<Border
+    WidthRequest="180"
+    HeightRequest="120"
+    Padding="16"
+    StrokeThickness="0"
+    StrokeShape="RoundRectangle 16"
+    BackgroundColor="#2563EB"
+    RotationX="$(RotationX)"
+    RotationY="$(RotationY)">
+    <VerticalStackLayout VerticalOptions="End">
+        <Label Text="Boarding pass" TextColor="White" FontSize="18" FontAttributes="Bold" />
+        <Label Text="AMS → SEA, gate D7" TextColor="White" />
+    </VerticalStackLayout>
+</Border>

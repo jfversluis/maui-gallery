@@ -1,0 +1,6 @@
+<Path
+    WidthRequest="160"
+    HeightRequest="110"
+    Data="$(Data)"
+    Aspect="$(Aspect)"
+    Fill="$(Fill)" />

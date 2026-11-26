@@ -1,0 +1,16 @@
+<HorizontalStackLayout Spacing="24">
+    <Rectangle
+        WidthRequest="140"
+        HeightRequest="96"
+        RadiusX="$(Radius)"
+        RadiusY="$(Radius)"
+        Fill="$(Fill)"
+        Stroke="$(Stroke)"
+        StrokeThickness="$(StrokeThickness)" />
+    <Ellipse
+        WidthRequest="96"
+        HeightRequest="96"
+        Fill="$(Fill)"
+        Stroke="$(Stroke)"
+        StrokeThickness="$(StrokeThickness)" />
+</HorizontalStackLayout>

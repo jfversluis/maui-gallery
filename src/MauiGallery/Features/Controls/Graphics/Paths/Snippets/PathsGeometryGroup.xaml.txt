@@ -1,0 +1,15 @@
+<Path
+    WidthRequest="140"
+    HeightRequest="140"
+    Fill="$(Fill)"
+    Stroke="$(Fill)"
+    StrokeThickness="2">
+    <Path.Data>
+        <GeometryGroup
+            FillRule="$(FillRule)">
+            <EllipseGeometry Center="70,70" RadiusX="64" RadiusY="64" />
+            <EllipseGeometry Center="70,70" RadiusX="40" RadiusY="40" />
+            <RectangleGeometry Rect="58,2,24,136" />
+        </GeometryGroup>
+    </Path.Data>
+</Path>

@@ -1,0 +1,10 @@
+using Microsoft.Maui.Controls.Shapes;
+
+var avatar = new Image
+{
+    Source = "landscape.png",
+    Aspect = Aspect.AspectFill,
+    WidthRequest = 200,
+    HeightRequest = 200,
+    Clip = new EllipseGeometry(new Point(100, 100), $(Radius), $(Radius)),
+};

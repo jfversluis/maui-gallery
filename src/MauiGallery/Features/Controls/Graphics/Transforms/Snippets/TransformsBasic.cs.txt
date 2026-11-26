@@ -1,0 +1,13 @@
+var card = new Border
+{
+    WidthRequest = 120,
+    HeightRequest = 80,
+    StrokeThickness = 0,
+    StrokeShape = new RoundRectangle { CornerRadius = 16 },
+    BackgroundColor = Color.FromArgb("#512BD4"),
+    Rotation = $(Rotation),
+    Scale = $(Scale),
+    TranslationX = $(TranslationX),
+    TranslationY = $(TranslationY),
+    Content = new Label { Text = "MAUI", TextColor = Colors.White, FontSize = 20, FontAttributes = FontAttributes.Bold, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center },
+};

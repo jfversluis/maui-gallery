@@ -1,0 +1,12 @@
+<GraphicsView
+    x:Name="SketchView"
+    HeightRequest="220"
+    StartInteraction="OnSketchStart"
+    DragInteraction="OnSketchDrag">
+    <GraphicsView.Drawable>
+        <local:SketchDrawable
+            x:Name="Sketch"
+            InkColor="$(InkColor)"
+            InkSize="$(InkSize)" />
+    </GraphicsView.Drawable>
+</GraphicsView>

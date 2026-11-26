@@ -1,0 +1,8 @@
+<BoxView
+    WidthRequest="220"
+    HeightRequest="120"
+    CornerRadius="16">
+    <BoxView.Background>
+        <SolidColorBrush Color="$(Color)" />
+    </BoxView.Background>
+</BoxView>

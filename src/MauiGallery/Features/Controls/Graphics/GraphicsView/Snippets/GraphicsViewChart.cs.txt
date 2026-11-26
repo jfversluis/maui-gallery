@@ -1,0 +1,61 @@
+public sealed class WeeklyChartDrawable : IDrawable
+{
+    private static readonly string[] Days = ["M", "T", "W", "T", "F", "S", "S"];
+    private static readonly Color AxisColor = Color.FromArgb("#8E8E93");
+
+    public IReadOnlyList<double> Values { get; set; } = [];
+    public double Maximum { get; set; } = 10_000;
+    public Color Color { get; set; } = Colors.Black;
+    public bool IsLine { get; set; }
+
+    public void Draw(ICanvas canvas, RectF dirtyRect)
+    {
+        const float labelHeight = 24;
+        var plot = new RectF(dirtyRect.X, dirtyRect.Y + 8, dirtyRect.Width, dirtyRect.Height - labelHeight - 8);
+        var slot = plot.Width / Values.Count;
+
+        canvas.FontColor = AxisColor;
+        canvas.FillColor = Color;
+        canvas.StrokeColor = Color;
+        canvas.StrokeSize = 3;
+
+        var line = IsLine ? new PathF() : null;
+        for (var i = 0; i < Values.Count; i++)
+        {
+            var x = plot.Left + (slot * i);
+            var height = (float)(Values[i] / Maximum * plot.Height);
+            canvas.DrawString(Days[i], x, plot.Bottom, slot, labelHeight, HorizontalAlignment.Center, VerticalAlignment.Center);
+
+            if (line is null)
+            {
+                canvas.FillRoundedRectangle(x + (slot * 0.2f), plot.Bottom - height, slot * 0.6f, height, 6);
+            }
+            else if (i == 0)
+            {
+                line.MoveTo(x + (slot / 2), plot.Bottom - height);
+            }
+            else
+            {
+                line.LineTo(x + (slot / 2), plot.Bottom - height);
+            }
+        }
+
+        if (line is not null)
+        {
+            canvas.DrawPath(line);
+        }
+    }
+}
+
+var chart = new WeeklyChartDrawable
+{
+    Values = [6200, 8100, 4300, 9400, 7600, 3100, 5800],
+    Color = $(Color),
+    IsLine = $(IsLine),
+};
+var chartView = new GraphicsView { Drawable = chart, HeightRequest = 200 };
+SemanticProperties.SetDescription(chartView, "Steps per day this week");
+
+// Change the data, then ask the view to draw again.
+chart.Values = [5400, 7300, 8800, 6100, 9900, 4200, 3700];
+chartView.Invalidate();

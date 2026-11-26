@@ -1,0 +1,162 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Graphics.PathsPage"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="IconOptions" Type="{x:Type x:String}">
+            <x:String>Heart</x:String>
+            <x:String>Star</x:String>
+            <x:String>Bolt</x:String>
+            <x:String>Chat</x:String>
+        </x:Array>
+        <x:Array x:Key="AspectOptions" Type="{x:Type Stretch}">
+            <x:Static Member="Stretch.None" />
+            <x:Static Member="Stretch.Fill" />
+            <x:Static Member="Stretch.Uniform" />
+            <x:Static Member="Stretch.UniformToFill" />
+        </x:Array>
+        <x:Array x:Key="GroupFillRuleOptions" Type="{x:Type FillRule}">
+            <x:Static Member="FillRule.EvenOdd" />
+            <x:Static Member="FillRule.Nonzero" />
+        </x:Array>
+        <SolidColorBrush x:Key="BoundsBrush" Color="{AppThemeBinding Light=#AEAEB2, Dark=#636366}" />
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Path markup -->
+            <ControlExample x:Name="MarkupExample"
+                            Title="Draw an icon with path markup"
+                            Description="Path draws any outline. Its Data takes the compact path markup that SVG icons use: M moves, L draws a line, C draws a curve, A draws an arc and Z closes the figure. Aspect scales the drawing to the size of the view."
+                            ShowStyleToggle="False"
+                            XamlSource="PathsMarkup.xaml.txt"
+                            CSharpSource="PathsMarkup.cs.txt">
+                <!-- The dashed outline shows the Path's bounds; it is not part of the sample. -->
+                <Border Stroke="{StaticResource BoundsBrush}" StrokeThickness="1" StrokeDashArray="4,4">
+                    <Path x:Name="IconPath"
+                          WidthRequest="160"
+                          HeightRequest="110"
+                          Aspect="{Binding SelectedItem, Source={x:Reference IconAspect}, x:DataType=Picker}"
+                          Fill="{Binding SelectedColor, Source={x:Reference IconFill}, x:DataType=SwatchPicker}"
+                          AutomationId="sample-icon-path" />
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Data" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="IconData"
+                                ItemsSource="{StaticResource IconOptions}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnIconChanged"
+                                AutomationId="option-icon-data" />
+                        <Label Text="Aspect" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="IconAspect"
+                                ItemsSource="{StaticResource AspectOptions}"
+                                SelectedIndex="2"
+                                AutomationId="option-icon-aspect" />
+                        <Label Text="Fill" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="IconFill" SelectedColor="#DB2777" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="IconDataText" Key="Data" />
+                    <Substitution Key="Aspect" Value="{Binding SelectedItem, Source={x:Reference IconAspect}, x:DataType=Picker}" Default="None" IsExpression="True" />
+                    <Substitution Key="Fill" Value="{Binding SelectedColor, Source={x:Reference IconFill}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Geometries -->
+            <ControlExample x:Name="GroupExample"
+                            Title="Combine geometries"
+                            Description="EllipseGeometry, RectangleGeometry and PathGeometry describe outlines without drawing them. A GeometryGroup combines several into one Path; FillRule decides whether the overlaps are filled or cut out."
+                            ShowStyleToggle="False"
+                            XamlSource="PathsGeometryGroup.xaml.txt"
+                            CSharpSource="PathsGeometryGroup.cs.txt">
+                <Path WidthRequest="140"
+                      HeightRequest="140"
+                      Fill="{Binding SelectedColor, Source={x:Reference GroupFill}, x:DataType=SwatchPicker}"
+                      Stroke="{Binding SelectedColor, Source={x:Reference GroupFill}, x:DataType=SwatchPicker}"
+                      StrokeThickness="2"
+                      AutomationId="sample-geometry-group">
+                    <Path.Data>
+                        <GeometryGroup FillRule="{Binding SelectedItem, Source={x:Reference GroupFillRule}, x:DataType=Picker}">
+                            <EllipseGeometry Center="70,70" RadiusX="64" RadiusY="64" />
+                            <EllipseGeometry Center="70,70" RadiusX="40" RadiusY="40" />
+                            <RectangleGeometry Rect="58,2,24,136" />
+                        </GeometryGroup>
+                    </Path.Data>
+                </Path>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="FillRule" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="GroupFillRule"
+                                ItemsSource="{StaticResource GroupFillRuleOptions}"
+                                SelectedIndex="0"
+                                AutomationId="option-group-fill-rule" />
+                        <Label Text="Fill" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="GroupFill" SelectedColor="#2563EB" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="FillRule" Value="{Binding SelectedItem, Source={x:Reference GroupFillRule}, x:DataType=Picker}" Default="EvenOdd" IsExpression="True" />
+                    <Substitution Key="Fill" Value="{Binding SelectedColor, Source={x:Reference GroupFill}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Figures and segments -->
+            <ControlExample x:Name="CurveExample"
+                            Title="Build a curve from segments"
+                            Description="A PathGeometry holds figures, and each figure starts at a point and continues through segments: LineSegment, ArcSegment, QuadraticBezierSegment or, here, a BezierSegment whose two control points bend the curve."
+                            ShowStyleToggle="False"
+                            XamlSource="PathsBezier.xaml.txt"
+                            CSharpSource="PathsBezier.cs.txt">
+                <Grid WidthRequest="280" HeightRequest="200">
+                    <!-- Guides that show where the control points are; they are not part of the sample. -->
+                    <Polyline x:Name="CurveGuide"
+                              Stroke="{StaticResource BoundsBrush}"
+                              StrokeThickness="1"
+                              StrokeDashArray="4,4" />
+                    <Ellipse x:Name="Handle1"
+                             WidthRequest="12"
+                             HeightRequest="12"
+                             HorizontalOptions="Start"
+                             VerticalOptions="Start"
+                             Fill="{StaticResource BoundsBrush}" />
+                    <Ellipse x:Name="Handle2"
+                             WidthRequest="12"
+                             HeightRequest="12"
+                             HorizontalOptions="Start"
+                             VerticalOptions="Start"
+                             Fill="{StaticResource BoundsBrush}" />
+                    <Path Stroke="#0D9488"
+                          StrokeThickness="5"
+                          StrokeLineCap="Round"
+                          AutomationId="sample-bezier-path">
+                        <Path.Data>
+                            <PathGeometry>
+                                <PathFigure StartPoint="20,170">
+                                    <BezierSegment x:Name="Curve" Point3="260,30" />
+                                </PathFigure>
+                            </PathGeometry>
+                        </Path.Data>
+                    </Path>
+                </Grid>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference CurvePoint1}, StringFormat='Point1: 80,{0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="CurvePoint1" Minimum="0" Maximum="200" Value="10" ValueChanged="OnCurveChanged" AutomationId="option-curve-point1" />
+                        <Label Text="{Binding Value, Source={x:Reference CurvePoint2}, StringFormat='Point2: 200,{0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="CurvePoint2" Minimum="0" Maximum="200" Value="190" ValueChanged="OnCurveChanged" AutomationId="option-curve-point2" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="CurvePoint1Y" Key="Point1Y" />
+                    <Substitution x:Name="CurvePoint2Y" Key="Point2Y" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

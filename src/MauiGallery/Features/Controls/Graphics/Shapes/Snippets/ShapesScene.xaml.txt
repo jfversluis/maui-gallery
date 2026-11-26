@@ -1,0 +1,26 @@
+<Border
+    WidthRequest="280"
+    HeightRequest="180"
+    StrokeThickness="0"
+    StrokeShape="RoundRectangle 20">
+    <Grid>
+        <!-- Children are drawn in order: sky, sun, mountains, hills. -->
+        <Rectangle>
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0,1">
+                    <GradientStop Color="#38BDF8" Offset="0" />
+                    <GradientStop Color="#FDE68A" Offset="1" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Ellipse
+            WidthRequest="56"
+            HeightRequest="56"
+            Margin="0,28,40,0"
+            HorizontalOptions="End"
+            VerticalOptions="Start"
+            Fill="#FBBF24" />
+        <Polygon Points="0,180 0,120 70,56 130,118 190,70 280,140 280,180" Fill="#6366F1" />
+        <Polygon Points="0,180 0,150 60,124 130,156 200,128 280,152 280,180" Fill="#0F766E" />
+    </Grid>
+</Border>

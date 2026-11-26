@@ -1,0 +1,25 @@
+using Microsoft.Maui.Controls.Shapes;
+
+var line = new Line
+{
+    X1 = 12,
+    Y1 = 12,
+    X2 = 248,
+    Y2 = 12,
+    HeightRequest = 24,
+    Stroke = $(Stroke),
+    StrokeThickness = $(StrokeThickness),
+    StrokeDashArray = $(StrokeDashArrayCode),
+    StrokeLineCap = PenLineCap.$(StrokeLineCap),
+};
+
+var polyline = new Polyline
+{
+    Points = [new(12, 92), new(60, 32), new(108, 80), new(156, 24), new(204, 72), new(248, 36)],
+    HeightRequest = 112,
+    Stroke = $(Stroke),
+    StrokeThickness = $(StrokeThickness),
+    StrokeDashArray = $(StrokeDashArrayCode),
+    StrokeLineCap = PenLineCap.$(StrokeLineCap),
+    StrokeLineJoin = PenLineJoin.$(StrokeLineJoin),
+};
