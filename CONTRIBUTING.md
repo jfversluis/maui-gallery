@@ -143,6 +143,27 @@ Then run the app and check the page on at least one mobile and one desktop targe
 With DevFlow: `maui devflow ui navigate "//main/controls/{id}"`, then `maui devflow ui screenshot`, and
 `maui devflow ui query --fields bounds` for anything that looks clipped. AI agents can follow the `add-gallery-sample` skill in `.github/skills`.
 
+### 5. Platform screenshots ("Same code, every platform")
+
+Pages whose subject is one native control end with screenshots of their first example on iOS, Android, macOS and
+Windows. The page ids are listed in `src/MauiGallery.Core/Catalog/PlatformShots.cs`, the page adds
+`<PlatformShowcase />` before `<RelatedItems />`, and the images live in
+`src/MauiGallery/Resources/Raw/platform-shots/<id>/<platform>-<light|dark>.png`. A test fails when an image is
+missing or orphaned. To add a page, or to refresh the images after changing a first example:
+
+```bash
+# iOS, Android and Mac Catalyst: run the Debug app with DevFlow (see AGENTS.md), then for each platform
+eng/platform-shots/capture.sh ios --agent-port <port> [--pages button,switch]   # or android, maccatalyst
+python3 eng/platform-shots/normalize.py --platforms ios                          # needs Pillow
+```
+
+`capture.sh` switches the app's theme, opens each page and saves a DevFlow element screenshot of the sample (it has
+a transparent background) to `artifacts/platform-shots/raw`. `normalize.py` trims it, scales it to 2 pixels per
+unit so every platform shows the control at the same size, adds a uniform margin and writes an optimized PNG.
+For Windows, run the **Windows UI** workflow with mode `platform-shots` (or push to its branch with
+`[platform-shots]` in the commit message) and copy the `platform-shots/normalized` folder of its artifact into
+`Resources/Raw/platform-shots`.
+
 ## Code conventions
 
 The build treats warnings as errors and enforces code style, so `dotnet build` is the first reviewer.

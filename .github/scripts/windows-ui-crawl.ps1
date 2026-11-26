@@ -13,6 +13,12 @@
       logs/                      DevFlow logs per configuration, log errors per page, Windows event log
       diagnostics/               Layout diagnostics per page, when the agent supports them
       summary.md                 What worked and what failed
+
+    With -Mode PlatformShots it instead captures the "Same code, every platform" images: for every page listed in
+    src/MauiGallery.Core/Catalog/PlatformShots.cs, in light and dark, a DevFlow screenshot of the window with the
+    first example's sample on screen and the dot grid hidden, saved with the sample's bounds in the window to
+      platform-shots/raw/windows/<id>-<theme>.png and .json
+    Normalize them with eng/platform-shots/normalize.py.
 #>
 param(
     [Parameter(Mandatory)] [string] $AppPath,
@@ -22,7 +28,9 @@ param(
     [string] $Pages = '',
     # Comma-separated <theme>-<size> configurations.
     [string] $Configs = 'light-expanded,dark-expanded,light-medium,dark-medium,light-compact,dark-compact',
-    [double] $PageDelay = 2.0
+    [double] $PageDelay = 2.0,
+    # Crawl (screenshots of every page) or PlatformShots (the "Same code, every platform" captures).
+    [ValidateSet('Crawl', 'PlatformShots')] [string] $Mode = 'Crawl'
 )
 
 $ErrorActionPreference = 'Continue'
@@ -239,6 +247,67 @@ function Save-LogError([string] $pageId, [string] $config) {
 }
 #endregion
 
+function Save-PlatformShots {
+    $selector = 'DotGridView ~ ContentView'
+    $rawDir = Join-Path $OutDir 'platform-shots/raw/windows'
+    New-Item -ItemType Directory -Force -Path $rawDir | Out-Null
+    $shotIds = @(if ($Pages) { $Pages -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ } } else {
+        Select-String -Path 'src/MauiGallery.Core/Catalog/PlatformShots.cs' -Pattern '^\s*"([a-z0-9-]+)",$' |
+            ForEach-Object { $_.Matches[0].Groups[1].Value }
+    })
+    Write-Summary "## Platform shots ($($shotIds.Count) pages)`n"
+    # A second pass retries pages that failed, for example when the app had to be relaunched.
+    foreach ($pass in 1, 2) {
+        foreach ($theme in 'light', 'dark') {
+            $todo = @($shotIds | Where-Object { $pass -eq 1 -or -not (Test-Path (Join-Path $rawDir "$_-$theme.png")) })
+            if ($todo.Count -eq 0) { continue }
+            Set-Configuration $theme 'expanded'
+            foreach ($id in $todo) {
+                if (-not (Test-AppAlive)) {
+                    Add-Failure "App was not running before $theme/$id; relaunching"
+                    if (-not (Start-App)) { return }
+                    Set-Configuration $theme 'expanded'
+                }
+                Invoke-DevFlow ui navigate "//main/controls/$id" | Out-Null
+                $found = Invoke-DevFlow ui query --selector $selector --wait-until exists --timeout 15
+                if (-not $found.Ok) { Add-Failure "No stage on $id ($theme)"; continue }
+                Start-Sleep -Seconds $(if ($id -eq 'image') { 6 } else { $PageDelay })
+                $query = Invoke-DevFlow ui query --selector $selector --fields 'id,bounds' --json
+                try {
+                    # The output starts with the CLI's "→ target: ... [agent ...]" line; the JSON array follows it.
+                    if ($query.Output -notmatch '(?s)(?:^|\n)(\[\s*\{.*)$') { throw 'no JSON' }
+                    $stage = @($Matches[1] | ConvertFrom-Json)[0]
+                    if (-not $stage.id) { throw 'no element' }
+                    } catch {
+                    Add-Failure "No stage bounds for $id ($theme): $($query.Output)"
+                    continue
+                }
+                # WinUI renders element screenshots without their alpha channel (transparent becomes black), so take
+                # the window instead and let normalize.py crop the stage out of it: hide the dot grid, bring the stage
+                # on screen and record where it is.
+                $dots = Invoke-DevFlow ui query --selector DotGridView --fields id --json
+                if ($dots.Output -match '(?s)(?:^|\n)(\[\s*\{.*)$') {
+                    foreach ($dot in @($Matches[1] | ConvertFrom-Json)) { Invoke-DevFlow ui set-property $dot.id IsVisible False | Out-Null }
+                }
+                Invoke-DevFlow ui scroll --element $stage.id --position Center | Out-Null
+                Start-Sleep -Seconds 1
+                $element = Invoke-DevFlow ui element $stage.id
+                try {
+                    $window = ($element.Output.Substring($element.Output.IndexOf("`n{") + 1) | ConvertFrom-Json).windowBounds
+                    @{ width = $stage.bounds.width; height = $stage.bounds.height; crop = $window } | ConvertTo-Json -Compress |
+                        Set-Content (Join-Path $rawDir "$id-$theme.json")
+                } catch {
+                    Add-Failure "No window bounds for $id ($theme): $($element.Output)"
+                    continue
+                }
+                $shot = Invoke-DevFlow ui screenshot --overwrite --output (Join-Path $rawDir "$id-$theme.png")
+                if ($shot.Ok) { Write-Host "windows $theme $id" } else { Add-Failure "Screenshot failed for $id ($theme): $($shot.Output)" }
+                Save-LogError $id "shots-$theme"
+            }
+        }
+    }
+}
+
 # Page ids come from the catalog, so new pages are crawled without touching the workflow.
 $ids = @(if ($Pages) {
     $Pages -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ }
@@ -259,6 +328,11 @@ if (-not (Start-App)) {
 }
 Save-Screen (Join-Path $OutDir 'desktop/after-launch.png')
 
+if ($Mode -eq 'PlatformShots') {
+    Save-PlatformShots
+    $Configs = ''
+}
+
 # Layout diagnostics need a newer agent than some builds ship; probe once and only use them if they work.
 $probe = Invoke-DevFlow ui diagnostics --profile ci
 Set-Content (Join-Path $OutDir 'diagnostics/probe.txt') $probe.Output
@@ -266,7 +340,7 @@ $diagnosticsSupported = $probe.Ok -and $probe.Output -notmatch '(?i)not (found|s
 Write-Summary "- Layout diagnostics supported: $diagnosticsSupported`n"
 
 $firstConfig = $true
-foreach ($config in ($Configs -split ',' | ForEach-Object { $_.Trim() })) {
+foreach ($config in ($Configs -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })) {
     $theme, $size = $config -split '-'
     Write-Summary "`n## $config"
     $pageDir = Join-Path $OutDir "pages/$config"

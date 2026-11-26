@@ -2,6 +2,8 @@ name: Windows UI
 
 # Builds the Debug Windows app (unpackaged, with the DevFlow agent), crawls every catalog page with the maui CLI in
 # light and dark at compact, medium and expanded widths, and uploads the screenshots, logs and diagnostics.
+# With mode "platform-shots" (or a push whose commit message contains [platform-shots]) it captures the
+# "Same code, every platform" images instead (see eng/platform-shots) and uploads them normalized, ready to commit.
 # Runs on GitHub-hosted windows-latest by default. To use a self-hosted machine (see docs/windows-validation.md),
 # pick its label in the run dialog or set the WINDOWS_UI_RUNNER repository variable to it, e.g. windows-ui.
 
@@ -17,12 +19,16 @@ on:
       configs:
         description: Comma-separated <theme>-<size> configurations
         default: light-expanded,dark-expanded,light-medium,dark-medium,light-compact,dark-compact
+      mode:
+        description: crawl, or platform-shots to capture the "Same code, every platform" images
+        default: crawl
   push:
     branches: [jfversluis-maui-gallery-build-windows]
     paths:
       - src/MauiGallery/**
       - .github/workflows/windows-ui.yml
       - .github/scripts/windows-ui-crawl.ps1
+      - eng/platform-shots/**
 
 permissions:
   contents: read
@@ -41,6 +47,7 @@ env:
   # Defaults for push runs; manual runs set them in the run dialog.
   CRAWL_PAGES: ''
   CRAWL_CONFIGS: light-expanded,dark-expanded,light-medium,dark-medium,light-compact,dark-compact
+  CRAWL_MODE: ${{ (inputs.mode == 'platform-shots' || contains(github.event.head_commit.message, '[platform-shots]')) && 'PlatformShots' || 'Crawl' }}
 
 jobs:
   crawl:
@@ -132,9 +139,24 @@ jobs:
 
       - name: Crawl the catalog
         run: |
-          ./.github/scripts/windows-ui-crawl.ps1 -AppPath $env:APP_PATH -OutDir $env:OUT_DIR `
+          ./.github/scripts/windows-ui-crawl.ps1 -AppPath $env:APP_PATH -OutDir $env:OUT_DIR -Mode $env:CRAWL_MODE `
             -Pages '${{ inputs.pages || env.CRAWL_PAGES }}' -Configs '${{ inputs.configs || env.CRAWL_CONFIGS }}'
           Get-Content "$env:OUT_DIR/summary.md" >> $env:GITHUB_STEP_SUMMARY
+
+      # Trims, scales and optimizes the captures, then collects them under platform-shots/normalized, laid out like
+      # src/MauiGallery/Resources/Raw/platform-shots, so they can be copied straight into the repository.
+      - name: Normalize the platform shots
+        if: env.CRAWL_MODE == 'PlatformShots'
+        run: |
+          python -m pip install --quiet pillow
+          python eng/platform-shots/normalize.py --raw "$env:OUT_DIR/platform-shots/raw" --platforms windows
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $target = Join-Path $env:OUT_DIR 'platform-shots/normalized'
+          Get-ChildItem src/MauiGallery/Resources/Raw/platform-shots -Recurse -Filter 'windows-*.png' | ForEach-Object {
+              $dir = Join-Path $target $_.Directory.Name
+              New-Item -ItemType Directory -Force -Path $dir | Out-Null
+              Copy-Item $_.FullName $dir
+          }
 
       - name: Upload the results
         if: always()
