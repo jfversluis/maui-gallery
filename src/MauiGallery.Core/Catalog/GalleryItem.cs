@@ -48,4 +48,7 @@ public sealed record GalleryItem
 
     /// <summary>Featured items are highlighted on the home page.</summary>
     public bool IsFeatured => !string.IsNullOrWhiteSpace(FeaturedTask);
+
+    /// <summary>The page shows screenshots of its first example on every platform; see <see cref="PlatformShots"/>.</summary>
+    public bool HasPlatformShots => PlatformShots.Has(Id);
 }

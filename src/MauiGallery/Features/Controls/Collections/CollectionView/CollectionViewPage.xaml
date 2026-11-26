@@ -296,6 +296,7 @@
                 </ControlExample.Substitutions>
             </ControlExample>
 
+            <PlatformShowcase />
             <RelatedItems />
         </VerticalStackLayout>
     </ScrollView>

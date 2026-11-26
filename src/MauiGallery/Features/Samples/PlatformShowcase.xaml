@@ -1,0 +1,106 @@
+<ContentView x:Class="MauiGallery.Features.Samples.PlatformShowcase"
+             xmlns:behaviors="clr-namespace:MauiGallery.DesignSystem.Behaviors"
+             x:DataType="SamplePageViewModel"
+             IsVisible="{Binding Item.HasPlatformShots}">
+    <ContentView.Resources>
+        <!-- 2x2 on phones and medium windows, one row of four when expanded. -->
+        <Style x:Key="PlatformTiles" TargetType="AdaptiveGrid">
+            <Setter Property="MinItemWidth" Value="130" />
+            <Setter Property="ColumnSpacing" Value="{StaticResource Space12}" />
+            <Setter Property="RowSpacing" Value="{StaticResource Space12}" />
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="WindowWidth">
+                        <VisualState x:Name="Compact">
+                            <VisualState.Setters>
+                                <Setter Property="MaxColumns" Value="2" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Medium">
+                            <VisualState.Setters>
+                                <Setter Property="MaxColumns" Value="2" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Expanded">
+                            <VisualState.Setters>
+                                <Setter Property="MaxColumns" Value="4" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+            <Setter Property="behaviors:WindowSizeStates.IsEnabled" Value="True" />
+        </Style>
+        <Style x:Key="PlatformTile" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="{DynamicResource ColorSurface}" />
+            <Setter Property="Stroke" Value="{DynamicResource BrushOutline}" />
+            <Setter Property="StrokeThickness" Value="1" />
+            <Setter Property="StrokeShape" Value="{StaticResource ShapeCard}" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+        <Style x:Key="ThisDevicePill" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="{DynamicResource ColorAccentSubtle}" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="StrokeShape" Value="{StaticResource ShapePill}" />
+            <Setter Property="Padding" Value="8,2" />
+        </Style>
+    </ContentView.Resources>
+
+    <VerticalStackLayout Spacing="{StaticResource Space12}" Padding="0,8,0,0">
+        <SectionHeader Title="Same code, every platform" />
+        <Label x:Name="Intro" Style="{StaticResource TextBodySecondary}" />
+
+        <AdaptiveGrid x:Name="Tiles" Style="{StaticResource PlatformTiles}" AutomationId="platform-shots">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="PlatformShotTile">
+                    <!-- One accessible element per tile: the description names the platform and its native control. -->
+                    <Border Style="{StaticResource PlatformTile}"
+                            SemanticProperties.Description="{Binding Description}"
+                            ToolTipProperties.Text="{Binding Description}">
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding IsCurrent}" Value="True">
+                                <Setter Property="Stroke" Value="{DynamicResource BrushAccent}" />
+                                <Setter Property="StrokeThickness" Value="1.5" />
+                            </DataTrigger>
+                        </Border.Triggers>
+                        <Grid RowDefinitions="*,Auto" AutomationProperties.ExcludedWithChildren="True">
+                            <!-- The screenshot: transparent, on the stage color, at the size the platform drew it. -->
+                            <Grid MinimumHeightRequest="{Binding WellHeight}"
+                                  Padding="{StaticResource Space12}"
+                                  BackgroundColor="{DynamicResource ColorStage}">
+                                <Image Source="{Binding Image}"
+                                       WidthRequest="{Binding DisplayWidth}"
+                                       HeightRequest="{Binding DisplayHeight}"
+                                       Aspect="AspectFit"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                                <Label Text="Not captured yet"
+                                       Style="{StaticResource TextCaption}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       IsVisible="{Binding IsMissing}" />
+                            </Grid>
+                            <BoxView Grid.Row="1" Style="{StaticResource Divider}" VerticalOptions="Start" />
+                            <VerticalStackLayout Grid.Row="1" Padding="12,10" Spacing="2">
+                                <FlexLayout Wrap="Wrap" AlignItems="Center">
+                                    <Label Text="{Binding PlatformName}"
+                                           Style="{StaticResource TextBodyStrong}"
+                                           Margin="0,0,6,0" />
+                                    <Border Style="{StaticResource ThisDevicePill}" IsVisible="{Binding IsCurrent}">
+                                        <Label Text="This device"
+                                               Style="{StaticResource TextCaptionStrong}"
+                                               TextColor="{DynamicResource ColorAccentText}" />
+                                    </Border>
+                                </FlexLayout>
+                                <Label Text="{Binding NativeType}"
+                                       Style="{StaticResource TextCaption}"
+                                       FontFamily="{StaticResource FontCode}"
+                                       IsVisible="{Binding HasNativeType}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </AdaptiveGrid>
+    </VerticalStackLayout>
+</ContentView>

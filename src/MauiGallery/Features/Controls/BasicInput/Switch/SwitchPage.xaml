@@ -111,6 +111,7 @@
                 </Grid>
             </ControlExample>
 
+            <PlatformShowcase />
             <RelatedItems />
         </VerticalStackLayout>
     </ScrollView>

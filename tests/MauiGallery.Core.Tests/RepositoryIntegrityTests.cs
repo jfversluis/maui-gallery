@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
+using MauiGallery.Core.Catalog;
 using MauiGallery.Core.Snippets;
 using MauiGallery.Core.Syntax;
 
@@ -10,6 +11,8 @@ namespace MauiGallery.Core.Tests;
 public sealed class RepositoryIntegrityTests
 {
     private static readonly XNamespace XamlNamespace = "http://schemas.microsoft.com/winfx/2009/xaml";
+
+    private static readonly bool[] DarkAndLight = [true, false];
 
     public static TheoryData<string> SamplePages() =>
         [.. Directory.EnumerateFiles(Repository.Features, "*Page.xaml", SearchOption.AllDirectories)
@@ -99,6 +102,67 @@ public sealed class RepositoryIntegrityTests
         Assert.True(unregistered.Count == 0, $"Register a handler for, or derive from a concrete view: {string.Join(", ", unregistered)}");
     }
 
+    [Fact]
+    public void EveryPlatformShotsPageHasItsImages()
+    {
+        var problems = new List<string>();
+        foreach (var id in PlatformShots.ItemIds)
+        {
+            foreach (var platform in PlatformShots.Platforms)
+            {
+                foreach (var dark in DarkAndLight)
+                {
+                    var path = Path.Combine(Repository.PlatformShots, id, PlatformShots.FileNameFor(platform, dark));
+                    if (!File.Exists(path))
+                    {
+                        problems.Add($"missing {Path.GetRelativePath(Repository.Root, path)}");
+                    }
+                    else if (!PlatformShots.TryReadPngSize(File.ReadAllBytes(path), out var width, out _) || width > 640)
+                    {
+                        problems.Add($"{Path.GetRelativePath(Repository.Root, path)} is not a PNG at most 640 pixels wide");
+                    }
+                }
+            }
+        }
+
+        Assert.True(problems.Count == 0, $"Capture them with eng/platform-shots (see CONTRIBUTING.md):\n{string.Join('\n', problems)}");
+    }
+
+    [Fact]
+    public void NoOrphanPlatformShots()
+    {
+        var expected = PlatformShots.ItemIds
+            .SelectMany(id => PlatformShots.Platforms.SelectMany(p => DarkAndLight.Select(dark => Path.Combine(id, PlatformShots.FileNameFor(p, dark)))))
+            .ToHashSet(StringComparer.Ordinal);
+        var orphans = Directory.Exists(Repository.PlatformShots)
+            ? Directory.EnumerateFiles(Repository.PlatformShots, "*", SearchOption.AllDirectories)
+                .Select(p => Path.GetRelativePath(Repository.PlatformShots, p))
+                .Where(p => !expected.Contains(p) && Path.GetFileName(p) != ".DS_Store")
+                .ToList()
+            : [];
+
+        Assert.True(orphans.Count == 0, $"Images without a PlatformShots.ItemIds entry: {string.Join(", ", orphans)}");
+    }
+
+    [Fact]
+    public void PlatformShotsPagesShowTheShowcase()
+    {
+        // Pairs each catalog id with its page type, then finds the page's XAML.
+        var catalog = string.Concat(Directory.EnumerateFiles(Path.Combine(Repository.Features, "Catalog"), "GalleryCatalog.*.cs").Select(File.ReadAllText));
+        var pages = Regex.Matches(catalog, @"Id = ""([a-z0-9-]+)"",.*?PageType = typeof\((\w+)\)", RegexOptions.Singleline)
+            .ToDictionary(m => m.Groups[1].Value, m => m.Groups[2].Value, StringComparer.Ordinal);
+        var showcasePages = Directory.EnumerateFiles(Repository.Features, "*Page.xaml", SearchOption.AllDirectories)
+            .Where(p => File.ReadAllText(p).Contains("<PlatformShowcase", StringComparison.Ordinal))
+            .Select(Path.GetFileNameWithoutExtension)
+            .ToHashSet(StringComparer.Ordinal);
+
+        var unknown = PlatformShots.ItemIds.Where(id => !pages.ContainsKey(id)).ToList();
+        Assert.True(unknown.Count == 0, $"PlatformShots.ItemIds lists ids that aren't in the catalog: {string.Join(", ", unknown)}");
+
+        var listed = PlatformShots.ItemIds.Select(id => pages[id]).ToHashSet(StringComparer.Ordinal);
+        Assert.Equal(listed.Order(StringComparer.Ordinal), showcasePages.Order(StringComparer.Ordinal));
+    }
+
     private static HashSet<string> Keys(string path) =>
         [.. LoadXaml(path).Root!.Elements().Select(e => (string?)e.Attribute(XamlNamespace + "Key")).OfType<string>()];
 
@@ -109,6 +173,8 @@ public sealed class RepositoryIntegrityTests
         public static string Features => Path.Combine(Root, "src", "MauiGallery", "Features");
 
         public static string DesignSystem => Path.Combine(Root, "src", "MauiGallery", "DesignSystem");
+
+        public static string PlatformShots => Path.Combine(Root, "src", "MauiGallery", "Resources", "Raw", Core.Catalog.PlatformShots.Folder);
 
         private static string FindRoot()
         {

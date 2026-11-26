@@ -134,6 +134,7 @@
                 </VerticalStackLayout>
             </ControlExample>
 
+            <PlatformShowcase />
             <RelatedItems />
         </VerticalStackLayout>
     </ScrollView>

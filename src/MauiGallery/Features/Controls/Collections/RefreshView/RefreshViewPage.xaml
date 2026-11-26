@@ -120,6 +120,7 @@
                 </ControlExample.Options>
             </ControlExample>
 
+            <PlatformShowcase />
             <RelatedItems />
         </VerticalStackLayout>
     </ScrollView>
