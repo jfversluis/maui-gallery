@@ -1,7 +1,8 @@
-if (OrientationSensor.Default.IsSupported)
+// IsMonitoring is app-wide: another page or window may already be using the sensor
+if (OrientationSensor.Default.IsSupported && !OrientationSensor.Default.IsMonitoring)
 {
-    OrientationSensor.Default.ReadingChanged += OnOrientationSensorReadingChanged;
     OrientationSensor.Default.Start(SensorSpeed.$(Speed));
+    OrientationSensor.Default.ReadingChanged += OnOrientationSensorReadingChanged;
 }
 
 // Stop when you're done, at the latest when the page disappears

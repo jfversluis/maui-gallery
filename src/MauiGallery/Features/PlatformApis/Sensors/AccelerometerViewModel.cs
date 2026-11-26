@@ -15,11 +15,13 @@ public sealed partial class AccelerometerViewModel(IAccelerometer accelerometer)
 
     public string Reading => SensorText.Format(Acceleration, "0.00", "g");
 
+    protected override bool IsSensorMonitoring => accelerometer.IsMonitoring;
+
     protected override void OnStart(SensorSpeed speed)
     {
+        accelerometer.Start(speed);
         accelerometer.ReadingChanged += OnReadingChanged;
         accelerometer.ShakeDetected += OnShakeDetected;
-        accelerometer.Start(speed);
     }
 
     protected override void OnStop()

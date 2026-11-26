@@ -18,10 +18,12 @@ public sealed partial class BarometerViewModel(IBarometer barometer) : SensorVie
         ? $"About {44330 * (1 - Math.Pow(pressure / SeaLevelPressure, 1 / 5.255)):0} m above sea level, on a standard day"
         : "Start to read the air pressure";
 
+    protected override bool IsSensorMonitoring => barometer.IsMonitoring;
+
     protected override void OnStart(SensorSpeed speed)
     {
-        barometer.ReadingChanged += OnReadingChanged;
         barometer.Start(speed);
+        barometer.ReadingChanged += OnReadingChanged;
     }
 
     protected override void OnStop()

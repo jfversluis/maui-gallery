@@ -35,10 +35,12 @@ public sealed partial class OrientationViewModel(IOrientationSensor orientation)
 
     public string Angles => $"Forward {SensorText.Number(TiltForward, "0")}°   Sideways {SensorText.Number(TiltSideways, "0")}°";
 
+    protected override bool IsSensorMonitoring => orientation.IsMonitoring;
+
     protected override void OnStart(SensorSpeed speed)
     {
-        orientation.ReadingChanged += OnReadingChanged;
         orientation.Start(speed);
+        orientation.ReadingChanged += OnReadingChanged;
     }
 
     protected override void OnStop()

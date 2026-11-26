@@ -1,7 +1,8 @@
-if (Gyroscope.Default.IsSupported)
+// IsMonitoring is app-wide: another page or window may already be using the sensor
+if (Gyroscope.Default.IsSupported && !Gyroscope.Default.IsMonitoring)
 {
-    Gyroscope.Default.ReadingChanged += OnGyroscopeReadingChanged;
     Gyroscope.Default.Start(SensorSpeed.$(Speed));
+    Gyroscope.Default.ReadingChanged += OnGyroscopeReadingChanged;
 }
 
 // Stop when you're done, at the latest when the page disappears
