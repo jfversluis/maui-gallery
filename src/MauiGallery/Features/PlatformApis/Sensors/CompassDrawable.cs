@@ -18,7 +18,7 @@ public sealed class CompassDrawable(CompassViewModel viewModel) : IDrawable
 
         // Turn the whole rose against the heading. ICanvas rotates clockwise, in degrees, around a point.
         canvas.SaveState();
-        canvas.Rotate(-(float)viewModel.Heading, center.X, center.Y);
+        canvas.Rotate(-(float)(viewModel.Heading ?? 0), center.X, center.Y);
 
         canvas.StrokeColor = TickColor;
         canvas.StrokeLineCap = LineCap.Round;

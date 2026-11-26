@@ -43,7 +43,7 @@
                            FontAttributes="Bold"
                            AutomationId="sample-geolocation-last-known" />
                     <Label Text="{Binding LastKnownDetails}" FontSize="13" />
-                    <Label Text="{Binding IsEnabled, StringFormat='Location services on: {0}'}" FontSize="13" />
+                    <Label Text="{Binding IsEnabled, StringFormat='IsEnabled (location services on): {0}'}" FontSize="13" />
                     <Button x:Name="LastKnownButton"
                             Text="Get last known location"
                             HorizontalOptions="Start"
@@ -126,15 +126,7 @@
                            FontAttributes="Bold"
                            AutomationId="sample-geolocation-listen" />
                     <Label Text="{Binding ListenDetails}" FontSize="13" />
-                    <Label FontSize="13" AutomationId="sample-geolocation-listen-count">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="{Binding UpdateCount}" />
-                                <Span Text=" updates · " />
-                                <Span Text="{Binding MetersTravelled, StringFormat='{0:0} m travelled'}" />
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
+                    <Label Text="{Binding Progress}" FontSize="13" AutomationId="sample-geolocation-listen-count" />
                     <Button x:Name="ListenButton"
                             Text="{Binding ListenButtonText}"
                             HorizontalOptions="Start"

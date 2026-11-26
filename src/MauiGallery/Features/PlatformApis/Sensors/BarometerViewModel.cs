@@ -9,12 +9,14 @@ public sealed partial class BarometerViewModel(IBarometer barometer) : SensorVie
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(Reading), nameof(Altitude))]
-    public partial double Pressure { get; set; } = SeaLevelPressure;
+    public partial double? Pressure { get; set; }
 
-    public string Reading => $"{Pressure:0.0} hPa";
+    public string Reading => Pressure is { } pressure ? $"{pressure:0.0} hPa" : "–";
 
     // The international barometric formula: roughly 8 m higher for every hectopascal less.
-    public string Altitude => $"About {44330 * (1 - Math.Pow(Pressure / SeaLevelPressure, 1 / 5.255)):0} m above sea level, on a standard day";
+    public string Altitude => Pressure is { } pressure
+        ? $"About {44330 * (1 - Math.Pow(pressure / SeaLevelPressure, 1 / 5.255)):0} m above sea level, on a standard day"
+        : "Start to read the air pressure";
 
     protected override void OnStart(SensorSpeed speed)
     {

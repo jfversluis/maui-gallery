@@ -58,10 +58,14 @@ public sealed partial class GeolocationViewModel(IGeolocation geolocation) : Obs
     public partial string? ListenDetails { get; set; }
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Progress))]
     public partial int UpdateCount { get; set; }
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Progress))]
     public partial double MetersTravelled { get; set; }
+
+    public string Progress => $"{UpdateCount} {(UpdateCount == 1 ? "update" : "updates")} · {MetersTravelled:N0} m travelled";
 
     [ObservableProperty]
     public partial string? Error { get; set; }

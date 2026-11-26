@@ -33,7 +33,12 @@ public sealed class BarometerDrawable(BarometerViewModel viewModel) : IDrawable
                 HorizontalAlignment.Center, VerticalAlignment.Center);
         }
 
-        var fraction = Math.Clamp((viewModel.Pressure - Minimum) / (Maximum - Minimum), 0, 1);
+        if (viewModel.Pressure is not { } pressure)
+        {
+            return;
+        }
+
+        var fraction = Math.Clamp((pressure - Minimum) / (Maximum - Minimum), 0, 1);
         var (needleSin, needleCos) = Math.SinCos(Math.PI * (1 - fraction));
         var length = radius - 8;
         canvas.StrokeColor = NeedleColor;

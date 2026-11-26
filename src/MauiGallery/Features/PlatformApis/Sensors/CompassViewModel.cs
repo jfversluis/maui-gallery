@@ -9,13 +9,13 @@ public sealed partial class CompassViewModel(ICompass compass) : SensorViewModel
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(Reading))]
-    public partial double Heading { get; set; }
+    public partial double? Heading { get; set; }
 
     /// <summary>Smooths the readings on Android. The other platforms ignore it.</summary>
     [ObservableProperty]
     public partial bool ApplyLowPassFilter { get; set; }
 
-    public string Reading => $"{Heading:0}° {Directions[(int)Math.Round(Heading / 45) % 8]}";
+    public string Reading => Heading is { } heading ? $"{heading:0}° {Directions[(int)Math.Round(heading / 45) % 8]}" : "–";
 
     protected override void OnStart(SensorSpeed speed)
     {

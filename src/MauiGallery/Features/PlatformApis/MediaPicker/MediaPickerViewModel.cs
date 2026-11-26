@@ -24,7 +24,7 @@ public sealed partial class MediaPickerViewModel(IMediaPicker mediaPicker, IFile
     public bool HasNoPhoto => PhotoPath is null;
 
     [ObservableProperty]
-    public partial string PhotoInfo { get; set; } = "No photo yet";
+    public partial string PhotoInfo { get; set; } = string.Empty;
 
     // Pick several photos
     [ObservableProperty]
@@ -33,7 +33,7 @@ public sealed partial class MediaPickerViewModel(IMediaPicker mediaPicker, IFile
     public ObservableCollection<string> PhotoPaths { get; } = [];
 
     [ObservableProperty]
-    public partial string PhotosInfo { get; set; } = "No photos yet";
+    public partial string PhotosInfo { get; set; } = string.Empty;
 
     // Take a photo
     [ObservableProperty]
@@ -43,7 +43,7 @@ public sealed partial class MediaPickerViewModel(IMediaPicker mediaPicker, IFile
     public bool HasNoCapture => CapturedPath is null;
 
     [ObservableProperty]
-    public partial string CaptureInfo { get; set; } = mediaPicker.IsCaptureSupported ? "No photo yet" : "This device has no camera.";
+    public partial string CaptureInfo { get; set; } = mediaPicker.IsCaptureSupported ? string.Empty : "This device has no camera.";
 
     // Videos
     [ObservableProperty]

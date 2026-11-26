@@ -59,6 +59,7 @@
                         <Label Text="Try an address" Style="{StaticResource OptionLabel}" />
                         <Picker x:Name="ForwardPreset"
                                 ItemsSource="{StaticResource AddressOptions}"
+                                Title="Choose an address"
                                 SelectedIndexChanged="OnForwardPresetChanged"
                                 AutomationId="option-geocoding-address" />
                     </VerticalStackLayout>
@@ -115,6 +116,7 @@
                         <Label Text="Try a place" Style="{StaticResource OptionLabel}" />
                         <Picker x:Name="ReversePreset"
                                 ItemsSource="{StaticResource PlaceOptions}"
+                                Title="Choose a place"
                                 SelectedIndexChanged="OnReversePresetChanged"
                                 AutomationId="option-geocoding-place" />
                     </VerticalStackLayout>

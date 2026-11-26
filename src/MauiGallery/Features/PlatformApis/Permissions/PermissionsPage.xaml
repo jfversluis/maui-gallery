@@ -24,7 +24,7 @@
             <!-- 1. Check -->
             <ControlExample x:Name="CheckExample"
                             Title="Check a permission"
-                            Description="CheckStatusAsync reads a permission's status without asking the user, so you can call it any time: to decide what to show, or to refresh after a visit to Settings. This list refreshes whenever the page appears."
+                            Description="CheckStatusAsync reads a permission's status without asking the user, so you can call it any time: to decide what to show, or to refresh after a visit to Settings. This list refreshes whenever the page appears. Android can't tell a permission it never asked for from one the user denied: both read as Denied."
                             ShowStyleToggle="False"
                             CSharpSource="PermissionsCheck.cs.txt">
                 <VerticalStackLayout x:Name="CheckSample"
@@ -94,7 +94,7 @@
                     </VerticalStackLayout>
                 </ControlExample.Options>
                 <ControlExample.Substitutions>
-                    <Substitution x:Name="RequestPermissionSubstitution" Key="Permission" />
+                    <Substitution x:Name="RequestPermissionSubstitution" Key="Permission" IsExpression="True" />
                 </ControlExample.Substitutions>
             </ControlExample>
 
