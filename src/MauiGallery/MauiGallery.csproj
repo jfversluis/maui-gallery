@@ -83,6 +83,20 @@
     <PackageReference Include="Microsoft.Maui.DevFlow.Blazor" />
   </ItemGroup>
 
+  <!--
+    The Windows library in Microsoft.Maui.DevFlow.Blazor lists wwwroot\chobitsu.js in its PRI index, but the package
+    ships that file as a static web asset instead, so copying the PRI payload fails with MSB3030. Skip payload files
+    that don't exist (Debug only; Release builds don't reference DevFlow).
+  -->
+  <Target Name="SkipMissingDevFlowPriPayload"
+          AfterTargets="AddPriPayloadFilesToCopyToOutputDirectoryItems"
+          Condition="'$(Configuration)' == 'Debug' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
+    <ItemGroup>
+      <_AllChildProjectItemsWithTargetPath Remove="@(_AllChildProjectItemsWithTargetPath)"
+                                           Condition="$([System.String]::Copy('%(FullPath)').Contains('microsoft.maui.devflow')) and !Exists('%(FullPath)')" />
+    </ItemGroup>
+  </Target>
+
   <ItemGroup>
     <ProjectReference Include="..\MauiGallery.Core\MauiGallery.Core.csproj" />
   </ItemGroup>
