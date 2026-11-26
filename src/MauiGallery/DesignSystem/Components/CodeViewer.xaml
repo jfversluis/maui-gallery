@@ -17,7 +17,7 @@
             <Setter Property="TextColor" Value="{DynamicResource ColorAccentText}" />
         </Style>
     </ContentView.Resources>
-    <Grid RowDefinitions="Auto,*" BackgroundColor="{DynamicResource ColorCodeBackground}">
+    <Grid RowDefinitions="Auto,Auto,Auto" BackgroundColor="{DynamicResource ColorCodeBackground}">
         <Grid ColumnDefinitions="*,Auto" Padding="12,8,8,8">
             <HorizontalStackLayout x:Name="Tabs" Spacing="4" VerticalOptions="Center">
                 <Button x:Name="XamlTab" Text="XAML" Clicked="OnXamlTabClicked" AutomationId="code-tab-xaml" />
@@ -68,6 +68,31 @@
                      Background="{DynamicResource BrushCodeFade}"
                      InputTransparent="True"
                      IsVisible="False" />
+            <BoxView x:Name="CollapsedFade"
+                     HeightRequest="40"
+                     VerticalOptions="End"
+                     Background="{DynamicResource BrushCodeFadeBottom}"
+                     InputTransparent="True"
+                     IsVisible="False" />
         </Grid>
+        <!-- Long snippets start collapsed; Copy always copies all of it. -->
+        <Button x:Name="ExpandButton"
+                Grid.Row="2"
+                Style="{StaticResource LinkButton}"
+                FontSize="13"
+                HorizontalOptions="Start"
+                Margin="8,0,8,10"
+                ContentLayout="Right,6"
+                Clicked="OnExpandClicked"
+                IsVisible="False"
+                AutomationId="code-expand">
+            <Button.ImageSource>
+                <FontImageSource x:Name="ExpandGlyph"
+                                 FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                 Glyph="{x:Static icons:FluentIconsRegular.ChevronDown24}"
+                                 Color="{DynamicResource ColorAccentText}"
+                                 Size="14" />
+            </Button.ImageSource>
+        </Button>
     </Grid>
 </ContentView>

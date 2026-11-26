@@ -13,7 +13,14 @@ public partial class CodeViewer : ContentView
 
     private static readonly TimeSpan CopiedFeedbackDuration = TimeSpan.FromSeconds(1.5);
 
+    /// <summary>Long snippets start collapsed to this many lines.</summary>
+    private const int CollapsedLines = 14;
+
+    // Collapsing only pays off when it hides a good part of the snippet.
+    private const int CollapseAbove = 18;
+
     private CodeLanguage _language = CodeLanguage.Xaml;
+    private bool _isExpanded;
 
     public CodeViewer()
     {
@@ -67,8 +74,17 @@ public partial class CodeViewer : ContentView
         CSharpTab.Style = (Style)Resources[_language == CodeLanguage.CSharp ? "SelectedTab" : "Tab"];
 
         var code = CurrentCode ?? string.Empty;
+        var lineCount = SyntaxHighlighter.CountLines(code);
+        var collapsible = lineCount > CollapseAbove;
+        var collapsed = collapsible && !_isExpanded;
+        var tokens = SyntaxHighlighter.Tokenize(code, _language);
+        if (collapsed)
+        {
+            tokens = SyntaxHighlighter.TakeLines(tokens, CollapsedLines);
+        }
+
         var text = new FormattedString();
-        foreach (var token in SyntaxHighlighter.Tokenize(code, _language))
+        foreach (var token in tokens)
         {
             var span = new Span { Text = token.Text };
             span.SetDynamicResource(Span.TextColorProperty, ResourceKeyFor(token.Kind));
@@ -77,7 +93,18 @@ public partial class CodeViewer : ContentView
 
         CodeLabel.FormattedText = text;
         CodeLabel.SetValue(SemanticProperties.DescriptionProperty, code);
-        LineNumbers.Text = string.Join('\n', Enumerable.Range(1, code.Count(c => c == '\n') + 1));
+        LineNumbers.Text = string.Join('\n', Enumerable.Range(1, collapsed ? CollapsedLines : lineCount));
+
+        ExpandButton.IsVisible = collapsible;
+        CollapsedFade.IsVisible = collapsed;
+        ExpandButton.Text = collapsed ? $"Show full code ({lineCount} lines)" : "Show less";
+        ExpandGlyph.Glyph = collapsed ? IconFont.Maui.FluentIcons.FluentIconsRegular.ChevronDown24 : IconFont.Maui.FluentIcons.FluentIconsRegular.ChevronUp24;
+    }
+
+    private void OnExpandClicked(object? sender, EventArgs e)
+    {
+        _isExpanded = !_isExpanded;
+        Render();
     }
 
     private void OnXamlTabClicked(object? sender, EventArgs e)
