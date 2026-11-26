@@ -1,0 +1,8 @@
+<!-- Value binds two-way by default, so taps update Rating in the view model -->
+<VerticalStackLayout Spacing="8" x:DataType="local:ReviewViewModel">
+    <local:RatingView
+        Value="{Binding Rating}"
+        Maximum="$(Maximum)"
+        Color="$(Color)" />
+    <Label Text="{Binding Rating, StringFormat='{0} stars'}" />
+</VerticalStackLayout>

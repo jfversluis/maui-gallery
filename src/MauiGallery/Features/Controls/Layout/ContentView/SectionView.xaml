@@ -1,0 +1,22 @@
+<ContentView x:Class="MauiGallery.Features.Controls.Layouts.SectionView"
+             xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
+             x:DataType="local:SectionView">
+    <ContentView.Resources>
+        <SolidColorBrush x:Key="SectionStroke" Color="{AppThemeBinding Light=#D1D5DB, Dark=#3F3F46}" />
+    </ContentView.Resources>
+    <!-- The template is the section's chrome; ContentPresenter shows whatever content the consumer puts inside. -->
+    <ContentView.ControlTemplate>
+        <ControlTemplate x:DataType="local:SectionView">
+            <VerticalStackLayout Spacing="8">
+                <Label Text="{Binding Title, Source={RelativeSource TemplatedParent}}"
+                       FontSize="12"
+                       FontAttributes="Bold"
+                       TextTransform="Uppercase"
+                       Opacity="0.7" />
+                <Border Padding="16,8" StrokeShape="RoundRectangle 12" Stroke="{StaticResource SectionStroke}">
+                    <ContentPresenter />
+                </Border>
+            </VerticalStackLayout>
+        </ControlTemplate>
+    </ContentView.ControlTemplate>
+</ContentView>

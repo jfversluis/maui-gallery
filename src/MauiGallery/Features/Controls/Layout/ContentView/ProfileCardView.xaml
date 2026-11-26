@@ -1,0 +1,27 @@
+<ContentView x:Class="MauiGallery.Features.Controls.Layouts.ProfileCardView"
+             xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
+             x:Name="Self"
+             x:DataType="local:ProfileCardView">
+    <ContentView.Resources>
+        <SolidColorBrush x:Key="CardStroke" Color="{AppThemeBinding Light=#D1D5DB, Dark=#3F3F46}" />
+    </ContentView.Resources>
+    <Border Padding="12" StrokeShape="RoundRectangle 12" Stroke="{StaticResource CardStroke}">
+        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+            <Border WidthRequest="44"
+                    HeightRequest="44"
+                    StrokeThickness="0"
+                    StrokeShape="Ellipse"
+                    BackgroundColor="{Binding AccentColor, Source={x:Reference Self}}">
+                <Label Text="{Binding Initials, Source={x:Reference Self}}"
+                       TextColor="White"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+            </Border>
+            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                <Label Text="{Binding Name, Source={x:Reference Self}}" FontAttributes="Bold" />
+                <Label Text="{Binding Role, Source={x:Reference Self}}" FontSize="13" Opacity="0.7" />
+            </VerticalStackLayout>
+        </Grid>
+    </Border>
+</ContentView>

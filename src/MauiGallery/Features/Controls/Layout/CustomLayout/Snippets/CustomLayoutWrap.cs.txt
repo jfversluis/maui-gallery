@@ -1,0 +1,96 @@
+using Microsoft.Maui.Layouts;
+
+namespace MyApp.Layouts;
+
+/// <summary>
+/// Wraps its children into rows of equal-width columns: as many columns as fit at <see cref="MinItemWidth"/>, then
+/// stretched to share the full width, so a row of cards always lines up on both edges.
+/// </summary>
+public class UniformWrapLayout : Layout
+{
+    public static readonly BindableProperty MinItemWidthProperty =
+        BindableProperty.Create(nameof(MinItemWidth), typeof(double), typeof(UniformWrapLayout), 120d,
+            propertyChanged: (bindable, _, _) => ((UniformWrapLayout)bindable).InvalidateMeasure());
+
+    public static readonly BindableProperty SpacingProperty =
+        BindableProperty.Create(nameof(Spacing), typeof(double), typeof(UniformWrapLayout), 8d,
+            propertyChanged: (bindable, _, _) => ((UniformWrapLayout)bindable).InvalidateMeasure());
+
+    public double MinItemWidth
+    {
+        get => (double)GetValue(MinItemWidthProperty);
+        set => SetValue(MinItemWidthProperty, value);
+    }
+
+    public double Spacing
+    {
+        get => (double)GetValue(SpacingProperty);
+        set => SetValue(SpacingProperty, value);
+    }
+
+    protected override ILayoutManager CreateLayoutManager() => new UniformWrapLayoutManager(this);
+}
+
+/// <summary>Measures and arranges the children of a <see cref="UniformWrapLayout"/>.</summary>
+public class UniformWrapLayoutManager(UniformWrapLayout layout) : ILayoutManager
+{
+    public Size Measure(double widthConstraint, double heightConstraint)
+    {
+        // Without a width to wrap in, lay out a single row.
+        var width = double.IsInfinity(widthConstraint)
+            ? (layout.Count * (layout.MinItemWidth + layout.Spacing)) - layout.Spacing + layout.Padding.HorizontalThickness
+            : widthConstraint;
+        var (columns, itemWidth) = GetColumns(width - layout.Padding.HorizontalThickness);
+
+        var height = 0d;
+        foreach (var row in layout.Chunk(columns))
+        {
+            // Measuring at the column width lets text wrap; the tallest child sets the row's height.
+            var rowHeight = row.Max(child => child.Measure(itemWidth, double.PositiveInfinity).Height);
+            height += rowHeight + layout.Spacing;
+        }
+
+        height = Math.Max(0, height - layout.Spacing) + layout.Padding.VerticalThickness;
+        return new Size(width, height);
+    }
+
+    public Size ArrangeChildren(Rect bounds)
+    {
+        var padding = layout.Padding;
+        var content = new Rect(bounds.Left + padding.Left, bounds.Top + padding.Top, bounds.Width - padding.HorizontalThickness, bounds.Height - padding.VerticalThickness);
+        var (columns, itemWidth) = GetColumns(content.Width);
+
+        var y = content.Top;
+        foreach (var row in layout.Chunk(columns))
+        {
+            var rowHeight = row.Max(child => child.DesiredSize.Height);
+            for (var column = 0; column < row.Length; column++)
+            {
+                var x = content.Left + (column * (itemWidth + layout.Spacing));
+                row[column].Arrange(new Rect(x, y, itemWidth, rowHeight));
+            }
+
+            y += rowHeight + layout.Spacing;
+        }
+
+        return bounds.Size;
+    }
+
+    private (int Columns, double ItemWidth) GetColumns(double width)
+    {
+        var columns = Math.Max(1, (int)((width + layout.Spacing) / (layout.MinItemWidth + layout.Spacing)));
+        return (columns, (width - ((columns - 1) * layout.Spacing)) / columns);
+    }
+}
+
+// Using it
+var menu = new UniformWrapLayout
+{
+    MinItemWidth = $(MinItemWidth),
+    Spacing = $(Spacing),
+};
+
+foreach (var item in new[] { "Coffee", "Matcha latte", "Croissant", "Raspberry cheesecake", "Tea", "Orange juice", "Bagel" })
+{
+    menu.Add(new Label { Text = item });
+}

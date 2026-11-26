@@ -1,0 +1,12 @@
+<!-- xmlns:local="clr-namespace:MyApp.Layouts" -->
+<local:UniformWrapLayout
+    MinItemWidth="$(MinItemWidth)"
+    Spacing="$(Spacing)">
+    <Label Text="Coffee" />
+    <Label Text="Matcha latte" />
+    <Label Text="Croissant" />
+    <Label Text="Raspberry cheesecake" />
+    <Label Text="Tea" />
+    <Label Text="Orange juice" />
+    <Label Text="Bagel" />
+</local:UniformWrapLayout>
