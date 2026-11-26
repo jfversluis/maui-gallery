@@ -9,7 +9,7 @@ public sealed partial class GeocodingViewModel(IGeocoding geocoding, IGeolocatio
 {
     // Address to coordinates
     [ObservableProperty]
-    public partial string Address { get; set; } = "Rijksmuseum, Amsterdam";
+    public partial string Address { get; set; } = "Museumstraat 1, Amsterdam";
 
     [ObservableProperty]
     public partial string ForwardResult { get; set; } = "Search to see the coordinates";
@@ -131,8 +131,9 @@ public sealed partial class GeocodingViewModel(IGeocoding geocoding, IGeolocatio
         }
         catch (Exception ex)
         {
-            // The platform geocoders throw their own exception types when the service fails or is unreachable.
-            return $"The lookup failed: {ex.Message}";
+            // The platform geocoders throw their own exception types when the service fails or is unreachable,
+            // and Apple's also when it finds nothing (kCLErrorDomain code 8).
+            return $"Nothing found, or the lookup failed: {ex.Message}";
         }
     }
 

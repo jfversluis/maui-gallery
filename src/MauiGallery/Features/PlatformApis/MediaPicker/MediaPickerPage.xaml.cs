@@ -27,7 +27,7 @@ public sealed partial class MediaPickerPage : SamplePage
             switch (e.PropertyName)
             {
                 case nameof(MediaPickerViewModel.PhotoInfo):
-                    PickExample.Output = $"PickPhotoAsync: {viewModel.PhotoInfo}";
+                    PickExample.Output = $"PickPhotosAsync: {viewModel.PhotoInfo}";
                     break;
                 case nameof(MediaPickerViewModel.PhotosInfo):
                     PickManyExample.Output = $"PickPhotosAsync: {viewModel.PhotosInfo}";

@@ -3,11 +3,12 @@
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <x:Array x:Key="AddressOptions" Type="{x:Type x:String}">
-            <x:String>Rijksmuseum, Amsterdam</x:String>
+            <x:String>Museumstraat 1, Amsterdam</x:String>
+            <x:String>5 Avenue Anatole France, Paris</x:String>
             <x:String>1 Microsoft Way, Redmond, WA</x:String>
-            <x:String>Sydney Opera House</x:String>
-            <x:String>Shibuya Crossing, Tokyo</x:String>
-            <x:String>Christ the Redeemer, Rio de Janeiro</x:String>
+            <x:String>Avenida Paulista 1578, São Paulo</x:String>
+            <x:String>Bennelong Point, Sydney NSW 2000</x:String>
+            <x:String>1-1 Marunouchi, Chiyoda, Tokyo</x:String>
         </x:Array>
         <x:Array x:Key="PlaceOptions" Type="{x:Type x:String}">
             <x:String>Eiffel Tower</x:String>
@@ -24,7 +25,7 @@
             <!-- 1. Address to coordinates -->
             <ControlExample x:Name="ForwardExample"
                             Title="Find the coordinates of an address"
-                            Description="GetLocationsAsync turns an address or a place name into locations, best match first. It asks the platform's online geocoding service, so check for a connection and handle failures. On Windows, set a Bing Maps key with Geocoding.SetMapServiceToken first."
+                            Description="GetLocationsAsync turns an address or a place name into locations, best match first. It asks the platform's online geocoding service, so check for a connection and handle failures. Street addresses work best: Apple's geocoder often doesn't know landmarks by name, and reports that as an error rather than an empty list. On Windows, set a Bing Maps key with Geocoding.SetMapServiceToken first."
                             ShowStyleToggle="False"
                             CSharpSource="GeocodingForward.cs.txt">
                 <VerticalStackLayout x:Name="ForwardSample"
