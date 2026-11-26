@@ -1,0 +1,17 @@
+<VerticalStackLayout x:DataType="local:TripsViewModel" Spacing="12">
+    <CarouselView
+        ItemsSource="{Binding Trips}"
+        ItemTemplate="{StaticResource TripTemplate}"
+        Position="{Binding Position}"
+        CurrentItem="{Binding CurrentItem}"
+        Loop="False"
+        HeightRequest="200" />
+    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+        <Button Text="Previous" Command="{Binding PreviousCommand}" />
+        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+            <Label Text="{Binding CurrentItem.Title}" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+            <Label Text="{Binding PositionText}" FontSize="13" HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
+        <Button Grid.Column="2" Text="Next" Command="{Binding NextCommand}" />
+    </Grid>
+</VerticalStackLayout>

@@ -1,0 +1,24 @@
+<VerticalStackLayout x:DataType="local:PlaceSearchViewModel" Spacing="8">
+    <SearchBar Text="{Binding SearchText}" Placeholder="Search places" />
+    <CollectionView
+        ItemsSource="{Binding Results}"
+        ItemTemplate="{StaticResource PlaceTemplate}">
+        <CollectionView.Header>
+            <Label Text="{Binding Summary}" FontAttributes="Bold" Padding="12,8" />
+        </CollectionView.Header>
+        <CollectionView.Footer>
+            <Label Text="Can't find a place? Suggest one." HorizontalTextAlignment="Center" Padding="12" />
+        </CollectionView.Footer>
+        <CollectionView.EmptyView>
+            <VerticalStackLayout Padding="24,48" Spacing="8">
+                <Label
+                    Text="{x:Static icons:FluentIconsRegular.Search24}"
+                    FontFamily="FluentIcons"
+                    FontSize="40"
+                    HorizontalOptions="Center" />
+                <Label Text="No places found" FontAttributes="Bold" HorizontalOptions="Center" />
+                <Label Text="Try a different city or country." HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </CollectionView.EmptyView>
+    </CollectionView>
+</VerticalStackLayout>

@@ -1,0 +1,33 @@
+<VerticalStackLayout x:DataType="local:TagsViewModel" Spacing="12">
+    <FlexLayout Wrap="Wrap" BindableLayout.ItemsSource="{Binding Tags}">
+        <BindableLayout.ItemTemplate>
+            <DataTemplate x:DataType="x:String">
+                <Border
+                    Margin="0,0,8,8"
+                    Padding="12,6"
+                    StrokeShape="RoundRectangle 16"
+                    StrokeThickness="0"
+                    BackgroundColor="{AppThemeBinding Light=#E5E7EB, Dark=#3A3A3C}"
+                    SemanticProperties.Description="{Binding ., StringFormat='Remove {0}'}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:TagsViewModel}}, Path=RemoveTagCommand}"
+                            CommandParameter="{Binding .}" />
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout Spacing="6">
+                        <Label Text="{Binding .}" VerticalOptions="Center" />
+                        <Label
+                            Text="{x:Static icons:FluentIconsRegular.Dismiss24}"
+                            FontFamily="FluentIcons"
+                            FontSize="12"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+            </DataTemplate>
+        </BindableLayout.ItemTemplate>
+    </FlexLayout>
+    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+        <Entry Text="{Binding NewTag}" Placeholder="Add a tag" ReturnCommand="{Binding AddTagCommand}" />
+        <Button Grid.Column="1" Text="Add" Command="{Binding AddTagCommand}" />
+    </Grid>
+</VerticalStackLayout>

@@ -1,0 +1,36 @@
+<ContentPage.Resources>
+    <local:ChatMessageTemplateSelector x:Key="ChatTemplates">
+        <local:ChatMessageTemplateSelector.IncomingTemplate>
+            <DataTemplate x:DataType="local:ChatMessage">
+                <Border
+                    HorizontalOptions="Start"
+                    MaximumWidthRequest="240"
+                    Padding="12,8"
+                    StrokeShape="RoundRectangle 16,16,4,16"
+                    StrokeThickness="0"
+                    BackgroundColor="{AppThemeBinding Light=#E5E5EA, Dark=#3A3A3C}">
+                    <Label Text="{Binding Text}" />
+                </Border>
+            </DataTemplate>
+        </local:ChatMessageTemplateSelector.IncomingTemplate>
+        <local:ChatMessageTemplateSelector.OutgoingTemplate>
+            <DataTemplate x:DataType="local:ChatMessage">
+                <Border
+                    HorizontalOptions="End"
+                    MaximumWidthRequest="240"
+                    Padding="12,8"
+                    StrokeShape="RoundRectangle 16,16,16,4"
+                    StrokeThickness="0"
+                    BackgroundColor="#2563EB">
+                    <Label Text="{Binding Text}" TextColor="White" />
+                </Border>
+            </DataTemplate>
+        </local:ChatMessageTemplateSelector.OutgoingTemplate>
+    </local:ChatMessageTemplateSelector>
+</ContentPage.Resources>
+
+<VerticalStackLayout
+    x:DataType="local:ChatViewModel"
+    Spacing="8"
+    BindableLayout.ItemsSource="{Binding Messages}"
+    BindableLayout.ItemTemplateSelector="{StaticResource ChatTemplates}" />

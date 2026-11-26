@@ -1,0 +1,33 @@
+<CollectionView
+    ItemsSource="{Binding Places}"
+    ItemsLayout="$(ItemsLayout)"
+    HeightRequest="$(HeightRequest)">
+    <CollectionView.ItemTemplate>
+        <DataTemplate x:DataType="local:Place">
+            <Grid Padding="12,8" ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                <Border
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    StrokeShape="RoundRectangle 10"
+                    StrokeThickness="0"
+                    BackgroundColor="{Binding Color}">
+                    <Label
+                        Text="{Binding Glyph}"
+                        FontFamily="FluentIcons"
+                        FontSize="22"
+                        TextColor="White"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+                </Border>
+                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                    <Label Text="{Binding Name}" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                    <Label
+                        Text="{Binding Country}"
+                        FontSize="13"
+                        TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
+                        LineBreakMode="TailTruncation" />
+                </VerticalStackLayout>
+            </Grid>
+        </DataTemplate>
+    </CollectionView.ItemTemplate>
+</CollectionView>

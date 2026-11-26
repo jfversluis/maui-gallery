@@ -1,0 +1,47 @@
+<!-- Inside the ItemTemplate of a CollectionView or BindableLayout -->
+<DataTemplate x:DataType="local:InboxMessage">
+    <SwipeView>
+        <SwipeView.LeftItems>
+            <SwipeItems
+                Mode="$(Mode)"
+                SwipeBehaviorOnInvoked="$(SwipeBehaviorOnInvoked)">
+                <SwipeItem
+                    Text="Archive"
+                    BackgroundColor="#16A34A"
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:InboxViewModel}}, Path=ArchiveCommand}"
+                    CommandParameter="{Binding .}">
+                    <SwipeItem.IconImageSource>
+                        <FontImageSource FontFamily="FluentIcons" Glyph="{x:Static icons:FluentIconsRegular.Archive24}" Color="White" />
+                    </SwipeItem.IconImageSource>
+                </SwipeItem>
+            </SwipeItems>
+        </SwipeView.LeftItems>
+        <SwipeView.RightItems>
+            <SwipeItems
+                SwipeBehaviorOnInvoked="$(SwipeBehaviorOnInvoked)">
+                <SwipeItem
+                    Text="Flag"
+                    BackgroundColor="#D97706"
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:InboxViewModel}}, Path=ToggleFlagCommand}"
+                    CommandParameter="{Binding .}" />
+                <SwipeItem
+                    Text="Delete"
+                    BackgroundColor="#DC2626"
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:InboxViewModel}}, Path=DeleteCommand}"
+                    CommandParameter="{Binding .}" />
+            </SwipeItems>
+        </SwipeView.RightItems>
+
+        <!-- The row itself. Give it a background so it covers the items until they're revealed. -->
+        <Grid
+            Padding="16,12"
+            ColumnDefinitions="*,Auto"
+            BackgroundColor="{AppThemeBinding Light=White, Dark=#1C1C1E}">
+            <VerticalStackLayout>
+                <Label Text="{Binding Sender}" FontAttributes="Bold" />
+                <Label Text="{Binding Subject}" FontSize="13" />
+            </VerticalStackLayout>
+            <Label Grid.Column="1" Text="{Binding Time}" FontSize="12" />
+        </Grid>
+    </SwipeView>
+</DataTemplate>

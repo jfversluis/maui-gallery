@@ -1,0 +1,23 @@
+var tasks = new VerticalStackLayout();
+BindableLayout.SetItemsSource(tasks, viewModel.Tasks);
+BindableLayout.SetItemTemplate(tasks, taskTemplate);
+
+// Shown whenever Tasks is empty. A string works too: BindableLayout.SetEmptyView(tasks, "All done");
+BindableLayout.SetEmptyView(tasks, new VerticalStackLayout
+{
+    Spacing = 6,
+    Padding = new Thickness(0, 16),
+    Children =
+    {
+        new Label { Text = "All done for today", FontAttributes = FontAttributes.Bold, HorizontalOptions = LayoutOptions.Center },
+        new Label { Text = "Enjoy the trip!", FontSize = 13, HorizontalOptions = LayoutOptions.Center },
+    },
+});
+
+// CheckBox runs its Command whenever IsChecked changes
+[RelayCommand(AllowConcurrentExecutions = true)]
+private async Task CompleteAsync(TodoItem task)
+{
+    await Task.Delay(400);
+    Tasks.Remove(task);
+}

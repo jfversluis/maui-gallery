@@ -1,0 +1,46 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class TagsViewModel : ObservableObject
+{
+    // An ObservableCollection adds and removes the generated views as it changes
+    public ObservableCollection<string> Tags { get; } = ["Beaches", "Hiking", "Street food"];
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(AddTagCommand))]
+    public partial string NewTag { get; set; } = "";
+
+    [RelayCommand(CanExecute = nameof(CanAddTag))]
+    private void AddTag()
+    {
+        Tags.Add(NewTag.Trim());
+        NewTag = "";
+    }
+
+    [RelayCommand]
+    private void RemoveTag(string tag) => Tags.Remove(tag);
+
+    private bool CanAddTag() => !string.IsNullOrWhiteSpace(NewTag);
+}
+
+// In code, BindableLayout's attached properties have static setters
+var tags = new FlexLayout { Wrap = FlexWrap.Wrap };
+BindableLayout.SetItemsSource(tags, viewModel.Tags);
+BindableLayout.SetItemTemplate(tags, new DataTemplate(() =>
+{
+    var text = new Label { VerticalOptions = LayoutOptions.Center };
+    text.SetBinding(Label.TextProperty, static (string tag) => tag);
+
+    var chip = new Border
+    {
+        Margin = new Thickness(0, 0, 8, 8),
+        Padding = new Thickness(12, 6),
+        StrokeShape = new RoundRectangle { CornerRadius = 16 },
+        StrokeThickness = 0,
+        Content = text,
+    };
+    chip.SetAppThemeColor(VisualElement.BackgroundColorProperty, Color.FromArgb("#E5E7EB"), Color.FromArgb("#3A3A3C"));
+
+    var tap = new TapGestureRecognizer { Command = viewModel.RemoveTagCommand };
+    tap.SetBinding(TapGestureRecognizer.CommandParameterProperty, static (string tag) => tag);
+    chip.GestureRecognizers.Add(tap);
+    return chip;
+}));

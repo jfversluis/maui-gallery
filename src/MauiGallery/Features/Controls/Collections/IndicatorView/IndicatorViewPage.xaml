@@ -1,0 +1,183 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Collections.IndicatorViewPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Collections"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="ShapeOptions" Type="{x:Type IndicatorShape}">
+            <x:Static Member="IndicatorShape.Circle" />
+            <x:Static Member="IndicatorShape.Square" />
+        </x:Array>
+
+        <!-- One page of the onboarding tour, shared by the carousels on this page. -->
+        <DataTemplate x:Key="SlideTemplate" x:DataType="local:OnboardingSlide">
+            <Border StrokeShape="RoundRectangle 16"
+                    StrokeThickness="0"
+                    BackgroundColor="{Binding Color}"
+                    Padding="20">
+                <VerticalStackLayout Spacing="6" VerticalOptions="Center">
+                    <Label Text="{Binding Glyph}"
+                           FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                           FontSize="36"
+                           TextColor="White"
+                           HorizontalOptions="Center" />
+                    <Label Text="{Binding Title}"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center" />
+                    <Label Text="{Binding Text}"
+                           TextColor="#E6FFFFFF"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </Border>
+        </DataTemplate>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. With a CarouselView -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Pair it with a CarouselView"
+                            Description="Set the carousel's IndicatorView property and the dots follow along. IndicatorsShape, IndicatorSize and the two colors set the look; the platform draws the indicators."
+                            XamlSource="IndicatorViewBasic.xaml.txt"
+                            CSharpSource="IndicatorViewBasic.cs.txt">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=400}">
+                    <CarouselView HeightRequest="180"
+                                  ItemsSource="{x:Static local:OnboardingData.Slides}"
+                                  ItemTemplate="{StaticResource SlideTemplate}"
+                                  IndicatorView="{x:Reference BasicIndicator}"
+                                  Loop="False"
+                                  AutomationId="sample-basic-carousel" />
+                    <IndicatorView x:Name="BasicIndicator"
+                                   IndicatorsShape="{Binding SelectedItem, Source={x:Reference BasicShape}, x:DataType=Picker}"
+                                   IndicatorSize="{Binding Value, Source={x:Reference BasicSize}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                   IndicatorColor="{AppThemeBinding Light=#D1D1D6, Dark=#48484A}"
+                                   SelectedIndicatorColor="{Binding SelectedColor, Source={x:Reference BasicColor}, x:DataType=SwatchPicker}"
+                                   HorizontalOptions="Center"
+                                   AutomationId="sample-basic-indicator" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="IndicatorsShape" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="BasicShape"
+                                ItemsSource="{StaticResource ShapeOptions}"
+                                SelectedIndex="0"
+                                AutomationId="option-shape" />
+                        <Label Text="{Binding Value, Source={x:Reference BasicSize}, StringFormat='IndicatorSize: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="BasicSize"
+                                Minimum="6"
+                                Maximum="16"
+                                Value="10"
+                                AutomationId="option-size" />
+                        <Label Text="SelectedIndicatorColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="BasicColor" SelectedColor="#2563EB" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="IndicatorsShape" Value="{Binding SelectedItem, Source={x:Reference BasicShape}, x:DataType=Picker}" Default="Circle" IsExpression="True" />
+                    <Substitution Key="IndicatorSize" Value="{Binding Value, Source={x:Reference BasicSize}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="6" />
+                    <Substitution Key="SelectedIndicatorColor" Value="{Binding SelectedColor, Source={x:Reference BasicColor}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. On its own -->
+            <ControlExample x:Name="StepsExample"
+                            Title="Use it on its own"
+                            Description="Without a carousel, set Count and Position yourself, for example to show the steps of a sign-up flow. MaximumVisible caps how many indicators appear when there are many items."
+                            XamlSource="IndicatorViewSteps.xaml.txt"
+                            CSharpSource="IndicatorViewSteps.cs.txt">
+                <VerticalStackLayout Spacing="16" WidthRequest="{OnIdiom Phone=280, Default=400}">
+                    <Label x:Name="StepsLabel"
+                           Text="Step 1 of 8"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           AutomationId="sample-steps-label" />
+                    <IndicatorView x:Name="StepsIndicator"
+                                   Count="8"
+                                   MaximumVisible="{Binding Value, Source={x:Reference StepsMaximum}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                   IndicatorColor="{AppThemeBinding Light=#D1D1D6, Dark=#48484A}"
+                                   SelectedIndicatorColor="{AppThemeBinding Light=#1C1C1E, Dark=#FFFFFF}"
+                                   HorizontalOptions="Center"
+                                   PropertyChanged="OnStepsPropertyChanged"
+                                   AutomationId="sample-steps-indicator" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <Button x:Name="StepsBack"
+                                Text="Back"
+                                IsEnabled="False"
+                                Clicked="OnStepsBackClicked"
+                                AutomationId="sample-steps-back" />
+                        <Button x:Name="StepsNext"
+                                Grid.Column="1"
+                                Text="Next"
+                                Clicked="OnStepsNextClicked"
+                                AutomationId="sample-steps-next" />
+                    </Grid>
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference StepsMaximum}, StringFormat='MaximumVisible: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="StepsMaximum"
+                                Minimum="3"
+                                Maximum="8"
+                                Value="8"
+                                AutomationId="option-maximum-visible" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="MaximumVisible" Value="{Binding Value, Source={x:Reference StepsMaximum}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="8" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. IndicatorTemplate -->
+            <ControlExample x:Name="TemplateExample"
+                            Title="Design your own indicators"
+                            Description="IndicatorTemplate replaces the platform dots with any view. Its root gets IndicatorColor or SelectedIndicatorColor as its background, and a Selected visual state lets the current one change shape."
+                            XamlSource="IndicatorViewTemplate.xaml.txt"
+                            CSharpSource="IndicatorViewTemplate.cs.txt">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=400}">
+                    <CarouselView x:Name="TemplateCarousel"
+                                  HeightRequest="180"
+                                  ItemsSource="{x:Static local:OnboardingData.Slides}"
+                                  ItemTemplate="{StaticResource SlideTemplate}"
+                                  IndicatorView="{x:Reference TemplateIndicator}"
+                                  Loop="False"
+                                  AutomationId="sample-template-carousel" />
+                    <IndicatorView x:Name="TemplateIndicator"
+                                   IndicatorColor="{AppThemeBinding Light=#D1D1D6, Dark=#48484A}"
+                                   SelectedIndicatorColor="{AppThemeBinding Light=#1D4ED8, Dark=#93C5FD}"
+                                   HorizontalOptions="Center"
+                                   AutomationId="sample-template-indicator">
+                        <IndicatorView.IndicatorTemplate>
+                            <DataTemplate x:DataType="local:OnboardingSlide">
+                                <Border WidthRequest="8"
+                                        HeightRequest="8"
+                                        Margin="3,0"
+                                        StrokeShape="RoundRectangle 4"
+                                        StrokeThickness="0">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroupList>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal" />
+                                                <VisualState x:Name="Selected">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="WidthRequest" Value="24" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateGroupList>
+                                    </VisualStateManager.VisualStateGroups>
+                                </Border>
+                            </DataTemplate>
+                        </IndicatorView.IndicatorTemplate>
+                    </IndicatorView>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

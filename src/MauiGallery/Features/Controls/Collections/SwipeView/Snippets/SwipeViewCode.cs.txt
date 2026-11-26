@@ -1,0 +1,18 @@
+void OnOpenLeftClicked(object? sender, EventArgs e) => PackingList.Open(OpenSwipeItem.LeftItems);
+
+void OnOpenRightClicked(object? sender, EventArgs e) => PackingList.Open(OpenSwipeItem.RightItems);
+
+void OnCloseClicked(object? sender, EventArgs e) => PackingList.Close();
+
+// Raised by Open, not by a swipe
+void OnOpenRequested(object? sender, OpenRequestedEventArgs e) =>
+    Debug.WriteLine($"Opening {e.OpenSwipeItem}");
+
+void OnSwipeStarted(object? sender, SwipeStartedEventArgs e) =>
+    Debug.WriteLine($"Swiping {e.SwipeDirection}");
+
+void OnSwipeEnded(object? sender, SwipeEndedEventArgs e) =>
+    Debug.WriteLine($"Swiped {e.SwipeDirection}, open: {e.IsOpen}");
+
+void OnItemInvoked(object? sender, EventArgs e) =>
+    Debug.WriteLine($"{((SwipeItem)sender!).Text} invoked");

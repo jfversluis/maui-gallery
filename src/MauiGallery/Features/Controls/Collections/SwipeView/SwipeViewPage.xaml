@@ -1,0 +1,239 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Collections.SwipeViewPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Collections"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="ModeOptions" Type="{x:Type SwipeMode}">
+            <x:Static Member="SwipeMode.Reveal" />
+            <x:Static Member="SwipeMode.Execute" />
+        </x:Array>
+        <x:Array x:Key="BehaviorOptions" Type="{x:Type SwipeBehaviorOnInvoked}">
+            <x:Static Member="SwipeBehaviorOnInvoked.Auto" />
+            <x:Static Member="SwipeBehaviorOnInvoked.Close" />
+            <x:Static Member="SwipeBehaviorOnInvoked.RemainOpen" />
+        </x:Array>
+        <FontImageSource x:Key="ArchiveIcon" FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Archive24}" Color="White" Size="20" />
+        <FontImageSource x:Key="FlagIcon" FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Flag24}" Color="White" Size="20" />
+        <FontImageSource x:Key="DeleteIcon" FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Delete24}" Color="White" Size="20" />
+        <FontImageSource x:Key="PinIcon" FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Pin24}" Color="White" Size="20" />
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. SwipeItems -->
+            <ControlExample x:Name="InboxExample"
+                            Title="Swipe to reveal actions"
+                            Description="Wrap a row in a SwipeView and add SwipeItems to the sides people can swipe from. Reveal mode shows the items; Execute mode runs the first one on a full swipe, like swipe to archive."
+                            XamlSource="SwipeViewItems.xaml.txt"
+                            CSharpSource="SwipeViewItems.cs.txt">
+                <Border x:Name="InboxSample"
+                        WidthRequest="{OnIdiom Phone=280, Default=400}"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="0"
+                        BackgroundColor="{AppThemeBinding Light=#D1D1D6, Dark=#38383A}"
+                        x:DataType="local:InboxViewModel">
+                    <VerticalStackLayout x:Name="InboxLayout"
+                                         Spacing="1"
+                                         BindableLayout.ItemsSource="{Binding Messages}"
+                                         ChildAdded="OnInboxRowAdded">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="local:InboxMessage">
+                                <SwipeView AutomationId="{Binding Sender, StringFormat='sample-swipe-{0}'}">
+                                    <SwipeView.LeftItems>
+                                        <SwipeItems>
+                                            <SwipeItem Text="Archive"
+                                                       IconImageSource="{StaticResource ArchiveIcon}"
+                                                       BackgroundColor="#16A34A"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type local:InboxViewModel}}, Path=ArchiveCommand, x:DataType=local:InboxViewModel}"
+                                                       CommandParameter="{Binding .}" />
+                                        </SwipeItems>
+                                    </SwipeView.LeftItems>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem Text="Flag"
+                                                       IconImageSource="{StaticResource FlagIcon}"
+                                                       BackgroundColor="#D97706"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type local:InboxViewModel}}, Path=ToggleFlagCommand, x:DataType=local:InboxViewModel}"
+                                                       CommandParameter="{Binding .}" />
+                                            <SwipeItem Text="Delete"
+                                                       IconImageSource="{StaticResource DeleteIcon}"
+                                                       BackgroundColor="#DC2626"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type local:InboxViewModel}}, Path=DeleteCommand, x:DataType=local:InboxViewModel}"
+                                                       CommandParameter="{Binding .}" />
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <Grid Padding="16,12"
+                                          ColumnDefinitions="*,Auto"
+                                          ColumnSpacing="12"
+                                          BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1C1C1E}">
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding Sender}" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                            <Label Text="{Binding Subject}"
+                                                   FontSize="13"
+                                                   TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
+                                                   LineBreakMode="TailTruncation" />
+                                        </VerticalStackLayout>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                            <Label Text="{Binding Time}"
+                                                   FontSize="12"
+                                                   TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
+                                                   HorizontalOptions="End" />
+                                            <Label Text="{x:Static icons:FluentIconsRegular.Flag24}"
+                                                   FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                   FontSize="16"
+                                                   TextColor="#D97706"
+                                                   HorizontalOptions="End"
+                                                   IsVisible="{Binding IsFlagged}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </SwipeView>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                        <BindableLayout.EmptyView>
+                            <Label Text="You're all caught up."
+                                   Padding="16,24"
+                                   HorizontalTextAlignment="Center"
+                                   BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1C1C1E}" />
+                        </BindableLayout.EmptyView>
+                    </VerticalStackLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="LeftItems Mode" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="InboxMode"
+                                ItemsSource="{StaticResource ModeOptions}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnInboxOptionChanged"
+                                AutomationId="option-mode" />
+                        <Label Text="SwipeBehaviorOnInvoked" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="InboxBehavior"
+                                ItemsSource="{StaticResource BehaviorOptions}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnInboxOptionChanged"
+                                AutomationId="option-behavior" />
+                        <Button x:Name="InboxRestore"
+                                Text="Restore messages"
+                                HorizontalOptions="Start"
+                                Margin="0,4,0,0"
+                                AutomationId="option-restore-messages" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Mode" Value="{Binding SelectedItem, Source={x:Reference InboxMode}, x:DataType=Picker}" Default="Reveal" IsExpression="True" />
+                    <Substitution Key="SwipeBehaviorOnInvoked" Value="{Binding SelectedItem, Source={x:Reference InboxBehavior}, x:DataType=Picker}" Default="Auto" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. SwipeItemView -->
+            <ControlExample x:Name="CartExample"
+                            Title="Put any view in a SwipeItemView"
+                            Description="SwipeItemView hosts custom content instead of an icon and text, such as quantity buttons on a shopping cart line. Set SwipeBehaviorOnInvoked to RemainOpen so it stays open while people use it."
+                            XamlSource="SwipeViewItemView.xaml.txt"
+                            CSharpSource="SwipeViewItemView.cs.txt">
+                <Border x:Name="CartSample"
+                        WidthRequest="{OnIdiom Phone=280, Default=400}"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="0"
+                        x:DataType="local:CartLineViewModel">
+                    <SwipeView x:Name="CartSwipe" AutomationId="sample-cart-swipe">
+                        <SwipeView.RightItems>
+                            <SwipeItems SwipeBehaviorOnInvoked="RemainOpen">
+                                <SwipeItemView BackgroundColor="{AppThemeBinding Light=#E5E7EB, Dark=#3A3A3C}">
+                                    <HorizontalStackLayout Padding="12,0" Spacing="4" VerticalOptions="Center">
+                                        <Button Text="−"
+                                                WidthRequest="44"
+                                                Command="{Binding DecreaseCommand}"
+                                                SemanticProperties.Description="Decrease quantity"
+                                                AutomationId="sample-cart-decrease" />
+                                        <Label Text="{Binding Quantity}"
+                                               MinimumWidthRequest="24"
+                                               FontAttributes="Bold"
+                                               HorizontalTextAlignment="Center"
+                                               VerticalOptions="Center"
+                                               AutomationId="sample-cart-quantity" />
+                                        <Button Text="+"
+                                                WidthRequest="44"
+                                                Command="{Binding IncreaseCommand}"
+                                                SemanticProperties.Description="Increase quantity"
+                                                AutomationId="sample-cart-increase" />
+                                    </HorizontalStackLayout>
+                                </SwipeItemView>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Grid Padding="16,12"
+                              ColumnDefinitions="Auto,*"
+                              ColumnSpacing="12"
+                              BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1C1C1E}">
+                            <Label Text="{x:Static icons:FluentIconsRegular.DrinkCoffee24}"
+                                   FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                   FontSize="28"
+                                   TextColor="#B45309"
+                                   VerticalOptions="Center" />
+                            <VerticalStackLayout Grid.Column="1">
+                                <Label Text="{Binding Name}" FontAttributes="Bold" />
+                                <Label Text="{Binding Summary}"
+                                       FontSize="13"
+                                       TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
+                                       AutomationId="sample-cart-summary" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </SwipeView>
+                </Border>
+            </ControlExample>
+
+            <!-- 3. Open and close from code -->
+            <ControlExample x:Name="CodeExample"
+                            Title="Open and close it from code"
+                            Description="Open and Close move a SwipeView from code and raise OpenRequested and CloseRequested. Swiping needs touch on Windows and a click and drag on a Mac, so give pointer and keyboard users another way to reach the same actions."
+                            XamlSource="SwipeViewCode.xaml.txt"
+                            CSharpSource="SwipeViewCode.cs.txt">
+                <Border WidthRequest="{OnIdiom Phone=280, Default=400}"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="0">
+                    <SwipeView x:Name="CodeSwipe"
+                               SwipeStarted="OnCodeSwipeStarted"
+                               SwipeEnded="OnCodeSwipeEnded"
+                               OpenRequested="OnCodeOpenRequested"
+                               CloseRequested="OnCodeCloseRequested"
+                               AutomationId="sample-code-swipe">
+                        <SwipeView.LeftItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Pin"
+                                           IconImageSource="{StaticResource PinIcon}"
+                                           BackgroundColor="#2563EB"
+                                           Invoked="OnCodeItemInvoked" />
+                            </SwipeItems>
+                        </SwipeView.LeftItems>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete"
+                                           IconImageSource="{StaticResource DeleteIcon}"
+                                           BackgroundColor="#DC2626"
+                                           Invoked="OnCodeItemInvoked" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Grid Padding="16,12" BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1C1C1E}">
+                            <VerticalStackLayout>
+                                <Label Text="Packing list" FontAttributes="Bold" />
+                                <Label Text="Swipe either way, or use the buttons"
+                                       FontSize="13"
+                                       TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </SwipeView>
+                </Border>
+                <ControlExample.Options>
+                    <FlexLayout Wrap="Wrap">
+                        <Button Text="Open left" Clicked="OnOpenLeftClicked" Margin="0,0,8,8" AutomationId="option-open-left" />
+                        <Button Text="Open right" Clicked="OnOpenRightClicked" Margin="0,0,8,8" AutomationId="option-open-right" />
+                        <Button Text="Close" Clicked="OnCloseClicked" Margin="0,0,8,8" AutomationId="option-close" />
+                    </FlexLayout>
+                </ControlExample.Options>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

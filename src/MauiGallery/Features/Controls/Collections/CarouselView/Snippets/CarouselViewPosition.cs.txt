@@ -1,0 +1,26 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class TripsViewModel : ObservableObject
+{
+    public IReadOnlyList<Trip> Trips { get; } = TripService.GetFeaturedTrips();
+
+    // Position and CurrentItem bind two-way by default
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(PositionText))]
+    [NotifyCanExecuteChangedFor(nameof(PreviousCommand), nameof(NextCommand))]
+    public partial int Position { get; set; }
+
+    [ObservableProperty]
+    public partial Trip? CurrentItem { get; set; }
+
+    public string PositionText => $"{Position + 1} of {Trips.Count}";
+
+    [RelayCommand(CanExecute = nameof(CanGoPrevious))]
+    private void Previous() => Position--;
+
+    [RelayCommand(CanExecute = nameof(CanGoNext))]
+    private void Next() => Position++;
+
+    private bool CanGoPrevious() => Position > 0;
+
+    private bool CanGoNext() => Position < Trips.Count - 1;
+}

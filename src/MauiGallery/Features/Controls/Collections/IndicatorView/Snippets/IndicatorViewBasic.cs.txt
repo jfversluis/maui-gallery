@@ -1,0 +1,17 @@
+var indicator = new IndicatorView
+{
+    IndicatorsShape = IndicatorShape.$(IndicatorsShape),
+    IndicatorSize = $(IndicatorSize),
+    SelectedIndicatorColor = $(SelectedIndicatorColor),
+    HorizontalOptions = LayoutOptions.Center,
+};
+indicator.SetAppThemeColor(IndicatorView.IndicatorColorProperty, Color.FromArgb("#D1D1D6"), Color.FromArgb("#48484A"));
+
+var carousel = new CarouselView
+{
+    ItemsSource = slides,
+    ItemTemplate = slideTemplate,
+    IndicatorView = indicator,
+    Loop = false,
+    HeightRequest = 180,
+};

@@ -1,0 +1,12 @@
+<VerticalStackLayout Spacing="12">
+    <CarouselView
+        ItemsSource="{Binding Trips}"
+        ItemTemplate="{StaticResource TripTemplate}"
+        IndicatorView="{x:Reference TripIndicator}"
+        HeightRequest="200" />
+    <IndicatorView
+        x:Name="TripIndicator"
+        IndicatorColor="{AppThemeBinding Light=#D1D1D6, Dark=#48484A}"
+        SelectedIndicatorColor="{AppThemeBinding Light=#1C1C1E, Dark=White}"
+        HorizontalOptions="Center" />
+</VerticalStackLayout>

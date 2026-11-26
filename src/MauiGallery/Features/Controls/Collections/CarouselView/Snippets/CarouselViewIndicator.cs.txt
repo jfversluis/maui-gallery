@@ -1,0 +1,14 @@
+var indicator = new IndicatorView { HorizontalOptions = LayoutOptions.Center };
+indicator.SetAppThemeColor(IndicatorView.IndicatorColorProperty, Color.FromArgb("#D1D1D6"), Color.FromArgb("#48484A"));
+indicator.SetAppThemeColor(IndicatorView.SelectedIndicatorColorProperty, Color.FromArgb("#1C1C1E"), Colors.White);
+
+var carousel = new CarouselView
+{
+    ItemsSource = trips,
+    ItemTemplate = tripTemplate,
+    HeightRequest = 200,
+    // The carousel keeps the indicator's item count and position in sync
+    IndicatorView = indicator,
+};
+
+var layout = new VerticalStackLayout { Spacing = 12, Children = { carousel, indicator } };

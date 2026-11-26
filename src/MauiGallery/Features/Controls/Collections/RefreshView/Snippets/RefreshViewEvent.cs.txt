@@ -1,0 +1,13 @@
+async void OnRefreshing(object? sender, EventArgs e)
+{
+    var budget = await bankService.GetTripBudgetAsync();
+    Spent.Text = $"{budget.Spent:C0} of {budget.Total:C0}";
+    Progress.Progress = (double)(budget.Spent / budget.Total);
+    Updated.Text = $"Synced at {DateTime.Now:T}";
+
+    // Hides the spinner. Until then, people can't start another refresh.
+    BudgetRefresh.IsRefreshing = false;
+}
+
+// Starts a refresh from code: shows the spinner and raises Refreshing
+void OnRefreshButtonClicked(object? sender, EventArgs e) => BudgetRefresh.IsRefreshing = true;

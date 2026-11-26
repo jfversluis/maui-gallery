@@ -1,0 +1,29 @@
+var quantity = new Label { FontAttributes = FontAttributes.Bold, MinimumWidthRequest = 24, HorizontalTextAlignment = TextAlignment.Center, VerticalOptions = LayoutOptions.Center };
+quantity.SetBinding(Label.TextProperty, static (CartLineViewModel vm) => vm.Quantity);
+
+var decrease = new Button { Text = "−", WidthRequest = 44 };
+decrease.SetBinding(Button.CommandProperty, static (CartLineViewModel vm) => vm.DecreaseCommand);
+SemanticProperties.SetDescription(decrease, "Decrease quantity");
+
+var increase = new Button { Text = "+", WidthRequest = 44 };
+increase.SetBinding(Button.CommandProperty, static (CartLineViewModel vm) => vm.IncreaseCommand);
+SemanticProperties.SetDescription(increase, "Increase quantity");
+
+var stepper = new SwipeItemView
+{
+    Content = new HorizontalStackLayout
+    {
+        Padding = new Thickness(12, 0),
+        Spacing = 4,
+        VerticalOptions = LayoutOptions.Center,
+        Children = { decrease, quantity, increase },
+    },
+};
+stepper.SetAppThemeColor(VisualElement.BackgroundColorProperty, Color.FromArgb("#E5E7EB"), Color.FromArgb("#3A3A3C"));
+
+var swipeView = new SwipeView
+{
+    RightItems = new SwipeItems([stepper]) { SwipeBehaviorOnInvoked = SwipeBehaviorOnInvoked.RemainOpen },
+    Content = cartLineRow,
+    BindingContext = cartLine,
+};

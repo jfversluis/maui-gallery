@@ -1,0 +1,18 @@
+collectionView.SelectionMode = SelectionMode.$(SelectionMode);
+collectionView.SelectionChanged += OnSelectionChanged;
+
+void OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+{
+    // SelectedItem holds the single selection, SelectedItems the multiple one.
+    // CurrentSelection works for both, and PreviousSelection holds what was selected before.
+    var names = e.CurrentSelection.OfType<Place>().Select(p => p.Name);
+    Debug.WriteLine($"Selected: {string.Join(", ", names)}");
+}
+
+// To highlight selected rows, give the template's root a Selected visual state
+var selected = new VisualState { Name = "Selected" };
+selected.Setters.Add(new Setter { Property = VisualElement.BackgroundProperty, Value = selectedBrush });
+VisualStateManager.SetVisualStateGroups(row,
+[
+    new VisualStateGroup { Name = "CommonStates", States = { new VisualState { Name = "Normal" }, selected } },
+]);

@@ -1,0 +1,13 @@
+<VerticalStackLayout x:DataType="local:WeatherViewModel" Spacing="8">
+    <Button
+        Text="Refresh"
+        Command="{Binding StartRefreshCommand}"
+        HorizontalOptions="End" />
+    <RefreshView
+        IsRefreshing="{Binding IsRefreshing}"
+        Command="{Binding RefreshCommand}"
+        RefreshColor="$(RefreshColor)"
+        IsRefreshEnabled="$(IsRefreshEnabled)">
+        <CollectionView ItemsSource="{Binding Cities}" ItemTemplate="{StaticResource CityTemplate}" />
+    </RefreshView>
+</VerticalStackLayout>

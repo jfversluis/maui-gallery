@@ -1,0 +1,23 @@
+<CollectionView
+    ItemsSource="{Binding PlacesByContinent}"
+    IsGrouped="True"
+    ItemTemplate="{StaticResource PlaceTemplate}">
+    <CollectionView.GroupHeaderTemplate>
+        <DataTemplate x:DataType="local:PlaceGroup">
+            <Label
+                Text="{Binding Name}"
+                FontSize="13"
+                FontAttributes="Bold"
+                TextTransform="Uppercase"
+                Padding="12,16,12,4" />
+        </DataTemplate>
+    </CollectionView.GroupHeaderTemplate>
+    <CollectionView.GroupFooterTemplate>
+        <DataTemplate x:DataType="local:PlaceGroup">
+            <Label
+                Text="{Binding Count, StringFormat='{0} places'}"
+                FontSize="12"
+                Padding="12,0,12,8" />
+        </DataTemplate>
+    </CollectionView.GroupFooterTemplate>
+</CollectionView>

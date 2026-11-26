@@ -1,0 +1,20 @@
+public record ChatMessage(string Text, bool IsMine);
+
+public class ChatMessageTemplateSelector : DataTemplateSelector
+{
+    public DataTemplate? IncomingTemplate { get; set; }
+
+    public DataTemplate? OutgoingTemplate { get; set; }
+
+    // Return the same few DataTemplate instances; don't create one per item
+    protected override DataTemplate? OnSelectTemplate(object item, BindableObject container) =>
+        item is ChatMessage { IsMine: true } ? OutgoingTemplate : IncomingTemplate;
+}
+
+var messages = new VerticalStackLayout { Spacing = 8 };
+BindableLayout.SetItemsSource(messages, viewModel.Messages);
+BindableLayout.SetItemTemplateSelector(messages, new ChatMessageTemplateSelector
+{
+    IncomingTemplate = incomingBubble,
+    OutgoingTemplate = outgoingBubble,
+});
