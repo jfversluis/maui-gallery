@@ -34,8 +34,9 @@
                             </Button.ImageSource>
                         </Button>
                     </Grid>
+                    <!-- Four 60-high rows and the top of the fifth: it's clear the list scrolls. -->
                     <RefreshView x:Name="ListRefresh"
-                                 HeightRequest="280"
+                                 HeightRequest="272"
                                  IsRefreshing="{Binding IsRefreshing}"
                                  Command="{Binding RefreshCommand}"
                                  RefreshColor="{Binding SelectedColor, Source={x:Reference ListColor}, x:DataType=SwatchPicker}"
@@ -44,7 +45,7 @@
                         <CollectionView ItemsSource="{Binding Cities}" AutomationId="sample-list-collection">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="local:CityWeather">
-                                    <Grid Padding="12,8" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                    <Grid Padding="12,8" HeightRequest="60" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
                                         <Label Text="{Binding Glyph}"
                                                FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
                                                FontSize="28"
@@ -58,8 +59,9 @@
                                         </VerticalStackLayout>
                                         <Label Grid.Column="2"
                                                Text="{Binding TemperatureText}"
-                                               FontSize="22"
-                                               VerticalOptions="Center" />
+                                               FontSize="20"
+                                               Margin="0,2,0,0"
+                                               VerticalOptions="Start" />
                                     </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>

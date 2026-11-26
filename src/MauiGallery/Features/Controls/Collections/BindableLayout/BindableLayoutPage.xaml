@@ -35,20 +35,6 @@
         <VerticalStackLayout Style="{StaticResource PageContent}">
             <ControlPageHeader />
 
-            <Border Style="{StaticResource SubtlePanel}">
-                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                    <Label Style="{StaticResource TextIcon}"
-                           Text="{x:Static icons:FluentIconsRegular.Lightbulb24}"
-                           TextColor="{DynamicResource ColorAccentText}"
-                           VerticalOptions="Start" />
-                    <VerticalStackLayout Grid.Column="1" Spacing="4">
-                        <Label Text="BindableLayout or CollectionView?" Style="{StaticResource TextBodyStrong}" />
-                        <Label Style="{StaticResource TextBodySecondary}"
-                               Text="BindableLayout creates a view for every item up front and keeps them all, with no scrolling, selection or virtualization of its own. That suits small, bounded sets such as tags, a few settings rows or a short thread. For long or unbounded lists, use CollectionView." />
-                    </VerticalStackLayout>
-                </Grid>
-            </Border>
-
             <!-- 1. ItemsSource and ItemTemplate -->
             <ControlExample x:Name="TagsExample"
                             Title="Generate children from a collection"
@@ -99,6 +85,20 @@
                     </Grid>
                 </VerticalStackLayout>
             </ControlExample>
+
+            <Border Style="{StaticResource SubtlePanel}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Style="{StaticResource TextIcon}"
+                           Text="{x:Static icons:FluentIconsRegular.Lightbulb24}"
+                           TextColor="{DynamicResource ColorAccentText}"
+                           VerticalOptions="Start" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                        <Label Text="BindableLayout or CollectionView?" Style="{StaticResource TextBodyStrong}" />
+                        <Label Style="{StaticResource TextBodySecondary}"
+                               Text="BindableLayout creates a view for every item up front and keeps them all, with no scrolling, selection or virtualization of its own. That suits small, bounded sets such as tags, a few settings rows or a short thread. For long or unbounded lists, use CollectionView." />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
 
             <!-- 2. EmptyView -->
             <ControlExample x:Name="TasksExample"
