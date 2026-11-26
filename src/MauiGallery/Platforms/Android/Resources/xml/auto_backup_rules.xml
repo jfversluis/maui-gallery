@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Keep the file name in sync with ApplicationId in MauiGallery.csproj. Android 11 and earlier. SecureStorage's keys live in the device keystore and can't be restored on another
+     device, so leave its encrypted values out of backups. -->
+<full-backup-content>
+    <include domain="sharedpref" path="." />
+    <exclude domain="sharedpref" path="com.jfversluis.mauigallery.microsoft.maui.essentials.preferences.xml" />
+</full-backup-content>

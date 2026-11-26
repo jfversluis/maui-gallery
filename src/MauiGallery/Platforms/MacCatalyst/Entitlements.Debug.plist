@@ -12,6 +12,13 @@
         <!-- Lets FilePicker read the files a person chooses in the sandbox. -->
         <key>com.apple.security.files.user-selected.read-only</key>
         <true/>
+        <!-- Samples that use hardware: Geolocation, Media picker (camera and microphone). -->
+        <key>com.apple.security.personal-information.location</key>
+        <true/>
+        <key>com.apple.security.device.camera</key>
+        <true/>
+        <key>com.apple.security.device.audio-input</key>
+        <true/>
         <!-- Debug only: lets the DevFlow agent accept connections from the maui CLI. -->
         <key>com.apple.security.network.server</key>
         <true/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-	<application android:allowBackup="true" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true"></application>
+	<application android:allowBackup="true" android:fullBackupContent="@xml/auto_backup_rules" android:dataExtractionRules="@xml/data_extraction_rules" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,6 +13,8 @@
 	<uses-permission android:name="android.permission.FLASHLIGHT" />
 	<!-- Permissions: shows how to check and request microphone access. -->
 	<uses-permission android:name="android.permission.RECORD_AUDIO" />
+	<!-- Battery: read the charge level and state. -->
+	<uses-permission android:name="android.permission.BATTERY_STATS" />
 	<!-- Haptics and vibration. -->
 	<uses-permission android:name="android.permission.VIBRATE" />
 
@@ -25,13 +27,52 @@
 	<uses-feature android:name="android.hardware.location.network" android:required="false" />
 	<uses-feature android:name="android.hardware.microphone" android:required="false" />
 
-	<!-- Android 11+ package visibility: lets the media picker find the camera app. -->
+	<!-- Android 11+ package visibility: lets the samples find apps that handle these intents
+	     (camera, browser, email, phone, SMS, maps, text-to-speech and custom tabs). -->
 	<queries>
 		<intent>
 			<action android:name="android.media.action.IMAGE_CAPTURE" />
 		</intent>
 		<intent>
 			<action android:name="android.media.action.VIDEO_CAPTURE" />
+		</intent>
+		<intent>
+			<action android:name="android.intent.action.VIEW" />
+			<data android:scheme="http" />
+		</intent>
+		<intent>
+			<action android:name="android.intent.action.VIEW" />
+			<data android:scheme="https" />
+		</intent>
+		<intent>
+			<action android:name="android.intent.action.VIEW" />
+			<data android:scheme="mailto" />
+		</intent>
+		<intent>
+			<action android:name="android.intent.action.VIEW" />
+			<data android:scheme="tel" />
+		</intent>
+		<intent>
+			<action android:name="android.intent.action.VIEW" />
+			<data android:scheme="sms" />
+		</intent>
+		<intent>
+			<action android:name="android.intent.action.VIEW" />
+			<data android:scheme="geo" />
+		</intent>
+		<intent>
+			<action android:name="android.intent.action.SENDTO" />
+			<data android:scheme="mailto" />
+		</intent>
+		<intent>
+			<action android:name="android.intent.action.SENDTO" />
+			<data android:scheme="smsto" />
+		</intent>
+		<intent>
+			<action android:name="android.intent.action.TTS_SERVICE" />
+		</intent>
+		<intent>
+			<action android:name="android.support.customtabs.action.CustomTabsService" />
 		</intent>
 	</queries>
 </manifest>

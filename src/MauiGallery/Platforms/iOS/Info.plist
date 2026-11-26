@@ -54,6 +54,13 @@
 			</array>
 		</dict>
 	</dict>
+	<!-- Lets the Launcher sample check whether an app handles these links (CanOpenAsync). -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>mailto</string>
+		<string>tel</string>
+		<string>sms</string>
+	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>The Geolocation and Geocoding samples show your location on screen. It stays on your device: the gallery doesn't store it, and only sends it to the system's address lookup when you ask for your address.</string>
 	<key>NSCameraUsageDescription</key>
