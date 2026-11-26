@@ -18,6 +18,34 @@ public static class SyntaxHighlighter
     }
 
     /// <summary>
+    /// Joins whitespace to the token before it, then merges neighbors of the same kind. Whitespace has no visible
+    /// color, so a viewer that draws each token as a colored run needs far fewer runs. The text is unchanged.
+    /// </summary>
+    public static IReadOnlyList<SyntaxToken> FoldWhitespace(IReadOnlyList<SyntaxToken> tokens)
+    {
+        ArgumentNullException.ThrowIfNull(tokens);
+
+        var folded = new List<SyntaxToken>(tokens.Count);
+        foreach (var token in tokens)
+        {
+            if (folded.Count > 0 && (string.IsNullOrWhiteSpace(token.Text) || folded[^1].Kind == token.Kind))
+            {
+                folded[^1] = folded[^1] with { Text = folded[^1].Text + token.Text };
+            }
+            else if (folded.Count > 0 && string.IsNullOrWhiteSpace(folded[^1].Text))
+            {
+                folded[^1] = token with { Text = folded[^1].Text + token.Text };
+            }
+            else
+            {
+                folded.Add(token);
+            }
+        }
+
+        return folded;
+    }
+
+    /// <summary>
     /// The tokens that make up the first <paramref name="maxLines"/> lines, for a collapsed preview of long code.
     /// The line break after the last line is left out.
     /// </summary>

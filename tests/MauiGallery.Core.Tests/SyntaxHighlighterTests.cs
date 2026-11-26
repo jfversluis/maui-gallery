@@ -72,6 +72,19 @@ public sealed class SyntaxHighlighterTests
     }
 
     [Fact]
+    public void FoldWhitespaceJoinsWhitespaceToTheTokenBeforeIt()
+    {
+        const string source = "  public static void Run() { }";
+        var tokens = SyntaxHighlighter.FoldWhitespace(SyntaxHighlighter.Tokenize(source, CodeLanguage.CSharp));
+
+        Assert.Equal(source, string.Concat(tokens.Select(t => t.Text)));
+        Assert.Equal("  public static void ", tokens[0].Text);
+        Assert.Equal(SyntaxTokenKind.Keyword, tokens[0].Kind);
+        Assert.Equal(SyntaxTokenKind.Method, tokens[1].Kind);
+        Assert.Equal("() { }", tokens[^1].Text);
+    }
+
+    [Fact]
     public void RawStringsDoNotLeakComments()
     {
         var source = "var s = \"\"\"Before \"//\" after\"\"\"; var next = 1;";

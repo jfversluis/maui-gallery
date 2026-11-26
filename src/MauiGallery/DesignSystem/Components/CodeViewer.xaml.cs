@@ -14,6 +14,13 @@ public partial class CodeViewer : ContentView
 
     private static readonly TimeSpan CopiedFeedbackDuration = TimeSpan.FromSeconds(1.5);
 
+    // One bindable property per syntax color, bound to the theme's resource once per viewer. A DynamicResource on
+    // each of the hundreds of spans made resolving resources most of the cost of showing code.
+    private static readonly Dictionary<string, BindableProperty> TokenColorProperties = Enum.GetValues<SyntaxTokenKind>()
+        .Select(ResourceKeyFor)
+        .Distinct()
+        .ToDictionary(key => key, key => BindableProperty.Create(key, typeof(Color), typeof(CodeViewer), propertyChanged: OnTokenColorChanged));
+
     /// <summary>Long snippets start collapsed to this many lines.</summary>
     private const int CollapsedLines = 14;
 
@@ -22,10 +29,18 @@ public partial class CodeViewer : ContentView
 
     private CodeLanguage _language = CodeLanguage.Xaml;
     private bool _isExpanded;
+    private bool _isSettingCode;
+    private bool _colorsChanged;
+    private (string Code, CodeLanguage Language, bool Collapsed)? _rendered;
 
     public CodeViewer()
     {
         InitializeComponent();
+        foreach (var (key, property) in TokenColorProperties)
+        {
+            SetDynamicResource(property, key);
+        }
+
         Render();
     }
 
@@ -43,7 +58,49 @@ public partial class CodeViewer : ContentView
 
     private string? CurrentCode => _language == CodeLanguage.Xaml ? Xaml : CSharp;
 
-    private static void OnCodeChanged(BindableObject bindable, object oldValue, object newValue) => ((CodeViewer)bindable).Render();
+    /// <summary>Sets both snippets and renders once.</summary>
+    public void SetCode(string? xaml, string? csharp)
+    {
+        _isSettingCode = true;
+        try
+        {
+            Xaml = xaml;
+            CSharp = csharp;
+        }
+        finally
+        {
+            _isSettingCode = false;
+        }
+
+        Render();
+    }
+
+    private static void OnCodeChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var viewer = (CodeViewer)bindable;
+        if (!viewer._isSettingCode)
+        {
+            viewer.Render();
+        }
+    }
+
+    // A theme switch changes every color at once: redraw the code once, after all of them have changed.
+    private static void OnTokenColorChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var viewer = (CodeViewer)bindable;
+        if (viewer._rendered is null || viewer._colorsChanged)
+        {
+            return;
+        }
+
+        viewer._colorsChanged = true;
+        viewer.Dispatcher.Dispatch(() =>
+        {
+            viewer._colorsChanged = false;
+            viewer._rendered = null;
+            viewer.Render();
+        });
+    }
 
     private static string ResourceKeyFor(SyntaxTokenKind kind) => kind switch
     {
@@ -59,6 +116,8 @@ public partial class CodeViewer : ContentView
         SyntaxTokenKind.MarkupExtension => "ColorSyntaxMarkup",
         _ => "ColorSyntaxPlain",
     };
+
+    private Color? ColorFor(SyntaxTokenKind kind) => (Color?)GetValue(TokenColorProperties[ResourceKeyFor(kind)]);
 
     private void Render()
     {
@@ -81,23 +140,27 @@ public partial class CodeViewer : ContentView
         var lineCount = SyntaxHighlighter.CountLines(code);
         var collapsible = lineCount > CollapseAbove;
         var collapsed = collapsible && !_isExpanded;
-        var tokens = SyntaxHighlighter.Tokenize(code, _language);
-        if (collapsed)
-        {
-            tokens = SyntaxHighlighter.TakeLines(tokens, CollapsedLines);
-        }
 
-        var text = new FormattedString();
-        foreach (var token in tokens)
+        // Changing an option often changes only the snippet in the other tab; rebuilding the text is the costly part.
+        if (_rendered != (code, _language, collapsed))
         {
-            var span = new Span { Text = token.Text };
-            span.SetDynamicResource(Span.TextColorProperty, ResourceKeyFor(token.Kind));
-            text.Spans.Add(span);
-        }
+            _rendered = (code, _language, collapsed);
+            var tokens = SyntaxHighlighter.Tokenize(code, _language);
+            if (collapsed)
+            {
+                tokens = SyntaxHighlighter.TakeLines(tokens, CollapsedLines);
+            }
 
-        CodeLabel.FormattedText = text;
-        CodeLabel.SetValue(SemanticProperties.DescriptionProperty, code);
-        LineNumbers.Text = string.Join('\n', Enumerable.Range(1, collapsed ? CollapsedLines : lineCount));
+            var text = new FormattedString();
+            foreach (var token in SyntaxHighlighter.FoldWhitespace(tokens))
+            {
+                text.Spans.Add(new Span { Text = token.Text, TextColor = ColorFor(token.Kind) });
+            }
+
+            CodeLabel.FormattedText = text;
+            CodeLabel.SetValue(SemanticProperties.DescriptionProperty, code);
+            LineNumbers.Text = string.Join('\n', Enumerable.Range(1, collapsed ? CollapsedLines : lineCount));
+        }
 
         ExpandButton.IsVisible = collapsible;
         CollapsedFade.IsVisible = collapsed;
