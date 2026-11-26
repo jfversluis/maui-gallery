@@ -1,0 +1,42 @@
+<SamplePage x:Class="MauiGallery.Features.NativePower.NativeViewInspectorPage"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <ControlExample x:Name="InspectorExample"
+                            Title="Look inside any control"
+                            Description="Every view's Handler.PlatformView is the native control .NET MAUI created for it. Walk its type's BaseType chain to see what it inherits: often a thin .NET MAUI subclass of the platform's own control. Some features, such as Shadow and Clip, need a native view around the control; the handler then creates a ContainerView, and that wrapper is what gets added to the native layout."
+                            ShowStyleToggle="False"
+                            CSharpSource="NativeInspector.cs.txt">
+                <VerticalStackLayout Spacing="20" WidthRequest="{OnIdiom Phone=260, Default=360}">
+                    <ContentView x:Name="InspectorHost" HorizontalOptions="Center" />
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="Handler" FontSize="12" Opacity="0.7" />
+                        <Label x:Name="HandlerName" FontSize="14" AutomationId="sample-inspector-handler" />
+                        <Label Text="PlatformView and its base classes" FontSize="12" Opacity="0.7" Margin="0,10,0,0" />
+                        <Label x:Name="PlatformChain" FontSize="14" AutomationId="sample-inspector-chain" />
+                        <Label Text="ContainerView" FontSize="12" Opacity="0.7" Margin="0,10,0,0" />
+                        <Label x:Name="ContainerName" FontSize="14" AutomationId="sample-inspector-container" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Control" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="InspectorControl" SelectedIndexChanged="OnInspectorChanged" AutomationId="option-inspector-control" />
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
+                            <Label Text="Shadow" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="InspectorShadow" Grid.Column="1" Toggled="OnInspectorChanged" AutomationId="option-inspector-shadow" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="InspectorElement" Key="Element" IsExpression="True" />
+                    <Substitution x:Name="InspectorShadowSubstitution" Key="Shadow" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

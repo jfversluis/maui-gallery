@@ -1,0 +1,10 @@
+<VerticalStackLayout
+    xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+    Spacing="16">
+    <Button
+        Text="Add to cart"
+        android:Button.RippleColor="$(RippleColor)" />
+    <Entry
+        Placeholder="Private note"
+        android:Entry.ImeOptions="$(ImeOptions)" />
+</VerticalStackLayout>

@@ -1,0 +1,6 @@
+<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="8">
+    <Label Text="Build" />
+    <Label x:Name="build" Grid.Column="1" />
+    <Label Grid.Row="1" Text="Thermal state" />
+    <Label x:Name="thermal" Grid.Row="1" Grid.Column="1" />
+</Grid>

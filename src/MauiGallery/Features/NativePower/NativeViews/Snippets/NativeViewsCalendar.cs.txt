@@ -1,0 +1,202 @@
+// The cross-platform control: bindable properties, an event and a command
+public class NativeCalendar : View
+{
+    public static readonly BindableProperty SelectedDateProperty = BindableProperty.Create(
+        nameof(SelectedDate), typeof(DateTime), typeof(NativeCalendar), DateTime.Today, BindingMode.TwoWay,
+        propertyChanged: (b, o, n) => ((NativeCalendar)b).DateSelected?.Invoke(b, new DateChangedEventArgs((DateTime)o, (DateTime)n)));
+
+    // MinimumDateProperty and MaximumDateProperty are declared the same way
+
+    public event EventHandler<DateChangedEventArgs>? DateSelected;
+
+    public DateTime SelectedDate
+    {
+        get => (DateTime)GetValue(SelectedDateProperty);
+        set => SetValue(SelectedDateProperty, value);
+    }
+
+    // An action, not state: ask the handler to run a command
+    public void AnimateTo(DateTime date) => Handler?.Invoke(nameof(AnimateTo), date);
+}
+
+// NativeCalendarHandler.cs: shared by every platform
+public partial class NativeCalendarHandler
+{
+    public static readonly IPropertyMapper<NativeCalendar, NativeCalendarHandler> Mapper =
+        new PropertyMapper<NativeCalendar, NativeCalendarHandler>(ViewMapper)
+        {
+            [nameof(NativeCalendar.MinimumDate)] = MapDateRange,
+            [nameof(NativeCalendar.MaximumDate)] = MapDateRange,
+            [nameof(NativeCalendar.SelectedDate)] = MapSelectedDate,
+        };
+
+    public static readonly CommandMapper<NativeCalendar, NativeCalendarHandler> CommandMapper =
+        new(ViewCommandMapper)
+        {
+            [nameof(NativeCalendar.AnimateTo)] = MapAnimateTo,
+        };
+
+    public NativeCalendarHandler() : base(Mapper, CommandMapper)
+    {
+    }
+}
+
+#if IOS || MACCATALYST
+public partial class NativeCalendarHandler : ViewHandler<NativeCalendar, UIDatePicker>
+{
+    protected override UIDatePicker CreatePlatformView() => new()
+    {
+        Mode = UIDatePickerMode.Date,
+        PreferredDatePickerStyle = UIDatePickerStyle.Inline,
+        TimeZone = NSTimeZone.FromName("UTC"),
+    };
+
+    protected override void ConnectHandler(UIDatePicker platformView)
+    {
+        base.ConnectHandler(platformView);
+        platformView.ValueChanged += OnValueChanged;
+    }
+
+    protected override void DisconnectHandler(UIDatePicker platformView)
+    {
+        platformView.ValueChanged -= OnValueChanged;
+        base.DisconnectHandler(platformView);
+    }
+
+    static void MapSelectedDate(NativeCalendarHandler handler, NativeCalendar calendar)
+    {
+        // Skip a date the picker already shows, such as one it's animating to
+        if (handler.PlatformView.Date.ToDateTime().Date != calendar.SelectedDate)
+        {
+            handler.PlatformView.SetDate(calendar.SelectedDate.ToNSDate(), animated: false);
+        }
+    }
+
+    static void MapDateRange(NativeCalendarHandler handler, NativeCalendar calendar)
+    {
+        handler.PlatformView.MinimumDate = calendar.MinimumDate?.ToNSDate();
+        handler.PlatformView.MaximumDate = calendar.MaximumDate?.ToNSDate();
+    }
+
+    static void MapAnimateTo(NativeCalendarHandler handler, NativeCalendar calendar, object? args)
+    {
+        if (args is DateTime date)
+        {
+            handler.PlatformView.SetDate(date.ToNSDate(), animated: true);
+            calendar.SelectedDate = date;
+        }
+    }
+
+    void OnValueChanged(object? sender, EventArgs e) =>
+        VirtualView?.SelectedDate = PlatformView.Date.ToDateTime().Date;
+}
+#elif ANDROID
+public partial class NativeCalendarHandler : ViewHandler<NativeCalendar, CalendarView>
+{
+    protected override CalendarView CreatePlatformView() => new(Context);
+
+    protected override void ConnectHandler(CalendarView platformView)
+    {
+        base.ConnectHandler(platformView);
+        platformView.DateChange += OnDateChange;
+    }
+
+    protected override void DisconnectHandler(CalendarView platformView)
+    {
+        platformView.DateChange -= OnDateChange;
+        base.DisconnectHandler(platformView);
+    }
+
+    static void MapSelectedDate(NativeCalendarHandler handler, NativeCalendar calendar)
+    {
+        var millis = ToMillis(calendar.SelectedDate);
+        if (handler.PlatformView.Date != millis)
+        {
+            handler.PlatformView.Date = millis;
+        }
+    }
+
+    static void MapDateRange(NativeCalendarHandler handler, NativeCalendar calendar)
+    {
+        handler.PlatformView.MinDate = ToMillis(calendar.MinimumDate ?? DateTime.Today.AddYears(-100));
+        handler.PlatformView.MaxDate = ToMillis(calendar.MaximumDate ?? DateTime.Today.AddYears(100));
+    }
+
+    static void MapAnimateTo(NativeCalendarHandler handler, NativeCalendar calendar, object? args)
+    {
+        if (args is DateTime date)
+        {
+            handler.PlatformView.SetDate(ToMillis(date), animate: true, center: true);
+            calendar.SelectedDate = date;
+        }
+    }
+
+    static long ToMillis(DateTime date) =>
+        new DateTimeOffset(DateTime.SpecifyKind(date.Date, DateTimeKind.Local)).ToUnixTimeMilliseconds();
+
+    void OnDateChange(object? sender, CalendarView.DateChangeEventArgs e) =>
+        VirtualView?.SelectedDate = new DateTime(e.Year, e.Month + 1, e.DayOfMonth);
+}
+#elif WINDOWS
+public partial class NativeCalendarHandler : ViewHandler<NativeCalendar, CalendarView>
+{
+    protected override CalendarView CreatePlatformView() =>
+        new() { SelectionMode = CalendarViewSelectionMode.Single };
+
+    protected override void ConnectHandler(CalendarView platformView)
+    {
+        base.ConnectHandler(platformView);
+        platformView.SelectedDatesChanged += OnSelectedDatesChanged;
+    }
+
+    protected override void DisconnectHandler(CalendarView platformView)
+    {
+        platformView.SelectedDatesChanged -= OnSelectedDatesChanged;
+        base.DisconnectHandler(platformView);
+    }
+
+    static void MapSelectedDate(NativeCalendarHandler handler, NativeCalendar calendar)
+    {
+        var dates = handler.PlatformView.SelectedDates;
+        if (dates.Count != 1 || dates[0].Date != calendar.SelectedDate)
+        {
+            dates.Clear();
+            dates.Add(new DateTimeOffset(calendar.SelectedDate));
+        }
+    }
+
+    static void MapDateRange(NativeCalendarHandler handler, NativeCalendar calendar)
+    {
+        handler.PlatformView.MinDate = new DateTimeOffset(calendar.MinimumDate ?? DateTime.Today.AddYears(-100));
+        handler.PlatformView.MaxDate = new DateTimeOffset(calendar.MaximumDate ?? DateTime.Today.AddYears(100));
+    }
+
+    static void MapAnimateTo(NativeCalendarHandler handler, NativeCalendar calendar, object? args)
+    {
+        if (args is DateTime date)
+        {
+            handler.PlatformView.SetDisplayDate(new DateTimeOffset(date));
+            calendar.SelectedDate = date;
+        }
+    }
+
+    void OnSelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
+    {
+        if (args.AddedDates.Count > 0)
+        {
+            VirtualView?.SelectedDate = args.AddedDates[0].Date;
+        }
+    }
+}
+#endif
+
+// MauiProgram.cs
+builder.ConfigureMauiHandlers(handlers =>
+    handlers.AddHandler<NativeCalendar, NativeCalendarHandler>());
+
+// The page
+void OnDateSelected(object? sender, DateChangedEventArgs e) =>
+    Debug.WriteLine($"Selected {e.NewDate:D}");
+
+void OnTodayClicked(object? sender, EventArgs e) =>
+    calendar.AnimateTo(DateTime.Today);

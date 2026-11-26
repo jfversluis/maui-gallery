@@ -1,0 +1,3 @@
+<Label
+    Text="{OnPlatform iOS='Hello from iOS', Android='Hello from Android', MacCatalyst='Hello from the Mac', WinUI='Hello from Windows'}"
+    FontSize="{OnIdiom Phone=18, Default=22}" />

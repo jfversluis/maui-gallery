@@ -1,0 +1,3 @@
+<Border Padding="14,6" StrokeShape="RoundRectangle 20">
+    <local:PlainEntry Placeholder="Search recipes" />
+</Border>

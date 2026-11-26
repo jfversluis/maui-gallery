@@ -1,0 +1,4 @@
+<HorizontalStackLayout Spacing="12">
+    <Label x:Name="caption" VerticalOptions="Center" />
+    <local:PlatformViewHost x:Name="host" VerticalOptions="Center" />
+</HorizontalStackLayout>

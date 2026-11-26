@@ -1,0 +1,54 @@
+<SamplePage x:Class="MauiGallery.Features.NativePower.NativeViewsPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.NativePower"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. A custom handler -->
+            <ControlExample x:Name="CalendarExample"
+                            Title="Write a handler for your own control"
+                            Description=".NET MAUI has no calendar control, but every platform does. NativeCalendar is a plain View with bindable properties; its handler creates the native calendar in CreatePlatformView, subscribes to its events in ConnectHandler and unsubscribes in DisconnectHandler. The PropertyMapper keeps the native view in sync with each property, and the CommandMapper handles actions such as an animated jump. Register the handler once with ConfigureMauiHandlers."
+                            ShowStyleToggle="False"
+                            XamlSource="NativeViewsCalendar.xaml.txt"
+                            CSharpSource="NativeViewsCalendar.cs.txt">
+                <local:NativeCalendar x:Name="CalendarSample"
+                                      WidthRequest="{OnIdiom Phone=300, Default=340}"
+                                      DateSelected="OnCalendarDateSelected"
+                                      AutomationId="sample-native-calendar" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Only the next 30 days" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="CalendarLimit" Grid.Column="1" Toggled="OnCalendarLimitToggled" AutomationId="option-native-calendar-limit" />
+                        </Grid>
+                        <Label Text="AnimateTo (a command)" Style="{StaticResource OptionLabel}" Margin="0,4,0,0" />
+                        <HorizontalStackLayout Spacing="8">
+                            <Button Text="Today" Clicked="OnAnimateToTodayClicked" AutomationId="option-native-calendar-today" />
+                            <Button Text="In 3 weeks" Clicked="OnAnimateToLaterClicked" AutomationId="option-native-calendar-later" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="CalendarMinimum" Key="MinimumDate" />
+                    <Substitution x:Name="CalendarMaximum" Key="MaximumDate" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. A one-platform view -->
+            <ControlExample x:Name="PlatformOnlyExample"
+                            Title="Show a view only one platform has"
+                            Description="For a control that exists on one platform only, skip the cross-platform API: a tiny host view and handler take any native view your code creates, and .NET MAUI sizes and places it like its own. Here it's UIColorWell on iOS and Mac, a Material Chip on Android and a RatingControl on Windows, created behind #if. To go the other way and put a .NET MAUI view inside a native one, call ToPlatform(mauiContext) on it."
+                            ShowStyleToggle="False"
+                            XamlSource="NativeViewsHost.xaml.txt"
+                            CSharpSource="NativeViewsHost.cs.txt">
+                <HorizontalStackLayout Spacing="12">
+                    <Label x:Name="PlatformOnlyCaption" VerticalOptions="Center" />
+                    <local:PlatformViewHost x:Name="PlatformOnlySample" VerticalOptions="Center" AutomationId="sample-native-host" />
+                </HorizontalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

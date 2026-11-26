@@ -1,0 +1,4 @@
+<local:HapticSlider
+    Maximum="100"
+    Value="50"
+    Step="$(Step)" />
