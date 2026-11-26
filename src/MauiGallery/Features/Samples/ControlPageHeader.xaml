@@ -26,11 +26,11 @@
                              Command="{Binding ToggleFavoriteCommand}"
                              AutomationId="page-favorite"
                              SemanticProperties.Description="Favorite"
-                             ToolTipProperties.Text="Add to favorites">
+                             ToolTipProperties.Text="Favorite">
                     <ImageButton.Triggers>
                         <DataTrigger TargetType="ImageButton" Binding="{Binding IsFavorite}" Value="True">
                             <Setter Property="Source" Value="{StaticResource StarFilled}" />
-                            <Setter Property="ToolTipProperties.Text" Value="Remove from favorites" />
+                            <Setter Property="ToolTipProperties.Text" Value="Favorite (on)" />
                             <Setter Property="SemanticProperties.Description" Value="Favorite, on" />
                         </DataTrigger>
                     </ImageButton.Triggers>
@@ -40,7 +40,7 @@
                              Command="{Binding CopyLinkCommand}"
                              AutomationId="page-copy-link"
                              SemanticProperties.Description="Copy link to this page"
-                             ToolTipProperties.Text="Copy link">
+                             ToolTipProperties.Text="Copy link to this page">
                     <ImageButton.Triggers>
                         <DataTrigger TargetType="ImageButton" Binding="{Binding LinkCopied}" Value="True">
                             <Setter Property="Source" Value="{StaticResource LinkCopiedGlyph}" />
@@ -54,15 +54,29 @@
                Style="{StaticResource TextBodySecondary}"
                FontSize="16" />
 
-        <FlexLayout Wrap="Wrap"
-                    BindableLayout.ItemsSource="{Binding NativeMappings}"
-                    IsVisible="{Binding HasNativeMappings}">
-            <BindableLayout.ItemTemplate>
-                <DataTemplate x:DataType="NativeMappingDisplay">
-                    <Chip Text="{Binding Text}" Margin="0,0,8,8" />
-                </DataTemplate>
-            </BindableLayout.ItemTemplate>
-        </FlexLayout>
+        <!-- Wide: every platform. Narrow: this platform's native type, with the others behind a disclosure. -->
+        <VerticalStackLayout IsVisible="{Binding HasNativeMappings}">
+            <FlexLayout x:Name="AllMappings"
+                        Wrap="Wrap"
+                        BindableLayout.ItemsSource="{Binding NativeMappings}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="NativeMappingDisplay">
+                        <Chip Text="{Binding Text}" Margin="0,0,8,8" />
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+            <FlexLayout x:Name="CompactMappings" Wrap="Wrap" AlignItems="Center" IsVisible="False">
+                <Chip x:Name="CurrentMapping" Margin="0,0,8,8" />
+                <Button x:Name="AllPlatformsButton"
+                        Style="{StaticResource LinkButton}"
+                        FontSize="13"
+                        Padding="4,2"
+                        MinimumHeightRequest="28"
+                        Margin="0,0,0,8"
+                        Clicked="OnAllPlatformsClicked"
+                        AutomationId="page-all-platforms" />
+            </FlexLayout>
+        </VerticalStackLayout>
 
         <FlexLayout Wrap="Wrap" Margin="0,4,0,0">
             <Button Text="Docs"
