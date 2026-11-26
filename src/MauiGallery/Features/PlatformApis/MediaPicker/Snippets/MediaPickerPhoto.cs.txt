@@ -1,0 +1,24 @@
+List<FileResult> photos = await MediaPicker.Default.PickPhotosAsync(new MediaPickerOptions
+{
+    Title = "Choose a photo",
+    SelectionLimit = 1,
+    MaximumWidth = $(Size),
+    MaximumHeight = $(Size),
+    CompressionQuality = $(Quality),
+});
+
+var photo = photos.FirstOrDefault();
+if (photo is null)
+{
+    return; // Cancelled
+}
+
+// The picker's file can be temporary: copy it somewhere your app owns
+var path = Path.Combine(FileSystem.AppDataDirectory, photo.FileName);
+await using (var source = await photo.OpenReadAsync())
+await using (var target = File.Create(path))
+{
+    await source.CopyToAsync(target);
+}
+
+PhotoImage.Source = ImageSource.FromFile(path);

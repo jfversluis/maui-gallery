@@ -1,0 +1,9 @@
+// Instant, but it can be old, or null if nothing asked for the location lately
+var location = await Geolocation.Default.GetLastKnownLocationAsync();
+
+if (location is not null)
+{
+    Debug.WriteLine($"{location.Latitude}, {location.Longitude} (±{location.Accuracy} m)");
+    Debug.WriteLine($"Taken {DateTimeOffset.UtcNow - location.Timestamp} ago");
+    Debug.WriteLine($"From a mock provider: {location.IsFromMockProvider}");
+}

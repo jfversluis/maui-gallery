@@ -37,7 +37,8 @@ public static class MauiProgram
             .ConfigureDeepLinks()
             .ConfigureWindowChrome()
             .UseNativePowerSamples()
-            .UsePlatformApisCoreSamples();
+            .UsePlatformApisCoreSamples()
+            .UsePlatformApisDeviceSamples();
 
         var catalog = new GalleryCatalog();
         builder.Services

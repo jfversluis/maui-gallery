@@ -54,6 +54,14 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>The Geolocation and Geocoding samples show your location on screen. It stays on your device: the gallery doesn't store it, and only sends it to the system's address lookup when you ask for your address.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>The Media picker sample takes a photo or video when you ask it to, and shows it on screen. Nothing is stored or sent anywhere.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>The Media picker sample records sound with videos you take, and the Permissions sample shows how to ask for microphone access. Nothing is recorded otherwise, stored or sent anywhere.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>The Sensors sample reads the barometer to show the air pressure on screen. Readings stay on your device and are never stored or sent.</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
 </dict>

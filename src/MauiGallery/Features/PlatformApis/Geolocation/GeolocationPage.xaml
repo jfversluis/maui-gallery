@@ -1,0 +1,211 @@
+<SamplePage x:Class="MauiGallery.Features.PlatformApis.GeolocationPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="AccuracyOptions" Type="{x:Type x:String}">
+            <x:String>Lowest</x:String>
+            <x:String>Low</x:String>
+            <x:String>Medium</x:String>
+            <x:String>High</x:String>
+            <x:String>Best</x:String>
+        </x:Array>
+        <x:Array x:Key="CityOptions" Type="{x:Type x:String}">
+            <x:String>Amsterdam</x:String>
+            <x:String>London</x:String>
+            <x:String>New York</x:String>
+            <x:String>São Paulo</x:String>
+            <x:String>Seattle</x:String>
+            <x:String>Sydney</x:String>
+            <x:String>Tokyo</x:String>
+        </x:Array>
+        <x:Array x:Key="UnitOptions" Type="{x:Type x:String}">
+            <x:String>Kilometers</x:String>
+            <x:String>Miles</x:String>
+        </x:Array>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Last known location -->
+            <ControlExample x:Name="LastKnownExample"
+                            Title="Last known location"
+                            Description="GetLastKnownLocationAsync returns the location the device cached last time anything asked. It's instant and costs no battery, but it can be old, or null. Check Timestamp and Accuracy before you rely on it."
+                            ShowStyleToggle="False"
+                            CSharpSource="GeolocationLastKnown.cs.txt">
+                <VerticalStackLayout x:Name="LastKnownSample"
+                                     x:DataType="local:GeolocationViewModel"
+                                     Spacing="8"
+                                     WidthRequest="{OnIdiom Phone=280, Default=360}">
+                    <Label Text="{Binding LastKnownCoordinates}"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           AutomationId="sample-geolocation-last-known" />
+                    <Label Text="{Binding LastKnownDetails}" FontSize="13" />
+                    <Label Text="{Binding IsEnabled, StringFormat='IsEnabled (location services on): {0}'}" FontSize="13" />
+                    <Button x:Name="LastKnownButton"
+                            Text="Get last known location"
+                            HorizontalOptions="Start"
+                            Margin="0,4,0,0"
+                            Command="{Binding GetLastKnownCommand}"
+                            AutomationId="sample-geolocation-last-known-get" />
+                    <Label Text="{Binding Error}"
+                           IsVisible="{Binding Error, Converter={StaticResource IsNotNullOrEmpty}}"
+                           TextColor="{AppThemeBinding Light=#B91C1C, Dark=#F87171}"
+                           FontSize="13" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 2. Current location -->
+            <ControlExample x:Name="CurrentExample"
+                            Title="Current location"
+                            Description="GetLocationAsync asks the hardware for a fresh fix. DesiredAccuracy trades precision for battery and time: Medium uses Wi-Fi and cell towers, Best waits for GPS. Timeout caps the wait, and a CancellationToken lets the user give up, or the page stop it when it disappears."
+                            ShowStyleToggle="False"
+                            CSharpSource="GeolocationCurrent.cs.txt">
+                <VerticalStackLayout x:Name="CurrentSample"
+                                     x:DataType="local:GeolocationViewModel"
+                                     Spacing="8"
+                                     WidthRequest="{OnIdiom Phone=280, Default=360}">
+                    <Label Text="{Binding CurrentCoordinates}"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           AutomationId="sample-geolocation-current" />
+                    <Label Text="{Binding CurrentDetails}" FontSize="13" />
+                    <HorizontalStackLayout Spacing="12" Margin="0,4,0,0">
+                        <Button x:Name="CurrentButton"
+                                Text="Locate me"
+                                Command="{Binding GetCurrentCommand}"
+                                AutomationId="sample-geolocation-current-get" />
+                        <Button Text="Cancel"
+                                Command="{Binding CancelCurrentCommand}"
+                                AutomationId="sample-geolocation-current-cancel" />
+                        <ActivityIndicator IsRunning="{Binding GetCurrentCommand.IsRunning}"
+                                           IsVisible="{Binding GetCurrentCommand.IsRunning}"
+                                           HeightRequest="20"
+                                           WidthRequest="20" />
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding Error}"
+                           IsVisible="{Binding Error, Converter={StaticResource IsNotNullOrEmpty}}"
+                           TextColor="{AppThemeBinding Light=#B91C1C, Dark=#F87171}"
+                           FontSize="13" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout x:Name="CurrentOptions" x:DataType="local:GeolocationViewModel" Spacing="8">
+                        <Label Text="DesiredAccuracy" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="CurrentAccuracy"
+                                ItemsSource="{StaticResource AccuracyOptions}"
+                                SelectedIndex="{Binding AccuracyIndex}"
+                                AutomationId="option-geolocation-accuracy" />
+                        <Label Text="{Binding TimeoutSeconds, StringFormat='Timeout: {0:0} s'}" Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="CurrentTimeout"
+                                Minimum="2"
+                                Maximum="30"
+                                Value="{Binding TimeoutSeconds}"
+                                AutomationId="option-geolocation-timeout" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Accuracy" Value="{Binding SelectedItem, Source={x:Reference CurrentAccuracy}, x:DataType=Picker}" IsExpression="True" />
+                    <Substitution Key="Timeout" Value="{Binding Value, Source={x:Reference CurrentTimeout}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Listening -->
+            <ControlExample x:Name="ListenExample"
+                            Title="Follow the location"
+                            Description="StartListeningForegroundAsync raises LocationChanged as the device moves, while the app is in the foreground. MinimumTime spaces out the updates. Always call StopListeningForeground when you're done: this page stops when you leave it, because listening keeps the GPS awake."
+                            ShowStyleToggle="False"
+                            CSharpSource="GeolocationListen.cs.txt">
+                <VerticalStackLayout x:Name="ListenSample"
+                                     x:DataType="local:GeolocationViewModel"
+                                     Spacing="8"
+                                     WidthRequest="{OnIdiom Phone=280, Default=360}">
+                    <Label Text="{Binding ListenCoordinates}"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           AutomationId="sample-geolocation-listen" />
+                    <Label Text="{Binding ListenDetails}" FontSize="13" />
+                    <Label Text="{Binding Progress}" FontSize="13" AutomationId="sample-geolocation-listen-count" />
+                    <Button x:Name="ListenButton"
+                            Text="{Binding ListenButtonText}"
+                            HorizontalOptions="Start"
+                            Margin="0,4,0,0"
+                            Command="{Binding ToggleListeningCommand}"
+                            AutomationId="sample-geolocation-listen-toggle" />
+                    <Label Text="{Binding Error}"
+                           IsVisible="{Binding Error, Converter={StaticResource IsNotNullOrEmpty}}"
+                           TextColor="{AppThemeBinding Light=#B91C1C, Dark=#F87171}"
+                           FontSize="13" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout x:Name="ListenOptions" x:DataType="local:GeolocationViewModel" Spacing="8">
+                        <Label Text="DesiredAccuracy" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ListenAccuracy"
+                                ItemsSource="{StaticResource AccuracyOptions}"
+                                SelectedIndex="{Binding ListenAccuracyIndex}"
+                                IsEnabled="{Binding IsNotListening}"
+                                AutomationId="option-geolocation-listen-accuracy" />
+                        <Label Text="{Binding MinimumSeconds, StringFormat='MinimumTime: {0:0} s'}" Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="ListenMinimumTime"
+                                Minimum="1"
+                                Maximum="30"
+                                Value="{Binding MinimumSeconds}"
+                                IsEnabled="{Binding IsNotListening}"
+                                AutomationId="option-geolocation-listen-minimum-time" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Accuracy" Value="{Binding SelectedItem, Source={x:Reference ListenAccuracy}, x:DataType=Picker}" IsExpression="True" />
+                    <Substitution Key="MinimumTime" Value="{Binding Value, Source={x:Reference ListenMinimumTime}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 4. Distance -->
+            <ControlExample x:Name="DistanceExample"
+                            Title="Distance between two places"
+                            Description="Location.CalculateDistance gives the great-circle distance between two locations, in kilometers or miles. It's plain math, so it works offline and without any permission."
+                            ShowStyleToggle="False"
+                            CSharpSource="GeolocationDistance.cs.txt">
+                <VerticalStackLayout Spacing="4" WidthRequest="{OnIdiom Phone=280, Default=360}">
+                    <Label x:Name="DistanceValue"
+                           FontSize="32"
+                           FontAttributes="Bold"
+                           AutomationId="sample-geolocation-distance" />
+                    <Label x:Name="DistanceRoute" FontSize="13" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="From" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="DistanceFrom"
+                                ItemsSource="{StaticResource CityOptions}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnDistanceChanged"
+                                AutomationId="option-geolocation-from" />
+                        <Label Text="To" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="DistanceTo"
+                                ItemsSource="{StaticResource CityOptions}"
+                                SelectedIndex="1"
+                                SelectedIndexChanged="OnDistanceChanged"
+                                AutomationId="option-geolocation-to" />
+                        <Label Text="Units" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="DistanceUnitsPicker"
+                                ItemsSource="{StaticResource UnitOptions}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnDistanceChanged"
+                                AutomationId="option-geolocation-units" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="DistanceFromName" Key="FromName" IsExpression="True" />
+                    <Substitution x:Name="DistanceFromLocation" Key="From" IsExpression="True" />
+                    <Substitution x:Name="DistanceToName" Key="ToName" IsExpression="True" />
+                    <Substitution x:Name="DistanceToLocation" Key="To" IsExpression="True" />
+                    <Substitution Key="Units" Value="{Binding SelectedItem, Source={x:Reference DistanceUnitsPicker}, x:DataType=Picker}" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

@@ -1,0 +1,15 @@
+if (Magnetometer.Default.IsSupported)
+{
+    Magnetometer.Default.ReadingChanged += OnMagnetometerReadingChanged;
+    Magnetometer.Default.Start(SensorSpeed.$(Speed));
+}
+
+// Stop when you're done, at the latest when the page disappears
+Magnetometer.Default.Stop();
+Magnetometer.Default.ReadingChanged -= OnMagnetometerReadingChanged;
+
+private void OnMagnetometerReadingChanged(object? sender, MagnetometerChangedEventArgs e)
+{
+    // Microteslas along each axis
+    Vector3 magneticField = e.Reading.MagneticField;
+}

@@ -1,0 +1,18 @@
+if (Barometer.Default.IsSupported)
+{
+    Barometer.Default.ReadingChanged += OnBarometerReadingChanged;
+    Barometer.Default.Start(SensorSpeed.$(Speed));
+}
+
+// Stop when you're done, at the latest when the page disappears
+Barometer.Default.Stop();
+Barometer.Default.ReadingChanged -= OnBarometerReadingChanged;
+
+private void OnBarometerReadingChanged(object? sender, BarometerChangedEventArgs e)
+{
+    // Hectopascals
+    double pressure = e.Reading.PressureInHectopascals;
+}
+
+// Roughly 8 m higher for every hectopascal less
+private static double AltitudeInMeters(double hectopascals) => 44330 * (1 - Math.Pow(hectopascals / 1013.25, 1 / 5.255));

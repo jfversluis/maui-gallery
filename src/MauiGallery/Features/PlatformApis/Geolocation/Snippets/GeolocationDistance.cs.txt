@@ -1,0 +1,7 @@
+var from = new Location($(From)); // $(FromName)
+var to = new Location($(To)); // $(ToName)
+
+double distance = Location.CalculateDistance(from, to, DistanceUnits.$(Units));
+
+// Or, as an extension method
+double sameDistance = from.CalculateDistance(to, DistanceUnits.$(Units));

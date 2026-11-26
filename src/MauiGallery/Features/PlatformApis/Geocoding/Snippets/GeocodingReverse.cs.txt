@@ -1,0 +1,10 @@
+IEnumerable<Placemark> placemarks = await Geocoding.Default.GetPlacemarksAsync($(Latitude), $(Longitude));
+
+var placemark = placemarks.FirstOrDefault();
+if (placemark is not null)
+{
+    Debug.WriteLine($"{placemark.FeatureName}");
+    Debug.WriteLine($"{placemark.SubThoroughfare} {placemark.Thoroughfare}");
+    Debug.WriteLine($"{placemark.PostalCode} {placemark.Locality}, {placemark.AdminArea}");
+    Debug.WriteLine($"{placemark.CountryName} ({placemark.CountryCode})");
+}

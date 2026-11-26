@@ -1,0 +1,13 @@
+if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+{
+    // Geocoding asks an online service
+    return;
+}
+
+IEnumerable<Location> locations = await Geocoding.Default.GetLocationsAsync($(Address));
+
+var best = locations.FirstOrDefault();
+if (best is not null)
+{
+    Debug.WriteLine($"{best.Latitude}, {best.Longitude}");
+}

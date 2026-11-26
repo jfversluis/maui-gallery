@@ -1,0 +1,162 @@
+<SamplePage x:Class="MauiGallery.Features.PlatformApis.GeocodingPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="AddressOptions" Type="{x:Type x:String}">
+            <x:String>Museumstraat 1, Amsterdam</x:String>
+            <x:String>5 Avenue Anatole France, Paris</x:String>
+            <x:String>1 Microsoft Way, Redmond, WA</x:String>
+            <x:String>Avenida Paulista 1578, São Paulo</x:String>
+            <x:String>Bennelong Point, Sydney NSW 2000</x:String>
+            <x:String>1-1 Marunouchi, Chiyoda, Tokyo</x:String>
+        </x:Array>
+        <x:Array x:Key="PlaceOptions" Type="{x:Type x:String}">
+            <x:String>Eiffel Tower</x:String>
+            <x:String>Golden Gate Bridge</x:String>
+            <x:String>Colosseum</x:String>
+            <x:String>Taj Mahal</x:String>
+        </x:Array>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Address to coordinates -->
+            <ControlExample x:Name="ForwardExample"
+                            Title="Find the coordinates of an address"
+                            Description="GetLocationsAsync turns an address or a place name into locations, best match first. It asks the platform's online geocoding service, so check for a connection and handle failures. Street addresses work best: Apple's geocoder often doesn't know landmarks by name, and reports that as an error rather than an empty list. On Windows, set a Bing Maps key with Geocoding.SetMapServiceToken first."
+                            ShowStyleToggle="False"
+                            CSharpSource="GeocodingForward.cs.txt">
+                <VerticalStackLayout x:Name="ForwardSample"
+                                     x:DataType="local:GeocodingViewModel"
+                                     Spacing="8"
+                                     WidthRequest="{OnIdiom Phone=280, Default=360}">
+                    <Entry x:Name="ForwardAddress"
+                           Text="{Binding Address}"
+                           Placeholder="Address or place"
+                           ReturnCommand="{Binding FindCoordinatesCommand}"
+                           SemanticProperties.Description="Address"
+                           AutomationId="sample-geocoding-address" />
+                    <HorizontalStackLayout Spacing="12">
+                        <Button x:Name="ForwardButton"
+                                Text="Find coordinates"
+                                Command="{Binding FindCoordinatesCommand}"
+                                AutomationId="sample-geocoding-forward" />
+                        <ActivityIndicator IsRunning="{Binding FindCoordinatesCommand.IsRunning}"
+                                           IsVisible="{Binding FindCoordinatesCommand.IsRunning}"
+                                           HeightRequest="20"
+                                           WidthRequest="20" />
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding ForwardResult}"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           Margin="0,4,0,0"
+                           AutomationId="sample-geocoding-forward-result" />
+                    <Label Text="{Binding ForwardDetails}" FontSize="13" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Try an address" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ForwardPreset"
+                                ItemsSource="{StaticResource AddressOptions}"
+                                Title="Choose an address"
+                                SelectedIndexChanged="OnForwardPresetChanged"
+                                AutomationId="option-geocoding-address" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Address" Value="{Binding Text, Source={x:Reference ForwardAddress}, x:DataType=Entry}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Coordinates to address -->
+            <ControlExample x:Name="ReverseExample"
+                            Title="Find the address at a location"
+                            Description="GetPlacemarksAsync does the reverse: from coordinates to placemarks with the street, postal code, city, region and country. Which fields have a value depends on the place and on the platform's geocoder."
+                            ShowStyleToggle="False"
+                            CSharpSource="GeocodingReverse.cs.txt">
+                <VerticalStackLayout x:Name="ReverseSample"
+                                     x:DataType="local:GeocodingViewModel"
+                                     Spacing="8"
+                                     WidthRequest="{OnIdiom Phone=280, Default=360}">
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <Entry x:Name="ReverseLatitude"
+                               Text="{Binding Latitude}"
+                               Placeholder="Latitude"
+                               Keyboard="Numeric"
+                               SemanticProperties.Description="Latitude"
+                               AutomationId="sample-geocoding-latitude" />
+                        <Entry x:Name="ReverseLongitude"
+                               Grid.Column="1"
+                               Text="{Binding Longitude}"
+                               Placeholder="Longitude"
+                               Keyboard="Numeric"
+                               SemanticProperties.Description="Longitude"
+                               AutomationId="sample-geocoding-longitude" />
+                    </Grid>
+                    <HorizontalStackLayout Spacing="12">
+                        <Button x:Name="ReverseButton"
+                                Text="Find address"
+                                Command="{Binding FindAddressCommand}"
+                                AutomationId="sample-geocoding-reverse" />
+                        <ActivityIndicator IsRunning="{Binding FindAddressCommand.IsRunning}"
+                                           IsVisible="{Binding FindAddressCommand.IsRunning}"
+                                           HeightRequest="20"
+                                           WidthRequest="20" />
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding ReverseResult}"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           Margin="0,4,0,0"
+                           AutomationId="sample-geocoding-reverse-result" />
+                    <Label Text="{Binding ReverseDetails}" FontSize="13" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Try a place" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ReversePreset"
+                                ItemsSource="{StaticResource PlaceOptions}"
+                                Title="Choose a place"
+                                SelectedIndexChanged="OnReversePresetChanged"
+                                AutomationId="option-geocoding-place" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Latitude" Value="{Binding Text, Source={x:Reference ReverseLatitude}, x:DataType=Entry}" IsExpression="True" />
+                    <Substitution Key="Longitude" Value="{Binding Text, Source={x:Reference ReverseLongitude}, x:DataType=Entry}" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Where am I -->
+            <ControlExample x:Name="WhereExample"
+                            Title="Where am I?"
+                            Description="Combine Geolocation and Geocoding to name the place the device is in. A Medium accuracy fix is plenty for a city, and comes back faster than GPS."
+                            ShowStyleToggle="False"
+                            CSharpSource="GeocodingWhereAmI.cs.txt">
+                <VerticalStackLayout x:Name="WhereSample"
+                                     x:DataType="local:GeocodingViewModel"
+                                     Spacing="8"
+                                     WidthRequest="{OnIdiom Phone=280, Default=360}">
+                    <Label Text="{Binding WhereAmI}"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           AutomationId="sample-geocoding-where-result" />
+                    <Label Text="{Binding WhereAmIDetails}" FontSize="13" />
+                    <HorizontalStackLayout Spacing="12" Margin="0,4,0,0">
+                        <Button x:Name="WhereButton"
+                                Text="Where am I?"
+                                Command="{Binding FindWhereAmICommand}"
+                                AutomationId="sample-geocoding-where" />
+                        <ActivityIndicator IsRunning="{Binding FindWhereAmICommand.IsRunning}"
+                                           IsVisible="{Binding FindWhereAmICommand.IsRunning}"
+                                           HeightRequest="20"
+                                           WidthRequest="20" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

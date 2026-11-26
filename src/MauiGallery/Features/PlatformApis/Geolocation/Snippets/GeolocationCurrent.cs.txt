@@ -1,0 +1,30 @@
+private CancellationTokenSource? _cancellation;
+
+public async Task<Location?> GetCurrentLocationAsync()
+{
+    _cancellation = new CancellationTokenSource();
+    var request = new GeolocationRequest(GeolocationAccuracy.$(Accuracy), TimeSpan.FromSeconds($(Timeout)));
+
+    try
+    {
+        // Asks for location permission if it hasn't been granted yet
+        return await Geolocation.Default.GetLocationAsync(request, _cancellation.Token);
+    }
+    catch (FeatureNotEnabledException)
+    {
+        // Location services are turned off for the device
+    }
+    catch (PermissionException)
+    {
+        // The user said no
+    }
+    catch (OperationCanceledException)
+    {
+        // Cancelled
+    }
+
+    return null;
+}
+
+// Call it from a Cancel button, and when the page disappears
+public void CancelLocationRequest() => _cancellation?.Cancel();

@@ -1,0 +1,8 @@
+// Android: <uses-permission android:name="android.permission.VIBRATE" /> in AndroidManifest.xml
+if (Vibration.Default.IsSupported)
+{
+    Vibration.Default.Vibrate(TimeSpan.FromMilliseconds($(Duration)));
+}
+
+// Stops early
+Vibration.Default.Cancel();

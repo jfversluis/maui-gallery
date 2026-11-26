@@ -1,0 +1,31 @@
+// S O S: on for a dot (1 unit) or a dash (3), off for 1 unit between them and 3 between letters
+private static readonly (bool On, int Units)[] Sos =
+[
+    (true, 1), (false, 1), (true, 1), (false, 1), (true, 1), (false, 3),
+    (true, 3), (false, 1), (true, 3), (false, 1), (true, 3), (false, 3),
+    (true, 1), (false, 1), (true, 1), (false, 1), (true, 1), (false, 7),
+];
+
+public async Task SignalSosAsync(CancellationToken cancellationToken)
+{
+    var unit = TimeSpan.FromMilliseconds($(Unit));
+    try
+    {
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            foreach (var (on, units) in Sos)
+            {
+                await (on ? Flashlight.Default.TurnOnAsync() : Flashlight.Default.TurnOffAsync());
+                await Task.Delay(unit * units, cancellationToken);
+            }
+        }
+    }
+    catch (OperationCanceledException)
+    {
+        // Stopped
+    }
+    finally
+    {
+        await Flashlight.Default.TurnOffAsync();
+    }
+}

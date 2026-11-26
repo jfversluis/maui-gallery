@@ -1,0 +1,19 @@
+// iOS and Mac: NSCameraUsageDescription in Info.plist
+// Android: the CAMERA permission, and in <queries> <intent><action android:name="android.media.action.IMAGE_CAPTURE" /></intent>
+if (!MediaPicker.Default.IsCaptureSupported)
+{
+    return; // No camera, as on a simulator
+}
+
+try
+{
+    FileResult? photo = await MediaPicker.Default.CapturePhotoAsync();
+    if (photo is not null)
+    {
+        PhotoImage.Source = ImageSource.FromStream(cancellationToken => photo.OpenReadAsync());
+    }
+}
+catch (PermissionException)
+{
+    // The user said no to camera access
+}

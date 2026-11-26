@@ -1,0 +1,14 @@
+List<FileResult> photos = await MediaPicker.Default.PickPhotosAsync(new MediaPickerOptions
+{
+    // 0 for no limit
+    SelectionLimit = $(Limit),
+    MaximumWidth = 600,
+    MaximumHeight = 600,
+});
+
+// Empty when the user cancels
+foreach (var photo in photos)
+{
+    await using var stream = await photo.OpenReadAsync();
+    // Copy or upload each one
+}

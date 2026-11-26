@@ -1,0 +1,7 @@
+// Reads the status without asking the user
+var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+
+if (status == PermissionStatus.Granted)
+{
+    // Show the feature
+}

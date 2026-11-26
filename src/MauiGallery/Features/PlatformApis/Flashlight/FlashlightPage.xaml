@@ -1,0 +1,106 @@
+<SamplePage x:Class="MauiGallery.Features.PlatformApis.FlashlightPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <Style x:Key="Lamp" TargetType="Border">
+            <Setter Property="WidthRequest" Value="96" />
+            <Setter Property="HeightRequest" Value="96" />
+            <Setter Property="StrokeShape" Value="Ellipse" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#E5E7EB, Dark=#374151}" />
+            <Style.Triggers>
+                <DataTrigger TargetType="Border" Binding="{Binding IsOn, x:DataType=local:FlashlightViewModel}" Value="True">
+                    <Setter Property="BackgroundColor" Value="#FACC15" />
+                    <Setter Property="Shadow">
+                        <Shadow Brush="#FACC15" Radius="32" Opacity="0.9" Offset="0,0" />
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. On and off -->
+            <ControlExample x:Name="ToggleExample"
+                            Title="Turn the flashlight on and off"
+                            Description="Flashlight turns the camera's torch on and off. Check IsSupportedAsync first: tablets, computers and simulators often have none. On Android the torch belongs to the camera, so the first call asks for camera permission. Turn it off when the page disappears, as this one does."
+                            ShowStyleToggle="False"
+                            CSharpSource="FlashlightToggle.cs.txt">
+                <VerticalStackLayout x:Name="ToggleSample"
+                                     x:DataType="local:FlashlightViewModel"
+                                     Spacing="16">
+                    <Border Style="{StaticResource Lamp}" AutomationId="sample-flashlight-lamp">
+                        <Image HeightRequest="40" WidthRequest="40" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                 Glyph="{x:Static icons:FluentIconsRegular.Flashlight24}"
+                                                 Color="#1F2937"
+                                                 Size="40" />
+                            </Image.Source>
+                        </Image>
+                    </Border>
+                    <Button x:Name="ToggleButton"
+                            Text="{Binding ToggleText}"
+                            HorizontalOptions="Center"
+                            Command="{Binding ToggleCommand}"
+                            AutomationId="sample-flashlight-toggle" />
+                    <Label Text="{Binding Message}"
+                           FontSize="13"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           AutomationId="sample-flashlight-message" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 2. A signal -->
+            <ControlExample x:Name="SignalExample"
+                            Title="Flash a signal"
+                            Description="Switch the light in a loop with delays between the calls, here SOS in Morse code. Pass a CancellationToken to the delays so the user can stop it, and turn the light off in a finally block so it never stays on by accident."
+                            ShowStyleToggle="False"
+                            CSharpSource="FlashlightSignal.cs.txt">
+                <VerticalStackLayout x:Name="SignalSample"
+                                     x:DataType="local:FlashlightViewModel"
+                                     Spacing="12">
+                    <Label Text="··· – – – ···"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           SemanticProperties.Description="S O S in Morse code" />
+                    <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
+                        <Button x:Name="SignalButton"
+                                Text="Signal SOS"
+                                Command="{Binding SignalCommand}"
+                                AutomationId="sample-flashlight-signal" />
+                        <Button Text="Stop"
+                                Command="{Binding CancelSignalCommand}"
+                                AutomationId="sample-flashlight-signal-stop" />
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding SignalStatus}"
+                           FontSize="13"
+                           HorizontalOptions="Center"
+                           AutomationId="sample-flashlight-signal-status" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout x:Name="SignalOptions" x:DataType="local:FlashlightViewModel" Spacing="8">
+                        <Label Text="{Binding UnitMilliseconds, StringFormat='Dot length: {0:0} ms'}" Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="SignalUnit"
+                                Minimum="100"
+                                Maximum="500"
+                                Value="{Binding UnitMilliseconds}"
+                                AutomationId="option-flashlight-unit" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Unit" Value="{Binding Value, Source={x:Reference SignalUnit}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>
