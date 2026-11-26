@@ -1,0 +1,47 @@
+// Android: Platforms/Android/MainActivity.cs
+[Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.SingleTop)]
+[IntentFilter(
+    [Intent.ActionView],
+    Categories = [Intent.CategoryDefault, Intent.CategoryBrowsable],
+    DataScheme = "myapp")]
+public class MainActivity : MauiAppCompatActivity;
+
+// MauiProgram.cs: links arrive in lifecycle events
+builder.ConfigureLifecycleEvents(events =>
+{
+#if IOS || MACCATALYST
+    events.AddiOS(ios => ios
+        // Cold start: the scene is created with the link
+        .SceneWillConnect((_, _, options) =>
+        {
+            foreach (var context in options.UrlContexts?.ToArray() ?? [])
+            {
+                LinkRouter.Handle(context.Url.AbsoluteString);
+            }
+        })
+        // The app is already running
+        .SceneOpenUrl((_, contexts) =>
+        {
+            foreach (var context in contexts.ToArray())
+            {
+                LinkRouter.Handle(context.Url.AbsoluteString);
+            }
+
+            return true;
+        }));
+#elif ANDROID
+    events.AddAndroid(android => android
+        .OnCreate((activity, _) => LinkRouter.Handle(activity.Intent?.DataString))
+        .OnNewIntent((_, intent) => LinkRouter.Handle(intent?.DataString)));
+#endif
+});
+
+// LinkRouter: myapp://item/button navigates to the "button" route
+public static void Handle(string? link)
+{
+    if (Uri.TryCreate(link, UriKind.Absolute, out var uri) && uri.Host == "item")
+    {
+        var id = Uri.UnescapeDataString(uri.AbsolutePath.Trim('/'));
+        MainThread.BeginInvokeOnMainThread(async () => await Shell.Current.GoToAsync($"//main/controls/{id}"));
+    }
+}

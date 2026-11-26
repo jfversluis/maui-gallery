@@ -1,0 +1,19 @@
+<!-- iOS and Mac Catalyst: Platforms/iOS/Info.plist and Platforms/MacCatalyst/Info.plist -->
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+        <key>CFBundleURLName</key>
+        <string>com.contoso.myapp</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <string>myapp</string>
+        </array>
+    </dict>
+</array>
+
+<!-- Windows (packaged apps): Platforms/Windows/Package.appxmanifest, inside <Application> -->
+<Extensions xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10">
+    <uap:Extension Category="windows.protocol">
+        <uap:Protocol Name="myapp" />
+    </uap:Extension>
+</Extensions>

@@ -1,0 +1,1 @@
+<Button Text="Copy the link" Command="{Binding CopyLinkCommand}" />

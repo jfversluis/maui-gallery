@@ -1,0 +1,2 @@
+// Opens whichever app registered the scheme; here, this one
+bool opened = await Launcher.Default.OpenAsync(new Uri($(Link)));
