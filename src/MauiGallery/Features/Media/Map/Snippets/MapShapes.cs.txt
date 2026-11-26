@@ -1,0 +1,43 @@
+var route = new Polyline
+{
+    StrokeColor = Color.FromArgb("#1E6FD9"),
+    StrokeWidth = $(StrokeWidth),
+    IsVisible = $(ShowRoute),
+    Geopath =
+    {
+        new Location(52.3791, 4.9003),
+        new Location(52.3731, 4.8926),
+        new Location(52.3672, 4.8935),
+        new Location(52.3600, 4.8852),
+    },
+};
+
+var park = new Polygon
+{
+    StrokeColor = Color.FromArgb("#2E7D32"),
+    FillColor = Color.FromArgb("#552E7D32"),
+    StrokeWidth = $(StrokeWidth),
+    IsVisible = $(ShowPark),
+    Geopath =
+    {
+        new Location(52.3618, 4.8775),
+        new Location(52.3567, 4.8566),
+        new Location(52.3551, 4.8590),
+        new Location(52.3604, 4.8790),
+    },
+};
+
+var circle = new Circle
+{
+    Center = new Location(52.3731, 4.8926),
+    Radius = Distance.FromMeters($(Radius)),
+    StrokeColor = Color.FromArgb("#D9480F"),
+    FillColor = Color.FromArgb("#40D9480F"),
+    StrokeWidth = $(StrokeWidth),
+    IsVisible = $(ShowCircle),
+};
+circle.CircleClicked += (s, e) => Debug.WriteLine("Tapped the circle");
+
+map.MapElements.Add(route);
+map.MapElements.Add(park);
+map.MapElements.Add(circle);

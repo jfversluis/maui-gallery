@@ -1,0 +1,21 @@
+// The same tokens, read from the app's resources
+double Space(string key) => (double)Application.Current!.Resources[key];
+
+var card = new Border
+{
+    StrokeShape = new RoundRectangle { CornerRadius = 12 },
+    Padding = Space("$(Padding)"),
+    Content = new VerticalStackLayout
+    {
+        Spacing = Space("$(Spacing)"),
+        Children =
+        {
+            new Label { Text = "Weekend in Amsterdam", FontSize = 18, FontAttributes = FontAttributes.Bold },
+            new Label { Text = "Two days of canals, museums and stroopwafels." },
+            new Button { Text = "Book now", HorizontalOptions = LayoutOptions.Start },
+        },
+    },
+};
+card.SetAppTheme<Brush>(Border.StrokeProperty,
+    new SolidColorBrush(Color.FromArgb("#E4E1EC")),
+    new SolidColorBrush(Color.FromArgb("#3D384B")));

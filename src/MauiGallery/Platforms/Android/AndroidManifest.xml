@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-	<application android:allowBackup="true" android:fullBackupContent="@xml/auto_backup_rules" android:dataExtractionRules="@xml/data_extraction_rules" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true"></application>
+	<application android:allowBackup="true" android:fullBackupContent="@xml/auto_backup_rules" android:dataExtractionRules="@xml/data_extraction_rules" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true">
+		<!-- Map sample: the Google Maps key comes from the MapsApiKey build property; it's never committed. -->
+		<meta-data android:name="com.google.android.geo.API_KEY" android:value="${mapsApiKey}" />
+	</application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
 
 	<!-- Platform API samples. Each is requested only when you use its sample, and nothing leaves the device. -->
-	<!-- Geolocation and Geocoding: show where you are. -->
+	<!-- Geolocation, Geocoding and Map: show where you are. -->
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<!-- Media picker: take a photo or video. Flashlight: turn on the camera's torch. -->

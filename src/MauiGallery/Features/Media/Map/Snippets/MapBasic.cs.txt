@@ -1,0 +1,25 @@
+// MauiProgram.cs: builder.UseMauiApp<App>().UseMauiMaps();
+// Android: add your Google Maps API key to AndroidManifest.xml as
+// <meta-data android:name="com.google.android.geo.API_KEY" android:value="..." />
+using Microsoft.Maui.Controls.Maps;
+using Microsoft.Maui.Maps;
+using Map = Microsoft.Maui.Controls.Maps.Map;
+
+// .NET MAUI Maps has no Windows implementation: show something else there.
+if (DeviceInfo.Platform == DevicePlatform.WinUI)
+{
+    Content = new Label { Text = "Maps aren't available on Windows." };
+    return;
+}
+
+var map = new Map
+{
+    HeightRequest = 360,
+    MapType = MapType.$(MapType),
+    IsScrollEnabled = $(Scroll),
+    IsZoomEnabled = $(Zoom),
+    IsTrafficEnabled = $(Traffic),
+};
+
+var amsterdam = new Location(52.3676, 4.9041);
+map.MoveToRegion(MapSpan.FromCenterAndRadius(amsterdam, Distance.FromKilometers(3)));

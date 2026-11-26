@@ -27,6 +27,7 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()
             .UseFluentIcons()
+            .UseMauiMaps()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("Inter-Regular.ttf", "Inter");

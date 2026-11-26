@@ -1,0 +1,43 @@
+<maps:Map
+    xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+    xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
+    x:Name="map"
+    HeightRequest="360">
+    <maps:Map.MapElements>
+        <maps:Polyline
+            StrokeColor="#1E6FD9"
+            StrokeWidth="$(StrokeWidth)"
+            IsVisible="$(ShowRoute)">
+            <maps:Polyline.Geopath>
+                <sensors:Location Latitude="52.3791" Longitude="4.9003" />
+                <sensors:Location Latitude="52.3731" Longitude="4.8926" />
+                <sensors:Location Latitude="52.3672" Longitude="4.8935" />
+                <sensors:Location Latitude="52.3600" Longitude="4.8852" />
+            </maps:Polyline.Geopath>
+        </maps:Polyline>
+        <maps:Polygon
+            StrokeColor="#2E7D32"
+            FillColor="#552E7D32"
+            StrokeWidth="$(StrokeWidth)"
+            IsVisible="$(ShowPark)">
+            <maps:Polygon.Geopath>
+                <sensors:Location Latitude="52.3618" Longitude="4.8775" />
+                <sensors:Location Latitude="52.3567" Longitude="4.8566" />
+                <sensors:Location Latitude="52.3551" Longitude="4.8590" />
+                <sensors:Location Latitude="52.3604" Longitude="4.8790" />
+            </maps:Polygon.Geopath>
+        </maps:Polygon>
+        <maps:Circle
+            x:Name="circle"
+            StrokeColor="#D9480F"
+            FillColor="#40D9480F"
+            StrokeWidth="$(StrokeWidth)"
+            IsVisible="$(ShowCircle)"
+            CircleClicked="OnCircleClicked">
+            <maps:Circle.Center>
+                <sensors:Location Latitude="52.3731" Longitude="4.8926" />
+            </maps:Circle.Center>
+        </maps:Circle>
+    </maps:Map.MapElements>
+</maps:Map>
+<!-- Code-behind: circle.Radius = Distance.FromMeters($(Radius)); -->

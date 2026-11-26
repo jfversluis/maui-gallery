@@ -1,0 +1,45 @@
+public enum SizeClass { Compact, Medium, Expanded }
+
+public static class Breakpoints
+{
+    public const double Medium = 640;
+    public const double Expanded = 1100;
+
+    public static SizeClass Classify(double width) => width switch
+    {
+        >= Expanded => SizeClass.Expanded,
+        >= Medium => SizeClass.Medium,
+        _ => SizeClass.Compact,
+    };
+}
+
+/// <summary>Moves an element to the Compact, Medium or Expanded visual state as its window resizes.</summary>
+public static class WindowSizeStates
+{
+    public static readonly BindableProperty IsEnabledProperty =
+        BindableProperty.CreateAttached("IsEnabled", typeof(bool), typeof(WindowSizeStates), false,
+            propertyChanged: (bindable, _, value) =>
+            {
+                if (bindable is VisualElement element && (bool)value)
+                {
+                    // Each element subscribes to its own window, unlike an AdaptiveTrigger in a shared Style.
+                    element.PropertyChanged += (_, e) =>
+                    {
+                        if (e.PropertyName == nameof(VisualElement.Window) && element.Window is { } window)
+                        {
+                            window.SizeChanged += (_, _) => Update(element, window);
+                            Update(element, window);
+                        }
+                    };
+                }
+            });
+
+    public static bool GetIsEnabled(BindableObject element) => (bool)element.GetValue(IsEnabledProperty);
+
+    public static void SetIsEnabled(BindableObject element, bool value) => element.SetValue(IsEnabledProperty, value);
+
+    static void Update(VisualElement element, Window window) =>
+        VisualStateManager.GoToState(element, Breakpoints.Classify(window.Width).ToString());
+}
+
+// The gallery's full version also unsubscribes when the element leaves its window, and holds the element weakly.

@@ -1,0 +1,34 @@
+<!-- xmlns:local="clr-namespace:MyApp.Behaviors" -->
+<SolidColorBrush x:Key="OutlineLight" Color="#E4E1EC" />
+<SolidColorBrush x:Key="OutlineDark" Color="#3D384B" />
+<Style x:Key="SizeClassCard" TargetType="Border">
+    <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+    <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource OutlineLight}, Dark={StaticResource OutlineDark}}" />
+    <Setter Property="local:WindowSizeStates.IsEnabled" Value="True" />
+    <Setter Property="VisualStateManager.VisualStateGroups">
+        <VisualStateGroupList>
+            <VisualStateGroup x:Name="WindowWidth">
+                <VisualState x:Name="Compact">
+                    <VisualState.Setters>
+                        <Setter Property="Padding" Value="16" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Medium">
+                    <VisualState.Setters>
+                        <Setter Property="Padding" Value="32" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Expanded">
+                    <VisualState.Setters>
+                        <Setter Property="Padding" Value="48" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateGroupList>
+    </Setter>
+</Style>
+
+<!-- Every element that uses the style follows its own window -->
+<Border Style="{StaticResource SizeClassCard}">
+    <Label Text="My padding follows the window" FontSize="18" FontAttributes="Bold" />
+</Border>

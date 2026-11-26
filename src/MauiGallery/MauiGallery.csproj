@@ -37,6 +37,15 @@
     <CodesignEntitlements Condition="'$(Configuration)' != 'Debug'">Platforms/MacCatalyst/Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
 
+  <!--
+    Google Maps API key for the Map sample on Android. Never commit it: pass it at build time with
+    -p:MapsApiKey=... or a MapsApiKey environment variable (CI reads the MAPS_API_KEY secret). Without a key the
+    Map page explains that this build has none instead of showing an empty grey map.
+  -->
+  <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+    <AndroidManifestPlaceholders>mapsApiKey=$(MapsApiKey)</AndroidManifestPlaceholders>
+  </PropertyGroup>
+
   <!-- Android edge-to-edge: let the Shell's app bar color fill the status bar area (opt-in in .NET 11). -->
   <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
     <RuntimeHostConfigurationOption Include="Microsoft.Maui.RuntimeFeature.UseMauiAndroidSystemBarBackgrounds" Value="true" Trim="true" />
@@ -63,6 +72,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" />
+    <PackageReference Include="Microsoft.Maui.Controls.Maps" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="IconFont.Maui.FluentIcons" />
   </ItemGroup>

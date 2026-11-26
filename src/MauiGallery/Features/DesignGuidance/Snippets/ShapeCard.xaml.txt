@@ -1,0 +1,23 @@
+<!-- LightTheme.xaml -->
+<Shadow x:Key="ShadowCard" Brush="#1D1640" Opacity="0.07" Offset="0,4" Radius="16" />
+<Shadow x:Key="ShadowRaised" Brush="#1D1640" Opacity="0.12" Offset="0,8" Radius="28" />
+<SolidColorBrush x:Key="BrushOutline" Color="#E4E1EC" />
+
+<!-- DarkTheme.xaml: no card shadow, the outline carries the depth -->
+<Shadow x:Key="ShadowCard" Brush="#000000" Opacity="0" Offset="0,0" Radius="0" />
+<Shadow x:Key="ShadowRaised" Brush="#000000" Opacity="0.4" Offset="0,8" Radius="28" />
+<SolidColorBrush x:Key="BrushOutline" Color="#2B2736" />
+
+<!-- The card -->
+<Border
+    Padding="16"
+    StrokeShape="RoundRectangle $(Radius)"
+    Stroke="{DynamicResource BrushOutline}"
+    StrokeThickness="$(Outline)"
+    BackgroundColor="{DynamicResource ColorSurface}"
+    Shadow="{DynamicResource $(Shadow)}">
+    <VerticalStackLayout Spacing="4">
+        <Label Text="Weekend in Amsterdam" FontSize="18" FontAttributes="Bold" />
+        <Label Text="Two days of canals, museums and stroopwafels." />
+    </VerticalStackLayout>
+</Border>

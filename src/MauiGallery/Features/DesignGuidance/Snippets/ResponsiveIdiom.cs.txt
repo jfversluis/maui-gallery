@@ -1,0 +1,24 @@
+var greeting = new Label
+{
+    Text = DeviceInfo.Idiom == DeviceIdiom.Phone ? "Hello, phone"
+        : DeviceInfo.Idiom == DeviceIdiom.Tablet ? "Hello, tablet"
+        : DeviceInfo.Idiom == DeviceIdiom.Desktop ? "Hello, desktop"
+        : "Hello",
+    FontSize = DeviceInfo.Idiom == DeviceIdiom.Phone ? 20 : 24,
+    FontAttributes = FontAttributes.Bold,
+};
+
+var platform = new Label
+{
+    Text = DeviceInfo.Platform == DevicePlatform.Android ? "Running on Android"
+        : DeviceInfo.Platform == DevicePlatform.iOS ? "Running on iOS"
+        : DeviceInfo.Platform == DevicePlatform.MacCatalyst ? "Running on Mac Catalyst"
+        : "Running on Windows",
+};
+
+var button = new Button
+{
+    Text = "A comfortable target",
+    HorizontalOptions = LayoutOptions.Start,
+    MinimumHeightRequest = DeviceInfo.Idiom == DeviceIdiom.Phone ? 48 : 36,
+};

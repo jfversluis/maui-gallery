@@ -1,0 +1,24 @@
+// iOS and Mac: NSLocationWhenInUseUsageDescription in Info.plist.
+// Android: ACCESS_COARSE_LOCATION and ACCESS_FINE_LOCATION in AndroidManifest.xml.
+async Task ShowUserAsync()
+{
+    var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+    if (status != PermissionStatus.Granted)
+    {
+        status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+    }
+
+    if (status != PermissionStatus.Granted)
+    {
+        // Explain why the map can't show the user, and how to turn location on
+        return;
+    }
+
+    map.IsShowingUser = true;
+}
+
+void OnUserLocationChanged(object? sender, UserLocationChangedEventArgs e)
+{
+    // Follow the user
+    map.MoveToRegion(MapSpan.FromCenterAndRadius(e.Location, Distance.FromKilometers(1)));
+}
