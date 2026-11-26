@@ -1,5 +1,6 @@
 using MauiGallery.Core.Layout;
 using MauiGallery.Features.Chrome;
+using MauiGallery.Services;
 
 namespace MauiGallery;
 
@@ -82,14 +83,41 @@ public partial class AppShell : Shell
         UpdateNavBar();
     }
 
+    protected override void OnNavigating(ShellNavigatingEventArgs args)
+    {
+        base.OnNavigating(args);
+        PageLoadTrace.Begin(args.Target.Location.OriginalString);
+    }
+
     protected override void OnNavigated(ShellNavigatedEventArgs args)
     {
         base.OnNavigated(args);
+        PageLoadTrace.Mark("navigated");
+        TraceFirstLayout(CurrentPage);
         UpdateNavBar();
         _sidebarViewModel.UpdateSelection(CurrentState.Location.OriginalString);
         if (FlyoutBehavior == FlyoutBehavior.Flyout)
         {
             FlyoutIsPresented = false;
+        }
+    }
+
+    /// <summary>Ends the page load measurement once the page has been laid out and the UI thread is free again.</summary>
+    private void TraceFirstLayout(Page? page)
+    {
+        if (page is null || page.Width > 0)
+        {
+            Dispatcher.Dispatch(() => PageLoadTrace.End("ready"));
+            return;
+        }
+
+        page.SizeChanged += OnFirstLayout;
+
+        void OnFirstLayout(object? sender, EventArgs e)
+        {
+            page.SizeChanged -= OnFirstLayout;
+            PageLoadTrace.Mark("layout");
+            Dispatcher.Dispatch(() => PageLoadTrace.End("ready"));
         }
     }
 }

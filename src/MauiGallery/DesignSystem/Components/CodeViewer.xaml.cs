@@ -1,4 +1,5 @@
 using MauiGallery.Core.Syntax;
+using MauiGallery.Services;
 
 namespace MauiGallery.DesignSystem.Components;
 
@@ -61,6 +62,7 @@ public partial class CodeViewer : ContentView
 
     private void Render()
     {
+        using var trace = PageLoadTrace.Measure("code");
         var hasXaml = !string.IsNullOrEmpty(Xaml);
         var hasCSharp = !string.IsNullOrEmpty(CSharp);
         if (_language == CodeLanguage.Xaml && !hasXaml && hasCSharp)

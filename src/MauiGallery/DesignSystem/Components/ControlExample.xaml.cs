@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using MauiGallery.DesignSystem.Styles;
+using MauiGallery.Services;
 using Microsoft.Maui.Layouts;
 
 namespace MauiGallery.DesignSystem.Components;
@@ -78,6 +79,7 @@ public partial class ControlExample : ContentView
 
     public ControlExample()
     {
+        using var trace = PageLoadTrace.Measure("example");
         InitializeComponent();
         Substitutions.CollectionChanged += OnSubstitutionsChanged;
         Loaded += (_, _) =>
