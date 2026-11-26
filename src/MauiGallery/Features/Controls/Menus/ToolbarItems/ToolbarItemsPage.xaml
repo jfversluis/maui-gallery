@@ -3,20 +3,21 @@
             xmlns:local="clr-namespace:MauiGallery.Features.Controls.Menus"
             x:DataType="SamplePageViewModel">
 
+    <!-- Font icons have no tint of their own: without a Color they render white on Android, invisible on the light bar. -->
     <SamplePage.ToolbarItems>
         <ToolbarItem x:Name="AddItem" Text="Add" Clicked="OnPrimaryClicked" AutomationId="sample-toolbar-add">
             <ToolbarItem.IconImageSource>
-                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Add24}" />
+                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Add24}" Color="{DynamicResource ColorAccentText}" />
             </ToolbarItem.IconImageSource>
         </ToolbarItem>
         <ToolbarItem x:Name="ShareItem" Text="Share" Clicked="OnPrimaryClicked" AutomationId="sample-toolbar-share">
             <ToolbarItem.IconImageSource>
-                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Share24}" />
+                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Share24}" Color="{DynamicResource ColorAccentText}" />
             </ToolbarItem.IconImageSource>
         </ToolbarItem>
         <ToolbarItem x:Name="SaveItem" Text="Save" AutomationId="sample-toolbar-save">
             <ToolbarItem.IconImageSource>
-                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Save24}" />
+                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Save24}" Color="{DynamicResource ColorAccentText}" />
             </ToolbarItem.IconImageSource>
         </ToolbarItem>
         <ToolbarItem x:Name="RenameItem" Text="Rename" Order="Secondary" Clicked="OnSecondaryClicked" AutomationId="sample-toolbar-rename" />
