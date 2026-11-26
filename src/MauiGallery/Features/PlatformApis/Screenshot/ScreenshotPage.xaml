@@ -7,8 +7,10 @@
             <!-- 1. The window -->
             <ControlExample x:Name="WindowExample"
                             Title="Capture the window"
-                            Description="Screenshot.CaptureAsync captures what your app's window shows right now, for a bug report or a share sheet. It only sees your own app, never other apps or the rest of the screen. OpenReadAsync gives you the image as a PNG or JPEG stream."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Screenshot.CaptureAsync captures what your app's window shows right now, for a bug report or a share sheet. It only sees your own app, never other apps or the rest of the screen. OpenReadAsync gives you the image as a PNG or JPEG stream."
                             XamlSource="ScreenshotWindow.xaml.txt"
                             CSharpSource="ScreenshotWindow.cs.txt">
                 <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=380}">
@@ -31,8 +33,10 @@
             <!-- 2. One view -->
             <ControlExample x:Name="ViewExample"
                             Title="Capture a single view"
-                            Description="Every view has CaptureAsync, which renders just that view and its children, at the device's pixel density. Use it to save or share a card, a chart or a boarding pass without the rest of the page. Choose JPEG and a lower quality for smaller files, or PNG for exact pixels and transparency."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Every view has CaptureAsync, which renders just that view and its children, at the device's pixel density. Use it to save or share a card, a chart or a boarding pass without the rest of the page. Choose JPEG and a lower quality for smaller files, or PNG for exact pixels and transparency."
                             XamlSource="ScreenshotView.xaml.txt"
                             CSharpSource="ScreenshotView.cs.txt">
                 <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=380}">

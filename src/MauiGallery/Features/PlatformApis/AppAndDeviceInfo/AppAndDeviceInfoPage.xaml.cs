@@ -30,6 +30,14 @@ public sealed partial class AppAndDeviceInfoPage : SamplePage
     {
         base.OnAppearing();
         _display.Start();
+
+        // The gallery's own Settings > Theme sets UserAppTheme; RequestedTheme above stays the OS setting.
+        InAppTheme.Text = Application.Current?.UserAppTheme switch
+        {
+            AppTheme.Light => "Light (UserAppTheme)",
+            AppTheme.Dark => "Dark (UserAppTheme)",
+            _ => "Follows the OS",
+        };
     }
 
     protected override void OnDisappearing()

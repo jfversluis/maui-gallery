@@ -49,7 +49,6 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "user-interface/controls/entry"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.entry"),
             SourceUrl = new(SourceRoot + "Controls/Text/Entry"),
-            IsFeatured = true,
         },
         new()
         {

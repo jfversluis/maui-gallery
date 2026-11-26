@@ -28,7 +28,7 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "user-interface/controls/button"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.button"),
             SourceUrl = new(SourceRoot + "Controls/BasicInput/Button"),
-            IsFeatured = true,
+            FeaturedTask = "Compare default and styled",
         },
         new()
         {
@@ -92,7 +92,6 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "user-interface/controls/radiobutton"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.radiobutton"),
             SourceUrl = new(SourceRoot + "Controls/BasicInput/RadioButton"),
-            IsFeatured = true,
         },
         new()
         {

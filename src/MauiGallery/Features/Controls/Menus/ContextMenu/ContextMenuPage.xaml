@@ -30,6 +30,8 @@
             <!-- 1. The basics -->
             <ControlExample x:Name="BasicExample"
                             Title="Add a context menu to a view"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
                             Description="Set FlyoutBase.ContextFlyout to a MenuFlyout. It opens on right-click on Windows, and on right-click or Control-click on Mac. Items can have icons, and separators group them."
                             XamlSource="ContextMenuBasic.xaml.txt"
                             CSharpSource="ContextMenuBasic.cs.txt">
@@ -91,6 +93,8 @@
             <!-- 2. Lists, submenus and commands -->
             <ControlExample x:Name="ListExample"
                             Title="Submenus and commands in a list"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
                             Description="Give every item in a list its own context menu from the DataTemplate. MenuFlyoutSubItem nests a submenu, and Command with CommandParameter sends the item to your view model."
                             XamlSource="ContextMenuList.xaml.txt"
                             CSharpSource="ContextMenuList.cs.txt">
@@ -144,6 +148,8 @@
             <!-- 3. Phones -->
             <ControlExample x:Name="LongPressExample"
                             Title="Long-press for actions on phones"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
                             Description="Phone users expect actions on a long-press. A LongPressGestureRecognizer that opens an action sheet works on every platform, including iOS and Android where ContextFlyout doesn't show."
                             XamlSource="ContextMenuLongPress.xaml.txt"
                             CSharpSource="ContextMenuLongPress.cs.txt">

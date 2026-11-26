@@ -28,7 +28,6 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "user-interface/controls/image"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.image"),
             SourceUrl = new(SourceRoot + "Media/Image"),
-            IsFeatured = true,
         },
         new()
         {
@@ -93,7 +92,6 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "user-interface/controls/blazorwebview"),
             ApiUrl = new(ApiRoot + "microsoft.aspnetcore.components.webview.maui.blazorwebview"),
             SourceUrl = new(SourceRoot + "Media/BlazorWebView"),
-            IsFeatured = true,
         },
     ];
 }

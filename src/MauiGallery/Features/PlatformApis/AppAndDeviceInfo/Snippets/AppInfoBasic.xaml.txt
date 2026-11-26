@@ -8,7 +8,7 @@
         <Label Grid.Row="2" Grid.Column="1" Text="{Binding Version}" />
         <Label Grid.Row="3" Text="Build" />
         <Label Grid.Row="3" Grid.Column="1" Text="{Binding Build}" />
-        <Label Grid.Row="4" Text="System theme" />
+        <Label Grid.Row="4" Text="OS theme" />
         <Label Grid.Row="4" Grid.Column="1" Text="{Binding Theme}" />
     </Grid>
     <Button Text="Open app settings" Command="{Binding ShowSettingsCommand}" />

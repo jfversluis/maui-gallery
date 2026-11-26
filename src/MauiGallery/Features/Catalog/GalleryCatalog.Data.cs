@@ -22,7 +22,7 @@ public sealed partial class GalleryCatalog
         new() { Id = CategoryIds.Collections, Title = "Collections", Description = "Lists, grids and carousels of data.", IconGlyph = FluentIconsRegular.AppsList24 },
         new() { Id = CategoryIds.Layout, Title = "Layout", Description = "Arrange and size your UI.", IconGlyph = FluentIconsRegular.LayoutCellFour24 },
         new() { Id = CategoryIds.StatusAndInfo, Title = "Status and info", Description = "Progress, activity and tooltips.", IconGlyph = FluentIconsRegular.Info24 },
-        new() { Id = CategoryIds.Dialogs, Title = "Dialogs and flyouts", Description = "Alerts, action sheets, prompts and modal pages.", IconGlyph = FluentIconsRegular.ChatMultiple24 },
+        new() { Id = CategoryIds.Dialogs, Title = "Dialogs and modals", Description = "Alerts, action sheets, prompts and modal pages.", IconGlyph = FluentIconsRegular.ChatMultiple24 },
         new() { Id = CategoryIds.MenusAndToolbars, Title = "Menus and toolbars", Description = "Menu bars, toolbar items, context menus and keyboard shortcuts.", IconGlyph = FluentIconsRegular.MoreHorizontal24 },
         new() { Id = CategoryIds.Media, Title = "Media and web", Description = "Images, web content, Blazor and maps.", IconGlyph = FluentIconsRegular.Image24 },
         new() { Id = CategoryIds.Graphics, Title = "Graphics", Description = "Shapes, brushes, shadows and custom drawing.", IconGlyph = FluentIconsRegular.Shapes24 },

@@ -1,3 +1,4 @@
+using MauiGallery.DesignSystem.Components;
 using MauiGallery.Features.Samples;
 using ImeFlags = Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific.ImeFlags;
 
@@ -29,10 +30,9 @@ public sealed partial class PlatformSpecificsPage : SamplePage
 #endif
 
         var platform = DeviceInfo.Platform;
-        PlatformTitle.Text = $"This device runs {PlatformName(platform)}";
-        IosExample.Output = Applicability("iOS", platform == DevicePlatform.iOS);
-        AndroidExample.Output = Applicability("Android", platform == DevicePlatform.Android);
-        WindowsExample.Output = Applicability("Windows", platform == DevicePlatform.WinUI);
+        Apply(IosExample, "iOS", platform == DevicePlatform.iOS);
+        Apply(AndroidExample, "Android", platform == DevicePlatform.Android);
+        Apply(WindowsExample, "Windows", platform == DevicePlatform.WinUI);
     }
 
     private static string PlatformName(DevicePlatform platform) =>
@@ -40,10 +40,18 @@ public sealed partial class PlatformSpecificsPage : SamplePage
         : platform == DevicePlatform.WinUI ? "Windows"
         : platform.ToString();
 
-    private static string Applicability(string target, bool applies) =>
-        applies
-            ? $"Live: these {target} platform-specifics change the controls above"
-            : $"Ignored on {PlatformName(DeviceInfo.Platform)}: only {target} reads these properties";
+    // Platform-specifics are attached properties only one platform reads; the others ignore them.
+    private static void Apply(ControlExample example, string target, bool applies)
+    {
+        if (applies)
+        {
+            example.Output = $"Live: these {target} platform-specifics change the controls above";
+        }
+        else
+        {
+            example.Notice = $"{target} only: no effect on {PlatformName(DeviceInfo.Platform)}. Other platforms ignore these properties, so they're safe in shared XAML.";
+        }
+    }
 
     private void OnWindowsButtonClicked(object? sender, EventArgs e) =>
         WindowsExample.Output = DeviceInfo.Platform == DevicePlatform.WinUI

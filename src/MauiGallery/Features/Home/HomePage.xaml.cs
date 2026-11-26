@@ -5,6 +5,12 @@ public sealed partial class HomePage : ContentPage
     /// <summary>Hero width above which the native showcase sits beside the text instead of below it.</summary>
     private const double SideBySideWidth = 820;
 
+    public const string HeroCopy =
+        "Explore every control, API and pattern in .NET MAUI. Each sample renders with the platform's own controls: change its options, read the code, and copy it into your app.";
+
+    // Shorter on narrow screens, so the next section peeks above the phone's tab bar.
+    private const string CompactHeroCopy = "Every control and API, rendered with the platform's own controls. Try the options, then copy the code.";
+
     private bool? _sideBySide;
 
     public HomePage(HomeViewModel viewModel)
@@ -33,6 +39,11 @@ public sealed partial class HomePage : ContentPage
             Grid.SetRow(HeroShowcase, 0);
             Hero.Padding = new Thickness(48, 44);
             HeroTitle.FontSize = 40;
+            HeroBody.Text = HeroCopy;
+            HeroGrid.RowSpacing = 28;
+            HeroText.Spacing = 16;
+            ShowcaseItems.Spacing = 18;
+            Sections.Spacing = 40;
         }
         else
         {
@@ -40,8 +51,13 @@ public sealed partial class HomePage : ContentPage
             HeroGrid.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
             Grid.SetColumn(HeroShowcase, 0);
             Grid.SetRow(HeroShowcase, 1);
-            Hero.Padding = new Thickness(24, 28);
+            Hero.Padding = new Thickness(24, 24);
             HeroTitle.FontSize = 32;
+            HeroBody.Text = CompactHeroCopy;
+            HeroGrid.RowSpacing = 20;
+            HeroText.Spacing = 12;
+            ShowcaseItems.Spacing = 12;
+            Sections.Spacing = 32;
         }
     }
 }

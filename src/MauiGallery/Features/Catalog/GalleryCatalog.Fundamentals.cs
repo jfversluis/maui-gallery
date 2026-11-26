@@ -28,7 +28,6 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "user-interface/animation/basic"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.viewextensions"),
             SourceUrl = new(SourceRoot + "Fundamentals/Animations"),
-            IsFeatured = true,
         },
         new()
         {

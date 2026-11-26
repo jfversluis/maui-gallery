@@ -7,6 +7,9 @@
             <!-- 1. Choices -->
             <ControlExample x:Name="ChoiceExample"
                             Title="Choose from a list"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="DisplayActionSheetAsync shows a list of choices and returns the text of the one the user picked. iOS and Mac show a native action sheet, a popover on iPad and Mac; Android and Windows show a dialog with a list."
                             XamlSource="ActionSheetChoice.xaml.txt"
                             CSharpSource="ActionSheetChoice.cs.txt">
@@ -34,6 +37,9 @@
             <!-- 2. Cancel and destruction -->
             <ControlExample x:Name="DestructiveExample"
                             Title="Cancel and destructive buttons"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="The cancel button closes the sheet and the destruction button is highlighted as dangerous, in red on iOS and Mac. Pass null to leave either out. FlowDirection applies on Android and Windows."
                             XamlSource="ActionSheetDestructive.xaml.txt"
                             CSharpSource="ActionSheetDestructive.cs.txt">

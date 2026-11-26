@@ -40,6 +40,12 @@ public sealed record GalleryItem
 
     public bool IsUpdated { get; init; }
 
+    /// <summary>
+    /// A short task, such as "Build a layout", that this item teaches. Items with a task are featured on the home
+    /// page, labeled with it. Keep the set small and purposeful.
+    /// </summary>
+    public string? FeaturedTask { get; init; }
+
     /// <summary>Featured items are highlighted on the home page.</summary>
-    public bool IsFeatured { get; init; }
+    public bool IsFeatured => !string.IsNullOrWhiteSpace(FeaturedTask);
 }

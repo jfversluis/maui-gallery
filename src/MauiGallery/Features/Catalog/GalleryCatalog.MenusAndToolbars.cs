@@ -27,7 +27,6 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "user-interface/menu-bar"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.menubaritem"),
             SourceUrl = new(SourceRoot + "Controls/Menus/MenuBar"),
-            IsFeatured = true,
         },
         new()
         {

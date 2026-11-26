@@ -22,6 +22,9 @@
             <!-- 1. Title, subtitle and icon -->
             <ControlExample x:Name="BasicExample"
                             Title="Give a window a title bar"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="Set Window.TitleBar to a TitleBar to draw the title area yourself: a title, a subtitle and an icon to start with, with your own colors. The sample opens a new window, so the gallery's own window stays as it is. Change the options while it's open."
                             XamlSource="TitleBarBasic.xaml.txt"
                             CSharpSource="TitleBarBasic.cs.txt">
@@ -67,6 +70,9 @@
             <!-- 2. Content -->
             <ControlExample x:Name="ContentExample"
                             Title="Put controls in the title bar"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="LeadingContent sits before the title, Content in the middle and TrailingContent at the end, next to the window buttons on Windows. A search box in the middle and an account button at the end are common. Controls in the title bar stay interactive; the rest of it still drags the window."
                             XamlSource="TitleBarContent.xaml.txt"
                             CSharpSource="TitleBarContent.cs.txt">

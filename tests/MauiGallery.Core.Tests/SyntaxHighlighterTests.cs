@@ -81,4 +81,28 @@ public sealed class SyntaxHighlighterTests
         Assert.DoesNotContain(tokens, t => t.Kind == SyntaxTokenKind.Comment);
         Assert.Equal(SyntaxTokenKind.Number, KindOf(tokens, "1"));
     }
+
+    [Theory]
+    [InlineData("a\nb\nc", 2, "a\nb")]
+    [InlineData("a\nb\nc", 3, "a\nb\nc")]
+    [InlineData("a\nb\nc", 5, "a\nb\nc")]
+    [InlineData("a\n", 1, "a")]
+    public void TakeLinesKeepsTheFirstLines(string source, int maxLines, string expected)
+    {
+        var tokens = SyntaxHighlighter.Tokenize(source, CodeLanguage.CSharp);
+
+        var preview = SyntaxHighlighter.TakeLines(tokens, maxLines);
+
+        Assert.Equal(expected, string.Concat(preview.Select(t => t.Text)));
+    }
+
+    [Fact]
+    public void TakeLinesSplitsATokenThatSpansLines()
+    {
+        var tokens = SyntaxHighlighter.Tokenize("/* one\ntwo */ x", CodeLanguage.CSharp);
+
+        var preview = SyntaxHighlighter.TakeLines(tokens, 1);
+
+        Assert.Equal(new SyntaxToken(SyntaxTokenKind.Comment, "/* one"), Assert.Single(preview));
+    }
 }

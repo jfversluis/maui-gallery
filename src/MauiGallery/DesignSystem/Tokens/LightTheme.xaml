@@ -63,6 +63,10 @@
         <GradientStop Color="#00F7F6FB" Offset="0" />
         <GradientStop Color="#F7F6FB" Offset="1" />
     </LinearGradientBrush>
+    <LinearGradientBrush x:Key="BrushCodeFadeBottom" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#00F7F6FB" Offset="0" />
+        <GradientStop Color="#F7F6FB" Offset="1" />
+    </LinearGradientBrush>
     <LinearGradientBrush x:Key="BrushHero" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="#5B2FD9" Offset="0" />
         <GradientStop Color="#4F46E5" Offset="0.55" />

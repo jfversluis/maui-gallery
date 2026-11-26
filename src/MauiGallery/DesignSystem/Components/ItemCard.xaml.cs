@@ -14,6 +14,9 @@ public partial class ItemCard : ContentView, IRecipient<FavoritesChangedMessage>
     public static readonly BindableProperty CommandProperty =
         BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(ItemCard));
 
+    public static readonly BindableProperty ShowFeaturedTaskProperty =
+        BindableProperty.Create(nameof(ShowFeaturedTask), typeof(bool), typeof(ItemCard));
+
     private MenuFlyoutItem? _favoriteItem;
     private ItemActions? _actions;
     private IMessenger? _messenger;
@@ -25,6 +28,13 @@ public partial class ItemCard : ContentView, IRecipient<FavoritesChangedMessage>
     {
         get => (ICommand?)GetValue(CommandProperty);
         set => SetValue(CommandProperty, value);
+    }
+
+    /// <summary>Whether to label the card with the item's <see cref="GalleryItem.FeaturedTask"/>.</summary>
+    public bool ShowFeaturedTask
+    {
+        get => (bool)GetValue(ShowFeaturedTaskProperty);
+        set => SetValue(ShowFeaturedTaskProperty, value);
     }
 
     public void Receive(FavoritesChangedMessage message)

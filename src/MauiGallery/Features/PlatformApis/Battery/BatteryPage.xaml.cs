@@ -6,6 +6,9 @@ namespace MauiGallery.Features.PlatformApis;
 
 public sealed partial class BatteryPage : SamplePage
 {
+    private const string DesktopNote =
+        "Computers report what the system's battery API returns: a desktop without a battery says Unknown, and a Mac's level can differ from the menu bar.";
+
     private readonly BatteryViewModel _battery;
 
     public BatteryPage(SamplePageServices services, BatteryViewModel battery)
@@ -23,6 +26,7 @@ public sealed partial class BatteryPage : SamplePage
     {
         base.OnAppearing();
         _battery.Start();
+        StatusExample.Notice = _battery.Problem ?? (DeviceInfo.Idiom == DeviceIdiom.Desktop ? DesktopNote : null);
     }
 
     protected override void OnDisappearing()

@@ -6,6 +6,12 @@ var picker = new Picker
 };
 picker.SelectedIndexChanged += OnSelectedIndexChanged;
 
+var field = new VerticalStackLayout
+{
+    Spacing = 6,
+    Children = { new Label { Text = "Size", FontAttributes = FontAttributes.Bold }, picker },
+};
+
 void OnSelectedIndexChanged(object? sender, EventArgs e)
 {
     // SelectedIndex is -1 when nothing is selected

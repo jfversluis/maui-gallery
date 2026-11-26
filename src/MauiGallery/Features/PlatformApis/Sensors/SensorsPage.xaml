@@ -18,8 +18,10 @@
             <!-- Accelerometer: a spirit level -->
             <ControlExample x:Name="AccelerometerExample"
                             Title="Accelerometer: a spirit level"
-                            Description="Accelerometer reports acceleration along the device's X, Y and Z axes in multiples of gravity. Lying still, that's gravity alone, so it tells you which way is down: enough for a spirit level. ShakeDetected fires when the user shakes the device."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Accelerometer reports acceleration along the device's X, Y and Z axes in multiples of gravity. Lying still, that's gravity alone, so it tells you which way is down: enough for a spirit level. ShakeDetected fires when the user shakes the device."
                             CSharpSource="SensorsAccelerometer.cs.txt">
                 <VerticalStackLayout x:Name="AccelerometerSample"
                                      x:DataType="local:AccelerometerViewModel"
@@ -41,12 +43,6 @@
                             HorizontalOptions="Center"
                             Command="{Binding ToggleCommand}"
                             AutomationId="sample-sensors-accelerometer-toggle" />
-                    <Label Text="{Binding Message}"
-                           IsVisible="{Binding Message, Converter={StaticResource IsNotNullOrEmpty}}"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           FontSize="13"
-                           AutomationId="sample-sensors-accelerometer-message" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
                     <VerticalStackLayout x:Name="AccelerometerOptions" x:DataType="local:AccelerometerViewModel" Spacing="8">
@@ -65,8 +61,10 @@
             <!-- Gyroscope -->
             <ControlExample x:Name="GyroscopeExample"
                             Title="Gyroscope"
-                            Description="Gyroscope reports how fast the device rotates around each axis, in radians per second. It's zero when the device is still, whatever its angle: turn the device to move the bars."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Gyroscope reports how fast the device rotates around each axis, in radians per second. It's zero when the device is still, whatever its angle: turn the device to move the bars."
                             CSharpSource="SensorsGyroscope.cs.txt">
                 <VerticalStackLayout x:Name="GyroscopeSample"
                                      x:DataType="local:GyroscopeViewModel"
@@ -85,12 +83,6 @@
                             HorizontalOptions="Center"
                             Command="{Binding ToggleCommand}"
                             AutomationId="sample-sensors-gyroscope-toggle" />
-                    <Label Text="{Binding Message}"
-                           IsVisible="{Binding Message, Converter={StaticResource IsNotNullOrEmpty}}"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           FontSize="13"
-                           AutomationId="sample-sensors-gyroscope-message" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
                     <VerticalStackLayout x:Name="GyroscopeOptions" x:DataType="local:GyroscopeViewModel" Spacing="8">
@@ -109,8 +101,10 @@
             <!-- Magnetometer -->
             <ControlExample x:Name="MagnetometerExample"
                             Title="Magnetometer"
-                            Description="Magnetometer reports the magnetic field around the device along each axis, in microteslas. The Earth's field is 25 to 65 µT; bring a magnet or a speaker close and watch it jump."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Magnetometer reports the magnetic field around the device along each axis, in microteslas. The Earth's field is 25 to 65 µT; bring a magnet or a speaker close and watch it jump."
                             CSharpSource="SensorsMagnetometer.cs.txt">
                 <VerticalStackLayout x:Name="MagnetometerSample"
                                      x:DataType="local:MagnetometerViewModel"
@@ -130,12 +124,6 @@
                             HorizontalOptions="Center"
                             Command="{Binding ToggleCommand}"
                             AutomationId="sample-sensors-magnetometer-toggle" />
-                    <Label Text="{Binding Message}"
-                           IsVisible="{Binding Message, Converter={StaticResource IsNotNullOrEmpty}}"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           FontSize="13"
-                           AutomationId="sample-sensors-magnetometer-message" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
                     <VerticalStackLayout x:Name="MagnetometerOptions" x:DataType="local:MagnetometerViewModel" Spacing="8">
@@ -154,8 +142,10 @@
             <!-- Compass -->
             <ControlExample x:Name="CompassExample"
                             Title="Compass"
-                            Description="Compass reports the heading of the top of the device, in degrees clockwise from magnetic north. It combines the magnetometer and accelerometer for you. On Android, ApplyLowPassFilter smooths jittery readings."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Compass reports the heading of the top of the device, in degrees clockwise from magnetic north. It combines the magnetometer and accelerometer for you. On Android, ApplyLowPassFilter smooths jittery readings."
                             CSharpSource="SensorsCompass.cs.txt">
                 <VerticalStackLayout x:Name="CompassSample"
                                      x:DataType="local:CompassViewModel"
@@ -176,12 +166,6 @@
                             HorizontalOptions="Center"
                             Command="{Binding ToggleCommand}"
                             AutomationId="sample-sensors-compass-toggle" />
-                    <Label Text="{Binding Message}"
-                           IsVisible="{Binding Message, Converter={StaticResource IsNotNullOrEmpty}}"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           FontSize="13"
-                           AutomationId="sample-sensors-compass-message" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
                     <VerticalStackLayout x:Name="CompassOptions" x:DataType="local:CompassViewModel" Spacing="8">
@@ -208,8 +192,10 @@
             <!-- Barometer -->
             <ControlExample x:Name="BarometerExample"
                             Title="Barometer"
-                            Description="Barometer reports the air pressure in hectopascals. Pressure falls as you climb, about 1 hPa per 8 m, and as the weather turns, so apps use it for floors climbed and forecasts. Many phones have one; few tablets and computers do."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Barometer reports the air pressure in hectopascals. Pressure falls as you climb, about 1 hPa per 8 m, and as the weather turns, so apps use it for floors climbed and forecasts. Many phones have one; few tablets and computers do."
                             CSharpSource="SensorsBarometer.cs.txt">
                 <VerticalStackLayout x:Name="BarometerSample"
                                      x:DataType="local:BarometerViewModel"
@@ -230,12 +216,6 @@
                             HorizontalOptions="Center"
                             Command="{Binding ToggleCommand}"
                             AutomationId="sample-sensors-barometer-toggle" />
-                    <Label Text="{Binding Message}"
-                           IsVisible="{Binding Message, Converter={StaticResource IsNotNullOrEmpty}}"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           FontSize="13"
-                           AutomationId="sample-sensors-barometer-message" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
                     <VerticalStackLayout x:Name="BarometerOptions" x:DataType="local:BarometerViewModel" Spacing="8">
@@ -254,8 +234,10 @@
             <!-- Orientation sensor -->
             <ControlExample x:Name="OrientationExample"
                             Title="Orientation sensor"
-                            Description="OrientationSensor reports how the device is rotated relative to the Earth, as a quaternion: no gimbal lock, and ready for 3D math. Convert it to angles for the UI; this card tilts with the device."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="OrientationSensor reports how the device is rotated relative to the Earth, as a quaternion: no gimbal lock, and ready for 3D math. Convert it to angles for the UI; this card tilts with the device."
                             CSharpSource="SensorsOrientation.cs.txt">
                 <VerticalStackLayout x:Name="OrientationSample"
                                      x:DataType="local:OrientationViewModel"
@@ -294,12 +276,6 @@
                             HorizontalOptions="Center"
                             Command="{Binding ToggleCommand}"
                             AutomationId="sample-sensors-orientation-toggle" />
-                    <Label Text="{Binding Message}"
-                           IsVisible="{Binding Message, Converter={StaticResource IsNotNullOrEmpty}}"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           FontSize="13"
-                           AutomationId="sample-sensors-orientation-message" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
                     <VerticalStackLayout x:Name="OrientationOptions" x:DataType="local:OrientationViewModel" Spacing="8">

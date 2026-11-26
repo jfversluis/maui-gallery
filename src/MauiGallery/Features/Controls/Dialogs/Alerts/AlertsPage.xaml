@@ -8,6 +8,9 @@
             <!-- 1. One button -->
             <ControlExample x:Name="MessageExample"
                             Title="Show a message"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="DisplayAlertAsync with a single button tells the user something and waits until they dismiss it. Await it to continue after the alert closes."
                             XamlSource="AlertMessage.xaml.txt"
                             CSharpSource="AlertMessage.cs.txt">
@@ -35,6 +38,9 @@
             <!-- 2. Two buttons -->
             <ControlExample x:Name="QuestionExample"
                             Title="Ask a question"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="With an accept and a cancel button, DisplayAlertAsync returns true when the user accepts. A FlowDirection lays the alert out right to left on Android and Windows; iOS and Mac follow the app's language."
                             XamlSource="AlertQuestion.xaml.txt"
                             CSharpSource="AlertQuestion.cs.txt">
@@ -64,6 +70,9 @@
             <!-- 3. From a view model -->
             <ControlExample x:Name="ViewModelExample"
                             Title="Confirm from a view model"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="View models don't know about pages. Put the dialog behind a small interface, register it with dependency injection and await it from a command."
                             XamlSource="AlertViewModel.xaml.txt"
                             CSharpSource="AlertViewModel.cs.txt">

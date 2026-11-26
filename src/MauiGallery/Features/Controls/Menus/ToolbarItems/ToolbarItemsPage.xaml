@@ -31,6 +31,9 @@
             <!-- 1. Primary items -->
             <ControlExample x:Name="PrimaryExample"
                             Title="Add items to the toolbar"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="ToolbarItems appear in the page's navigation bar. Primary items show their icon, or their text when there is no icon. Add and remove them at any time; on phones, keep to a few so the page title still fits."
                             XamlSource="ToolbarItemsPrimary.xaml.txt"
                             CSharpSource="ToolbarItemsPrimary.cs.txt">
@@ -60,6 +63,9 @@
             <!-- 2. Secondary items -->
             <ControlExample x:Name="SecondaryExample"
                             Title="Move less common items into a menu"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="Set Order to Secondary to keep items out of the bar. iOS and Mac show them in a menu behind a ⋯ button, Android in the overflow menu behind ⋮, and Windows behind the command bar's More button."
                             XamlSource="ToolbarItemsSecondary.xaml.txt"
                             CSharpSource="ToolbarItemsSecondary.cs.txt">
@@ -78,6 +84,9 @@
             <!-- 3. Commands -->
             <ControlExample x:Name="CommandExample"
                             Title="Enable items with a command"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="Bind Command to a view model. The item disables itself while CanExecute returns false: type a note and the Save item in the toolbar becomes available."
                             XamlSource="ToolbarItemsCommand.xaml.txt"
                             CSharpSource="ToolbarItemsCommand.cs.txt">

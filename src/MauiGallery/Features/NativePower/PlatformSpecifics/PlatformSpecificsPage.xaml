@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.NativePower.PlatformSpecificsPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
             xmlns:windows="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;assembly=Microsoft.Maui.Controls"
@@ -8,20 +7,6 @@
         <VerticalStackLayout Style="{StaticResource PageContent}">
             <ControlPageHeader />
 
-            <Border Style="{StaticResource SubtlePanel}">
-                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                    <Label Style="{StaticResource TextIcon}"
-                           Text="{x:Static icons:FluentIconsRegular.PhoneLaptop24}"
-                           TextColor="{DynamicResource ColorAccentText}"
-                           VerticalOptions="Start" />
-                    <VerticalStackLayout Grid.Column="1" Spacing="4">
-                        <Label x:Name="PlatformTitle" Style="{StaticResource TextBodyStrong}" />
-                        <Label Style="{StaticResource TextBodySecondary}"
-                               Text="Platform-specifics are attached properties that only one platform reads. The others ignore them, so you can set them in shared XAML without #if. Each example below says whether it changes anything on this device." />
-                    </VerticalStackLayout>
-                </Grid>
-            </Border>
-
             <!-- 1. iOS -->
             <ControlExample x:Name="IosExample"
                             Title="iOS: shrink text to fit, tap to jump"
@@ -29,7 +14,7 @@
                             ShowStyleToggle="False"
                             XamlSource="PlatformSpecificsIos.xaml.txt"
                             CSharpSource="PlatformSpecificsIos.cs.txt">
-                <VerticalStackLayout Spacing="16" WidthRequest="{OnIdiom Phone=220, Default=240}">
+                <VerticalStackLayout Spacing="16" WidthRequest="{OnPlatform iOS=220, Android=280, Default=320}">
                     <Entry x:Name="IosEntry"
                            Text="maui.developer@contoso-example.com"
                            ios:Entry.AdjustsFontSizeToFitWidth="{Binding IsToggled, Source={x:Reference IosAdjusts}, x:DataType=Switch}"

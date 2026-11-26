@@ -28,7 +28,6 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "user-interface/controls/map"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.maps.map"),
             SourceUrl = new(SourceRoot + "Media/Map"),
-            IsFeatured = true,
             IsUpdated = true,
         },
     ];

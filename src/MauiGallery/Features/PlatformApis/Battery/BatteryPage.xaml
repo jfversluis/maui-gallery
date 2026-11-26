@@ -8,19 +8,20 @@
             <!-- 1. Read the battery -->
             <ControlExample x:Name="StatusExample"
                             Title="Battery status"
-                            Description="Battery reports the charge level from 0 to 1, whether it's charging, what powers the device and whether energy saver (Low Power Mode on iOS) is on. BatteryInfoChanged and EnergySaverStatusChanged fire as they change; subscribe while the page is visible. Simulators and Macs without a battery report -1 and Unknown, and Android needs the BATTERY_STATS permission."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Battery reports the charge level from 0 to 1, whether it's charging, what powers the device and whether energy saver (Low Power Mode on iOS) is on. BatteryInfoChanged and EnergySaverStatusChanged fire as they change; subscribe while the page is visible. Simulators and Macs without a battery report -1 and Unknown, and Android needs the BATTERY_STATS permission."
                             XamlSource="BatteryStatus.xaml.txt"
                             CSharpSource="BatteryStatus.cs.txt">
                 <VerticalStackLayout x:Name="StatusSample"
                                      x:DataType="local:BatteryViewModel"
                                      Spacing="16"
-                                     WidthRequest="{OnIdiom Phone=280, Default=380}">
-                    <Label Text="{Binding Problem}"
-                           IsVisible="{Binding Problem, Converter={StaticResource IsNotNullOrEmpty}}"
-                           AutomationId="sample-battery-problem" />
-                    <ProgressBar Progress="{Binding ChargeLevel}"
+                                     WidthRequest="{OnIdiom Phone=280, Default=320}">
+                    <ProgressBar Progress="{Binding DisplayLevel}"
                                  IsVisible="{Binding HasChargeLevel}"
+                                 WidthRequest="240"
+                                 HorizontalOptions="Start"
                                  SemanticProperties.Description="Charge level"
                                  AutomationId="sample-battery-progress" />
                     <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="8">
@@ -33,18 +34,16 @@
                         <Label Grid.Row="3" Text="Energy saver" Opacity="0.7" />
                         <Label Grid.Row="3" Grid.Column="1" Text="{Binding EnergySaver}" AutomationId="sample-battery-saver" />
                     </Grid>
-                    <Label Text="Computers report what the system's battery API returns: a desktop without a battery says Unknown, and on a Mac the level UIKit reports can differ from the menu bar."
-                           FontSize="13"
-                           Opacity="0.7"
-                           IsVisible="{OnIdiom Desktop=True, Default=False}" />
                 </VerticalStackLayout>
             </ControlExample>
 
             <!-- 2. Adapt to the battery -->
             <ControlExample x:Name="PlanExample"
                             Title="Save power when it matters"
-                            Description="Use the battery state to decide how much background work to do: sync less often on battery, and pause when energy saver is on or the charge is low and the device isn't plugged in. People turn on energy saver to make their battery last, so respect it."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Use the battery state to decide how much background work to do: sync less often on battery, and pause when energy saver is on or the charge is low and the device isn't plugged in. People turn on energy saver to make their battery last, so respect it."
                             XamlSource="BatteryAdapt.xaml.txt"
                             CSharpSource="BatteryAdapt.cs.txt">
                 <VerticalStackLayout x:Name="PlanSample"

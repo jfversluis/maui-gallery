@@ -25,6 +25,10 @@ public sealed partial class FlashlightPage : SamplePage
             {
                 case nameof(FlashlightViewModel.IsSupported):
                     ToggleExample.Output = $"IsSupportedAsync: {viewModel.IsSupported}";
+                    UpdateNotice();
+                    break;
+                case nameof(FlashlightViewModel.Message):
+                    UpdateNotice();
                     break;
                 case nameof(FlashlightViewModel.IsOn) when !viewModel.SignalCommand.IsRunning:
                     ToggleExample.Output = viewModel.IsOn ? "TurnOnAsync" : "TurnOffAsync";
@@ -34,6 +38,15 @@ public sealed partial class FlashlightPage : SamplePage
                     break;
             }
         };
+    }
+
+    // Without a flashlight, say so above the stage rather than in it.
+    private void UpdateNotice()
+    {
+        var notice = _viewModel.IsSupported ? null : _viewModel.Message;
+        ToggleExample.Notice = notice;
+        SignalExample.Notice = notice;
+        ToggleMessage.IsVisible = _viewModel.IsSupported;
     }
 
     private async void OnPageAppearing(object? sender, EventArgs e) => await _viewModel.CheckSupportAsync();

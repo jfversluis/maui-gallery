@@ -8,9 +8,13 @@
                 IsEnabled="{Binding CanGoForward, Source={x:Reference Browser}, x:DataType=WebView}" />
         <Button Text="Reload" Clicked="OnReloadClicked" />
     </HorizontalStackLayout>
+    <HorizontalStackLayout Spacing="8">
+        <ActivityIndicator x:Name="Loading" HeightRequest="20" WidthRequest="20" />
+        <Label x:Name="Status" VerticalOptions="Center" />
+    </HorizontalStackLayout>
     <WebView x:Name="Browser"
              Source="$(Source)"
-             HeightRequest="480"
+             HeightRequest="400"
              Navigating="OnNavigating"
              Navigated="OnNavigated" />
 </VerticalStackLayout>

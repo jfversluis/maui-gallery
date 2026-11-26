@@ -11,5 +11,5 @@ public sealed partial class SidebarGroup(GalleryCategory category, IReadOnlyList
     public IReadOnlyList<SidebarEntry> Entries { get; } = entries;
 
     [ObservableProperty]
-    public partial bool IsExpanded { get; set; } = true;
+    public partial bool IsExpanded { get; set; }
 }

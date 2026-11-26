@@ -18,9 +18,12 @@
         <!-- The selected row's background. Background is a Brush, so the theme-aware color is a brush too. -->
         <SolidColorBrush x:Key="PlaceSelectedBrush" Color="{AppThemeBinding Light=#DBEAFE, Dark=#1E3A5F}" />
 
-        <!-- One row per place, shared by the examples on this page. -->
+        <!--
+            One row per place, shared by the examples on this page. Rows are 56 tall, and the lists show whole rows
+            plus the top of the next one, so it's clear they scroll without cutting through a name.
+        -->
         <DataTemplate x:Key="PlaceTemplate" x:DataType="local:Place">
-            <Grid Padding="12,8" ColumnDefinitions="Auto,*" ColumnSpacing="12">
+            <Grid Padding="12,8" HeightRequest="56" ColumnDefinitions="Auto,*" ColumnSpacing="12">
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">
@@ -60,20 +63,6 @@
         <VerticalStackLayout Style="{StaticResource PageContent}">
             <ControlPageHeader />
 
-            <Border Style="{StaticResource SubtlePanel}">
-                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                    <Label Style="{StaticResource TextIcon}"
-                           Text="{x:Static icons:FluentIconsRegular.Lightbulb24}"
-                           TextColor="{DynamicResource ColorAccentText}"
-                           VerticalOptions="Start" />
-                    <VerticalStackLayout Grid.Column="1" Spacing="4">
-                        <Label Text="Coming from ListView or TableView?" Style="{StaticResource TextBodyStrong}" />
-                        <Label Style="{StaticResource TextBodySecondary}"
-                               Text="ListView, TableView and their cells are obsolete since .NET 10. CollectionView replaces both: it virtualizes its items, lays them out as lists or grids, and needs no ViewCell. Put the cell's content straight in the DataTemplate, use SelectionChanged instead of ItemTapped, SwipeView for context actions and RefreshView for pull to refresh." />
-                    </VerticalStackLayout>
-                </Grid>
-            </Border>
-
             <!-- 1. Layouts -->
             <ControlExample x:Name="LayoutExample"
                             Title="Show items as a list or a grid"
@@ -83,7 +72,7 @@
                 <CollectionView x:Name="LayoutCollection"
                                 ItemsSource="{x:Static local:PlaceData.All}"
                                 WidthRequest="{OnIdiom Phone=280, Default=400}"
-                                HeightRequest="320"
+                                HeightRequest="312"
                                 VerticalOptions="Start"
                                 ItemTemplate="{StaticResource PlaceTemplate}"
                                 AutomationId="sample-layout-collection" />
@@ -113,6 +102,20 @@
                 </ControlExample.Substitutions>
             </ControlExample>
 
+            <Border Style="{StaticResource SubtlePanel}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Style="{StaticResource TextIcon}"
+                           Text="{x:Static icons:FluentIconsRegular.Lightbulb24}"
+                           TextColor="{DynamicResource ColorAccentText}"
+                           VerticalOptions="Start" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                        <Label Text="Coming from ListView or TableView?" Style="{StaticResource TextBodyStrong}" />
+                        <Label Style="{StaticResource TextBodySecondary}"
+                               Text="ListView, TableView and their cells are obsolete since .NET 10. CollectionView replaces both: it virtualizes its items, lays them out as lists or grids, and needs no ViewCell. Put the cell's content straight in the DataTemplate, use SelectionChanged instead of ItemTapped, SwipeView for context actions and RefreshView for pull to refresh." />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
             <!-- 2. Selection -->
             <ControlExample x:Name="SelectionExample"
                             Title="Let people select items"
@@ -122,7 +125,7 @@
                 <CollectionView x:Name="SelectionCollection"
                                 ItemsSource="{x:Static local:PlaceData.All}"
                                 WidthRequest="{OnIdiom Phone=280, Default=400}"
-                                HeightRequest="280"
+                                HeightRequest="256"
                                 SelectionMode="{Binding SelectedItem, Source={x:Reference SelectionModePicker}, x:DataType=Picker}"
                                 SelectionChanged="OnSelectionChanged"
                                 ItemTemplate="{StaticResource PlaceTemplate}"
@@ -193,7 +196,7 @@
                                Placeholder="Search places"
                                AutomationId="sample-empty-search" />
                     <CollectionView x:Name="EmptyCollection"
-                                    HeightRequest="280"
+                                    HeightRequest="256"
                                     ItemsSource="{Binding Results}"
                                     ItemTemplate="{StaticResource PlaceTemplate}"
                                     AutomationId="sample-empty-collection">

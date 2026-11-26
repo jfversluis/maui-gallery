@@ -8,8 +8,10 @@
             <!-- 1. Haptic feedback -->
             <ControlExample x:Name="HapticExample"
                             Title="Haptic feedback"
-                            Description="HapticFeedback.Perform plays the short tap the platform uses for its own controls: Click for a confirmation, LongPress for a press-and-hold. It respects the user's system settings. Phones support it; check IsSupported elsewhere."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="HapticFeedback.Perform plays the short tap the platform uses for its own controls: Click for a confirmation, LongPress for a press-and-hold. It respects the user's system settings. Phones support it; check IsSupported elsewhere."
                             CSharpSource="HapticsPerform.cs.txt">
                 <VerticalStackLayout x:Name="HapticSample"
                                      x:DataType="local:HapticsViewModel"
@@ -25,18 +27,16 @@
                                 CommandParameter="LongPress"
                                 AutomationId="sample-haptics-long-press" />
                     </HorizontalStackLayout>
-                    <Label Text="{Binding IsHapticsSupported, StringFormat='IsSupported: {0}'}"
-                           FontSize="13"
-                           HorizontalOptions="Center"
-                           AutomationId="sample-haptics-supported" />
                 </VerticalStackLayout>
             </ControlExample>
 
             <!-- 2. Haptics on your own control -->
             <ControlExample x:Name="DialExample"
                             Title="Add a feel to your own controls"
-                            Description="Built-in controls play their own haptics; custom ones don't. Perform a Click on each meaningful change, here every whole step of a slider, and it feels like a dial with notches. Keep haptics subtle and tied to what the user does."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Built-in controls play their own haptics; custom ones don't. Perform a Click on each meaningful change, here every whole step of a slider, and it feels like a dial with notches. Keep haptics subtle and tied to what the user does."
                             XamlSource="HapticsDial.xaml.txt"
                             CSharpSource="HapticsDial.cs.txt">
                 <VerticalStackLayout x:Name="DialSample"
@@ -66,8 +66,10 @@
             <!-- 3. Vibration -->
             <ControlExample x:Name="VibrationExample"
                             Title="Vibration"
-                            Description="Vibration.Vibrate runs the vibration motor for as long as you ask, and Cancel stops it early. Use it for alerts the user must notice, not as feedback on every touch. iOS always vibrates for about half a second, whatever the duration. Android needs the VIBRATE permission in AndroidManifest.xml."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Vibration.Vibrate runs the vibration motor for as long as you ask, and Cancel stops it early. Use it for alerts the user must notice, not as feedback on every touch. iOS always vibrates for about half a second, whatever the duration. Android needs the VIBRATE permission in AndroidManifest.xml."
                             CSharpSource="HapticsVibrate.cs.txt">
                 <VerticalStackLayout x:Name="VibrationSample"
                                      x:DataType="local:HapticsViewModel"
@@ -81,10 +83,6 @@
                                 Command="{Binding CancelCommand}"
                                 AutomationId="sample-vibration-cancel" />
                     </HorizontalStackLayout>
-                    <Label Text="{Binding IsVibrationSupported, StringFormat='IsSupported: {0}'}"
-                           FontSize="13"
-                           HorizontalOptions="Center"
-                           AutomationId="sample-vibration-supported" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
                     <VerticalStackLayout x:Name="VibrationOptions" x:DataType="local:HapticsViewModel" Spacing="8">

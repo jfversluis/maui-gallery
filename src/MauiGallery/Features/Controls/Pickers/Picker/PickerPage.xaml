@@ -1,6 +1,15 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Pickers.PickerPage"
             xmlns:local="clr-namespace:MauiGallery.Features.Controls.Pickers"
             x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="Sizes" Type="{x:Type x:String}">
+            <x:String>Small</x:String>
+            <x:String>Medium</x:String>
+            <x:String>Large</x:String>
+            <x:String>Extra large</x:String>
+        </x:Array>
+    </SamplePage.Resources>
+
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
             <ControlPageHeader />
@@ -8,23 +17,18 @@
             <!-- 1. The basics -->
             <ControlExample x:Name="BasicExample"
                             Title="Pick from a list"
-                            Description="A Picker lets people choose one item from a list. Title prompts for a choice until something is selected."
+                            Description="A Picker lets people choose one item from a list. Title prompts for a choice until something is selected; a label above it keeps the question visible after that."
                             XamlSource="PickerBasic.xaml.txt"
                             CSharpSource="PickerBasic.cs.txt">
-                <Picker x:Name="BasicPicker"
-                        WidthRequest="280"
-                        Title="{Binding Text, Source={x:Reference BasicTitle}, x:DataType=Entry}"
-                        SelectedIndexChanged="OnBasicSelectedIndexChanged"
-                        AutomationId="sample-basic-picker">
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Small</x:String>
-                            <x:String>Medium</x:String>
-                            <x:String>Large</x:String>
-                            <x:String>Extra large</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Size" FontAttributes="Bold" AutomationId="sample-basic-label" />
+                    <Picker x:Name="BasicPicker"
+                            WidthRequest="280"
+                            Title="{Binding Text, Source={x:Reference BasicTitle}, x:DataType=Entry}"
+                            SelectedIndexChanged="OnBasicSelectedIndexChanged"
+                            ItemsSource="{StaticResource Sizes}"
+                            AutomationId="sample-basic-picker" />
+                </VerticalStackLayout>
                 <ControlExample.Options>
                     <VerticalStackLayout Spacing="8">
                         <Label Text="Title" Style="{StaticResource OptionLabel}" />

@@ -11,11 +11,17 @@ async void OnNavigating(object? sender, WebNavigatingEventArgs e)
     $(External){
     $(External)    e.Cancel = true;
     $(External)    await Launcher.Default.OpenAsync(e.Url);
+    $(External)    return;
     $(External)}
+    Loading.IsRunning = true;
+    Status.Text = "Loading…";
 }
 
 void OnNavigated(object? sender, WebNavigatedEventArgs e)
 {
     // e.Result is Success, Cancel, Timeout or Failure
-    Debug.WriteLine($"Navigated to {e.Url}: {e.Result}");
+    Loading.IsRunning = false;
+    Status.Text = e.Result == WebNavigationResult.Success
+        ? string.Empty
+        : "Couldn't load the page. Check the connection, then Reload.";
 }

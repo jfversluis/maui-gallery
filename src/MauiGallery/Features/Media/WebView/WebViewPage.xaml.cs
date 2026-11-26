@@ -56,12 +56,15 @@ public sealed partial class WebViewPage : SamplePage
         };
     }
 
-    private Uri StartAddress => new(UrlAddress.SelectedItem as string ?? "https://dotnet.microsoft.com");
+    private string StartAddress => UrlAddress.SelectedItem as string ?? "web/index.html";
+
+    // Bundled pages have no host, so every web link counts as another site.
+    private string StartHost => Uri.TryCreate(StartAddress, UriKind.Absolute, out var uri) ? uri.Host : string.Empty;
 
     private void OnUrlAddressChanged(object? sender, EventArgs e)
     {
-        UrlWebView.Source = StartAddress.ToString();
-        UrlHost.Value = StartAddress.Host;
+        UrlWebView.Source = StartAddress;
+        UrlHost.Value = StartHost;
     }
 
     private void OnUrlExternalToggled(object? sender, ToggledEventArgs e) =>
@@ -78,7 +81,7 @@ public sealed partial class WebViewPage : SamplePage
         if (UrlExternal.IsToggled
             && Uri.TryCreate(e.Url, UriKind.Absolute, out var target)
             && target.Scheme.StartsWith("http", StringComparison.OrdinalIgnoreCase)
-            && !string.Equals(target.Host, StartAddress.Host, StringComparison.OrdinalIgnoreCase))
+            && !string.Equals(target.Host, StartHost, StringComparison.OrdinalIgnoreCase))
         {
             e.Cancel = true;
             UrlExample.Output = $"Navigating: {e.Url}, cancelled and opened in the browser";
@@ -86,11 +89,31 @@ public sealed partial class WebViewPage : SamplePage
             return;
         }
 
-        UrlExample.Output = $"Navigating: {e.Url}";
+        UrlLoading.IsRunning = true;
+        UrlStatus.Text = $"Loading {DisplayName(e.Url)}…";
+        UrlExample.Output = $"Navigating: {ShortUrl(e.Url)}";
     }
 
-    private void OnUrlNavigated(object? sender, WebNavigatedEventArgs e) =>
-        UrlExample.Output = $"Navigated: {e.Url} ({e.Result})";
+    private void OnUrlNavigated(object? sender, WebNavigatedEventArgs e)
+    {
+        UrlLoading.IsRunning = false;
+        UrlStatus.Text = e.Result switch
+        {
+            WebNavigationResult.Success => DisplayName(e.Url),
+            WebNavigationResult.Cancel => string.Empty,
+            _ => $"Couldn't load {DisplayName(e.Url)} ({e.Result}). Check the connection, then Reload.",
+        };
+        UrlExample.Output = $"Navigated: {ShortUrl(e.Url)} ({e.Result})";
+    }
+
+    // Bundled pages load from a long file:// path inside the app package; the file name is enough.
+    private static string ShortUrl(string url) =>
+        Uri.TryCreate(url, UriKind.Absolute, out var uri) && uri.IsFile ? $"…/{Path.GetFileName(uri.LocalPath)}" : url;
+
+    private static string DisplayName(string url) =>
+        Uri.TryCreate(url, UriKind.Absolute, out var uri) && uri.Scheme.StartsWith("http", StringComparison.OrdinalIgnoreCase)
+            ? uri.Host
+            : Path.GetFileName(url);
 
     private void OnHtmlChanged(object? sender, TextChangedEventArgs e)
     {

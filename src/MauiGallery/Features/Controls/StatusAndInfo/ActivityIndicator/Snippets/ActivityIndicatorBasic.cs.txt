@@ -1,5 +1,12 @@
-var indicator = new ActivityIndicator
+var spinner = new ActivityIndicator
 {
     IsRunning = $(IsRunning),
 };
-SemanticProperties.SetDescription(indicator, "Loading");
+var status = new Label
+{
+    Text = "Loading…",
+    VerticalOptions = LayoutOptions.Center,
+};
+status.SetBinding(VisualElement.IsVisibleProperty, static (ActivityIndicator a) => a.IsRunning, source: spinner);
+
+var loading = new HorizontalStackLayout { Spacing = 12, Children = { spinner, status } };

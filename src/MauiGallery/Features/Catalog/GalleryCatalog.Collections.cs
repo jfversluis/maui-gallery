@@ -28,8 +28,8 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "user-interface/controls/collectionview/"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.collectionview"),
             SourceUrl = new(SourceRoot + "Controls/Collections/CollectionView"),
-            IsFeatured = true,
             IsUpdated = true,
+            FeaturedTask = "Work with data",
         },
         new()
         {

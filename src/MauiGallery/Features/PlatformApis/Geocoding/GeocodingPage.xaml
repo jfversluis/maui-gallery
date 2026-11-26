@@ -25,8 +25,10 @@
             <!-- 1. Address to coordinates -->
             <ControlExample x:Name="ForwardExample"
                             Title="Find the coordinates of an address"
-                            Description="GetLocationsAsync turns an address or a place name into locations, best match first. It asks the platform's online geocoding service, so check for a connection and handle failures. Street addresses work best: Apple's geocoder often doesn't know landmarks by name, and reports that as an error rather than an empty list. On Windows, set a Bing Maps key with Geocoding.SetMapServiceToken first."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="GetLocationsAsync turns an address or a place name into locations, best match first. It asks the platform's online geocoding service, so check for a connection and handle failures. Street addresses work best: Apple's geocoder often doesn't know landmarks by name, and reports that as an error rather than an empty list. On Windows, set a Bing Maps key with Geocoding.SetMapServiceToken first."
                             CSharpSource="GeocodingForward.cs.txt">
                 <VerticalStackLayout x:Name="ForwardSample"
                                      x:DataType="local:GeocodingViewModel"
@@ -61,6 +63,7 @@
                         <Picker x:Name="ForwardPreset"
                                 ItemsSource="{StaticResource AddressOptions}"
                                 Title="Choose an address"
+                                TitleColor="{DynamicResource ColorTextTertiary}"
                                 SelectedIndexChanged="OnForwardPresetChanged"
                                 AutomationId="option-geocoding-address" />
                     </VerticalStackLayout>
@@ -73,8 +76,10 @@
             <!-- 2. Coordinates to address -->
             <ControlExample x:Name="ReverseExample"
                             Title="Find the address at a location"
-                            Description="GetPlacemarksAsync does the reverse: from coordinates to placemarks with the street, postal code, city, region and country. Which fields have a value depends on the place and on the platform's geocoder."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="GetPlacemarksAsync does the reverse: from coordinates to placemarks with the street, postal code, city, region and country. Which fields have a value depends on the place and on the platform's geocoder."
                             CSharpSource="GeocodingReverse.cs.txt">
                 <VerticalStackLayout x:Name="ReverseSample"
                                      x:DataType="local:GeocodingViewModel"
@@ -118,6 +123,7 @@
                         <Picker x:Name="ReversePreset"
                                 ItemsSource="{StaticResource PlaceOptions}"
                                 Title="Choose a place"
+                                TitleColor="{DynamicResource ColorTextTertiary}"
                                 SelectedIndexChanged="OnReversePresetChanged"
                                 AutomationId="option-geocoding-place" />
                     </VerticalStackLayout>
@@ -131,8 +137,10 @@
             <!-- 3. Where am I -->
             <ControlExample x:Name="WhereExample"
                             Title="Where am I?"
-                            Description="Combine Geolocation and Geocoding to name the place the device is in. A Medium accuracy fix is plenty for a city, and comes back faster than GPS."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Combine Geolocation and Geocoding to name the place the device is in. A Medium accuracy fix is plenty for a city, and comes back faster than GPS."
                             CSharpSource="GeocodingWhereAmI.cs.txt">
                 <VerticalStackLayout x:Name="WhereSample"
                                      x:DataType="local:GeocodingViewModel"

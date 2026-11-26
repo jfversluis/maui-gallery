@@ -7,6 +7,9 @@
             <!-- 1. Text and links -->
             <ControlExample x:Name="TextExample"
                             Title="Share text and a link"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="RequestAsync with a ShareTextRequest opens the system share sheet, so people can send text or a link with any app they have: messages, mail, notes or AirDrop. On iPad and Mac the sheet is a popover; set PresentationSourceBounds so it points at the button that opened it."
                             XamlSource="ShareText.xaml.txt"
                             CSharpSource="ShareText.cs.txt">
@@ -34,6 +37,9 @@
             <!-- 2. Files -->
             <ControlExample x:Name="FileExample"
                             Title="Share a file"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="ShareFileRequest shares a file by its path. Write it to FileSystem.CacheDirectory first: the system can delete the cache when space runs low, which is fine for a file you only need until it's shared. ShareMultipleFilesRequest shares several files at once."
                             XamlSource="ShareFile.xaml.txt"
                             CSharpSource="ShareFile.cs.txt">

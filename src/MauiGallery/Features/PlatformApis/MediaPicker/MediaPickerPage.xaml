@@ -27,8 +27,10 @@
             <!-- 1. Pick a photo -->
             <ControlExample x:Name="PickExample"
                             Title="Pick a photo"
-                            Description="PickPhotosAsync opens the system photo picker, which needs no permission; a SelectionLimit of 1 picks one photo. (PickPhotoAsync, which did this before, is obsolete in .NET 11.) It returns an empty list if the user cancels. MediaPickerOptions can scale the photo down and compress it for you. Copy the file into your app's storage if you keep it: the picker's copy can be temporary."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="PickPhotosAsync opens the system photo picker, which needs no permission; a SelectionLimit of 1 picks one photo. (PickPhotoAsync, which did this before, is obsolete in .NET 11.) It returns an empty list if the user cancels. MediaPickerOptions can scale the photo down and compress it for you. Copy the file into your app's storage if you keep it: the picker's copy can be temporary."
                             CSharpSource="MediaPickerPhoto.cs.txt">
                 <VerticalStackLayout x:Name="PickSample"
                                      x:DataType="local:MediaPickerViewModel"
@@ -79,8 +81,10 @@
             <!-- 2. Pick several photos -->
             <ControlExample x:Name="PickManyExample"
                             Title="Pick several photos"
-                            Description="Raise SelectionLimit to let the user choose several photos at once, or set it to 0 for no limit. Each one comes back as a FileResult. Not every Android picker enforces the limit, so don't rely on it."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Raise SelectionLimit to let the user choose several photos at once, or set it to 0 for no limit. Each one comes back as a FileResult. Not every Android picker enforces the limit, so don't rely on it."
                             CSharpSource="MediaPickerPhotos.cs.txt">
                 <VerticalStackLayout x:Name="PickManySample"
                                      x:DataType="local:MediaPickerViewModel"
@@ -132,8 +136,10 @@
             <!-- 3. Take a photo -->
             <ControlExample x:Name="CaptureExample"
                             Title="Take a photo"
-                            Description="CapturePhotoAsync opens the camera. Check IsCaptureSupported first: simulators and many computers have no camera. It needs camera permission, which .NET MAUI requests for you, and a usage description in Info.plist. On Android 11 and later, declare the IMAGE_CAPTURE intent in the manifest's queries."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="CapturePhotoAsync opens the camera. Check IsCaptureSupported first: simulators and many computers have no camera. It needs camera permission, which .NET MAUI requests for you, and a usage description in Info.plist. On Android 11 and later, declare the IMAGE_CAPTURE intent in the manifest's queries."
                             CSharpSource="MediaPickerCapture.cs.txt">
                 <VerticalStackLayout x:Name="CaptureSample"
                                      x:DataType="local:MediaPickerViewModel"
@@ -164,8 +170,10 @@
             <!-- 4. Videos -->
             <ControlExample x:Name="VideoExample"
                             Title="Pick or record a video"
-                            Description="PickVideosAsync and CaptureVideoAsync work like their photo siblings and return the video file. Recording also needs the microphone on iOS and Mac. Play the result with a media player control, such as MediaElement from the .NET MAUI Community Toolkit."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="PickVideosAsync and CaptureVideoAsync work like their photo siblings and return the video file. Recording also needs the microphone on iOS and Mac. Play the result with a media player control, such as MediaElement from the .NET MAUI Community Toolkit."
                             CSharpSource="MediaPickerVideo.cs.txt">
                 <VerticalStackLayout x:Name="VideoSample"
                                      x:DataType="local:MediaPickerViewModel"

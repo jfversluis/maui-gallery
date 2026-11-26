@@ -33,6 +33,10 @@ the reference implementation. Read it before writing a new page.
 - Samples render at **platform defaults**. Do not apply design-system styles or colors to the sample itself.
 - Bind options straight to the sample: `{Binding Prop, Source={x:Reference Name}, x:DataType=Type}`.
 - Report events through `ControlExample.Output`.
+- Put prerequisites and unsupported states ("iOS only", "This device has no flashlight") in `ControlExample.Notice`,
+  not in the stage. Longer explanations belong in the description.
+- When the stage only holds buttons that call an API (dialogs, launchers, sensors), set `ShowNativeBadge`,
+  `ShowStyleToggle` and `ShowRtlToggle` to `False`. Keep the badge wherever the native control is the point.
 - `AutomationId`s: `sample-*` for sample controls, `option-*` for options.
 - Keep the snippet identical in meaning to the live sample, minus gallery-only details.
 - No new NuGet dependencies.

@@ -28,8 +28,8 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "fundamentals/shell/"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.shell"),
             SourceUrl = new(SourceRoot + "Navigation/Shell"),
-            IsFeatured = true,
             IsUpdated = true,
+            FeaturedTask = "Navigate with Shell",
         },
         new()
         {

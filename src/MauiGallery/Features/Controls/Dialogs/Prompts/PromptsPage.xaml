@@ -7,6 +7,9 @@
             <!-- 1. The basics -->
             <ControlExample x:Name="BasicExample"
                             Title="Ask for text"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="DisplayPromptAsync shows a dialog with a text field and returns what the user typed, or null when they cancel."
                             XamlSource="PromptBasic.xaml.txt"
                             CSharpSource="PromptBasic.cs.txt">
@@ -34,6 +37,9 @@
             <!-- 2. The text field -->
             <ControlExample x:Name="InputExample"
                             Title="Configure the text field"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="Pick the keyboard that fits the answer, limit its length, and help with a placeholder or an initial value. Named arguments keep the call readable."
                             XamlSource="PromptInput.xaml.txt"
                             CSharpSource="PromptInput.cs.txt">
@@ -84,6 +90,9 @@
             <!-- 3. Handling the answer -->
             <ControlExample x:Name="RenameExample"
                             Title="Rename something"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="Pass the current name as the initial value so the user can edit it. Check for null (cancelled) and for an empty answer before you use the result."
                             XamlSource="PromptRename.xaml.txt"
                             CSharpSource="PromptRename.cs.txt">

@@ -8,8 +8,11 @@
             <!-- 1. This launch -->
             <ControlExample x:Name="LaunchExample"
                             Title="Is this the first launch?"
-                            Description="VersionTracking remembers every version and build of your app that has run on the device. Call UseVersionTracking at startup so the current launch is recorded before anything reads it. The first-launch flags drive onboarding the first time someone opens the app, and a what's-new screen after an update."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="VersionTracking remembers every version and build of your app that has run on the device. The first-launch flags drive onboarding the first time someone opens the app, and a what's-new screen after an update."
+                            Notice="Call UseVersionTracking at startup, so the current launch is recorded before anything reads it."
                             XamlSource="VersionTrackingLaunch.xaml.txt"
                             CSharpSource="VersionTrackingLaunch.cs.txt">
                 <VerticalStackLayout x:Name="LaunchSample"
@@ -35,8 +38,10 @@
             <!-- 2. History -->
             <ControlExample x:Name="HistoryExample"
                             Title="Version history"
-                            Description="PreviousVersion is the version that ran before this one, which tells you which data to migrate after an update. FirstInstalledVersion and VersionHistory show how long someone has used the app, without your own bookkeeping. The history lives in the app's preferences, so it starts over after a reinstall."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="PreviousVersion is the version that ran before this one, which tells you which data to migrate after an update. FirstInstalledVersion and VersionHistory show how long someone has used the app, without your own bookkeeping. The history lives in the app's preferences, so it starts over after a reinstall."
                             XamlSource="VersionTrackingHistory.xaml.txt"
                             CSharpSource="VersionTrackingHistory.cs.txt">
                 <VerticalStackLayout x:Name="HistorySample"

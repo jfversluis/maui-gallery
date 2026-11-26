@@ -6,7 +6,7 @@
              Title="Home"
              Style="{StaticResource PageChrome}">
     <ScrollView>
-        <VerticalStackLayout Style="{StaticResource PageContent}" Spacing="40">
+        <VerticalStackLayout x:Name="Sections" Style="{StaticResource PageContent}" Spacing="40">
 
             <!-- Hero -->
             <Border x:Name="Hero"
@@ -24,7 +24,8 @@
                                Text="One codebase. Truly native."
                                Style="{StaticResource TextDisplay}"
                                TextColor="White" />
-                        <Label Text="Explore every control, API and pattern in .NET MAUI. Each sample renders with the platform's own controls: change its options, read the code, and copy it into your app."
+                        <Label x:Name="HeroBody"
+                               Text="{x:Static local:HomePage.HeroCopy}"
                                Style="{StaticResource TextBody}"
                                FontSize="16"
                                TextColor="#EDE9FF" />
@@ -52,7 +53,7 @@
                             VerticalOptions="Center">
                         <Grid>
                             <DotGridView DotColor="{DynamicResource ColorStageDot}" />
-                            <VerticalStackLayout Padding="24,20" Spacing="18">
+                            <VerticalStackLayout x:Name="ShowcaseItems" Padding="24,20" Spacing="18">
                                 <Label Text="These are real native controls"
                                        Style="{StaticResource TextCaptionStrong}" />
                                 <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
@@ -97,11 +98,11 @@
             </VerticalStackLayout>
             <!-- Featured -->
             <VerticalStackLayout Spacing="12" IsVisible="{Binding HasFeatured}">
-                <SectionHeader Title="Featured" />
+                <SectionHeader Title="Start here" />
                 <AdaptiveGrid MinItemWidth="260" BindableLayout.ItemsSource="{Binding Featured}">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="catalog:GalleryItem">
-                            <ItemCard Command="{Binding OpenItemCommand, Source={RelativeSource AncestorType={x:Type local:HomeViewModel}}, x:DataType=local:HomeViewModel}" />
+                            <ItemCard ShowFeaturedTask="True" Command="{Binding OpenItemCommand, Source={RelativeSource AncestorType={x:Type local:HomeViewModel}}, x:DataType=local:HomeViewModel}" />
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </AdaptiveGrid>

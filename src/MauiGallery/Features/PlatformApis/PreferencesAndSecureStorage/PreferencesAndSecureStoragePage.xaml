@@ -8,8 +8,10 @@
             <!-- 1. Preferences -->
             <ControlExample x:Name="PreferencesExample"
                             Title="Remember settings with Preferences"
-                            Description="Preferences stores small values by key (strings, numbers, bools and dates) in the platform's settings store, and they survive app restarts. Get takes a default for keys that aren't set yet. A sharedName keeps a group of keys in a container of its own, so Clear only removes that group. Preferences aren't encrypted: never put passwords or tokens there."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Preferences stores small values by key (strings, numbers, bools and dates) in the platform's settings store, and they survive app restarts. Get takes a default for keys that aren't set yet. A sharedName keeps a group of keys in a container of its own, so Clear only removes that group. Preferences aren't encrypted: never put passwords or tokens there."
                             XamlSource="PreferencesSettings.xaml.txt"
                             CSharpSource="PreferencesSettings.cs.txt">
                 <VerticalStackLayout x:Name="PreferencesSample"
@@ -48,8 +50,10 @@
             <!-- 2. SecureStorage -->
             <ControlExample x:Name="SecureExample"
                             Title="Keep secrets in SecureStorage"
-                            Description="SecureStorage encrypts values with the platform's keychain or keystore: the Keychain on iOS and Mac, the Android Keystore, and DPAPI on Windows. Use it for tokens and other secrets. It's async and can fail, for example when a device has no lock screen or the app lacks the keychain entitlement, so handle errors. Values can survive reinstalls on iOS."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="SecureStorage encrypts values with the platform's keychain or keystore: the Keychain on iOS and Mac, the Android Keystore, and DPAPI on Windows. Use it for tokens and other secrets. It's async and can fail, for example when a device has no lock screen or the app lacks the keychain entitlement, so handle errors. Values can survive reinstalls on iOS."
                             XamlSource="SecureStorageToken.xaml.txt"
                             CSharpSource="SecureStorageToken.cs.txt">
                 <VerticalStackLayout x:Name="SecureSample"

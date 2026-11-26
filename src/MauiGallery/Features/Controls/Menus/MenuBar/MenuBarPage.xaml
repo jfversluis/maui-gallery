@@ -49,6 +49,9 @@
             <!-- 1. A page menu -->
             <ControlExample x:Name="BasicExample"
                             Title="Add a menu to the menu bar"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="Add MenuBarItems to a page and they join the app's menu bar while the page is shown. A menu holds MenuFlyoutItems, MenuFlyoutSubItems for submenus and MenuFlyoutSeparators. Open the Sample menu in the menu bar to format the text below."
                             XamlSource="MenuBarBasic.xaml.txt"
                             CSharpSource="MenuBarBasic.cs.txt">
@@ -79,6 +82,9 @@
             <!-- 2. Run-time menus -->
             <ControlExample x:Name="DynamicExample"
                             Title="Add and remove menus at run time"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="MenuBarItems is a regular collection: add a menu when a feature becomes available and remove it when it doesn't apply. Priority orders the menus; the gallery's Help menu has a higher Priority, so page menus go before it. On Mac, a menu named after a system menu, like Edit, merges its items into that menu."
                             CSharpSource="MenuBarDynamic.cs.txt">
                 <Label x:Name="DynamicStatus"

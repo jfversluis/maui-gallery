@@ -28,7 +28,6 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "platform-integration/device/information"),
             ApiUrl = new(ApiRoot + "microsoft.maui.devices.deviceinfo"),
             SourceUrl = new(SourceRoot + "PlatformApis/AppAndDeviceInfo"),
-            IsFeatured = true,
         },
         new()
         {

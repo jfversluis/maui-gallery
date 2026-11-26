@@ -8,15 +8,17 @@
             <!-- 1. AppInfo -->
             <ControlExample x:Name="AppExample"
                             Title="App information"
-                            Description="AppInfo reads your app's name, package id, version and build from the platform's metadata, so an About screen never goes out of date. RequestedTheme is the system's light or dark setting, and ShowSettingsUI opens your app's page in the system settings, which is where people grant permissions they denied earlier."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="AppInfo reads your app's name, package id, version and build from the platform's metadata, so an About screen never goes out of date. RequestedTheme is the operating system's light or dark setting, even when the app overrides it with UserAppTheme, and ShowSettingsUI opens your app's page in the system settings, which is where people grant permissions they denied earlier."
                             XamlSource="AppInfoBasic.xaml.txt"
                             CSharpSource="AppInfoBasic.cs.txt">
                 <VerticalStackLayout x:Name="AppSample"
                                      x:DataType="local:AppInfoViewModel"
                                      Spacing="16"
                                      WidthRequest="{OnIdiom Phone=280, Default=380}">
-                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="8">
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="8">
                         <Label Text="Name" Opacity="0.7" />
                         <Label Grid.Column="1" Text="{Binding Name}" AutomationId="sample-appinfo-name" />
                         <Label Grid.Row="1" Text="Package" Opacity="0.7" />
@@ -25,10 +27,12 @@
                         <Label Grid.Row="2" Grid.Column="1" Text="{Binding Version}" AutomationId="sample-appinfo-version" />
                         <Label Grid.Row="3" Text="Build" Opacity="0.7" />
                         <Label Grid.Row="3" Grid.Column="1" Text="{Binding Build}" AutomationId="sample-appinfo-build" />
-                        <Label Grid.Row="4" Text="System theme" Opacity="0.7" />
+                        <Label Grid.Row="4" Text="OS theme" Opacity="0.7" />
                         <Label Grid.Row="4" Grid.Column="1" Text="{Binding Theme}" AutomationId="sample-appinfo-theme" />
-                        <Label Grid.Row="5" Text="Layout" Opacity="0.7" />
-                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding LayoutDirection}" />
+                        <Label Grid.Row="5" Text="In-app theme" Opacity="0.7" />
+                        <Label x:Name="InAppTheme" Grid.Row="5" Grid.Column="1" AutomationId="sample-appinfo-app-theme" />
+                        <Label Grid.Row="6" Text="Layout" Opacity="0.7" />
+                        <Label Grid.Row="6" Grid.Column="1" Text="{Binding LayoutDirection}" />
                     </Grid>
                     <Button x:Name="AppSettingsButton"
                             Text="Open app settings"
@@ -42,8 +46,10 @@
             <!-- 2. DeviceInfo -->
             <ControlExample x:Name="DeviceExample"
                             Title="Device information"
-                            Description="DeviceInfo describes the hardware and operating system: the model and manufacturer, the platform and its version, and the idiom (phone, tablet, desktop). DeviceType tells a physical device from a simulator or emulator, handy for turning off features a simulator can't do."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="DeviceInfo describes the hardware and operating system: the model and manufacturer, the platform and its version, and the idiom (phone, tablet, desktop). DeviceType tells a physical device from a simulator or emulator, handy for turning off features a simulator can't do."
                             XamlSource="DeviceInfoBasic.xaml.txt"
                             CSharpSource="DeviceInfoBasic.cs.txt">
                 <Grid x:Name="DeviceSample"
@@ -73,8 +79,10 @@
             <!-- 3. DeviceDisplay -->
             <ControlExample x:Name="DisplayExample"
                             Title="Display information"
-                            Description="DeviceDisplay.MainDisplayInfo reports the screen's size in pixels, its density, orientation, rotation and refresh rate; divide by the density for the units your layouts use. MainDisplayInfoChanged fires when the device rotates, and KeepScreenOn stops the screen from sleeping, for a recipe or a boarding pass. Turn it off again when the page goes away."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="DeviceDisplay.MainDisplayInfo reports the screen's size in pixels, its density, orientation, rotation and refresh rate; divide by the density for the units your layouts use. MainDisplayInfoChanged fires when the device rotates, and KeepScreenOn stops the screen from sleeping, for a recipe or a boarding pass. Turn it off again when the page goes away."
                             XamlSource="DeviceDisplayBasic.xaml.txt"
                             CSharpSource="DeviceDisplayBasic.cs.txt">
                 <Grid x:Name="DisplaySample"
