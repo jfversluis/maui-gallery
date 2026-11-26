@@ -36,6 +36,27 @@ public partial class Chip : ContentView
         set => SetValue(IsAccentProperty, value);
     }
 
+    /// <summary>
+    /// The row inside the pill measures its text without a width limit, so cap the text to the space the chip gets:
+    /// long text (such as a native mapping) then wraps instead of running past the edge of a phone screen.
+    /// </summary>
+    protected override Size MeasureOverride(double widthConstraint, double heightConstraint)
+    {
+        var maxTextWidth = double.PositiveInfinity;
+        if (double.IsFinite(widthConstraint))
+        {
+            var glyphWidth = GlyphLabel.IsVisible ? GlyphLabel.Measure(double.PositiveInfinity, double.PositiveInfinity).Width + 6 : 0;
+            maxTextWidth = Math.Max(0, widthConstraint - Margin.HorizontalThickness - Pill.Padding.HorizontalThickness - glyphWidth);
+        }
+
+        if (!TextLabel.MaximumWidthRequest.Equals(maxTextWidth))
+        {
+            TextLabel.MaximumWidthRequest = maxTextWidth;
+        }
+
+        return base.MeasureOverride(widthConstraint, heightConstraint);
+    }
+
     private void ApplyAccent()
     {
         Pill.SetDynamicResource(BackgroundColorProperty, IsAccent ? "ColorAccentSubtle" : "ColorSurfaceAlt");
