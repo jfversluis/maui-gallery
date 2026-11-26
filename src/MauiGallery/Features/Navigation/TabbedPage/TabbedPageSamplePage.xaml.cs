@@ -1,7 +1,7 @@
 using MauiGallery.DesignSystem.Components;
 using MauiGallery.Features.Samples;
-using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
+using AndroidPlatform = Microsoft.Maui.Controls.PlatformConfiguration.Android;
 
 namespace MauiGallery.Features.Navigation;
 
@@ -58,7 +58,7 @@ public sealed partial class TabbedPageSamplePage : SamplePage
     private async void OnPlacementClicked(object? sender, EventArgs e)
     {
         var page = new TabbedDemoPage();
-        page.On<Android>()
+        page.On<AndroidPlatform>()
             .SetToolbarPlacement(SelectedPlacement)
             .SetIsSwipePagingEnabled(PlacementSwipe.IsToggled);
         await ShowAsync(page, PlacementExample);
