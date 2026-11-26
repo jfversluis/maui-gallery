@@ -1,0 +1,14 @@
+<Polygon
+    Points="60,6 74.1,42.6 113.3,44.7 82.8,69.4 92.9,107.3 60,86 27.1,107.3 37.2,69.4 6.7,44.7 45.9,42.6"
+    WidthRequest="120"
+    HeightRequest="114"
+    Fill="#FBBF24"
+    StrokeThickness="0">
+    <Polygon.Shadow>
+        <Shadow
+            Brush="#7C2D12"
+            Offset="0,$(OffsetY)"
+            Radius="$(Radius)"
+            Opacity="0.6" />
+    </Polygon.Shadow>
+</Polygon>

@@ -1,0 +1,12 @@
+<Image
+    Source="landscape.png"
+    Aspect="AspectFill"
+    WidthRequest="200"
+    HeightRequest="200">
+    <Image.Clip>
+        <EllipseGeometry
+            Center="100,100"
+            RadiusX="$(Radius)"
+            RadiusY="$(Radius)" />
+    </Image.Clip>
+</Image>

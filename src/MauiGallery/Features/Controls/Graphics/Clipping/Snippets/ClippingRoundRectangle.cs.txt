@@ -1,0 +1,10 @@
+using Microsoft.Maui.Controls.Shapes;
+
+var picture = new Image
+{
+    Source = "landscape.png",
+    Aspect = Aspect.AspectFill,
+    WidthRequest = 240,
+    HeightRequest = 160,
+    Clip = new RoundRectangleGeometry($(CornerRadiusCode), new Rect(0, 0, 240, 160)),
+};

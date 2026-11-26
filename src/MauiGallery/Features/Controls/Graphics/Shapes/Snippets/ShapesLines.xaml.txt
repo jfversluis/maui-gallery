@@ -1,0 +1,20 @@
+<VerticalStackLayout Spacing="16" WidthRequest="260">
+    <Line
+        X1="12"
+        Y1="12"
+        X2="248"
+        Y2="12"
+        HeightRequest="24"
+        Stroke="$(Stroke)"
+        StrokeThickness="$(StrokeThickness)"
+        StrokeDashArray="$(StrokeDashArray)"
+        StrokeLineCap="$(StrokeLineCap)" />
+    <Polyline
+        Points="12,92 60,32 108,80 156,24 204,72 248,36"
+        HeightRequest="112"
+        Stroke="$(Stroke)"
+        StrokeThickness="$(StrokeThickness)"
+        StrokeDashArray="$(StrokeDashArray)"
+        StrokeLineCap="$(StrokeLineCap)"
+        StrokeLineJoin="$(StrokeLineJoin)" />
+</VerticalStackLayout>

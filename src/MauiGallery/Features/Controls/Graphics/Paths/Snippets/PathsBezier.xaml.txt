@@ -1,0 +1,15 @@
+<Path
+    Stroke="#0D9488"
+    StrokeThickness="5"
+    StrokeLineCap="Round">
+    <Path.Data>
+        <PathGeometry>
+            <PathFigure StartPoint="20,170">
+                <BezierSegment
+                    Point1="80,$(Point1Y)"
+                    Point2="200,$(Point2Y)"
+                    Point3="260,30" />
+            </PathFigure>
+        </PathGeometry>
+    </Path.Data>
+</Path>

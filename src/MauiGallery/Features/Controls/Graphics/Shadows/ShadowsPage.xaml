@@ -1,0 +1,147 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Graphics.ShadowsPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Card shadow -->
+            <ControlExample x:Name="CardExample"
+                            Title="Lift a card with a shadow"
+                            Description="Every view has a Shadow. Brush colors it, Offset moves it, Radius blurs it and Opacity sets its strength. A tinted shadow stays visible on dark backgrounds, where black disappears."
+                            ShowStyleToggle="False"
+                            XamlSource="ShadowsCard.xaml.txt"
+                            CSharpSource="ShadowsCard.cs.txt">
+                <Border WidthRequest="240"
+                        Margin="0,8,0,24"
+                        Padding="20"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 16"
+                        BackgroundColor="{AppThemeBinding Light=White, Dark=#2C2C2E}"
+                        AutomationId="sample-card-shadow">
+                    <Border.Shadow>
+                        <Shadow x:Name="CardShadow"
+                                Brush="{Binding SelectedColor, Source={x:Reference CardBrush}, x:DataType=SwatchPicker}"
+                                Radius="{Binding Value, Source={x:Reference CardRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                Opacity="{Binding Value, Source={x:Reference CardOpacity}, x:DataType=Slider}" />
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Weekly goal" FontAttributes="Bold" FontSize="18" />
+                        <Label Text="4 of 5 workouts done" />
+                    </VerticalStackLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Brush" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="CardBrush" SelectedColor="#512BD4" />
+                        <Label Text="{Binding Value, Source={x:Reference CardOffsetX}, StringFormat='Offset X: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="CardOffsetX" Minimum="-20" Maximum="20" Value="0" ValueChanged="OnCardOffsetChanged" AutomationId="option-card-offset-x" />
+                        <Label Text="{Binding Value, Source={x:Reference CardOffsetY}, StringFormat='Offset Y: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="CardOffsetY" Minimum="-20" Maximum="20" Value="8" ValueChanged="OnCardOffsetChanged" AutomationId="option-card-offset-y" />
+                        <Label Text="{Binding Value, Source={x:Reference CardRadius}, StringFormat='Radius: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="CardRadius" Minimum="0" Maximum="40" Value="20" AutomationId="option-card-radius" />
+                        <Label Text="{Binding Value, Source={x:Reference CardOpacity}, StringFormat='Opacity: {0:0.0#}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="CardOpacity" Minimum="0" Maximum="1" Value="0.4" ValueChanged="OnCardOpacityChanged" AutomationId="option-card-opacity" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Brush" Value="{Binding SelectedColor, Source={x:Reference CardBrush}, x:DataType=SwatchPicker}" />
+                    <Substitution x:Name="CardOffsetText" Key="Offset" />
+                    <Substitution x:Name="CardOffsetCode" Key="OffsetCode" IsExpression="True" />
+                    <Substitution Key="Radius" Value="{Binding Value, Source={x:Reference CardRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="10" />
+                    <Substitution x:Name="CardOpacityText" Key="Opacity" Default="1" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Text and images -->
+            <ControlExample x:Name="GlowExample"
+                            Title="Make text and icons glow"
+                            Description="Shadows follow what a view draws, not its rectangle: a Label's shadow traces its letters and an Image's shadow traces its opaque pixels. A colored shadow with no offset reads as a glow."
+                            ShowStyleToggle="False"
+                            XamlSource="ShadowsGlow.xaml.txt"
+                            CSharpSource="ShadowsGlow.cs.txt">
+                <HorizontalStackLayout Spacing="24">
+                    <Label Text="Glow"
+                           FontSize="48"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center"
+                           AutomationId="sample-glow-label">
+                        <Label.Shadow>
+                            <Shadow Brush="{Binding SelectedColor, Source={x:Reference GlowBrush}, x:DataType=SwatchPicker}"
+                                    Offset="0,0"
+                                    Radius="{Binding Value, Source={x:Reference GlowRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                    Opacity="1" />
+                        </Label.Shadow>
+                    </Label>
+                    <Image WidthRequest="64"
+                           HeightRequest="64"
+                           VerticalOptions="Center"
+                           AutomationId="sample-glow-image">
+                        <Image.Source>
+                            <FontImageSource FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}"
+                                             Glyph="{x:Static icons:FluentIconsFilled.Heart24}"
+                                             Color="#DB2777"
+                                             Size="64" />
+                        </Image.Source>
+                        <Image.Shadow>
+                            <Shadow Brush="{Binding SelectedColor, Source={x:Reference GlowBrush}, x:DataType=SwatchPicker}"
+                                    Offset="0,0"
+                                    Radius="{Binding Value, Source={x:Reference GlowRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                    Opacity="1" />
+                        </Image.Shadow>
+                    </Image>
+                </HorizontalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Brush" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="GlowBrush" SelectedColor="#EA580C" />
+                        <Label Text="{Binding Value, Source={x:Reference GlowRadius}, StringFormat='Radius: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="GlowRadius" Minimum="0" Maximum="30" Value="12" AutomationId="option-glow-radius" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Brush" Value="{Binding SelectedColor, Source={x:Reference GlowBrush}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="Radius" Value="{Binding Value, Source={x:Reference GlowRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Shapes -->
+            <ControlExample x:Name="ShapeExample"
+                            Title="Cast a shadow from a shape"
+                            Description="A shape's shadow has the shape's outline. Raise the offset and the blur radius together to suggest elevation: the higher the object, the farther and softer its shadow."
+                            ShowStyleToggle="False"
+                            XamlSource="ShadowsShape.xaml.txt"
+                            CSharpSource="ShadowsShape.cs.txt">
+                <Polygon Points="60,6 74.1,42.6 113.3,44.7 82.8,69.4 92.9,107.3 60,86 27.1,107.3 37.2,69.4 6.7,44.7 45.9,42.6"
+                         WidthRequest="120"
+                         HeightRequest="114"
+                         Margin="0,0,0,24"
+                         Fill="#FBBF24"
+                         StrokeThickness="0"
+                         AutomationId="sample-shape-shadow">
+                    <Polygon.Shadow>
+                        <Shadow x:Name="StarShadow" Brush="#7C2D12" Opacity="0.6" />
+                    </Polygon.Shadow>
+                </Polygon>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference StarElevation}, StringFormat='Elevation: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="StarElevation" Minimum="0" Maximum="24" Value="10" ValueChanged="OnStarElevationChanged" AutomationId="option-shape-elevation" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="StarOffsetY" Key="OffsetY" />
+                    <Substitution x:Name="StarRadius" Key="Radius" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

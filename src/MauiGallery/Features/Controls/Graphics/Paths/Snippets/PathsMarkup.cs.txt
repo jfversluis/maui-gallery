@@ -1,0 +1,11 @@
+using Microsoft.Maui.Controls.Shapes;
+
+var icon = new Path
+{
+    WidthRequest = 160,
+    HeightRequest = 110,
+    // XAML parses path markup with this converter; in code, call it yourself.
+    Data = (Geometry?)new PathGeometryConverter().ConvertFromInvariantString($(Data)),
+    Aspect = Stretch.$(Aspect),
+    Fill = $(Fill),
+};

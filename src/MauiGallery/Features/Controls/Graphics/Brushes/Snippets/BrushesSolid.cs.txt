@@ -1,0 +1,7 @@
+var box = new BoxView
+{
+    WidthRequest = 220,
+    HeightRequest = 120,
+    CornerRadius = 16,
+    Background = new SolidColorBrush($(Color)),
+};

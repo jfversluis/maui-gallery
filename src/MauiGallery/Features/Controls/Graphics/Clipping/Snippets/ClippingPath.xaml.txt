@@ -1,0 +1,9 @@
+<Image
+    Source="landscape.png"
+    Aspect="AspectFill"
+    WidthRequest="200"
+    HeightRequest="200">
+    <Image.Clip>
+        <PathGeometry Figures="$(Figures)" />
+    </Image.Clip>
+</Image>

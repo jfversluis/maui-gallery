@@ -1,0 +1,12 @@
+<Border
+    WidthRequest="120"
+    HeightRequest="80"
+    StrokeThickness="0"
+    StrokeShape="RoundRectangle 16"
+    BackgroundColor="#512BD4"
+    Rotation="$(Rotation)"
+    Scale="$(Scale)"
+    TranslationX="$(TranslationX)"
+    TranslationY="$(TranslationY)">
+    <Label Text="MAUI" TextColor="White" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+</Border>

@@ -1,0 +1,9 @@
+<Polygon
+    Points="60,6 92.9,107.3 6.7,44.7 113.3,44.7 27.1,107.3"
+    WidthRequest="120"
+    HeightRequest="114"
+    Fill="$(Fill)"
+    Stroke="$(Fill)"
+    StrokeThickness="3"
+    StrokeLineJoin="Round"
+    FillRule="$(FillRule)" />

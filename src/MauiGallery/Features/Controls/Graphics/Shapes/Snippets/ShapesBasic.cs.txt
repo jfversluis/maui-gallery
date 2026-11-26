@@ -1,0 +1,23 @@
+using Microsoft.Maui.Controls.Shapes;
+
+var rectangle = new Rectangle
+{
+    WidthRequest = 140,
+    HeightRequest = 96,
+    RadiusX = $(Radius),
+    RadiusY = $(Radius),
+    Fill = $(Fill),
+    Stroke = $(Stroke),
+    StrokeThickness = $(StrokeThickness),
+};
+
+var ellipse = new Ellipse
+{
+    WidthRequest = 96,
+    HeightRequest = 96,
+    Fill = $(Fill),
+    Stroke = $(Stroke),
+    StrokeThickness = $(StrokeThickness),
+};
+
+var shapes = new HorizontalStackLayout { Spacing = 24, Children = { rectangle, ellipse } };

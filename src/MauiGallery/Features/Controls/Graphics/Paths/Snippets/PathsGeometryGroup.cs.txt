@@ -1,0 +1,20 @@
+using Microsoft.Maui.Controls.Shapes;
+
+var path = new Path
+{
+    WidthRequest = 140,
+    HeightRequest = 140,
+    Fill = $(Fill),
+    Stroke = $(Fill),
+    StrokeThickness = 2,
+    Data = new GeometryGroup
+    {
+        FillRule = FillRule.$(FillRule),
+        Children =
+        {
+            new EllipseGeometry(new Point(70, 70), 64, 64),
+            new EllipseGeometry(new Point(70, 70), 40, 40),
+            new RectangleGeometry(new Rect(58, 2, 24, 136)),
+        },
+    },
+};

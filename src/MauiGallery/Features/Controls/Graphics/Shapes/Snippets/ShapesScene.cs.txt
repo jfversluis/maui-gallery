@@ -1,0 +1,46 @@
+using Microsoft.Maui.Controls.Shapes;
+
+var sky = new Rectangle
+{
+    Fill = new LinearGradientBrush
+    {
+        EndPoint = new Point(0, 1),
+        GradientStops =
+        {
+            new GradientStop(Color.FromArgb("#38BDF8"), 0),
+            new GradientStop(Color.FromArgb("#FDE68A"), 1),
+        },
+    },
+};
+
+var sun = new Ellipse
+{
+    WidthRequest = 56,
+    HeightRequest = 56,
+    Margin = new Thickness(0, 28, 40, 0),
+    HorizontalOptions = LayoutOptions.End,
+    VerticalOptions = LayoutOptions.Start,
+    Fill = Color.FromArgb("#FBBF24"),
+};
+
+var mountains = new Polygon
+{
+    Points = [new(0, 180), new(0, 120), new(70, 56), new(130, 118), new(190, 70), new(280, 140), new(280, 180)],
+    Fill = Color.FromArgb("#6366F1"),
+};
+
+var hills = new Polygon
+{
+    Points = [new(0, 180), new(0, 150), new(60, 124), new(130, 156), new(200, 128), new(280, 152), new(280, 180)],
+    Fill = Color.FromArgb("#0F766E"),
+};
+
+// Children are drawn in order: sky, sun, mountains, hills.
+var scene = new Border
+{
+    WidthRequest = 280,
+    HeightRequest = 180,
+    StrokeThickness = 0,
+    StrokeShape = new RoundRectangle { CornerRadius = 20 },
+    Content = new Grid { Children = { sky, sun, mountains, hills } },
+};

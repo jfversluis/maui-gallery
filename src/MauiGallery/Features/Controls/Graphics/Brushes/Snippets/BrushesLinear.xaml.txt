@@ -1,0 +1,18 @@
+<Border
+    WidthRequest="260"
+    HeightRequest="150"
+    Padding="20"
+    StrokeThickness="0"
+    StrokeShape="RoundRectangle 20">
+    <Border.Background>
+        <LinearGradientBrush
+            EndPoint="$(EndPoint)">
+            <GradientStop Color="$(StartColor)" Offset="0" />
+            <GradientStop Color="$(EndColor)" Offset="1" />
+        </LinearGradientBrush>
+    </Border.Background>
+    <VerticalStackLayout VerticalOptions="End">
+        <Label Text="Premium" FontSize="22" FontAttributes="Bold" TextColor="White" />
+        <Label Text="Unlock every feature" TextColor="White" />
+    </VerticalStackLayout>
+</Border>

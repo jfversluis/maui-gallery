@@ -1,0 +1,17 @@
+<VerticalStackLayout Spacing="24">
+    <Border
+        x:Name="Card"
+        WidthRequest="120"
+        HeightRequest="80"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 16"
+        BackgroundColor="#DB2777">
+        <Label Text="MAUI" TextColor="White" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+    </Border>
+    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="8" WidthRequest="240">
+        <Button Text="Spin" Clicked="OnSpinClicked" />
+        <Button Grid.Column="1" Text="Pulse" Clicked="OnPulseClicked" />
+        <Button Grid.Row="1" Text="Flip" Clicked="OnFlipClicked" />
+        <Button Grid.Row="1" Grid.Column="1" Text="Shake" Clicked="OnShakeClicked" />
+    </Grid>
+</VerticalStackLayout>

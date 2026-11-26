@@ -1,0 +1,127 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Graphics.GraphicsViewPage"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="ChartStyleOptions" Type="{x:Type x:String}">
+            <x:String>Bars</x:String>
+            <x:String>Line</x:String>
+        </x:Array>
+        <SolidColorBrush x:Key="PadBrush" Color="{AppThemeBinding Light=#AEAEB2, Dark=#636366}" />
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Chart -->
+            <ControlExample x:Name="ChartExample"
+                            Title="Draw a chart"
+                            Description="GraphicsView hands an ICanvas to its Drawable, an IDrawable you write. Keep the data in the drawable, change it, then call Invalidate to redraw. Describe what the drawing shows for screen readers."
+                            ShowStyleToggle="False"
+                            XamlSource="GraphicsViewChart.xaml.txt"
+                            CSharpSource="GraphicsViewChart.cs.txt">
+                <GraphicsView x:Name="ChartView"
+                              WidthRequest="{OnIdiom Phone=280, Default=400}"
+                              HeightRequest="200"
+                              AutomationId="sample-chart" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Style" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ChartStyle"
+                                ItemsSource="{StaticResource ChartStyleOptions}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnChartOptionChanged"
+                                AutomationId="option-chart-style" />
+                        <Label Text="Color" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="ChartColor" SelectedColor="#512BD4" />
+                        <Button Text="New data"
+                                HorizontalOptions="Start"
+                                Clicked="OnChartRandomize"
+                                AutomationId="option-chart-randomize" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Color" Value="{Binding SelectedColor, Source={x:Reference ChartColor}, x:DataType=SwatchPicker}" />
+                    <Substitution x:Name="ChartIsLine" Key="IsLine" Default="False" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Gauge -->
+            <ControlExample x:Name="GaugeExample"
+                            Title="Draw a gauge"
+                            Description="ICanvas draws arcs, lines, shapes, paths and text with a stroke and fill you set first. Two arcs and a string make a progress gauge that redraws as the value changes."
+                            ShowStyleToggle="False"
+                            XamlSource="GraphicsViewGauge.xaml.txt"
+                            CSharpSource="GraphicsViewGauge.cs.txt">
+                <GraphicsView x:Name="GaugeView"
+                              WidthRequest="180"
+                              HeightRequest="180"
+                              AutomationId="sample-gauge" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference GaugeValue}, StringFormat='Value: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="GaugeValue" Minimum="0" Maximum="100" Value="72" ValueChanged="OnGaugeChanged" AutomationId="option-gauge-value" />
+                        <Label Text="{Binding Value, Source={x:Reference GaugeThickness}, StringFormat='Thickness: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="GaugeThickness" Minimum="4" Maximum="32" Value="16" ValueChanged="OnGaugeChanged" AutomationId="option-gauge-thickness" />
+                        <Label Text="Color" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="GaugeColor" SelectedColor="#0D9488" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Value" Value="{Binding Value, Source={x:Reference GaugeValue}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                    <Substitution Key="Thickness" Value="{Binding Value, Source={x:Reference GaugeThickness}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="16" />
+                    <Substitution Key="Color" Value="{Binding SelectedColor, Source={x:Reference GaugeColor}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Sketchpad -->
+            <ControlExample x:Name="SketchExample"
+                            Title="Draw with a finger, mouse or pen"
+                            Description="StartInteraction, DragInteraction and EndInteraction report the touch points on the canvas. Add each point to a path and invalidate, and you have a sketchpad. On a scrolling page, stop the ScrollView from taking over the drag; this page's source shows how."
+                            ShowStyleToggle="False"
+                            XamlSource="GraphicsViewSketch.xaml.txt"
+                            CSharpSource="GraphicsViewSketch.cs.txt">
+                <Border Stroke="{StaticResource PadBrush}"
+                        StrokeThickness="1"
+                        StrokeDashArray="4,4"
+                        StrokeShape="RoundRectangle 12">
+                    <Grid WidthRequest="{OnIdiom Phone=280, Default=400}" HeightRequest="220">
+                        <Label x:Name="SketchHint"
+                               Text="Draw here"
+                               TextColor="#8E8E93"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               InputTransparent="True" />
+                        <GraphicsView x:Name="SketchView"
+                                      StartInteraction="OnSketchStart"
+                                      DragInteraction="OnSketchDrag"
+                                      EndInteraction="OnSketchEnd"
+                                      CancelInteraction="OnSketchCancel"
+                                      SemanticProperties.Description="Sketchpad"
+                                      AutomationId="sample-sketchpad" />
+                    </Grid>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Ink" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="SketchInk" SelectedColor="#2563EB" />
+                        <Label Text="{Binding Value, Source={x:Reference SketchSize}, StringFormat='Size: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="SketchSize" Minimum="2" Maximum="24" Value="6" ValueChanged="OnSketchSizeChanged" AutomationId="option-sketch-size" />
+                        <Button Text="Clear"
+                                HorizontalOptions="Start"
+                                Clicked="OnSketchClear"
+                                AutomationId="option-sketch-clear" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="InkColor" Value="{Binding SelectedColor, Source={x:Reference SketchInk}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="InkSize" Value="{Binding Value, Source={x:Reference SketchSize}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="6" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

@@ -1,0 +1,11 @@
+<GraphicsView
+    x:Name="GaugeView"
+    WidthRequest="180"
+    HeightRequest="180">
+    <GraphicsView.Drawable>
+        <local:GaugeDrawable
+            Value="$(Value)"
+            Thickness="$(Thickness)"
+            Color="$(Color)" />
+    </GraphicsView.Drawable>
+</GraphicsView>

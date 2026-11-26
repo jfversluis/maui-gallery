@@ -1,0 +1,13 @@
+using Microsoft.Maui.Controls.Shapes;
+
+var star = new Polygon
+{
+    Points = [new(60, 6), new(92.9, 107.3), new(6.7, 44.7), new(113.3, 44.7), new(27.1, 107.3)],
+    WidthRequest = 120,
+    HeightRequest = 114,
+    Fill = $(Fill),
+    Stroke = $(Fill),
+    StrokeThickness = 3,
+    StrokeLineJoin = PenLineJoin.Round,
+    FillRule = FillRule.$(FillRule),
+};

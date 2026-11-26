@@ -1,0 +1,23 @@
+var label = new Label
+{
+    Text = "Glow",
+    FontSize = 48,
+    FontAttributes = FontAttributes.Bold,
+    VerticalOptions = LayoutOptions.Center,
+    Shadow = new Shadow { Brush = $(Brush), Offset = Point.Zero, Radius = $(Radius), Opacity = 1 },
+};
+
+var image = new Image
+{
+    WidthRequest = 64,
+    HeightRequest = 64,
+    VerticalOptions = LayoutOptions.Center,
+    Source = new FontImageSource
+    {
+        FontFamily = FluentIconsFilled.FontFamily,
+        Glyph = FluentIconsFilled.Heart24,
+        Color = Color.FromArgb("#DB2777"),
+        Size = 64,
+    },
+    Shadow = new Shadow { Brush = $(Brush), Offset = Point.Zero, Radius = $(Radius), Opacity = 1 },
+};

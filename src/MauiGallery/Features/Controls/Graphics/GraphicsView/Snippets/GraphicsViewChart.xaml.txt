@@ -1,0 +1,11 @@
+<GraphicsView
+    x:Name="ChartView"
+    HeightRequest="200"
+    SemanticProperties.Description="Steps per day this week">
+    <GraphicsView.Drawable>
+        <local:WeeklyChartDrawable
+            x:Name="Chart"
+            Color="$(Color)"
+            IsLine="$(IsLine)" />
+    </GraphicsView.Drawable>
+</GraphicsView>

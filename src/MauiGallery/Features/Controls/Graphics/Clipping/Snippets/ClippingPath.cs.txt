@@ -1,0 +1,11 @@
+using Microsoft.Maui.Controls.Shapes;
+
+var badge = new Image
+{
+    Source = "landscape.png",
+    Aspect = Aspect.AspectFill,
+    WidthRequest = 200,
+    HeightRequest = 200,
+    // XAML parses path markup with this converter; in code, call it yourself.
+    Clip = (Geometry?)new PathGeometryConverter().ConvertFromInvariantString($(Figures)),
+};

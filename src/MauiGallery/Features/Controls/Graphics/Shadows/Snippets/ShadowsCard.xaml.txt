@@ -1,0 +1,18 @@
+<Border
+    WidthRequest="240"
+    Padding="20"
+    StrokeThickness="0"
+    StrokeShape="RoundRectangle 16"
+    BackgroundColor="{AppThemeBinding Light=White, Dark=#2C2C2E}">
+    <Border.Shadow>
+        <Shadow
+            Brush="$(Brush)"
+            Offset="$(Offset)"
+            Radius="$(Radius)"
+            Opacity="$(Opacity)" />
+    </Border.Shadow>
+    <VerticalStackLayout Spacing="4">
+        <Label Text="Weekly goal" FontAttributes="Bold" FontSize="18" />
+        <Label Text="4 of 5 workouts done" />
+    </VerticalStackLayout>
+</Border>

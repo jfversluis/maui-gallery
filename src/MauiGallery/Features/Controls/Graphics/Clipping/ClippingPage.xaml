@@ -1,0 +1,97 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Graphics.ClippingPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Graphics"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="ClipShapeOptions" Type="{x:Type x:String}">
+            <x:String>Star</x:String>
+            <x:String>Heart</x:String>
+            <x:String>Hexagon</x:String>
+        </x:Array>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. EllipseGeometry -->
+            <ControlExample x:Name="CircleExample"
+                            Title="Crop a picture to a circle"
+                            Description="Clip takes a geometry and hides everything outside it. An EllipseGeometry turns any picture into a round avatar. Its coordinates are in the view's own space: this one is 200 by 200, so the center is 100,100."
+                            ShowStyleToggle="False"
+                            XamlSource="ClippingEllipse.xaml.txt"
+                            CSharpSource="ClippingEllipse.cs.txt">
+                <local:LandscapeView WidthRequest="200" HeightRequest="200" AutomationId="sample-clip-ellipse">
+                    <local:LandscapeView.Clip>
+                        <EllipseGeometry Center="100,100"
+                                         RadiusX="{Binding Value, Source={x:Reference CircleRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                         RadiusY="{Binding Value, Source={x:Reference CircleRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                    </local:LandscapeView.Clip>
+                </local:LandscapeView>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference CircleRadius}, StringFormat='RadiusX, RadiusY: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="CircleRadius" Minimum="20" Maximum="100" Value="100" AutomationId="option-clip-radius" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Radius" Value="{Binding Value, Source={x:Reference CircleRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. RoundRectangleGeometry -->
+            <ControlExample x:Name="RoundExample"
+                            Title="Round the corners"
+                            Description="RoundRectangleGeometry clips to a rectangle with rounded corners. CornerRadius can round each corner differently, for a picture at the top of a card."
+                            ShowStyleToggle="False"
+                            XamlSource="ClippingRoundRectangle.xaml.txt"
+                            CSharpSource="ClippingRoundRectangle.cs.txt">
+                <local:LandscapeView WidthRequest="240" HeightRequest="160" AutomationId="sample-clip-round">
+                    <local:LandscapeView.Clip>
+                        <RoundRectangleGeometry x:Name="RoundClip" Rect="0,0,240,160" />
+                    </local:LandscapeView.Clip>
+                </local:LandscapeView>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference RoundRadius}, StringFormat='CornerRadius: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="RoundRadius" Minimum="0" Maximum="80" Value="24" ValueChanged="OnRoundChanged" AutomationId="option-clip-corner-radius" />
+                        <HorizontalStackLayout Spacing="8">
+                            <CheckBox x:Name="RoundTopOnly" CheckedChanged="OnRoundChanged" AutomationId="option-clip-top-only" />
+                            <Label Text="Top corners only" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="RoundRadiusText" Key="CornerRadius" />
+                    <Substitution x:Name="RoundRadiusCode" Key="CornerRadiusCode" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. PathGeometry -->
+            <ControlExample x:Name="PathExample"
+                            Title="Clip to any outline"
+                            Description="A PathGeometry clips to any outline you can describe in path markup, such as a star, a heart or a hexagon badge."
+                            ShowStyleToggle="False"
+                            XamlSource="ClippingPath.xaml.txt"
+                            CSharpSource="ClippingPath.cs.txt">
+                <local:LandscapeView x:Name="PathClipped" WidthRequest="200" HeightRequest="200" AutomationId="sample-clip-path" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Figures" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="PathShape"
+                                ItemsSource="{StaticResource ClipShapeOptions}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnPathShapeChanged"
+                                AutomationId="option-clip-shape" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="PathFiguresText" Key="Figures" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

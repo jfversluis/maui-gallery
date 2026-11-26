@@ -1,0 +1,11 @@
+<Ellipse WidthRequest="160" HeightRequest="160">
+    <Ellipse.Fill>
+        <RadialGradientBrush
+            Center="$(Center)"
+            Radius="$(Radius)">
+            <GradientStop Color="White" Offset="0" />
+            <GradientStop Color="$(Color)" Offset="0.45" />
+            <GradientStop Color="#1E1B4B" Offset="1" />
+        </RadialGradientBrush>
+    </Ellipse.Fill>
+</Ellipse>

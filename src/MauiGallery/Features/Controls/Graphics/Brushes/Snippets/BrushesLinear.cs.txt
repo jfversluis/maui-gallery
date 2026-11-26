@@ -1,0 +1,26 @@
+var card = new Border
+{
+    WidthRequest = 260,
+    HeightRequest = 150,
+    Padding = 20,
+    StrokeThickness = 0,
+    StrokeShape = new RoundRectangle { CornerRadius = 20 },
+    Background = new LinearGradientBrush
+    {
+        EndPoint = $(EndPointCode),
+        GradientStops =
+        {
+            new GradientStop($(StartColor), 0),
+            new GradientStop($(EndColor), 1),
+        },
+    },
+    Content = new VerticalStackLayout
+    {
+        VerticalOptions = LayoutOptions.End,
+        Children =
+        {
+            new Label { Text = "Premium", FontSize = 22, FontAttributes = FontAttributes.Bold, TextColor = Colors.White },
+            new Label { Text = "Unlock every feature", TextColor = Colors.White },
+        },
+    },
+};

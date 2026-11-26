@@ -1,0 +1,194 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Graphics.TransformsPage"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <!-- The dashed outline marks where the card is laid out; transforms don't move it. -->
+        <SolidColorBrush x:Key="OutlineBrush" Color="{AppThemeBinding Light=#AEAEB2, Dark=#636366}" />
+        <Style x:Key="LayoutOutline" TargetType="Border">
+            <Setter Property="WidthRequest" Value="120" />
+            <Setter Property="HeightRequest" Value="80" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+            <Setter Property="StrokeDashArray" Value="4,4" />
+            <Setter Property="Stroke" Value="{StaticResource OutlineBrush}" />
+            <Setter Property="StrokeThickness" Value="1" />
+        </Style>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Rotation, Scale, Translation -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Rotate, scale and move"
+                            Description="Rotation, Scale, TranslationX and TranslationY transform a view after layout: it draws somewhere else, but the space it takes in the layout stays the same (the dashed outline)."
+                            ShowStyleToggle="False"
+                            XamlSource="TransformsBasic.xaml.txt"
+                            CSharpSource="TransformsBasic.cs.txt">
+                <Grid WidthRequest="280" HeightRequest="220">
+                    <Border Style="{StaticResource LayoutOutline}" />
+                    <Border WidthRequest="120"
+                            HeightRequest="80"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 16"
+                            BackgroundColor="#512BD4"
+                            Rotation="{Binding Value, Source={x:Reference BasicRotation}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                            Scale="{Binding Value, Source={x:Reference BasicScale}, x:DataType=Slider}"
+                            TranslationX="{Binding Value, Source={x:Reference BasicTranslationX}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                            TranslationY="{Binding Value, Source={x:Reference BasicTranslationY}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                            AutomationId="sample-transform-card">
+                        <Label Text="MAUI" TextColor="White" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                </Grid>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference BasicRotation}, StringFormat='Rotation: {0:0}°', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="BasicRotation" Minimum="-180" Maximum="180" Value="-12" AutomationId="option-transform-rotation" />
+                        <Label Text="{Binding Value, Source={x:Reference BasicScale}, StringFormat='Scale: {0:0.0#}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="BasicScale" Minimum="0.5" Maximum="1.5" Value="1" ValueChanged="OnBasicScaleChanged" AutomationId="option-transform-scale" />
+                        <Label Text="{Binding Value, Source={x:Reference BasicTranslationX}, StringFormat='TranslationX: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="BasicTranslationX" Minimum="-60" Maximum="60" Value="20" AutomationId="option-transform-translation-x" />
+                        <Label Text="{Binding Value, Source={x:Reference BasicTranslationY}, StringFormat='TranslationY: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="BasicTranslationY" Minimum="-40" Maximum="40" Value="0" AutomationId="option-transform-translation-y" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Rotation" Value="{Binding Value, Source={x:Reference BasicRotation}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                    <Substitution x:Name="BasicScaleText" Key="Scale" Default="1" />
+                    <Substitution Key="TranslationX" Value="{Binding Value, Source={x:Reference BasicTranslationX}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                    <Substitution Key="TranslationY" Value="{Binding Value, Source={x:Reference BasicTranslationY}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Anchor -->
+            <ControlExample x:Name="AnchorExample"
+                            Title="Scale and rotate around an anchor"
+                            Description="AnchorX and AnchorY set the point that rotation and scaling pivot around, relative to the view: 0.5,0.5 is the center and 0,0 the top-left corner. ScaleX and ScaleY stretch one axis."
+                            ShowStyleToggle="False"
+                            XamlSource="TransformsAnchor.xaml.txt"
+                            CSharpSource="TransformsAnchor.cs.txt">
+                <Grid WidthRequest="280" HeightRequest="220">
+                    <Border Style="{StaticResource LayoutOutline}" />
+                    <Border x:Name="AnchorCard"
+                            WidthRequest="120"
+                            HeightRequest="80"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 16"
+                            BackgroundColor="#0D9488"
+                            AnchorX="{Binding Value, Source={x:Reference AnchorXSlider}, x:DataType=Slider}"
+                            AnchorY="{Binding Value, Source={x:Reference AnchorYSlider}, x:DataType=Slider}"
+                            Rotation="{Binding Value, Source={x:Reference AnchorRotation}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                            ScaleX="{Binding Value, Source={x:Reference AnchorScaleX}, x:DataType=Slider}"
+                            ScaleY="{Binding Value, Source={x:Reference AnchorScaleY}, x:DataType=Slider}"
+                            AutomationId="sample-anchor-card">
+                        <Label Text="MAUI" TextColor="White" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                    <!-- Marks the anchor point; not part of the sample. -->
+                    <Ellipse x:Name="AnchorDot"
+                             WidthRequest="12"
+                             HeightRequest="12"
+                             HorizontalOptions="Start"
+                             VerticalOptions="Start"
+                             Fill="#EA580C"
+                             Stroke="White"
+                             StrokeThickness="2" />
+                </Grid>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference AnchorXSlider}, StringFormat='AnchorX: {0:0.0#}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="AnchorXSlider" Minimum="0" Maximum="1" Value="0" ValueChanged="OnAnchorChanged" AutomationId="option-anchor-x" />
+                        <Label Text="{Binding Value, Source={x:Reference AnchorYSlider}, StringFormat='AnchorY: {0:0.0#}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="AnchorYSlider" Minimum="0" Maximum="1" Value="0" ValueChanged="OnAnchorChanged" AutomationId="option-anchor-y" />
+                        <Label Text="{Binding Value, Source={x:Reference AnchorRotation}, StringFormat='Rotation: {0:0}°', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="AnchorRotation" Minimum="-180" Maximum="180" Value="20" AutomationId="option-anchor-rotation" />
+                        <Label Text="{Binding Value, Source={x:Reference AnchorScaleX}, StringFormat='ScaleX: {0:0.0#}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="AnchorScaleX" Minimum="0.5" Maximum="1.5" Value="1" ValueChanged="OnAnchorChanged" AutomationId="option-anchor-scale-x" />
+                        <Label Text="{Binding Value, Source={x:Reference AnchorScaleY}, StringFormat='ScaleY: {0:0.0#}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="AnchorScaleY" Minimum="0.5" Maximum="1.5" Value="1" ValueChanged="OnAnchorChanged" AutomationId="option-anchor-scale-y" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="AnchorXText" Key="AnchorX" Default="0.5" />
+                    <Substitution x:Name="AnchorYText" Key="AnchorY" Default="0.5" />
+                    <Substitution Key="Rotation" Value="{Binding Value, Source={x:Reference AnchorRotation}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                    <Substitution x:Name="AnchorScaleXText" Key="ScaleX" Default="1" />
+                    <Substitution x:Name="AnchorScaleYText" Key="ScaleY" Default="1" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. 3D rotation -->
+            <ControlExample x:Name="TiltExample"
+                            Title="Tilt in 3D"
+                            Description="RotationX tips a view toward you around its horizontal axis and RotationY turns it around its vertical axis, with perspective. At 90 degrees the view is edge-on and disappears."
+                            ShowStyleToggle="False"
+                            XamlSource="TransformsTilt.xaml.txt"
+                            CSharpSource="TransformsTilt.cs.txt">
+                <Grid WidthRequest="280" HeightRequest="200">
+                    <Border WidthRequest="180"
+                            HeightRequest="120"
+                            Padding="16"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 16"
+                            BackgroundColor="#2563EB"
+                            RotationX="{Binding Value, Source={x:Reference TiltX}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                            RotationY="{Binding Value, Source={x:Reference TiltY}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                            AutomationId="sample-tilt-card">
+                        <VerticalStackLayout VerticalOptions="End">
+                            <Label Text="Boarding pass" TextColor="White" FontSize="18" FontAttributes="Bold" />
+                            <Label Text="AMS → SEA, gate D7" TextColor="White" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference TiltX}, StringFormat='RotationX: {0:0}°', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="TiltX" Minimum="-80" Maximum="80" Value="20" AutomationId="option-tilt-x" />
+                        <Label Text="{Binding Value, Source={x:Reference TiltY}, StringFormat='RotationY: {0:0}°', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="TiltY" Minimum="-80" Maximum="80" Value="-30" AutomationId="option-tilt-y" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="RotationX" Value="{Binding Value, Source={x:Reference TiltX}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                    <Substitution Key="RotationY" Value="{Binding Value, Source={x:Reference TiltY}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 4. Animation -->
+            <ControlExample x:Name="AnimateExample"
+                            Title="Animate a transform"
+                            Description="RotateToAsync, ScaleToAsync, TranslateToAsync and their siblings animate a transform property to a target value over a duration, with an easing curve. Await them to run steps in sequence."
+                            XamlSource="TransformsAnimate.xaml.txt"
+                            CSharpSource="TransformsAnimate.cs.txt">
+                <VerticalStackLayout Spacing="24">
+                    <Border x:Name="AnimatedCard"
+                            WidthRequest="120"
+                            HeightRequest="80"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 16"
+                            BackgroundColor="#DB2777"
+                            AutomationId="sample-animated-card">
+                        <Label Text="MAUI" TextColor="White" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="8" WidthRequest="240">
+                        <Button Text="Spin" Clicked="OnSpinClicked" AutomationId="sample-animate-spin" />
+                        <Button Grid.Column="1" Text="Pulse" Clicked="OnPulseClicked" AutomationId="sample-animate-pulse" />
+                        <Button Grid.Row="1" Text="Flip" Clicked="OnFlipClicked" AutomationId="sample-animate-flip" />
+                        <Button Grid.Row="1" Grid.Column="1" Text="Shake" Clicked="OnShakeClicked" AutomationId="sample-animate-shake" />
+                    </Grid>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

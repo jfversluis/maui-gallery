@@ -1,0 +1,29 @@
+private async void OnSpinClicked(object? sender, EventArgs e)
+{
+    Card.CancelAnimations();
+    await Card.RotateToAsync(360, 800, Easing.CubicInOut);
+    Card.Rotation = 0;
+}
+
+private async void OnPulseClicked(object? sender, EventArgs e)
+{
+    Card.CancelAnimations();
+    await Card.ScaleToAsync(1.25, 150, Easing.CubicOut);
+    await Card.ScaleToAsync(1, 400, Easing.SpringOut);
+}
+
+private async void OnFlipClicked(object? sender, EventArgs e)
+{
+    Card.CancelAnimations();
+    await Card.RotateYToAsync(360, 800, Easing.CubicInOut);
+    Card.RotationY = 0;
+}
+
+private async void OnShakeClicked(object? sender, EventArgs e)
+{
+    Card.CancelAnimations();
+    foreach (var offset in (double[])[-16, 16, -10, 10, -4, 0])
+    {
+        await Card.TranslateToAsync(offset, 0, 60);
+    }
+}
