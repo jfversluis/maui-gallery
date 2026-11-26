@@ -51,7 +51,8 @@ maui devflow ui navigate "//main/controls/<id>" --agent-port <port>
 maui devflow ui screenshot --agent-port <port> --output <id>-light.png
 ```
 
-Then, with the DevFlow MCP tools:
+Then, with the DevFlow MCP tools (examples fill in one per frame after the page appears; tap sample controls once no
+`example-loading` placeholder is left):
 
 - Screenshots show no clipping or overlap at phone and desktop widths. Check suspicious elements with
   `maui devflow ui query --selector "..." --fields bounds` (the nuget.org agent doesn't implement

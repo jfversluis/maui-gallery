@@ -23,7 +23,13 @@ public sealed partial class ShellNavigationService(ActiveWindowTracker windows, 
 
         try
         {
-            await shell.GoToAsync(route);
+            // Building a page keeps the UI thread busy. Let what the tap changed (a pressed state, the sidebar
+            // selection) be drawn first, so the app responds at once.
+            await Task.Delay(1);
+
+            // Next to a sidebar, navigating swaps the content like a desktop app does; a slide would only delay the
+            // page. On phones, pushed pages keep the platform's transition.
+            await shell.GoToAsync(route, animate: shell.FlyoutBehavior == FlyoutBehavior.Disabled);
         }
         catch (Exception ex)
         {

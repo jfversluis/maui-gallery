@@ -85,7 +85,7 @@ work in narrow windows and next to the sidebar.
 
 | Component | Purpose |
 | --- | --- |
-| `ControlExample` | Stage, native badge, Default/Styled and LTR/RTL toggles (each can be turned off), a notice for prerequisites, options, event output and code. When wide, the options form a rail beside the stage and code |
+| `ControlExample` | Stage, native badge, Default/Styled and LTR/RTL toggles (each can be turned off), a notice for prerequisites, options, event output and code. When wide, the options form a rail beside the stage and code. Its body is built after the page appears, one example per frame, with a placeholder stage until then |
 | `CodeViewer` | XAML and C# tabs, syntax highlighting, line numbers, copy; long snippets start collapsed |
 | `NativeViewBadge` | Shows the platform type behind any view |
 | `ItemCard` | Tappable tile for a gallery item, with a desktop context menu |
@@ -94,6 +94,7 @@ work in narrow windows and next to the sidebar.
 | `AdaptiveGrid` | Equal-width columns that follow the available width and balance rows |
 | `SwatchPicker` | Color choice for options panes |
 | `DotGridView` | The stage's dotted canvas |
+| `DeferredView` | Creates its content from a template a frame after the page appears, for content further down a page |
 
 ## Motion
 

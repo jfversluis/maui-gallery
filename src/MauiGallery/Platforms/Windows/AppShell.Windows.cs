@@ -37,12 +37,12 @@ public partial class AppShell
         if (docked)
         {
             FlyoutBackgroundColor = Colors.Transparent;
-            _sidebar.BackgroundColor = Colors.Transparent;
+            _sidebar?.BackgroundColor = Colors.Transparent;
         }
         else
         {
             SetDynamicResource(FlyoutBackgroundColorProperty, "ColorSidebar");
-            _sidebar.SetDynamicResource(BackgroundColorProperty, "ColorSidebar");
+            _sidebar?.SetDynamicResource(BackgroundColorProperty, "ColorSidebar");
         }
     }
 }

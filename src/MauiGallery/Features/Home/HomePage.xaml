@@ -96,94 +96,107 @@
                     </BindableLayout.ItemTemplate>
                 </AdaptiveGrid>
             </VerticalStackLayout>
+            <!-- Further down the page: created once the page is on screen, so its first frame comes sooner. -->
             <!-- Featured -->
-            <VerticalStackLayout Spacing="12" IsVisible="{Binding HasFeatured}">
-                <SectionHeader Title="Start here" />
-                <AdaptiveGrid MinItemWidth="260" BindableLayout.ItemsSource="{Binding Featured}">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="catalog:GalleryItem">
-                            <ItemCard ShowFeaturedTask="True" Command="{Binding OpenItemCommand, Source={RelativeSource AncestorType={x:Type local:HomeViewModel}}, x:DataType=local:HomeViewModel}" />
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </AdaptiveGrid>
-            </VerticalStackLayout>
+            <DeferredView IsVisible="{Binding HasFeatured}">
+                <DataTemplate x:DataType="local:HomeViewModel">
+                    <VerticalStackLayout Spacing="12">
+                        <SectionHeader Title="Start here" />
+                        <AdaptiveGrid MinItemWidth="260" BindableLayout.ItemsSource="{Binding Featured}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="catalog:GalleryItem">
+                                    <ItemCard ShowFeaturedTask="True" Command="{Binding OpenItemCommand, Source={RelativeSource AncestorType={x:Type local:HomeViewModel}}, x:DataType=local:HomeViewModel}" />
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </AdaptiveGrid>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </DeferredView>
             <!-- Categories -->
-            <VerticalStackLayout Spacing="12">
-                <SectionHeader Title="Browse by category" ActionText="All controls" Command="{Binding BrowseControlsCommand}" />
-                <AdaptiveGrid MinItemWidth="240" BindableLayout.ItemsSource="{Binding Categories}">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="local:CategoryTile">
-                            <Border Style="{StaticResource InteractiveCard}"
-                                    AutomationId="{Binding Category.Id, StringFormat='category-{0}'}"
-                                    SemanticProperties.Description="{Binding Category.Title}"
-                                    SemanticProperties.Hint="{Binding Category.Description}">
-                                <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding OpenCategoryCommand, Source={RelativeSource AncestorType={x:Type local:HomeViewModel}}, x:DataType=local:HomeViewModel}"
-                                                          CommandParameter="{Binding .}" />
-                                </Border.GestureRecognizers>
-                                <VerticalStackLayout Spacing="12">
-                                    <Border WidthRequest="44"
-                                            HeightRequest="44"
-                                            HorizontalOptions="Start"
-                                            StrokeThickness="0"
-                                            StrokeShape="{StaticResource ShapeCard}"
-                                            Background="{DynamicResource BrushHero}">
-                                        <Label Text="{Binding Category.IconGlyph}" Style="{StaticResource TextIcon}" TextColor="White" />
+            <DeferredView>
+                <DataTemplate x:DataType="local:HomeViewModel">
+                    <VerticalStackLayout Spacing="12">
+                        <SectionHeader Title="Browse by category" ActionText="All controls" Command="{Binding BrowseControlsCommand}" />
+                        <AdaptiveGrid MinItemWidth="240" BindableLayout.ItemsSource="{Binding Categories}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="local:CategoryTile">
+                                    <Border Style="{StaticResource InteractiveCard}"
+                                            AutomationId="{Binding Category.Id, StringFormat='category-{0}'}"
+                                            SemanticProperties.Description="{Binding Category.Title}"
+                                            SemanticProperties.Hint="{Binding Category.Description}">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding OpenCategoryCommand, Source={RelativeSource AncestorType={x:Type local:HomeViewModel}}, x:DataType=local:HomeViewModel}"
+                                                                  CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+                                        <VerticalStackLayout Spacing="12">
+                                            <Border WidthRequest="44"
+                                                    HeightRequest="44"
+                                                    HorizontalOptions="Start"
+                                                    StrokeThickness="0"
+                                                    StrokeShape="{StaticResource ShapeCard}"
+                                                    Background="{DynamicResource BrushHero}">
+                                                <Label Text="{Binding Category.IconGlyph}" Style="{StaticResource TextIcon}" TextColor="White" />
+                                            </Border>
+                                            <VerticalStackLayout Spacing="4">
+                                                <Label Text="{Binding Category.Title}" Style="{StaticResource TextBodyStrong}" FontSize="16" />
+                                                <Label Text="{Binding Category.Description}" Style="{StaticResource TextCaption}" />
+                                            </VerticalStackLayout>
+                                            <Grid ColumnDefinitions="*,Auto">
+                                                <Label Text="{Binding CountText}" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                                                <Label Grid.Column="1"
+                                                       Text="{x:Static icons:FluentIconsRegular.ChevronRight24}"
+                                                       Style="{StaticResource TextIcon}"
+                                                       FontSize="{StaticResource IconSizeSmall}"
+                                                       TextColor="{DynamicResource ColorTextTertiary}" />
+                                            </Grid>
+                                        </VerticalStackLayout>
                                     </Border>
-                                    <VerticalStackLayout Spacing="4">
-                                        <Label Text="{Binding Category.Title}" Style="{StaticResource TextBodyStrong}" FontSize="16" />
-                                        <Label Text="{Binding Category.Description}" Style="{StaticResource TextCaption}" />
-                                    </VerticalStackLayout>
-                                    <Grid ColumnDefinitions="*,Auto">
-                                        <Label Text="{Binding CountText}" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
-                                        <Label Grid.Column="1"
-                                               Text="{x:Static icons:FluentIconsRegular.ChevronRight24}"
-                                               Style="{StaticResource TextIcon}"
-                                               FontSize="{StaticResource IconSizeSmall}"
-                                               TextColor="{DynamicResource ColorTextTertiary}" />
-                                    </Grid>
-                                </VerticalStackLayout>
-                            </Border>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </AdaptiveGrid>
-            </VerticalStackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </AdaptiveGrid>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </DeferredView>
             <!-- Get started -->
-            <VerticalStackLayout Spacing="12">
-                <SectionHeader Title="Get started" />
-                <AdaptiveGrid MinItemWidth="240" BindableLayout.ItemsSource="{Binding GetStarted}">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="local:GetStartedLink">
-                            <Border Style="{StaticResource InteractiveCard}"
-                                    Padding="16"
-                                    SemanticProperties.Description="{Binding Title}"
-                                    SemanticProperties.Hint="{Binding Description}">
-                                <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding OpenLinkCommand, Source={RelativeSource AncestorType={x:Type local:HomeViewModel}}, x:DataType=local:HomeViewModel}"
-                                                          CommandParameter="{Binding .}" />
-                                </Border.GestureRecognizers>
-                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
-                                    <Label Text="{Binding IconGlyph}"
-                                           Style="{StaticResource TextIcon}"
-                                           FontSize="{StaticResource IconSizeLarge}"
-                                           TextColor="{DynamicResource ColorAccentText}"
-                                           VerticalOptions="Start" />
-                                    <VerticalStackLayout Grid.Column="1" Spacing="2">
-                                        <Label Text="{Binding Title}" Style="{StaticResource TextBodyStrong}" />
-                                        <Label Text="{Binding Description}" Style="{StaticResource TextCaption}" />
-                                    </VerticalStackLayout>
-                                    <Label Grid.Column="2"
-                                           Text="{x:Static icons:FluentIconsRegular.Open24}"
-                                           Style="{StaticResource TextIcon}"
-                                           FontSize="{StaticResource IconSizeSmall}"
-                                           TextColor="{DynamicResource ColorTextTertiary}"
-                                           VerticalOptions="Start" />
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </AdaptiveGrid>
-            </VerticalStackLayout>
+            <DeferredView>
+                <DataTemplate x:DataType="local:HomeViewModel">
+                    <VerticalStackLayout Spacing="12">
+                        <SectionHeader Title="Get started" />
+                        <AdaptiveGrid MinItemWidth="240" BindableLayout.ItemsSource="{Binding GetStarted}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="local:GetStartedLink">
+                                    <Border Style="{StaticResource InteractiveCard}"
+                                            Padding="16"
+                                            SemanticProperties.Description="{Binding Title}"
+                                            SemanticProperties.Hint="{Binding Description}">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding OpenLinkCommand, Source={RelativeSource AncestorType={x:Type local:HomeViewModel}}, x:DataType=local:HomeViewModel}"
+                                                                  CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+                                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                                            <Label Text="{Binding IconGlyph}"
+                                                   Style="{StaticResource TextIcon}"
+                                                   FontSize="{StaticResource IconSizeLarge}"
+                                                   TextColor="{DynamicResource ColorAccentText}"
+                                                   VerticalOptions="Start" />
+                                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                                <Label Text="{Binding Title}" Style="{StaticResource TextBodyStrong}" />
+                                                <Label Text="{Binding Description}" Style="{StaticResource TextCaption}" />
+                                            </VerticalStackLayout>
+                                            <Label Grid.Column="2"
+                                                   Text="{x:Static icons:FluentIconsRegular.Open24}"
+                                                   Style="{StaticResource TextIcon}"
+                                                   FontSize="{StaticResource IconSizeSmall}"
+                                                   TextColor="{DynamicResource ColorTextTertiary}"
+                                                   VerticalOptions="Start" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </AdaptiveGrid>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </DeferredView>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

@@ -1,3 +1,5 @@
+using MauiGallery.Services;
+
 namespace MauiGallery.Features.Samples;
 
 /// <summary>
@@ -6,9 +8,13 @@ namespace MauiGallery.Features.Samples;
 /// </summary>
 public class SamplePage : ContentPage
 {
+    private readonly int _navigation;
+
     public SamplePage(SamplePageServices services)
     {
         ArgumentNullException.ThrowIfNull(services);
+        _navigation = PageLoadTrace.Navigation;
+        PageLoadTrace.Mark("resolve");
 
         var item = services.Catalog.FindByPage(GetType())
             ?? throw new InvalidOperationException($"{GetType().Name} has no entry in the gallery catalog.");
@@ -21,9 +27,36 @@ public class SamplePage : ContentPage
 
     protected SamplePageViewModel ViewModel { get; }
 
+    protected override void OnParentSet()
+    {
+        base.OnParentSet();
+        MarkLoad("construct", Parent is not null);
+    }
+
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+        MarkLoad("handlers", Handler is not null);
+    }
+
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        MarkLoad("appear", true);
         ViewModel.OnAppearing();
+    }
+
+    protected override void OnSizeAllocated(double width, double height)
+    {
+        base.OnSizeAllocated(width, height);
+        MarkLoad("layout", width > 0);
+    }
+
+    private void MarkLoad(string milestone, bool condition)
+    {
+        if (condition && _navigation == PageLoadTrace.Navigation)
+        {
+            PageLoadTrace.Mark(milestone);
+        }
     }
 }

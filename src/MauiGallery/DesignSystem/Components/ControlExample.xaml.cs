@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using MauiGallery.DesignSystem.Styles;
+using MauiGallery.Services;
 using Microsoft.Maui.Layouts;
 
 namespace MauiGallery.DesignSystem.Components;
@@ -75,16 +76,19 @@ public partial class ControlExample : ContentView
 
     private bool? _sideBySide;
     private bool _isStyled;
+    private bool _isQueued;
+    private bool _isRealized;
 
     public ControlExample()
     {
+        using var trace = PageLoadTrace.Measure("example");
         InitializeComponent();
+
+        // The body (stage, options, output and code) holds most of the card's native views. It joins the page later,
+        // in Realize, so the page can appear right away with a placeholder in its place.
+        CardLayout.Remove(Body);
         Substitutions.CollectionChanged += OnSubstitutionsChanged;
-        Loaded += (_, _) =>
-        {
-            RenderCode();
-            NameOptionControls();
-        };
+        Loaded += (_, _) => QueueRealize();
         UpdateStageMode();
         UpdateLayout();
     }
@@ -191,6 +195,43 @@ public partial class ControlExample : ContentView
         UpdateLayout();
     }
 
+    /// <summary>
+    /// Queues the example to be realized. Examples realize one at a time, a frame apart and in page order, so the page
+    /// appears before all of its examples are built and stays responsive while they fill in.
+    /// </summary>
+    private void QueueRealize()
+    {
+        if (_isRealized || _isQueued)
+        {
+            return;
+        }
+
+        _isQueued = true;
+        DeferredWork.Enqueue(Dispatcher, () =>
+        {
+            _isQueued = false;
+
+            // An example on a page that was closed in the meantime waits until it is shown again.
+            if (!IsLoaded || _isRealized)
+            {
+                return false;
+            }
+
+            Realize();
+            return true;
+        });
+    }
+
+    private void Realize()
+    {
+        using var trace = PageLoadTrace.Measure("realize");
+        _isRealized = true;
+        CardLayout.Remove(Placeholder);
+        CardLayout.Add(Body);
+        RenderCode();
+        NameOptionControls();
+    }
+
     private static void OnExampleChanged(BindableObject bindable, object? oldValue, object? newValue)
     {
         var example = (ControlExample)bindable;
@@ -266,13 +307,12 @@ public partial class ControlExample : ContentView
     private void RenderCode()
     {
         // Properties and substitutions arrive in XAML order; render once everything is in place.
-        if (!IsLoaded)
+        if (!_isRealized)
         {
             return;
         }
 
-        Code.Xaml = Render(XamlSource, s => s.XamlText);
-        Code.CSharp = Render(CSharpSource, s => s.CSharpText);
+        Code.SetCode(Render(XamlSource, s => s.XamlText), Render(CSharpSource, s => s.CSharpText));
         var hasCode = Code.Xaml is not null || Code.CSharp is not null;
         if (CodeArea.IsVisible != hasCode)
         {
@@ -317,6 +357,7 @@ public partial class ControlExample : ContentView
         var wide = Width >= SideBySideWidth;
         var sideBySide = hasOptions && wide;
         Stage.MinimumHeightRequest = wide ? StageMinimumHeight : CompactStageMinimumHeight;
+        Placeholder.HeightRequest = Stage.MinimumHeightRequest;
         if (_sideBySide == sideBySide && Body.ColumnDefinitions.Count > 0)
         {
             return;

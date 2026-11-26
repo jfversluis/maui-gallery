@@ -76,9 +76,12 @@ public sealed partial class SidebarViewModel : ObservableObject
     {
         var path = location.Split('?')[0].TrimEnd('/');
         var lastSegment = path[(path.LastIndexOf('/') + 1)..];
-        var selected = _allEntries.FirstOrDefault(e => e.ItemId == lastSegment)
-            ?? _allEntries.FirstOrDefault(e => e.ItemId is null && path.EndsWith(e.Route.TrimStart('/'), StringComparison.Ordinal));
+        Select(_allEntries.FirstOrDefault(e => e.ItemId == lastSegment)
+            ?? _allEntries.FirstOrDefault(e => e.ItemId is null && path.EndsWith(e.Route.TrimStart('/'), StringComparison.Ordinal)));
+    }
 
+    private void Select(SidebarEntry? selected)
+    {
         foreach (var entry in _allEntries)
         {
             entry.IsSelected = ReferenceEquals(entry, selected);
@@ -113,6 +116,8 @@ public sealed partial class SidebarViewModel : ObservableObject
     [RelayCommand]
     private async Task NavigateAsync(SidebarEntry entry)
     {
+        // Highlight the entry right away, while the page is being built; the Shell confirms it once it has navigated.
+        Select(entry);
         await _navigation.GoToAsync(entry.Route);
         Query = null;
     }

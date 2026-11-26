@@ -23,6 +23,7 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
+        PageLoadTrace.BeginStartup();
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
@@ -57,7 +58,9 @@ public static class MauiProgram
         builder.AddMauiBlazorDevFlowTools();
 #endif
 
-        return builder.Build();
+        var app = builder.Build();
+        PageLoadTrace.Mark("services");
+        return app;
     }
 
     private static IServiceCollection AddPlatformServices(this IServiceCollection services) => services
@@ -86,6 +89,7 @@ public static class MauiProgram
         .AddTransient<AppShell>()
         .AddTransient<AppShellViewModel>()
         .AddTransient<SidebarView>()
+        .AddTransient<Func<SidebarView>>(services => services.GetRequiredService<SidebarView>)
         .AddTransient<SidebarViewModel>()
         .AddTransient<HomePage>()
         .AddTransient<HomeViewModel>()
