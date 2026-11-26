@@ -13,7 +13,7 @@
         <Setter Property="TextColor" Value="{DynamicResource ColorAccentText}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="Padding" Value="8,4" />
-        <Setter Property="MinimumHeightRequest" Value="32" />
+        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=44, Default=32}" />
     </Style>
 
     <Style x:Key="PageChrome" TargetType="ContentPage">
@@ -100,7 +100,7 @@
         <Setter Property="BackgroundColor" Value="{DynamicResource ColorAccent}" />
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Padding" Value="18,10" />
-        <Setter Property="MinimumHeightRequest" Value="40" />
+        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=44, Default=40}" />
     </Style>
 
     <Style x:Key="SecondaryButton" TargetType="Button">
@@ -112,7 +112,7 @@
         <Setter Property="BorderWidth" Value="1" />
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Padding" Value="18,10" />
-        <Setter Property="MinimumHeightRequest" Value="40" />
+        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=44, Default=40}" />
     </Style>
 
     <!-- Icon-only buttons in the chrome: page actions, copy, toolbar toggles. -->

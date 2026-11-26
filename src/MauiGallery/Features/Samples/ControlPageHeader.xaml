@@ -9,7 +9,7 @@
         <Style x:Key="HeaderLinkButton" TargetType="Button" BasedOn="{StaticResource SecondaryButton}">
             <Setter Property="FontSize" Value="13" />
             <Setter Property="Padding" Value="12,6" />
-            <Setter Property="MinimumHeightRequest" Value="34" />
+            <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=44, Default=34}" />
         </Style>
     </ContentView.Resources>
 
@@ -71,7 +71,7 @@
                         Style="{StaticResource LinkButton}"
                         FontSize="13"
                         Padding="4,2"
-                        MinimumHeightRequest="28"
+                        MinimumHeightRequest="{OnIdiom Phone=44, Default=28}"
                         Margin="0,0,0,8"
                         Clicked="OnAllPlatformsClicked"
                         AutomationId="page-all-platforms" />
