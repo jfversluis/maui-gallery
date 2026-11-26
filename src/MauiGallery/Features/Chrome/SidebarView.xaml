@@ -86,7 +86,7 @@
                 StrokeShape="{StaticResource ShapeInput}"
                 Stroke="{DynamicResource BrushOutline}"
                 BackgroundColor="{DynamicResource ColorSurface}">
-            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
                 <Label Text="{x:Static icons:FluentIconsRegular.Search24}"
                        Style="{StaticResource TextIcon}"
                        FontSize="{StaticResource IconSizeSmall}"
@@ -94,6 +94,7 @@
                 <BorderlessEntry x:Name="SearchEntry"
                                  Grid.Column="1"
                                  Placeholder="Search controls and APIs"
+                                 SemanticProperties.Hint="{OnPlatform MacCatalyst='Shortcut: Command K', iOS='Shortcut: Command K', WinUI='Shortcut: Control K', Default=''}"
                                  Text="{Binding Query}"
                                  ReturnCommand="{Binding OpenFirstResultCommand}"
                                  FontFamily="{StaticResource FontRegular}"
@@ -104,13 +105,34 @@
                                  VerticalOptions="Center"
                                  AutomationId="sidebar-search"
                                  SemanticProperties.Description="Search the gallery" />
+                <!-- Keycap in the system font, whose modifier symbols match the menu bar's. -->
+                <Border Grid.Column="2"
+                        Padding="6,1"
+                        StrokeThickness="1"
+                        Stroke="{DynamicResource BrushOutline}"
+                        StrokeShape="{StaticResource ShapeInput}"
+                        BackgroundColor="{DynamicResource ColorSurfaceAlt}"
+                        VerticalOptions="Center"
+                        InputTransparent="True"
+                        IsVisible="{OnPlatform MacCatalyst=True, iOS=True, WinUI=True, Default=False}"
+                        AutomationId="sidebar-search-shortcut"
+                        AutomationProperties.IsInAccessibleTree="False">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding IsSearching}" Value="True">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Label Text="{OnPlatform MacCatalyst='⌘K', iOS='⌘K', Default='Ctrl+K'}"
+                           FontSize="12"
+                           TextColor="{DynamicResource ColorTextSecondary}" />
+                </Border>
             </Grid>
         </Border>
 
-        <ScrollView Grid.Row="2" Margin="0,4,0,0">
+        <ScrollView x:Name="NavScroll" Grid.Row="2" Margin="0,4,0,0">
             <Grid>
                 <!-- Navigation -->
-                <VerticalStackLayout Spacing="2" IsVisible="{Binding IsSearching, Converter={StaticResource InvertedBool}}">
+                <VerticalStackLayout x:Name="NavItems" Spacing="2" IsVisible="{Binding IsSearching, Converter={StaticResource InvertedBool}}">
                     <VerticalStackLayout BindableLayout.ItemsSource="{Binding TopEntries}"
                                          BindableLayout.ItemTemplate="{StaticResource EntryTemplate}"
                                          Spacing="2" />
