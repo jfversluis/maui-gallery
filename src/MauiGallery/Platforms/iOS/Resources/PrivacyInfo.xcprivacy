@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-This is the minimum required version of the Apple Privacy Manifest for .NET MAUI apps.
-The contents below are needed because of APIs that are used in the .NET framework and .NET MAUI SDK.
+  Apple privacy manifest (https://aka.ms/maui-privacy-manifest). Keep it in sync with
+  Platforms/MacCatalyst/Resources/PrivacyInfo.xcprivacy and docs/privacy.md.
 
-You are responsible for adding extra entries as needed for your application.
-
-More information: https://aka.ms/maui-privacy-manifest
+  The app collects no data and doesn't track. The required-reason APIs below are used by .NET, .NET MAUI and the
+  samples:
+  - File timestamp: C617.1 for files in the app's containers (.NET file APIs, picked files copied to the cache) and
+    3B52.1 for files the person picks (the File picker sample shows their size).
+  - System boot time: 35F9.1, elapsed time between events (.NET's Stopwatch and timers).
+  - Disk space: E174.1, checking for space before writing files (.NET runtime).
+  - User defaults: CA92.1, the Preferences API (theme, favorites, recents and the Preferences sample).
 -->
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>NSPrivacyTracking</key>
+    <false/>
+    <key>NSPrivacyTrackingDomains</key>
+    <array/>
+    <key>NSPrivacyCollectedDataTypes</key>
+    <array/>
     <key>NSPrivacyAccessedAPITypes</key>
     <array>
         <dict>
@@ -18,6 +28,7 @@ More information: https://aka.ms/maui-privacy-manifest
             <key>NSPrivacyAccessedAPITypeReasons</key>
             <array>
                 <string>C617.1</string>
+                <string>3B52.1</string>
             </array>
         </dict>
         <dict>
@@ -36,8 +47,6 @@ More information: https://aka.ms/maui-privacy-manifest
                 <string>E174.1</string>
             </array>
         </dict>
-        <!--
-            The entry below is only needed when you're using the Preferences API in your app.
         <dict>
             <key>NSPrivacyAccessedAPIType</key>
             <string>NSPrivacyAccessedAPICategoryUserDefaults</string>
@@ -45,7 +54,7 @@ More information: https://aka.ms/maui-privacy-manifest
             <array>
                 <string>CA92.1</string>
             </array>
-        </dict> -->
+        </dict>
     </array>
 </dict>
 </plist>

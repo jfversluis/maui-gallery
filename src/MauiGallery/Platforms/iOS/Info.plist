@@ -4,6 +4,9 @@
 <dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<!-- The app only uses the encryption built into the OS (HTTPS, Keychain), which is exempt from export rules. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>

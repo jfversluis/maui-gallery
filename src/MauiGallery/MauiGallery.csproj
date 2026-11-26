@@ -33,10 +33,20 @@
     <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
-  <!-- DevFlow needs an in-app HTTP server on Mac Catalyst, which only Debug builds are entitled to. -->
+  <!--
+    Mac Catalyst entitlements. DevFlow needs an in-app HTTP server, which only Debug builds are entitled to.
+    App Store builds are signed with a provisioning profile (CodesignProvision), which also allows the keychain access
+    group SecureStorage needs; unsigned and ad-hoc signed builds can't carry that entitlement, so they don't get it.
+  -->
   <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
     <CodesignEntitlements Condition="'$(Configuration)' == 'Debug'">Platforms/MacCatalyst/Entitlements.Debug.plist</CodesignEntitlements>
     <CodesignEntitlements Condition="'$(Configuration)' != 'Debug'">Platforms/MacCatalyst/Entitlements.plist</CodesignEntitlements>
+    <CodesignEntitlements Condition="'$(Configuration)' != 'Debug' and '$(CodesignProvision)' != ''">Platforms/MacCatalyst/Entitlements.AppStore.plist</CodesignEntitlements>
+    <!--
+      Release builds are universal (arm64 and x64), so publishing has no single RuntimeIdentifier. Each architecture
+      still gets ReadyToRun; without this the SDK refuses to publish (NETSDK1191).
+    -->
+    <AllowReadyToRunWithoutRuntimeIdentifier>true</AllowReadyToRunWithoutRuntimeIdentifier>
   </PropertyGroup>
 
   <!--
