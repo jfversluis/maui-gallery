@@ -36,13 +36,7 @@ public static class MauiProgram
                 fonts.AddFont("Inter-Bold.ttf", "InterBold");
                 fonts.AddFont("CascadiaCode-Regular.ttf", "CascadiaCode");
             })
-            .ConfigureMauiHandlers(_ =>
-            {
-                BorderlessEntry.Register();
-#if WINDOWS
-                HybridWebViewEnvironment.Register();
-#endif
-            })
+            .ConfigureMauiHandlers(_ => BorderlessEntry.Register())
             .ConfigureDeepLinks()
             .ConfigureWindowChrome()
             .UseNativePowerSamples()

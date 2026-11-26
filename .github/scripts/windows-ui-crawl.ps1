@@ -139,6 +139,9 @@ $script:proc = $null
 
 function Invoke-DevFlow {
     param([Parameter(ValueFromRemainingArguments)] [string[]] $Arguments)
+    if ($Arguments[0] -eq 'ui' -and $Arguments[1] -eq 'navigate') {
+        Add-Content (Join-Path $OutDir 'logs/navigation.txt') "[$(Get-Date -Format o)] $($Arguments[2])"
+    }
     $all = @('devflow') + $Arguments
     if ($script:port) { $all += @('--agent-port', $script:port) }
     $output = & maui @all 2>&1 | Out-String
@@ -308,6 +311,12 @@ foreach ($config in ($Configs -split ',' | ForEach-Object { $_.Trim() })) {
         if (-not (Test-AppAlive)) {
             Add-Failure "CRASH on $config/$id (exit code $($script:proc.ExitCode))"
             continue
+        }
+
+        # Web views start a browser process, which can take a while on a cold runner: capture them again later.
+        if ($id -match 'web-view|^map$') {
+            Start-Sleep -Seconds 6
+            if (Test-AppAlive) { Save-WindowCapture (Join-Path $OutDir "review/$id-$theme-$($sizes[$size][0])-late.png") | Out-Null }
         }
 
         $method = Save-PageScreenshot (Join-Path $pageDir "$id.png")
