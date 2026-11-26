@@ -9,6 +9,9 @@ public partial class AppShell : Shell
     private readonly SidebarViewModel _sidebarViewModel;
     private readonly AppShellViewModel _viewModel;
 
+    // On Windows the menu bar (Shell.MenuBarItems) is part of the navigation bar, so that bar stays visible.
+    private static readonly bool MenuBarInNavBar = OperatingSystem.IsWindows();
+
     public AppShell(SidebarView sidebar, AppShellViewModel viewModel)
     {
         InitializeComponent();
@@ -17,7 +20,14 @@ public partial class AppShell : Shell
         _sidebar = sidebar;
         _sidebarViewModel = sidebar.ViewModel;
         FlyoutContent = sidebar;
+        InitializePlatformChrome();
     }
+
+    /// <summary>Platform-specific window chrome, set up once (see Platforms/Windows/AppShell.Windows.cs).</summary>
+    partial void InitializePlatformChrome();
+
+    /// <summary>Updates the platform-specific chrome for the current <see cref="Shell.FlyoutBehavior"/>.</summary>
+    partial void ApplyPlatformLayout();
 
     /// <summary>Moves focus to the sidebar search box, if the sidebar is showing.</summary>
     public void FocusSearch()
@@ -42,7 +52,7 @@ public partial class AppShell : Shell
     {
         if (CurrentPage is { } page && page.Navigation.NavigationStack.Count <= 1)
         {
-            SetNavBarIsVisible(page, FlyoutBehavior != FlyoutBehavior.Locked);
+            SetNavBarIsVisible(page, FlyoutBehavior != FlyoutBehavior.Locked || MenuBarInNavBar);
         }
     }
 
@@ -80,6 +90,7 @@ public partial class AppShell : Shell
         }
 
         UpdateNavBar();
+        ApplyPlatformLayout();
     }
 
     protected override void OnNavigated(ShellNavigatedEventArgs args)

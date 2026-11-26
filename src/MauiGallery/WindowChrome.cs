@@ -11,6 +11,10 @@ internal static class WindowChrome
         // mappings.
         Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(nameof(IWindow.Content), HideTitle);
         Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(nameof(IWindow.TitleBar), HideTitle);
+#elif WINDOWS
+        // MAUI gives every window Mica Alt, the variant for apps with tabs in the title bar. Gallery windows have a
+        // navigation pane, which Windows 11 pairs with standard Mica (see Platforms/Windows/AppShell.Windows.cs).
+        Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(nameof(IWindow.Content), UseMica);
 #endif
         return builder;
     }
@@ -23,6 +27,15 @@ internal static class WindowChrome
         if (window.Content is AppShell && window.TitleBar is null && handler.PlatformView.WindowScene?.Titlebar is { } titlebar)
         {
             titlebar.TitleVisibility = UIKit.UITitlebarTitleVisibility.Hidden;
+        }
+    }
+#elif WINDOWS
+    private static void UseMica(Microsoft.Maui.Handlers.IWindowHandler handler, IWindow window)
+    {
+        if (window.Content is AppShell && Microsoft.UI.Composition.SystemBackdrops.MicaController.IsSupported()
+            && handler.PlatformView.SystemBackdrop is not Microsoft.UI.Xaml.Media.MicaBackdrop { Kind: Microsoft.UI.Composition.SystemBackdrops.MicaKind.Base })
+        {
+            handler.PlatformView.SystemBackdrop = new Microsoft.UI.Xaml.Media.MicaBackdrop { Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.Base };
         }
     }
 #endif

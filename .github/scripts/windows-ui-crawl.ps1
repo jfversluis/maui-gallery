@@ -9,7 +9,7 @@
 
     Output layout (OutDir):
       pages/<config>/<id>.png    DevFlow screenshot of the page content (or a window capture if DevFlow failed)
-      chrome/<config>-<page>.png Window captures (title bar, Mica, sidebar) of the shell pages
+      review/<page>-<theme>-<width>.png Window captures (title bar, Mica, sidebar) for review
       logs/                      DevFlow logs per configuration, log errors per page, Windows event log
       diagnostics/               Layout diagnostics per page, when the agent supports them
       summary.md                 What worked and what failed
@@ -31,14 +31,24 @@ $sizes = @{
     medium   = @(900, 860)
     expanded = @(1440, 900)
 }
+# Window captures (with the title bar and backdrop) for review: the shell pages in every configuration, and pages that
+# show the WinUI controls well at the expanded width.
 $chromeRoutes = [ordered]@{
     home     = '//main/home'
     controls = '//main/controls'
     settings = '//main/settings'
     button   = '//main/controls/button'
 }
+$reviewRoutes = [ordered]@{
+    'collection-view' = '//main/controls/collection-view'
+    'graphics-view'   = '//main/controls/graphics-view'
+    'date-picker'     = '//main/controls/date-picker'
+    'entry'           = '//main/controls/entry'
+    'slider'          = '//main/controls/slider'
+    'menu-bar'        = '//main/controls/menu-bar'
+}
 
-foreach ($dir in 'pages', 'chrome', 'logs', 'diagnostics', 'desktop') {
+foreach ($dir in 'pages', 'review', 'logs', 'diagnostics', 'desktop') {
     New-Item -ItemType Directory -Force -Path (Join-Path $OutDir $dir) | Out-Null
 }
 $summary = Join-Path $OutDir 'summary.md'
@@ -234,6 +244,7 @@ $ids = @(if ($Pages) {
 Write-Summary "Screen: $(Get-ScreenSize), pages: $($ids.Count), configurations: $Configs`n"
 
 $script:seenLogLines = [System.Collections.Generic.HashSet[string]]::new()
+Remove-Item (Join-Path ([System.IO.Path]::GetTempPath()) 'MauiGallery-crash.log') -ErrorAction SilentlyContinue
 if (-not (Start-App)) {
     Save-Screen (Join-Path $OutDir 'desktop/startup-failure.png')
     Write-Summary "`n## Failures`n"
@@ -256,10 +267,14 @@ foreach ($config in ($Configs -split ',' | ForEach-Object { $_.Trim() })) {
     New-Item -ItemType Directory -Force -Path $pageDir | Out-Null
     Set-Configuration $theme $size
 
-    foreach ($name in $chromeRoutes.Keys) {
-        Invoke-DevFlow ui navigate $chromeRoutes[$name] | Out-Null
+    $windowShots = [ordered]@{}
+    foreach ($routes in @($chromeRoutes) + @(if ($size -eq 'expanded') { $reviewRoutes })) {
+        foreach ($key in $routes.Keys) { $windowShots[$key] = $routes[$key] }
+    }
+    foreach ($name in $windowShots.Keys) {
+        Invoke-DevFlow ui navigate $windowShots[$name] | Out-Null
         Start-Sleep -Seconds $PageDelay
-        Save-WindowCapture (Join-Path $OutDir "chrome/$config-$name.png") | Out-Null
+        Save-WindowCapture (Join-Path $OutDir "review/$name-$theme-$($sizes[$size][0]).png") | Out-Null
     }
 
     $methods = @{}
@@ -308,6 +323,13 @@ Get-WinEvent -FilterHashtable @{ LogName = 'Application'; StartTime = (Get-Date)
     Out-File (Join-Path $OutDir 'logs/windows-events.txt')
 
 if (Test-AppAlive) { Stop-Process -Id $script:proc.Id -Force }
+
+# Debug builds write unhandled exceptions here (Platforms/Windows/App.xaml.cs).
+$crashLog = Join-Path ([System.IO.Path]::GetTempPath()) 'MauiGallery-crash.log'
+if (Test-Path $crashLog) {
+    Copy-Item $crashLog (Join-Path $OutDir 'logs/crash.log')
+    Add-Failure "Unhandled exceptions were logged: see logs/crash.log"
+}
 
 Write-Summary "`n## Failures ($($failures.Count))`n"
 $failures | ForEach-Object { Write-Summary "- $_" }

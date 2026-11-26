@@ -8,7 +8,7 @@ dark at three window widths: compact (520), medium (900) and expanded (1440). It
 | --- | --- |
 | `summary.md` | Agent connection, configurations, navigation failures, crashes (also shown on the run page) |
 | `pages/<theme>-<size>/<id>.png` | DevFlow screenshot of every page's content |
-| `chrome/<theme>-<size>-<page>.png` | Window captures of Home, Controls, Settings and Button: title bar, Mica, sidebar |
+| `review/<page>-<theme>-<width>.png` | Full window captures (title bar, Mica, sidebar): shell pages at every width, a few control pages at 1440 |
 | `logs/` | DevFlow logs per configuration, log errors per page, .NET and crash entries from the Windows event log |
 | `diagnostics/` | DevFlow layout diagnostics per page, when the agent supports them |
 | `desktop/` | Full-screen captures after launch and at the end |
