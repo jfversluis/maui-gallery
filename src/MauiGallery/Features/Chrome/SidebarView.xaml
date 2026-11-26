@@ -66,11 +66,12 @@
                     StrokeThickness="0"
                     StrokeShape="{StaticResource ShapeInput}"
                     Background="{DynamicResource BrushHero}">
-                <Label Text="{x:Static icons:FluentIconsFilled.Sparkle24}"
-                       FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}"
-                       Style="{StaticResource TextIcon}"
-                       FontSize="18"
-                       TextColor="White" />
+                <Image Source="logo_mark.png"
+                       WidthRequest="18"
+                       HeightRequest="18"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       AutomationProperties.IsInAccessibleTree="False" />
             </Border>
             <Label Text=".NET MAUI Gallery"
                    Style="{StaticResource TextBodyStrong}"

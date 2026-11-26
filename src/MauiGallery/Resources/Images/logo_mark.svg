@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The app icon's mark (Resources/AppIcon/appiconfg.svg), cropped for use inside the app's chrome. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 217 217">
+  <g fill="#FFFFFF">
+    <rect x="0" y="9" width="94" height="124" rx="22" />
+    <rect x="0" y="151" width="94" height="66" rx="22" />
+    <rect x="114" y="123" width="94" height="94" rx="22" />
+    <path d="M161 0 Q167.5 49.5 217 56 Q167.5 62.5 161 112 Q154.5 62.5 105 56 Q154.5 49.5 161 0 Z" />
+  </g>
+</svg>
