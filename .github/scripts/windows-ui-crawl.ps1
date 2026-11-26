@@ -46,6 +46,7 @@ $reviewRoutes = [ordered]@{
     'entry'           = '//main/controls/entry'
     'slider'          = '//main/controls/slider'
     'menu-bar'        = '//main/controls/menu-bar'
+    'web-view'        = '//main/controls/web-view'
 }
 
 foreach ($dir in 'pages', 'review', 'logs', 'diagnostics', 'desktop') {

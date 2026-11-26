@@ -46,8 +46,11 @@ public sealed class ColorPalette : ContentView
             return;
         }
 
+        // TryGetValue searches the merged theme dictionaries; ContainsKey only looks at the app's own resources.
         Groups = [.. TokenGroups.Select(group => new ColorTokenGroup(
             group.Title,
-            [.. group.Keys.Where(resources.ContainsKey).Select(key => new ColorToken(key["Color".Length..], (Color)resources[key]))]))];
+            [.. group.Keys
+                .Select(key => resources.TryGetValue(key, out var value) && value is Color color ? new ColorToken(key["Color".Length..], color) : null)
+                .OfType<ColorToken>()]))];
     }
 }

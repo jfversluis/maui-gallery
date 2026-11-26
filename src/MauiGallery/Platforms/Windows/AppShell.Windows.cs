@@ -30,7 +30,7 @@ public partial class AppShell
         var docked = FlyoutBehavior == FlyoutBehavior.Locked;
 
         // The docked sidebar shows the app name, like on Mac; without it, the title bar does.
-        _titleBar.Title = docked ? null : window.Title;
+        _titleBar.Title = docked ? string.Empty : window.Title ?? string.Empty;
 
         // Docked, the sidebar is transparent so the Mica backdrop shows through. As an overlay it needs to be solid,
         // or the page behind it would show through instead.

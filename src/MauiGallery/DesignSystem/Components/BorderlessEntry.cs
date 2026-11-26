@@ -29,8 +29,16 @@ public sealed class BorderlessEntry : Entry
 #elif ANDROID
             handler.PlatformView.Background = null;
 #elif WINDOWS
-            handler.PlatformView.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
-            handler.PlatformView.Background = null;
+            // The TextBox template swaps in its own border, underline and background on hover and focus, so override
+            // those theme resources too, and drop the side padding the surrounding frame already provides.
+            var textBox = handler.PlatformView;
+            textBox.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
+            textBox.Background = null;
+            textBox.Padding = new Microsoft.UI.Xaml.Thickness(0, 5, 0, 6);
+            var transparent = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.Transparent);
+            textBox.Resources["TextControlBorderThemeThicknessFocused"] = new Microsoft.UI.Xaml.Thickness(0);
+            textBox.Resources["TextControlBackgroundPointerOver"] = transparent;
+            textBox.Resources["TextControlBackgroundFocused"] = transparent;
 #endif
         });
     }
