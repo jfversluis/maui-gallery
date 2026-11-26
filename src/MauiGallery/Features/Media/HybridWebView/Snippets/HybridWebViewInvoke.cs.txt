@@ -1,0 +1,28 @@
+// The page calls these methods with window.HybridWebView.InvokeDotNet
+public sealed class HybridBridge(IDeviceInfo deviceInfo)
+{
+    public string Greet(string name) => $"Hello {name}, from .NET!";
+
+    public DeviceSummary GetDeviceInfo() =>
+        new(deviceInfo.Platform.ToString(), deviceInfo.VersionString, deviceInfo.Model, deviceInfo.Idiom.ToString());
+}
+
+public sealed record DeviceSummary(string Platform, string Version, string Model, string Idiom);
+
+// Source-generated JSON for every type that crosses the boundary: trim-safe, no reflection
+[JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
+[JsonSerializable(typeof(DeviceSummary))]
+[JsonSerializable(typeof(string))]
+internal sealed partial class HybridJsonContext : JsonSerializerContext;
+
+// In the page's constructor
+WebPage.SetInvokeJavaScriptTarget(new HybridBridge(DeviceInfo.Current), HybridJsonContext.Default);
+
+/* index.html:
+<script src="_framework/hybridwebview.js"></script>
+
+index.js:
+const greeting = await window.HybridWebView.InvokeDotNet('Greet', [name]);
+const device = await window.HybridWebView.InvokeDotNet('GetDeviceInfo');
+console.log(device.platform, device.version);
+*/

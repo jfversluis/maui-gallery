@@ -1,0 +1,5 @@
+<!-- Resources/Raw/hybrid/index.html, index.js and hybrid.css -->
+<HybridWebView x:Name="WebPage"
+               HybridRoot="hybrid"
+               DefaultFile="index.html"
+               HeightRequest="300" />

@@ -1,0 +1,39 @@
+public sealed record ChatMessage(string Author, string Text);
+
+[JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
+[JsonSerializable(typeof(ChatMessage))]
+internal sealed partial class HybridJsonContext : JsonSerializerContext;
+
+void OnSendClicked(object? sender, EventArgs e)
+{
+    var message = new ChatMessage(".NET MAUI", MessageText.Text);
+    Chat.SendRawMessage(JsonSerializer.Serialize(message, HybridJsonContext.Default.ChatMessage));
+}
+
+void OnRawMessageReceived(object? sender, HybridWebViewRawMessageReceivedEventArgs e)
+{
+    // Messages come from web content: validate them before acting on them
+    ChatMessage? message;
+    try
+    {
+        message = JsonSerializer.Deserialize(e.Message ?? "", HybridJsonContext.Default.ChatMessage);
+    }
+    catch (JsonException)
+    {
+        return;
+    }
+
+    if (message is { Text.Length: > 0 })
+    {
+        Dispatcher.Dispatch(() => ReceivedText.Text = $"{message.Author} says: {message.Text}");
+    }
+}
+
+/* messages.js:
+window.addEventListener('HybridWebViewMessageReceived', e => {
+  const message = JSON.parse(e.detail.message);
+  // show message.author and message.text
+});
+
+window.HybridWebView.SendRawMessage(JSON.stringify({ author: 'JavaScript', text: 'Hello' }));
+*/

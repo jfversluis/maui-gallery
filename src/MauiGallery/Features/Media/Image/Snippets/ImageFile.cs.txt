@@ -1,0 +1,12 @@
+// Resources/Images/sunset_hills.svg is built into sunset_hills.png
+var image = new Image
+{
+    Source = "sunset_hills.png",
+    WidthRequest = 240,
+    HeightRequest = $(Height),
+    Aspect = Aspect.$(Aspect),
+};
+SemanticProperties.SetDescription(image, "Hills at sunset");
+
+// To recolor a single-color SVG at build time, in the .csproj:
+// <MauiImage Include="Resources\Images\logo.svg" TintColor="#512BD4" />

@@ -1,0 +1,13 @@
+var image = new Image
+{
+    Source = new UriImageSource
+    {
+        Uri = new Uri($(Uri)),
+        CachingEnabled = $(CachingEnabled),
+        CacheValidity = $(CacheValidityCode),
+    },
+};
+
+// IsLoading is true while the image downloads
+var spinner = new ActivityIndicator();
+spinner.SetBinding(ActivityIndicator.IsRunningProperty, static (Image i) => i.IsLoading, source: image);

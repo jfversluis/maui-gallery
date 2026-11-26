@@ -1,0 +1,5 @@
+<Image
+    x:Name="NightImage"
+    WidthRequest="240"
+    HeightRequest="160"
+    SemanticProperties.Description="Hills under a crescent moon" />

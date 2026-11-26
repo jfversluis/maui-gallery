@@ -1,0 +1,22 @@
+async void OnLevelChanged(object? sender, ValueChangedEventArgs e)
+{
+    var level = (int)Math.Round(e.NewValue);
+
+    // Calls setLevel(level) in the page and reads back what it returns
+    string? label = await Gauge.InvokeJavaScriptAsync(
+        "setLevel",
+        HybridJsonContext.Default.String,      // the result
+        [level],                               // the parameters
+        [HybridJsonContext.Default.Int32]);    // and their JSON types
+}
+
+[JsonSerializable(typeof(string))]
+[JsonSerializable(typeof(int))]
+internal sealed partial class HybridJsonContext : JsonSerializerContext;
+
+/* gauge.js: a global function
+function setLevel(level) {
+  document.getElementById('gauge').style.setProperty('--level', level);
+  return level < 34 ? 'Low' : level < 67 ? 'Medium' : 'High';
+}
+*/

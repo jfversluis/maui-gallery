@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Messages</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="hybrid.css">
+  <style>
+    #log { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+    .bubble { max-width: 80%; padding: 6px 10px; border-radius: 12px; background: var(--surface); align-self: flex-start; }
+    .bubble.web { align-self: flex-end; background: var(--accent); color: var(--on-accent); }
+    .author { display: block; font-size: 12px; opacity: 0.75; }
+  </style>
+  <script src="_framework/hybridwebview.js"></script>
+  <script src="messages.js" defer></script>
+</head>
+<body>
+  <div id="log"><p>Messages from .NET appear here.</p></div>
+  <form class="row" id="form">
+    <input id="text" value="Hello from JavaScript" aria-label="Message">
+    <button>Send to .NET</button>
+  </form>
+</body>
+</html>

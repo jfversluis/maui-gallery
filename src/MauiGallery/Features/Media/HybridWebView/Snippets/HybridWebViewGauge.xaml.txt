@@ -1,0 +1,11 @@
+<!-- Resources/Raw/hybrid/gauge.html and gauge.js -->
+<VerticalStackLayout Spacing="12">
+    <HybridWebView x:Name="Gauge"
+                   HybridRoot="hybrid"
+                   DefaultFile="gauge.html"
+                   HeightRequest="160" />
+    <Slider Minimum="0"
+            Maximum="100"
+            ValueChanged="OnLevelChanged"
+            SemanticProperties.Description="Level" />
+</VerticalStackLayout>

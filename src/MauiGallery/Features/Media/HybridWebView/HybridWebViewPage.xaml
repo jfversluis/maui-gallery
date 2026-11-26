@@ -1,0 +1,73 @@
+<SamplePage x:Class="MauiGallery.Features.Media.HybridWebViewPage"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. JavaScript calls .NET -->
+            <ControlExample x:Name="InvokeExample"
+                            Title="Call .NET from JavaScript"
+                            Description="HybridWebView hosts your own HTML, CSS and JavaScript from Resources/Raw: HybridRoot names the folder and DefaultFile the page. Pass an object to SetInvokeJavaScriptTarget and the page can call its public methods with window.HybridWebView.InvokeDotNet, awaiting the result. Pass a JsonSerializerContext too, so parameters and results use source-generated JSON and stay trim-safe."
+                            ShowStyleToggle="False"
+                            XamlSource="HybridWebViewInvoke.xaml.txt"
+                            CSharpSource="HybridWebViewInvoke.cs.txt">
+                <HybridWebView x:Name="InvokeWebView"
+                               HybridRoot="hybrid"
+                               DefaultFile="index.html"
+                               WidthRequest="{OnIdiom Phone=300, Default=480}"
+                               HeightRequest="300"
+                               AutomationId="sample-hybrid-invoke" />
+            </ControlExample>
+
+            <!-- 2. .NET calls JavaScript -->
+            <ControlExample x:Name="GaugeExample"
+                            Title="Call JavaScript from .NET"
+                            Description="InvokeJavaScriptAsync calls a global JavaScript function by name. Give it JSON type info for each parameter and for the result, and it returns the result as a .NET value. Here a native Slider drives a gauge drawn with CSS, and the page returns the label it shows."
+                            ShowStyleToggle="False"
+                            XamlSource="HybridWebViewGauge.xaml.txt"
+                            CSharpSource="HybridWebViewGauge.cs.txt">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=300, Default=480}">
+                    <HybridWebView x:Name="GaugeWebView"
+                                   HybridRoot="hybrid"
+                                   DefaultFile="gauge.html"
+                                   HeightRequest="160"
+                                   AutomationId="sample-hybrid-gauge" />
+                    <Label Text="{Binding Value, Source={x:Reference GaugeLevel}, StringFormat='Level: {0:0}', x:DataType=Slider}" />
+                    <Slider x:Name="GaugeLevel"
+                            Minimum="0"
+                            Maximum="100"
+                            ValueChanged="OnGaugeLevelChanged"
+                            SemanticProperties.Description="Level"
+                            AutomationId="sample-hybrid-level" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 3. Raw messages -->
+            <ControlExample x:Name="MessagesExample"
+                            Title="Exchange raw messages"
+                            Description="SendRawMessage sends a string to the page, which receives it in a HybridWebViewMessageReceived event; the page's window.HybridWebView.SendRawMessage raises RawMessageReceived in .NET. Raw messages have no structure of their own: send JSON, deserialize it with a JsonSerializerContext and validate it before you act on it."
+                            ShowStyleToggle="False"
+                            XamlSource="HybridWebViewMessages.xaml.txt"
+                            CSharpSource="HybridWebViewMessages.cs.txt">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=300, Default=480}">
+                    <HybridWebView x:Name="MessagesWebView"
+                                   HybridRoot="hybrid"
+                                   DefaultFile="messages.html"
+                                   HeightRequest="260"
+                                   RawMessageReceived="OnRawMessageReceived"
+                                   AutomationId="sample-hybrid-messages" />
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <Entry x:Name="MessageText"
+                               Text="Hello from .NET MAUI"
+                               SemanticProperties.Description="Message"
+                               AutomationId="sample-hybrid-message-text" />
+                        <Button Grid.Column="1" Text="Send to page" Clicked="OnSendClicked" AutomationId="sample-hybrid-send" />
+                    </Grid>
+                    <Label x:Name="ReceivedText" Text="No message from JavaScript yet" AutomationId="sample-hybrid-received" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

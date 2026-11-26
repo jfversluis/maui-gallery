@@ -1,0 +1,11 @@
+var image = new Image
+{
+    Source = new FontImageSource
+    {
+        FontFamily = FluentIconsRegular.FontFamily,
+        Glyph = FluentIconsRegular.Camera24,
+        Color = $(Color),
+        Size = $(Size),
+    },
+};
+SemanticProperties.SetDescription(image, "Camera");

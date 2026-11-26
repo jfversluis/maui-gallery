@@ -1,0 +1,182 @@
+<SamplePage x:Class="MauiGallery.Features.Media.ImagePage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="AspectOptions" Type="{x:Type Aspect}">
+            <Aspect>AspectFit</Aspect>
+            <Aspect>AspectFill</Aspect>
+            <Aspect>Fill</Aspect>
+            <Aspect>Center</Aspect>
+        </x:Array>
+        <x:Array x:Key="RemoteImageOptions" Type="{x:Type x:String}">
+            <x:String>bot_jetpack.png</x:String>
+            <x:String>bot_frontal.png</x:String>
+            <x:String>bot_head.png</x:String>
+        </x:Array>
+        <x:Array x:Key="CacheValidityOptions" Type="{x:Type x:String}">
+            <x:String>1 hour</x:String>
+            <x:String>1 day</x:String>
+            <x:String>7 days</x:String>
+        </x:Array>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. An image in the app package -->
+            <ControlExample x:Name="FileExample"
+                            Title="Show an image from your app"
+                            Description="Put images in Resources/Images and refer to them by file name. SVGs are converted to PNGs for every screen density at build time, so refer to them with a .png extension. Aspect decides how the image fits the space it gets: the dashed line marks the Image's bounds. To recolor a single-color SVG, set TintColor on its MauiImage item."
+                            ShowStyleToggle="False"
+                            XamlSource="ImageFile.xaml.txt"
+                            CSharpSource="ImageFile.cs.txt">
+                <Grid WidthRequest="240"
+                      HeightRequest="{Binding Value, Source={x:Reference FileHeight}, x:DataType=Slider, Converter={StaticResource Rounded}}">
+                    <Image x:Name="FileImage"
+                           Source="sunset_hills.png"
+                           WidthRequest="240"
+                           HeightRequest="{Binding Value, Source={x:Reference FileHeight}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                           Aspect="{Binding SelectedItem, Source={x:Reference FileAspect}, x:DataType=Picker}"
+                           SemanticProperties.Description="Hills at sunset"
+                           AutomationId="sample-image-file" />
+                    <Rectangle Stroke="#888888" StrokeThickness="1" StrokeDashArray="4,3" InputTransparent="True" />
+                </Grid>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Aspect" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="FileAspect"
+                                ItemsSource="{StaticResource AspectOptions}"
+                                SelectedIndex="0"
+                                AutomationId="option-image-aspect" />
+                        <Label Text="{Binding Value, Source={x:Reference FileHeight}, StringFormat='HeightRequest: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="FileHeight" Minimum="80" Maximum="240" Value="200" AutomationId="option-image-height" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Height" Value="{Binding Value, Source={x:Reference FileHeight}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                    <Substitution Key="Aspect" Value="{Binding SelectedItem, Source={x:Reference FileAspect}, x:DataType=Picker}" Default="AspectFit" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Font icons -->
+            <ControlExample x:Name="FontExample"
+                            Title="Draw an icon from a font"
+                            Description="FontImageSource renders one glyph of an icon font as an image, sharp at any size. Color tints it at run time, which makes it the easiest way to give icons a theme color: Image itself has no tint property."
+                            ShowStyleToggle="False"
+                            XamlSource="ImageFont.xaml.txt"
+                            CSharpSource="ImageFont.cs.txt">
+                <Image x:Name="FontImage" SemanticProperties.Description="Camera" AutomationId="sample-image-font">
+                    <Image.Source>
+                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                         Glyph="{x:Static icons:FluentIconsRegular.Camera24}"
+                                         Color="{Binding SelectedColor, Source={x:Reference FontColor}, x:DataType=SwatchPicker}"
+                                         Size="{Binding Value, Source={x:Reference FontSize}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                    </Image.Source>
+                </Image>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Color" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="FontColor" SelectedColor="#512BD4" />
+                        <Label Text="{Binding Value, Source={x:Reference FontSize}, StringFormat='Size: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="FontSize" Minimum="16" Maximum="96" Value="64" AutomationId="option-image-font-size" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Color" Value="{Binding SelectedColor, Source={x:Reference FontColor}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="Size" Value="{Binding Value, Source={x:Reference FontSize}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. From the web -->
+            <ControlExample x:Name="UriExample"
+                            Title="Load an image from the web"
+                            Description="Set Source to a URL and the image downloads in the background; IsLoading is true until it arrives. UriImageSource caches downloads on the device for a day. Change CacheValidity to keep them longer, or turn CachingEnabled off for images that change often. These dotnet-bot illustrations come from the CC0-licensed dotnet/brand repository."
+                            ShowStyleToggle="False"
+                            XamlSource="ImageUri.xaml.txt"
+                            CSharpSource="ImageUri.cs.txt">
+                <Grid WidthRequest="200" HeightRequest="200">
+                    <Image x:Name="UriImage"
+                           WidthRequest="200"
+                           HeightRequest="200"
+                           SemanticProperties.Description="The .NET bot"
+                           AutomationId="sample-image-uri" />
+                    <ActivityIndicator IsRunning="{Binding IsLoading, Source={x:Reference UriImage}, x:DataType=Image}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       AutomationId="sample-image-uri-loading" />
+                </Grid>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Uri" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="UriName"
+                                ItemsSource="{StaticResource RemoteImageOptions}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnUriOptionsChanged"
+                                AutomationId="option-image-uri" />
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
+                            <Label Text="CachingEnabled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="UriCaching" Grid.Column="1" IsToggled="True" Toggled="OnUriOptionsChanged" AutomationId="option-image-caching" />
+                        </Grid>
+                        <Label Text="CacheValidity" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="UriValidity"
+                                ItemsSource="{StaticResource CacheValidityOptions}"
+                                SelectedIndex="1"
+                                SelectedIndexChanged="OnUriOptionsChanged"
+                                IsEnabled="{Binding IsToggled, Source={x:Reference UriCaching}, x:DataType=Switch}"
+                                AutomationId="option-image-cache-validity" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="UriText" Key="Uri" />
+                    <Substitution Key="CachingEnabled" Value="{Binding IsToggled, Source={x:Reference UriCaching}, x:DataType=Switch}" Default="True" />
+                    <Substitution x:Name="UriValidityText" Key="CacheValidity" />
+                    <Substitution x:Name="UriValidityCode" Key="CacheValidityCode" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 4. From a stream -->
+            <ControlExample x:Name="StreamExample"
+                            Title="Load an image from a stream"
+                            Description="ImageSource.FromStream takes a function that opens a stream, so the image can come from anywhere: an embedded resource, a database or bytes you generated. The image keeps the function and calls it again whenever it needs to reload, so return a new stream every time. This picture is embedded in the app's assembly."
+                            ShowStyleToggle="False"
+                            XamlSource="ImageStream.xaml.txt"
+                            CSharpSource="ImageStream.cs.txt">
+                <Image x:Name="StreamImage"
+                       WidthRequest="240"
+                       HeightRequest="160"
+                       SemanticProperties.Description="Hills under a crescent moon"
+                       AutomationId="sample-image-stream" />
+            </ControlExample>
+
+            <!-- 5. Animated GIF -->
+            <ControlExample x:Name="GifExample"
+                            Title="Play an animated GIF"
+                            Description="An Image shows the first frame of an animated GIF until you set IsAnimationPlaying to true. Turn it off to pause the animation, for example when people prefer reduced motion."
+                            ShowStyleToggle="False"
+                            XamlSource="ImageGif.xaml.txt"
+                            CSharpSource="ImageGif.cs.txt">
+                <Image x:Name="GifImage"
+                       Source="bouncing_sun.gif"
+                       WidthRequest="160"
+                       HeightRequest="120"
+                       IsAnimationPlaying="{Binding IsToggled, Source={x:Reference GifPlaying}, x:DataType=Switch}"
+                       SemanticProperties.Description="A sun bouncing over a hill"
+                       AutomationId="sample-image-gif" />
+                <ControlExample.Options>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="IsAnimationPlaying" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                        <Switch x:Name="GifPlaying" Grid.Column="1" IsToggled="True" AutomationId="option-image-animation" />
+                    </Grid>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="IsAnimationPlaying" Value="{Binding IsToggled, Source={x:Reference GifPlaying}, x:DataType=Switch}" Default="False" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

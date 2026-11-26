@@ -1,0 +1,5 @@
+<VerticalStackLayout Spacing="8">
+    <WebView x:Name="CounterView" HeightRequest="160" />
+    <Button Text="Run script" Clicked="OnRunScriptClicked" />
+    <Label x:Name="ResultLabel" />
+</VerticalStackLayout>

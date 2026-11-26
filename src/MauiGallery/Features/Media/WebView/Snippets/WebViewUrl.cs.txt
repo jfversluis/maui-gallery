@@ -1,0 +1,21 @@
+void OnBackClicked(object? sender, EventArgs e) => Browser.GoBack();
+
+void OnForwardClicked(object? sender, EventArgs e) => Browser.GoForward();
+
+void OnReloadClicked(object? sender, EventArgs e) => Browser.Reload();
+
+async void OnNavigating(object? sender, WebNavigatingEventArgs e)
+{
+    // e.Url is about to load: set e.Cancel to stop it
+    $(External)if (new Uri(e.Url).Host != $(Host))
+    $(External){
+    $(External)    e.Cancel = true;
+    $(External)    await Launcher.Default.OpenAsync(e.Url);
+    $(External)}
+}
+
+void OnNavigated(object? sender, WebNavigatedEventArgs e)
+{
+    // e.Result is Success, Cancel, Timeout or Failure
+    Debug.WriteLine($"Navigated to {e.Url}: {e.Result}");
+}

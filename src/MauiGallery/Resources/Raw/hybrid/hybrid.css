@@ -1,0 +1,63 @@
+/* Shared by the HybridWebView samples. Follows the app's light or dark theme. */
+:root {
+  color-scheme: light dark;
+  --background: #FFFFFF;
+  --surface: #F3F1FA;
+  --text: #1F1F1F;
+  --muted: #5F5B6E;
+  --accent: #512BD4;
+  --on-accent: #FFFFFF;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1C1B22;
+    --surface: #2A2833;
+    --text: #F2F1F7;
+    --muted: #B4B0C2;
+    --accent: #B3A3FF;
+    --on-accent: #1C1B22;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 16px;
+  background: var(--background);
+  color: var(--text);
+}
+
+h1 { font-size: 17px; margin: 0 0 12px; }
+
+p { margin: 0 0 12px; color: var(--muted); }
+
+button {
+  font: inherit;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--on-accent);
+  cursor: pointer;
+}
+
+input {
+  font: inherit;
+  padding: 7px 10px;
+  border: 1px solid var(--muted);
+  border-radius: 8px;
+  background: var(--background);
+  color: var(--text);
+  min-width: 0;
+  flex: 1;
+}
+
+.row { display: flex; gap: 8px; margin-bottom: 12px; }
+
+dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; margin: 0; }
+dt { color: var(--muted); }
+dd { margin: 0; }

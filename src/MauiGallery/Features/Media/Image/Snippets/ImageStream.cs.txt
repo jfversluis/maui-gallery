@@ -1,0 +1,5 @@
+// In the .csproj:
+// <EmbeddedResource Include="Assets\night_sky.png" LogicalName="MyApp.Images.night_sky.png" />
+NightImage.Source = ImageSource.FromStream(() =>
+    typeof(MainPage).Assembly.GetManifestResourceStream("MyApp.Images.night_sky.png")
+    ?? throw new FileNotFoundException("Embedded image not found."));

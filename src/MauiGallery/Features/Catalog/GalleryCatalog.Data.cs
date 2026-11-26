@@ -44,6 +44,7 @@ public sealed partial class GalleryCatalog
         .. DialogsItems(),
         .. MenusAndToolbarsItems(),
         .. MediaItems(),
+        .. MediaWebItems(),
         .. GraphicsItems(),
         .. FundamentalsItems(),
         .. FundamentalsBindingItems(),

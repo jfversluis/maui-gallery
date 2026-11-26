@@ -1,0 +1,7 @@
+<!-- Resources/Images/sunset_hills.svg is built into sunset_hills.png -->
+<Image
+    Source="sunset_hills.png"
+    WidthRequest="240"
+    HeightRequest="$(Height)"
+    Aspect="$(Aspect)"
+    SemanticProperties.Description="Hills at sunset" />

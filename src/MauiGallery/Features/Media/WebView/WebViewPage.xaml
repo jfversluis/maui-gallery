@@ -1,0 +1,122 @@
+<SamplePage x:Class="MauiGallery.Features.Media.WebViewPage"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="WebAddressOptions" Type="{x:Type x:String}">
+            <x:String>https://dotnet.microsoft.com</x:String>
+            <x:String>https://learn.microsoft.com/dotnet/maui</x:String>
+            <x:String>https://github.com/dotnet/maui</x:String>
+        </x:Array>
+        <x:Array x:Key="ScriptOptions" Type="{x:Type x:String}">
+            <x:String>addOne()</x:String>
+            <x:String>document.title</x:String>
+            <x:String>navigator.userAgent</x:String>
+            <x:String>new Date().toLocaleTimeString()</x:String>
+        </x:Array>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. A web page -->
+            <ControlExample x:Name="UrlExample"
+                            Title="Show a web page"
+                            Description="Set Source to a URL to show a web page inside your app. Navigating is raised before each page loads and Navigated after, with the result. Cancel Navigating to stay in control, for example to open links to other sites in the browser. GoBack, GoForward and Reload work like a browser's buttons; CanGoBack and CanGoForward tell you when they apply."
+                            ShowStyleToggle="False"
+                            XamlSource="WebViewUrl.xaml.txt"
+                            CSharpSource="WebViewUrl.cs.txt">
+                <VerticalStackLayout Spacing="8" WidthRequest="{OnIdiom Phone=300, Default=560}">
+                    <HorizontalStackLayout Spacing="8">
+                        <Button Text="Back"
+                                Clicked="OnBackClicked"
+                                IsEnabled="{Binding CanGoBack, Source={x:Reference UrlWebView}, x:DataType=WebView}"
+                                AutomationId="sample-webview-back" />
+                        <Button Text="Forward"
+                                Clicked="OnForwardClicked"
+                                IsEnabled="{Binding CanGoForward, Source={x:Reference UrlWebView}, x:DataType=WebView}"
+                                AutomationId="sample-webview-forward" />
+                        <Button Text="Reload" Clicked="OnReloadClicked" AutomationId="sample-webview-reload" />
+                    </HorizontalStackLayout>
+                    <WebView x:Name="UrlWebView"
+                             HeightRequest="{OnIdiom Phone=420, Default=480}"
+                             Navigating="OnUrlNavigating"
+                             Navigated="OnUrlNavigated"
+                             AutomationId="sample-webview-url" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Source" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="UrlAddress"
+                                ItemsSource="{StaticResource WebAddressOptions}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnUrlAddressChanged"
+                                AutomationId="option-webview-url" />
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8" Margin="0,4,0,0">
+                            <Label Text="Open other sites in the browser" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="UrlExternal" Grid.Column="1" IsToggled="False" Toggled="OnUrlExternalToggled" AutomationId="option-webview-external" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Source" Value="{Binding SelectedItem, Source={x:Reference UrlAddress}, x:DataType=Picker}" />
+                    <Substitution x:Name="UrlHost" Key="Host" />
+                    <Substitution x:Name="UrlExternalLines" Key="External" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Your own HTML -->
+            <ControlExample x:Name="HtmlExample"
+                            Title="Show your own HTML"
+                            Description="HtmlWebViewSource shows HTML from a string, for content you generate such as release notes or a receipt. Declare color-scheme and a prefers-color-scheme media query in the CSS so the page follows the app's light or dark theme. BaseUrl, when set, resolves relative links and images."
+                            ShowStyleToggle="False"
+                            XamlSource="WebViewHtml.xaml.txt"
+                            CSharpSource="WebViewHtml.cs.txt">
+                <WebView x:Name="HtmlWebView"
+                         WidthRequest="{OnIdiom Phone=300, Default=480}"
+                         HeightRequest="220"
+                         AutomationId="sample-webview-html" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Heading" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="HtmlHeading" Text="What's new" TextChanged="OnHtmlChanged" AutomationId="option-webview-heading" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="HtmlHeadingText" Key="Heading" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. JavaScript -->
+            <ControlExample x:Name="ScriptExample"
+                            Title="Run JavaScript"
+                            Description="EvaluateJavaScriptAsync runs a script in the page and returns its result as a string, so .NET code can read the page or change it. To send messages the other way, or to call .NET methods from JavaScript, use a HybridWebView."
+                            ShowStyleToggle="False"
+                            XamlSource="WebViewScript.xaml.txt"
+                            CSharpSource="WebViewScript.cs.txt">
+                <VerticalStackLayout Spacing="8" WidthRequest="{OnIdiom Phone=300, Default=480}">
+                    <WebView x:Name="ScriptWebView" HeightRequest="160" AutomationId="sample-webview-script" />
+                    <Button x:Name="ScriptButton"
+                            Text="Run script"
+                            HorizontalOptions="Start"
+                            Clicked="OnRunScriptClicked"
+                            AutomationId="sample-webview-run" />
+                    <Label x:Name="ScriptResult" Text="Result: (not run yet)" LineBreakMode="TailTruncation" AutomationId="sample-webview-result" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Script" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ScriptPicker"
+                                ItemsSource="{StaticResource ScriptOptions}"
+                                SelectedIndex="0"
+                                AutomationId="option-webview-script" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Script" Value="{Binding SelectedItem, Source={x:Reference ScriptPicker}, x:DataType=Picker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

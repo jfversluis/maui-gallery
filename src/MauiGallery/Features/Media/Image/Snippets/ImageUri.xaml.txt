@@ -1,0 +1,11 @@
+<Grid WidthRequest="200" HeightRequest="200">
+    <Image x:Name="BotImage" SemanticProperties.Description="The .NET bot">
+        <Image.Source>
+            <UriImageSource
+                Uri="$(Uri)"
+                CachingEnabled="$(CachingEnabled)"
+                CacheValidity="$(CacheValidity)" />
+        </Image.Source>
+    </Image>
+    <ActivityIndicator IsRunning="{Binding IsLoading, Source={x:Reference BotImage}, x:DataType=Image}" />
+</Grid>

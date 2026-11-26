@@ -1,0 +1,13 @@
+<!-- Resources/Raw/hybrid/messages.html and messages.js -->
+<VerticalStackLayout Spacing="12">
+    <HybridWebView x:Name="Chat"
+                   HybridRoot="hybrid"
+                   DefaultFile="messages.html"
+                   HeightRequest="260"
+                   RawMessageReceived="OnRawMessageReceived" />
+    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+        <Entry x:Name="MessageText" SemanticProperties.Description="Message" />
+        <Button Grid.Column="1" Text="Send to page" Clicked="OnSendClicked" />
+    </Grid>
+    <Label x:Name="ReceivedText" />
+</VerticalStackLayout>

@@ -1,0 +1,8 @@
+var image = new Image
+{
+    Source = "bouncing_sun.gif",
+    WidthRequest = 160,
+    HeightRequest = 120,
+    IsAnimationPlaying = $(IsAnimationPlaying),
+};
+SemanticProperties.SetDescription(image, "A sun bouncing over a hill");

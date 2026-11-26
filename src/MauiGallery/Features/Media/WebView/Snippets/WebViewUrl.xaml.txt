@@ -1,0 +1,16 @@
+<VerticalStackLayout Spacing="8">
+    <HorizontalStackLayout Spacing="8">
+        <Button Text="Back"
+                Clicked="OnBackClicked"
+                IsEnabled="{Binding CanGoBack, Source={x:Reference Browser}, x:DataType=WebView}" />
+        <Button Text="Forward"
+                Clicked="OnForwardClicked"
+                IsEnabled="{Binding CanGoForward, Source={x:Reference Browser}, x:DataType=WebView}" />
+        <Button Text="Reload" Clicked="OnReloadClicked" />
+    </HorizontalStackLayout>
+    <WebView x:Name="Browser"
+             Source="$(Source)"
+             HeightRequest="480"
+             Navigating="OnNavigating"
+             Navigated="OnNavigated" />
+</VerticalStackLayout>

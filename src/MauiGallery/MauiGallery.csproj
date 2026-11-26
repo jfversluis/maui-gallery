@@ -18,6 +18,8 @@
     <!-- XAML: source-generated (the .NET 11 default) and strict, so binding mistakes fail the build. -->
     <MauiStrictXamlCompilation>true</MauiStrictXamlCompilation>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <!-- The app's .css files are web content (HybridWebView, BlazorWebView), not .NET MAUI style sheets. -->
+    <EnableDefaultCssItems>false</EnableDefaultCssItems>
 
     <WindowsPackageType>None</WindowsPackageType>
 
@@ -53,6 +55,8 @@
       WithCulture=false stops MSBuild from reading ".cs" in "Name.cs.txt" as the Czech culture.
     -->
     <EmbeddedResource Include="Features\**\*.xaml.txt;Features\**\*.cs.txt" LogicalName="%(Filename)%(Extension)" WithCulture="false" />
+    <!-- The Image page loads this picture with ImageSource.FromStream. -->
+    <EmbeddedResource Include="Features\Media\Image\Assets\night_sky.png" LogicalName="MauiGallery.Images.night_sky.png" />
   </ItemGroup>
 
   <ItemGroup>

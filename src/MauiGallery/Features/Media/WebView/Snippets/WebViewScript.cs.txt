@@ -1,0 +1,22 @@
+CounterView.Source = new HtmlWebViewSource
+{
+    Html = """
+        <html><body>
+          <p>Count: <b id="count">0</b></p>
+          <script>
+            let count = 0;
+            function addOne() {
+              document.getElementById('count').textContent = ++count;
+              return count;
+            }
+          </script>
+        </body></html>
+        """,
+};
+
+async void OnRunScriptClicked(object? sender, EventArgs e)
+{
+    // The result is a string, or null when the script returns nothing
+    string? result = await CounterView.EvaluateJavaScriptAsync($(Script));
+    ResultLabel.Text = $"Result: {result}";
+}
