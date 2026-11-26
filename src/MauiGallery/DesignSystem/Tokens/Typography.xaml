@@ -87,7 +87,8 @@
         <Setter Property="TextColor" Value="{DynamicResource ColorTextPrimary}" />
         <Setter Property="VerticalTextAlignment" Value="Center" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
-        <Setter Property="SemanticProperties.Description" Value="" />
+        <!-- Glyphs are decorative; the accompanying text or the parent's description names the item. -->
+        <Setter Property="AutomationProperties.IsInAccessibleTree" Value="False" />
     </Style>
 
 </ResourceDictionary>

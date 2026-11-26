@@ -58,11 +58,11 @@
                                        Style="{StaticResource TextCaptionStrong}" />
                                 <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                                     <NativeViewBadge Target="{x:Reference ShowcaseSwitch}" HorizontalOptions="Start" VerticalOptions="Center" />
-                                    <Switch x:Name="ShowcaseSwitch" Grid.Column="1" IsToggled="True" />
+                                    <Switch x:Name="ShowcaseSwitch" Grid.Column="1" IsToggled="True" SemanticProperties.Description="Native switch" />
                                 </Grid>
                                 <VerticalStackLayout Spacing="8">
                                     <NativeViewBadge Target="{x:Reference ShowcaseSlider}" HorizontalOptions="Start" />
-                                    <Slider x:Name="ShowcaseSlider" Value="0.6" />
+                                    <Slider x:Name="ShowcaseSlider" Value="0.6" SemanticProperties.Description="Native slider" />
                                 </VerticalStackLayout>
                                 <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                                     <NativeViewBadge Target="{x:Reference ShowcaseButton}" HorizontalOptions="Start" VerticalOptions="Center" />

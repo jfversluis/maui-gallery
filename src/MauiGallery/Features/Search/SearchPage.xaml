@@ -9,7 +9,8 @@
         <SearchBar Text="{Binding Query}"
                    Placeholder="Search controls and APIs"
                    Margin="8,8,8,0"
-                   AutomationId="search-box" />
+                   AutomationId="search-box"
+                   SemanticProperties.Description="Search the gallery" />
         <CollectionView Grid.Row="1"
                         ItemsSource="{Binding Results}"
                         AutomationId="search-results">
