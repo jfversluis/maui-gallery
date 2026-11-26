@@ -1,6 +1,6 @@
 name: Release
 
-# Builds store-ready packages: an Android App Bundle, an iOS IPA and a Mac Catalyst installer package.
+# Builds store-ready packages: an Android App Bundle, an iOS IPA, a Mac Catalyst installer package and Windows MSIX packages.
 # Each job signs its package when the signing secrets exist and still builds an unsigned one when they don't, so the
 # workflow also runs on forks. See docs/releasing.md for the secrets, the outputs and the store checklists.
 
@@ -306,9 +306,52 @@ jobs:
     name: Windows (MSIX)
     needs: version
     runs-on: windows-latest
+    env:
+      # The package identity Partner Center reserved for the app (Product management > Product identity).
+      WINDOWS_IDENTITY_NAME: ${{ vars.WINDOWS_IDENTITY_NAME }}
+      WINDOWS_PUBLISHER: ${{ vars.WINDOWS_PUBLISHER }}
+      WINDOWS_PUBLISHER_DISPLAY_NAME: ${{ vars.WINDOWS_PUBLISHER_DISPLAY_NAME }}
+    strategy:
+      matrix:
+        rid: [win-x64, win-arm64]
     steps:
-      # TODO(coordinator): MSIX packaging and signing for the Microsoft Store. Publish
-      # net11.0-windows10.0.19041.0 as an MSIX (or MSIX bundle) with
-      # -p:ApplicationVersion=${{ needs.version.outputs.build }} and upload it as the windows-<version>-<build> artifact.
-      # Keep the "build unsigned when the signing secrets are missing" behavior of the other jobs.
-      - run: echo "::notice::MSIX packaging isn't wired up yet (see the TODO in release.yml)."
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - run: dotnet workload install maui
+
+      # The Store signs the packages it distributes, so the MSIX is built unsigned; it only needs the identity that
+      # Partner Center reserved. The Store also requires the last part of the version to be 0, while .NET MAUI would
+      # put the build number there, so the version is set here: Version from Directory.Build.props, then .0.
+      - name: Set the package identity and version
+        shell: pwsh
+        run: |
+          $path = 'src/MauiGallery/Platforms/Windows/Package.appxmanifest'
+          [xml]$manifest = Get-Content $path
+          $manifest.Package.Identity.Version = '${{ needs.version.outputs.display }}.0'
+          if ($env:WINDOWS_IDENTITY_NAME -and $env:WINDOWS_PUBLISHER -and $env:WINDOWS_PUBLISHER_DISPLAY_NAME) {
+            $manifest.Package.Identity.Name = $env:WINDOWS_IDENTITY_NAME
+            $manifest.Package.Identity.Publisher = $env:WINDOWS_PUBLISHER
+            $manifest.Package.Properties.PublisherDisplayName = $env:WINDOWS_PUBLISHER_DISPLAY_NAME
+          }
+          else {
+            Write-Output "::warning::The WINDOWS_IDENTITY_NAME, WINDOWS_PUBLISHER and WINDOWS_PUBLISHER_DISPLAY_NAME variables aren't set: the MSIX has a placeholder identity and can't be uploaded to the Microsoft Store."
+          }
+          $manifest.Save((Resolve-Path $path))
+
+      - name: Publish the MSIX
+        run: >
+          dotnet publish ${{ env.APP_PROJECT }} -f net11.0-windows10.0.19041.0 -c Release
+          -p:RuntimeIdentifierOverride=${{ matrix.rid }}
+          -p:WindowsPackageType=MSIX
+          -p:GenerateAppxPackageOnBuild=true
+          -p:AppxPackageSigningEnabled=false
+          -p:AppxPackageDir=${{ github.workspace }}/msix/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-${{ needs.version.outputs.display }}-${{ needs.version.outputs.build }}-${{ matrix.rid }}
+          # Only the app package; the Windows App SDK runtime packages next to it come from the Store as dependencies.
+          path: msix/*/MauiGallery_*.msix
+          if-no-files-found: error

@@ -34,7 +34,7 @@ You can also start the workflow by hand (Actions > Release > Run workflow) to bu
 | Android (AAB) | `ubuntu-latest` | `android-<version>-<build>`: `com.jfversluis.mauigallery-Signed.aab` | Your upload key |
 | iOS (IPA) | `xcode-27` | `ios-<version>-<build>`: `MauiGallery.ipa` | Apple Distribution certificate and App Store provisioning profile |
 | Mac Catalyst (PKG) | `xcode-27` | `maccatalyst-<version>-<build>`: `MauiGallery-<version>.pkg` (universal: Apple silicon and Intel) | Apple Distribution certificate, Mac Installer Distribution certificate and Mac App Store provisioning profile |
-| Windows (MSIX) | `windows-latest` | Not wired up yet (see the TODO in the workflow) | |
+| Windows (MSIX) | `windows-latest` | `windows-<version>-<build>-win-x64` and `-win-arm64`: one `.msix` each | Unsigned: the Microsoft Store signs it. Needs the Partner Center identity variables |
 
 When a job's secrets are missing it still builds, warns, and uploads a package that the store won't accept: the AAB
 is signed with a debug key, the IPA and PKG are unsigned. That keeps the workflow useful on forks and before the
@@ -144,4 +144,15 @@ Certificates expire after a year and profiles when their certificate does: renew
 
 ### Microsoft Store
 
-To do: added together with the MSIX job.
+1. In [Partner Center](https://partner.microsoft.com/dashboard), reserve the app name and open Product management >
+   Product identity.
+2. Add three repository variables (Settings > Secrets and variables > Actions > Variables) with the values shown
+   there: `WINDOWS_IDENTITY_NAME` (Package/Identity/Name), `WINDOWS_PUBLISHER` (Package/Identity/Publisher, starting
+   with `CN=`) and `WINDOWS_PUBLISHER_DISPLAY_NAME` (Package/Properties/PublisherDisplayName). They aren't secrets.
+   Without them the job still builds, with a placeholder identity the Store rejects.
+3. Run the workflow, download both `windows-*` artifacts and upload the two `.msix` files (x64 and Arm64) to the
+   submission's Packages page. The Store signs them; no certificate is needed.
+4. The package version is `Version` from `Directory.Build.props` plus `.0` (the Store requires the last part to be 0),
+   so bump `Version` for every Store submission.
+5. Store listing texts are in [store-listing.md](store-listing.md); the app collects no data
+   ([privacy.md](privacy.md)). Declare the location, microphone and webcam capabilities the samples use.
