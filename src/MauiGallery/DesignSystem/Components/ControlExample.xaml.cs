@@ -80,7 +80,11 @@ public partial class ControlExample : ContentView
     {
         InitializeComponent();
         Substitutions.CollectionChanged += OnSubstitutionsChanged;
-        Loaded += (_, _) => RenderCode();
+        Loaded += (_, _) =>
+        {
+            RenderCode();
+            NameOptionControls();
+        };
         UpdateStageMode();
         UpdateLayout();
     }
@@ -200,6 +204,37 @@ public partial class ControlExample : ContentView
         example.OptionsHost.Content = newValue as View;
         example._sideBySide = null;
         example.UpdateLayout();
+    }
+
+    /// <summary>
+    /// Gives each options control without an accessible name the text of the label shown before it, so screen readers
+    /// announce "CornerRadius, 8" instead of an unnamed slider. A trailing ": value" in the label is left out because
+    /// the control announces its own value.
+    /// </summary>
+    private void NameOptionControls()
+    {
+        string? label = null;
+        Visit(OptionsHost);
+
+        void Visit(IVisualTreeElement element)
+        {
+            foreach (var child in element.GetVisualChildren())
+            {
+                switch (child)
+                {
+                    case Label { Text: { Length: > 0 } text }:
+                        label = text.Split(':')[0].Trim();
+                        break;
+                    case View view and (InputView or Slider or Switch or CheckBox or Stepper or Picker or DatePicker or TimePicker or SwatchPicker)
+                        when label is not null && string.IsNullOrEmpty(SemanticProperties.GetDescription(view)):
+                        SemanticProperties.SetDescription(view, label);
+                        break;
+                    default:
+                        Visit(child);
+                        break;
+                }
+            }
+        }
     }
 
     private static void OnSourceChanged(BindableObject bindable, object? oldValue, object? newValue) =>
