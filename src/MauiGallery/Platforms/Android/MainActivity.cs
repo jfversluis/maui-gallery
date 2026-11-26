@@ -1,6 +1,7 @@
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.OS;
 
 namespace MauiGallery;
 
@@ -16,4 +17,13 @@ namespace MauiGallery;
     [Intent.ActionView],
     Categories = [Intent.CategoryDefault, Intent.CategoryBrowsable],
     DataScheme = "mauigallery")]
-public sealed class MainActivity : MauiAppCompatActivity;
+public sealed class MainActivity : MauiAppCompatActivity
+{
+    protected override void OnCreate(Bundle? savedInstanceState)
+    {
+        // MAUI only reads the system theme again in OnConfigurationChanged, which a recreated activity never gets.
+        // Without this, "Use system setting" keeps the old theme while the native controls switch palette.
+        IPlatformApplication.Current?.Application?.ThemeChanged();
+        base.OnCreate(savedInstanceState);
+    }
+}
