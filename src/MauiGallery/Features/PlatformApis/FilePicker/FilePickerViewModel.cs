@@ -8,6 +8,7 @@ namespace MauiGallery.Features.PlatformApis;
 public sealed partial class FilePickerViewModel(IFilePicker filePicker) : ObservableObject
 {
     private const int MaxPreviewCharacters = 400;
+    private const long MaxPreviewImageBytes = 20 * 1024 * 1024;
 
     // Each platform names file types its own way: UTIs on Apple platforms, MIME types on Android, extensions on Windows.
     public static FilePickerFileType TextFiles { get; } = new(new Dictionary<DevicePlatform, IEnumerable<string>>
@@ -92,32 +93,46 @@ public sealed partial class FilePickerViewModel(IFilePicker filePicker) : Observ
 
     private async Task ShowAsync(FileResult file)
     {
-        // The picked file may be a temporary copy: read it now, or copy it to AppDataDirectory to keep it.
-        await using var stream = await file.OpenReadAsync();
-        using var memory = new MemoryStream();
-        await stream.CopyToAsync(memory);
-        var bytes = memory.ToArray();
-
+        Status = "Opening…";
         FileName = file.FileName;
         ContentType = file.ContentType;
-        Size = bytes.Length < 1024 ? $"{bytes.Length} bytes" : $"{bytes.Length / 1024.0:N1} KB";
+        TextPreview = null;
+        ImagePreview = null;
+
+        // The picked file may be a temporary copy: read it now, or copy it to AppDataDirectory to keep it.
+        // It can be any size, so read only what the preview needs.
+        await using var stream = await file.OpenReadAsync();
+        long? length = stream.CanSeek ? stream.Length : null;
+        Size = length switch
+        {
+            null => "Unknown",
+            < 1024 => $"{length} bytes",
+            < 1024 * 1024 => $"{length / 1024.0:N1} KB",
+            _ => $"{length / (1024.0 * 1024):N1} MB",
+        };
         Status = "Picked";
 
-        var isImage = file.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase);
-        var isText = file.ContentType.StartsWith("text/", StringComparison.OrdinalIgnoreCase)
-            || file.FileName.EndsWith(".txt", StringComparison.OrdinalIgnoreCase)
-            || file.FileName.EndsWith(".md", StringComparison.OrdinalIgnoreCase);
-
-        ImagePreview = isImage ? ImageSource.FromStream(() => new MemoryStream(bytes)) : null;
-        if (isText)
+        if (file.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
         {
-            using var reader = new StreamReader(new MemoryStream(bytes));
-            var text = await reader.ReadToEndAsync();
-            TextPreview = text.Length > MaxPreviewCharacters ? text[..MaxPreviewCharacters] + "…" : text;
+            // Decoding a huge image could exhaust memory; the image loads the file itself, when it's shown.
+            if (length <= MaxPreviewImageBytes)
+            {
+                ImagePreview = ImageSource.FromStream(_ => file.OpenReadAsync());
+            }
+            else
+            {
+                TextPreview = "Too large to preview";
+            }
         }
-        else
+        else if (file.ContentType.StartsWith("text/", StringComparison.OrdinalIgnoreCase)
+            || file.FileName.EndsWith(".txt", StringComparison.OrdinalIgnoreCase)
+            || file.FileName.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
         {
-            TextPreview = null;
+            // Read one character more than the preview shows, to know whether there's more.
+            using var reader = new StreamReader(stream);
+            var buffer = new char[MaxPreviewCharacters + 1];
+            var read = await reader.ReadBlockAsync(buffer);
+            TextPreview = read > MaxPreviewCharacters ? new string(buffer, 0, MaxPreviewCharacters) + "…" : new string(buffer, 0, read);
         }
     }
 }

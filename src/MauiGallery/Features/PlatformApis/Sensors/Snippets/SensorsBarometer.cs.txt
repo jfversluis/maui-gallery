@@ -1,7 +1,8 @@
-if (Barometer.Default.IsSupported)
+// IsMonitoring is app-wide: another page or window may already be using the sensor
+if (Barometer.Default.IsSupported && !Barometer.Default.IsMonitoring)
 {
-    Barometer.Default.ReadingChanged += OnBarometerReadingChanged;
     Barometer.Default.Start(SensorSpeed.$(Speed));
+    Barometer.Default.ReadingChanged += OnBarometerReadingChanged;
 }
 
 // Stop when you're done, at the latest when the page disappears

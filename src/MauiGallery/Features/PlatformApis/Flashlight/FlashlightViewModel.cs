@@ -15,6 +15,9 @@ public sealed partial class FlashlightViewModel(IFlashlight flashlight) : Observ
         (true, 1), (false, 1), (true, 1), (false, 1), (true, 1), (false, 7),
     ];
 
+    // TurnOffAsync bumps it, so a TurnOnAsync still waiting for camera permission knows not to leave the light on.
+    private int _generation;
+
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ToggleCommand), nameof(SignalCommand))]
     public partial bool IsSupported { get; set; }
@@ -84,6 +87,7 @@ public sealed partial class FlashlightViewModel(IFlashlight flashlight) : Observ
     /// <summary>Stops the signal and turns the light off. Call it when the page disappears.</summary>
     public async Task TurnOffAsync()
     {
+        _generation++;
         if (SignalCommand.IsRunning)
         {
             SignalCommand.Cancel();
@@ -100,11 +104,18 @@ public sealed partial class FlashlightViewModel(IFlashlight flashlight) : Observ
             return;
         }
 
+        var generation = _generation;
         try
         {
             if (on)
             {
                 await flashlight.TurnOnAsync();
+                if (generation != _generation)
+                {
+                    // The page went away while this waited for permission.
+                    await flashlight.TurnOffAsync();
+                    return;
+                }
             }
             else
             {

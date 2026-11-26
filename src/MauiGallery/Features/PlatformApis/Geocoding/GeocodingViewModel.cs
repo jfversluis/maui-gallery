@@ -83,16 +83,11 @@ public sealed partial class GeocodingViewModel(IGeocoding geocoding, IGeolocatio
     private async Task FindWhereAmIAsync()
     {
         WhereAmIDetails = null;
-        var status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-        if (status != PermissionStatus.Granted)
-        {
-            WhereAmI = "Location access is off. Turn it on in Settings to try this.";
-            return;
-        }
-
         WhereAmI = "Locating…";
         WhereAmI = await RunAsync(async () =>
         {
+            // GetLocationAsync asks for permission itself. On Android it also accepts the approximate location,
+            // which is still plenty to name the city.
             var location = await geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10)));
             if (location is null)
             {

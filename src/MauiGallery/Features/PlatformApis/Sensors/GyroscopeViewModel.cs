@@ -12,10 +12,12 @@ public sealed partial class GyroscopeViewModel(IGyroscope gyroscope) : SensorVie
 
     public string Reading => SensorText.Format(AngularVelocity, "0.00", "rad/s");
 
+    protected override bool IsSensorMonitoring => gyroscope.IsMonitoring;
+
     protected override void OnStart(SensorSpeed speed)
     {
-        gyroscope.ReadingChanged += OnReadingChanged;
         gyroscope.Start(speed);
+        gyroscope.ReadingChanged += OnReadingChanged;
     }
 
     protected override void OnStop()

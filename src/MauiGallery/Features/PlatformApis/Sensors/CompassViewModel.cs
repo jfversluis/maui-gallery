@@ -17,10 +17,12 @@ public sealed partial class CompassViewModel(ICompass compass) : SensorViewModel
 
     public string Reading => Heading is { } heading ? $"{heading:0}° {Directions[(int)Math.Round(heading / 45) % 8]}" : "–";
 
+    protected override bool IsSensorMonitoring => compass.IsMonitoring;
+
     protected override void OnStart(SensorSpeed speed)
     {
-        compass.ReadingChanged += OnReadingChanged;
         compass.Start(speed, ApplyLowPassFilter);
+        compass.ReadingChanged += OnReadingChanged;
     }
 
     protected override void OnStop()
@@ -29,15 +31,8 @@ public sealed partial class CompassViewModel(ICompass compass) : SensorViewModel
         compass.ReadingChanged -= OnReadingChanged;
     }
 
-    // The filter is chosen when the compass starts, so restart it.
-    partial void OnApplyLowPassFilterChanged(bool value)
-    {
-        if (IsMonitoring)
-        {
-            OnStop();
-            OnStart((SensorSpeed)SpeedIndex);
-        }
-    }
+    // The filter is chosen when the compass starts.
+    partial void OnApplyLowPassFilterChanged(bool value) => Restart();
 
     private void OnReadingChanged(object? sender, CompassChangedEventArgs e) =>
         OnMainThread(() => Heading = e.Reading.HeadingMagneticNorth);

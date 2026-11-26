@@ -107,7 +107,7 @@ public sealed partial class GesturesPage : SamplePage
                 break;
             case GestureStatus.Completed:
             case GestureStatus.Canceled:
-                ScrollCapture.End();
+                ScrollCapture.End(PanCard);
                 break;
         }
     }
@@ -124,7 +124,7 @@ public sealed partial class GesturesPage : SamplePage
                 break;
             case GestureStatus.Completed:
             case GestureStatus.Canceled:
-                ScrollCapture.End();
+                ScrollCapture.End(PanCard);
                 break;
         }
     }
@@ -148,7 +148,7 @@ public sealed partial class GesturesPage : SamplePage
 
     private async void OnSwiped(object? sender, SwipedEventArgs e)
     {
-        ScrollCapture.End();
+        ScrollCapture.End(SwipeTile);
         SwipeLabel.Text = $"Swiped {e.Direction.ToString().ToLowerInvariant()}";
         SwipeExample.Output = $"Swiped {e.Direction}";
 

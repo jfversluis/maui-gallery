@@ -15,10 +15,12 @@ public sealed partial class MagnetometerViewModel(IMagnetometer magnetometer) : 
     /// <summary>The field's total strength. The Earth's is 25 to 65 µT; a magnet nearby pushes it far higher.</summary>
     public string Strength => $"{MagneticField.Length():0} µT";
 
+    protected override bool IsSensorMonitoring => magnetometer.IsMonitoring;
+
     protected override void OnStart(SensorSpeed speed)
     {
-        magnetometer.ReadingChanged += OnReadingChanged;
         magnetometer.Start(speed);
+        magnetometer.ReadingChanged += OnReadingChanged;
     }
 
     protected override void OnStop()

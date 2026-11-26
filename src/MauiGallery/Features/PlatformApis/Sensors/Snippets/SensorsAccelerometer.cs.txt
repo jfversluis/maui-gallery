@@ -1,21 +1,33 @@
+private bool _isListening;
+
 public void StartAccelerometer()
 {
-    if (!Accelerometer.Default.IsSupported)
+    // The sensor is shared by the whole app: another page or window may already be using it
+    if (!Accelerometer.Default.IsSupported || Accelerometer.Default.IsMonitoring)
     {
         return;
     }
 
+    // Start before subscribing: if Start throws, there's nothing to undo.
+    // Android 12+: SensorSpeed.Fastest needs the HIGH_SAMPLING_RATE_SENSORS permission in AndroidManifest.xml.
+    Accelerometer.Default.Start(SensorSpeed.$(Speed));
     Accelerometer.Default.ReadingChanged += OnAccelerometerReadingChanged;
     Accelerometer.Default.ShakeDetected += OnShakeDetected;
-    Accelerometer.Default.Start(SensorSpeed.$(Speed));
+    _isListening = true;
 }
 
-// Stop when you're done, at the latest when the page disappears
+// Stop when you're done, at the latest when the page disappears. Only stop what you started.
 public void StopAccelerometer()
 {
+    if (!_isListening)
+    {
+        return;
+    }
+
     Accelerometer.Default.Stop();
     Accelerometer.Default.ReadingChanged -= OnAccelerometerReadingChanged;
     Accelerometer.Default.ShakeDetected -= OnShakeDetected;
+    _isListening = false;
 }
 
 private void OnAccelerometerReadingChanged(object? sender, AccelerometerChangedEventArgs e)

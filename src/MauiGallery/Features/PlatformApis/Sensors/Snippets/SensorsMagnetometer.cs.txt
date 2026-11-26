@@ -1,7 +1,8 @@
-if (Magnetometer.Default.IsSupported)
+// IsMonitoring is app-wide: another page or window may already be using the sensor
+if (Magnetometer.Default.IsSupported && !Magnetometer.Default.IsMonitoring)
 {
-    Magnetometer.Default.ReadingChanged += OnMagnetometerReadingChanged;
     Magnetometer.Default.Start(SensorSpeed.$(Speed));
+    Magnetometer.Default.ReadingChanged += OnMagnetometerReadingChanged;
 }
 
 // Stop when you're done, at the latest when the page disappears

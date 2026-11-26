@@ -20,6 +20,8 @@
 	<uses-permission android:name="android.permission.BATTERY_STATS" />
 	<!-- Haptics and vibration. -->
 	<uses-permission android:name="android.permission.VIBRATE" />
+	<!-- Sensors: SensorSpeed.Fastest samples above 200 Hz, which Android 12+ only allows with this permission. -->
+	<uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
 
 	<!-- None of this hardware is required: the samples explain what's missing instead. -->
 	<uses-feature android:name="android.hardware.camera" android:required="false" />

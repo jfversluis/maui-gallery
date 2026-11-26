@@ -35,19 +35,24 @@ public partial class FilePickerViewModel(IFilePicker filePicker) : ObservableObj
 
         FileName = file.FileName;
 
-        // The picked file may be a temporary copy: read it now, or copy it to AppDataDirectory
+        // The picked file may be a temporary copy: read it now, or copy it to AppDataDirectory.
+        // It can be any size, so read only what you need.
         await using var stream = await file.OpenReadAsync();
-        using var memory = new MemoryStream();
-        await stream.CopyToAsync(memory);
-        var bytes = memory.ToArray();
 
         if (file.ContentType.StartsWith("image/"))
         {
-            ImagePreview = ImageSource.FromStream(() => new MemoryStream(bytes));
+            // Decoding a huge image can run out of memory. The image opens the file itself.
+            if (stream.Length <= 20 * 1024 * 1024)
+            {
+                ImagePreview = ImageSource.FromStream(_ => file.OpenReadAsync());
+            }
         }
         else if (file.ContentType.StartsWith("text/"))
         {
-            TextPreview = System.Text.Encoding.UTF8.GetString(bytes);
+            using var reader = new StreamReader(stream);
+            var buffer = new char[400];
+            var read = await reader.ReadBlockAsync(buffer);
+            TextPreview = new string(buffer, 0, read);
         }
     }
 }
