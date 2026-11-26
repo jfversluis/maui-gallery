@@ -83,9 +83,9 @@ public sealed partial class GalleryCatalog
             Keywords = ["accessibility", "a11y", "screen reader", "VoiceOver", "TalkBack", "Narrator", "SemanticProperties", "Description", "Hint", "HeadingLevel", "heading", "SemanticScreenReader", "Announce", "SetSemanticFocus", "focus", "AutomationProperties", "IsInAccessibleTree", "ExcludedWithChildren", "decorative"],
             NativeMappings =
             [
-                new(GalleryPlatforms.iOS, "UIAccessibility (AccessibilityLabel, AccessibilityHint, traits)"),
-                new(GalleryPlatforms.Android, "AccessibilityNodeInfo (ContentDescription, HintText, Heading)"),
-                new(GalleryPlatforms.MacCatalyst, "UIAccessibility (AccessibilityLabel, AccessibilityHint, traits)"),
+                new(GalleryPlatforms.iOS, "UIAccessibility (label, hint, traits)"),
+                new(GalleryPlatforms.Android, "AccessibilityNodeInfo (description, hint, heading)"),
+                new(GalleryPlatforms.MacCatalyst, "UIAccessibility (label, hint, traits)"),
                 new(GalleryPlatforms.Windows, "AutomationProperties (Name, HelpText, HeadingLevel)"),
             ],
             RelatedIds = ["fonts", "label", "image-button", "typography"],
