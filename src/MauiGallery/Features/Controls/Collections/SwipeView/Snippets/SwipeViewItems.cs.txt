@@ -1,0 +1,26 @@
+var archive = new SwipeItem
+{
+    Text = "Archive",
+    BackgroundColor = Color.FromArgb("#16A34A"),
+    IconImageSource = new FontImageSource { FontFamily = "FluentIcons", Glyph = FluentIconsRegular.Archive24, Color = Colors.White },
+    Command = viewModel.ArchiveCommand,
+    CommandParameter = message,
+};
+archive.Invoked += (s, e) => Debug.WriteLine("Archive invoked");
+
+var flag = new SwipeItem { Text = "Flag", BackgroundColor = Color.FromArgb("#D97706"), Command = viewModel.ToggleFlagCommand, CommandParameter = message };
+var delete = new SwipeItem { Text = "Delete", BackgroundColor = Color.FromArgb("#DC2626"), Command = viewModel.DeleteCommand, CommandParameter = message };
+
+var swipeView = new SwipeView
+{
+    LeftItems = new SwipeItems([archive])
+    {
+        Mode = SwipeMode.$(Mode),
+        SwipeBehaviorOnInvoked = SwipeBehaviorOnInvoked.$(SwipeBehaviorOnInvoked),
+    },
+    RightItems = new SwipeItems([flag, delete])
+    {
+        SwipeBehaviorOnInvoked = SwipeBehaviorOnInvoked.$(SwipeBehaviorOnInvoked),
+    },
+    Content = messageRow,
+};

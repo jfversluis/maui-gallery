@@ -1,0 +1,33 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class WeatherViewModel(IWeatherService weather) : ObservableObject
+{
+    [ObservableProperty]
+    public partial IReadOnlyList<CityWeather> Cities { get; private set; } = [];
+
+    // Bound two-way: RefreshView sets it when people pull down
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(StartRefreshCommand))]
+    public partial bool IsRefreshing { get; set; }
+
+    [RelayCommand]
+    private async Task RefreshAsync()
+    {
+        Cities = await weather.GetCurrentAsync();
+        IsRefreshing = false;
+    }
+
+    // Setting IsRefreshing shows the spinner and runs RefreshCommand
+    [RelayCommand(CanExecute = nameof(CanStartRefresh))]
+    private void StartRefresh() => IsRefreshing = true;
+
+    private bool CanStartRefresh() => !IsRefreshing;
+}
+
+var refreshView = new RefreshView
+{
+    RefreshColor = $(RefreshColor),
+    IsRefreshEnabled = $(IsRefreshEnabled),
+    Content = citiesCollectionView,
+};
+refreshView.SetBinding(RefreshView.IsRefreshingProperty, static (WeatherViewModel vm) => vm.IsRefreshing);
+refreshView.SetBinding(RefreshView.CommandProperty, static (WeatherViewModel vm) => vm.RefreshCommand);

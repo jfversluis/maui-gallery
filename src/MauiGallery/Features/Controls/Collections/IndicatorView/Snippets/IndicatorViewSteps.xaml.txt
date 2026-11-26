@@ -1,0 +1,14 @@
+<VerticalStackLayout Spacing="16">
+    <Label x:Name="StepLabel" Text="Step 1 of 8" FontAttributes="Bold" HorizontalOptions="Center" />
+    <IndicatorView
+        x:Name="Steps"
+        Count="8"
+        MaximumVisible="$(MaximumVisible)"
+        IndicatorColor="{AppThemeBinding Light=#D1D1D6, Dark=#48484A}"
+        SelectedIndicatorColor="{AppThemeBinding Light=#1C1C1E, Dark=White}"
+        HorizontalOptions="Center" />
+    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+        <Button Text="Back" Clicked="OnBackClicked" />
+        <Button Grid.Column="1" Text="Next" Clicked="OnNextClicked" />
+    </Grid>
+</VerticalStackLayout>

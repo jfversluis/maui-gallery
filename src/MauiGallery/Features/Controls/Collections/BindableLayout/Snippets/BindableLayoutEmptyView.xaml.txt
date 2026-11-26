@@ -1,0 +1,28 @@
+<VerticalStackLayout
+    x:DataType="local:TasksViewModel"
+    BindableLayout.ItemsSource="{Binding Tasks}">
+    <BindableLayout.ItemTemplate>
+        <DataTemplate x:DataType="local:TodoItem">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                <CheckBox
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:TasksViewModel}}, Path=CompleteCommand}"
+                    CommandParameter="{Binding .}"
+                    SemanticProperties.Description="{Binding Title}" />
+                <Label Grid.Column="1" Text="{Binding Title}" VerticalOptions="Center" />
+                <Label Grid.Column="2" Text="{Binding Due}" FontSize="13" VerticalOptions="Center" />
+            </Grid>
+        </DataTemplate>
+    </BindableLayout.ItemTemplate>
+    <BindableLayout.EmptyView>
+        <VerticalStackLayout Spacing="6" Padding="0,16">
+            <Label
+                Text="{x:Static icons:FluentIconsRegular.CheckmarkCircle24}"
+                FontFamily="FluentIcons"
+                FontSize="36"
+                TextColor="#16A34A"
+                HorizontalOptions="Center" />
+            <Label Text="All done for today" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Label Text="Enjoy the trip!" FontSize="13" HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </BindableLayout.EmptyView>
+</VerticalStackLayout>

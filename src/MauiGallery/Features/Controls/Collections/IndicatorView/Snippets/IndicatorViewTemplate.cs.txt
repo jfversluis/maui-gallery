@@ -1,0 +1,28 @@
+var indicator = new IndicatorView
+{
+    HorizontalOptions = LayoutOptions.Center,
+    IndicatorTemplate = new DataTemplate(() =>
+    {
+        // The root's BackgroundColor is set to IndicatorColor or SelectedIndicatorColor
+        var pill = new Border
+        {
+            WidthRequest = 8,
+            HeightRequest = 8,
+            Margin = new Thickness(3, 0),
+            StrokeShape = new RoundRectangle { CornerRadius = 4 },
+            StrokeThickness = 0,
+        };
+
+        var selected = new VisualState { Name = "Selected" };
+        selected.Setters.Add(new Setter { Property = VisualElement.WidthRequestProperty, Value = 24.0 });
+        VisualStateManager.SetVisualStateGroups(pill,
+        [
+            new VisualStateGroup { Name = "CommonStates", States = { new VisualState { Name = "Normal" }, selected } },
+        ]);
+        return pill;
+    }),
+};
+indicator.SetAppThemeColor(IndicatorView.IndicatorColorProperty, Color.FromArgb("#D1D1D6"), Color.FromArgb("#48484A"));
+indicator.SetAppThemeColor(IndicatorView.SelectedIndicatorColorProperty, Color.FromArgb("#1D4ED8"), Color.FromArgb("#93C5FD"));
+
+carousel.IndicatorView = indicator;

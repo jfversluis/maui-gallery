@@ -1,0 +1,18 @@
+var steps = new IndicatorView
+{
+    Count = 8,
+    MaximumVisible = $(MaximumVisible),
+    HorizontalOptions = LayoutOptions.Center,
+};
+steps.SetAppThemeColor(IndicatorView.IndicatorColorProperty, Color.FromArgb("#D1D1D6"), Color.FromArgb("#48484A"));
+steps.SetAppThemeColor(IndicatorView.SelectedIndicatorColorProperty, Color.FromArgb("#1C1C1E"), Colors.White);
+
+void OnBackClicked(object? sender, EventArgs e) => MoveTo(steps.Position - 1);
+
+void OnNextClicked(object? sender, EventArgs e) => MoveTo(steps.Position + 1);
+
+void MoveTo(int position)
+{
+    steps.Position = Math.Clamp(position, 0, steps.Count - 1);
+    stepLabel.Text = $"Step {steps.Position + 1} of {steps.Count}";
+}

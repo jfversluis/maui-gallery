@@ -1,0 +1,32 @@
+<SwipeView x:DataType="local:CartLineViewModel">
+    <SwipeView.RightItems>
+        <SwipeItems SwipeBehaviorOnInvoked="RemainOpen">
+            <SwipeItemView BackgroundColor="{AppThemeBinding Light=#E5E7EB, Dark=#3A3A3C}">
+                <HorizontalStackLayout Padding="12,0" Spacing="4" VerticalOptions="Center">
+                    <Button
+                        Text="−"
+                        WidthRequest="44"
+                        Command="{Binding DecreaseCommand}"
+                        SemanticProperties.Description="Decrease quantity" />
+                    <Label
+                        Text="{Binding Quantity}"
+                        MinimumWidthRequest="24"
+                        FontAttributes="Bold"
+                        HorizontalTextAlignment="Center"
+                        VerticalOptions="Center" />
+                    <Button
+                        Text="+"
+                        WidthRequest="44"
+                        Command="{Binding IncreaseCommand}"
+                        SemanticProperties.Description="Increase quantity" />
+                </HorizontalStackLayout>
+            </SwipeItemView>
+        </SwipeItems>
+    </SwipeView.RightItems>
+    <Grid Padding="16,12" BackgroundColor="{AppThemeBinding Light=White, Dark=#1C1C1E}">
+        <VerticalStackLayout>
+            <Label Text="{Binding Name}" FontAttributes="Bold" />
+            <Label Text="{Binding Summary}" FontSize="13" />
+        </VerticalStackLayout>
+    </Grid>
+</SwipeView>

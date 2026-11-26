@@ -1,0 +1,29 @@
+<CarouselView
+    ItemsSource="{Binding Trips}"
+    HeightRequest="200"
+    Loop="$(Loop)"
+    PeekAreaInsets="$(PeekAreaInsets),0"
+    CurrentItemChanged="OnCurrentItemChanged">
+    <CarouselView.ItemsLayout>
+        <LinearItemsLayout
+            Orientation="Horizontal"
+            ItemSpacing="8"
+            SnapPointsType="MandatorySingle"
+            SnapPointsAlignment="Center" />
+    </CarouselView.ItemsLayout>
+    <CarouselView.ItemTemplate>
+        <DataTemplate x:DataType="local:Trip">
+            <Border
+                StrokeShape="RoundRectangle 16"
+                StrokeThickness="0"
+                BackgroundColor="{Binding Color}"
+                Padding="20">
+                <Grid RowDefinitions="*,Auto,Auto">
+                    <Label Text="{Binding Glyph}" FontFamily="FluentIcons" FontSize="40" TextColor="White" />
+                    <Label Grid.Row="1" Text="{Binding Title}" FontSize="22" FontAttributes="Bold" TextColor="White" />
+                    <Label Grid.Row="2" Text="{Binding Details}" TextColor="#E6FFFFFF" />
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </CarouselView.ItemTemplate>
+</CarouselView>

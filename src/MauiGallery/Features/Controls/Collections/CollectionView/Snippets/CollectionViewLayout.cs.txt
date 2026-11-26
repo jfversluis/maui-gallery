@@ -1,0 +1,51 @@
+public record Place(string Name, string Country, string Continent, string Glyph, Color Color);
+
+var collectionView = new CollectionView
+{
+    ItemsSource = places,
+    ItemsLayout = $(ItemsLayoutCode),
+    HeightRequest = $(HeightRequest),
+    ItemTemplate = new DataTemplate(CreatePlaceRow),
+};
+
+static View CreatePlaceRow()
+{
+    var icon = new Label
+    {
+        FontFamily = "FluentIcons",
+        FontSize = 22,
+        TextColor = Colors.White,
+        HorizontalOptions = LayoutOptions.Center,
+        VerticalOptions = LayoutOptions.Center,
+    };
+    icon.SetBinding(Label.TextProperty, static (Place p) => p.Glyph);
+
+    var tile = new Border
+    {
+        WidthRequest = 40,
+        HeightRequest = 40,
+        StrokeShape = new RoundRectangle { CornerRadius = 10 },
+        StrokeThickness = 0,
+        Content = icon,
+    };
+    tile.SetBinding(VisualElement.BackgroundColorProperty, static (Place p) => p.Color);
+
+    var name = new Label { FontAttributes = FontAttributes.Bold, LineBreakMode = LineBreakMode.TailTruncation };
+    name.SetBinding(Label.TextProperty, static (Place p) => p.Name);
+
+    var country = new Label { FontSize = 13, LineBreakMode = LineBreakMode.TailTruncation };
+    country.SetAppThemeColor(Label.TextColorProperty, Color.FromArgb("#6E6E73"), Color.FromArgb("#AEAEB2"));
+    country.SetBinding(Label.TextProperty, static (Place p) => p.Country);
+
+    var text = new VerticalStackLayout { VerticalOptions = LayoutOptions.Center, Children = { name, country } };
+
+    var row = new Grid
+    {
+        Padding = new Thickness(12, 8),
+        ColumnSpacing = 12,
+        ColumnDefinitions = { new ColumnDefinition(GridLength.Auto), new ColumnDefinition(GridLength.Star) },
+    };
+    row.Add(tile, 0);
+    row.Add(text, 1);
+    return row;
+}

@@ -1,0 +1,35 @@
+// A group is a list of its items, plus whatever its header shows
+public class PlaceGroup(string name, IEnumerable<Place> places) : List<Place>(places)
+{
+    public string Name { get; } = name;
+}
+
+List<PlaceGroup> placesByContinent =
+[
+    .. places.GroupBy(p => p.Continent).Select(g => new PlaceGroup(g.Key, g)),
+];
+
+var collectionView = new CollectionView
+{
+    ItemsSource = placesByContinent,
+    IsGrouped = true,
+    ItemTemplate = placeTemplate,
+    GroupHeaderTemplate = new DataTemplate(() =>
+    {
+        var header = new Label
+        {
+            FontSize = 13,
+            FontAttributes = FontAttributes.Bold,
+            TextTransform = TextTransform.Uppercase,
+            Padding = new Thickness(12, 16, 12, 4),
+        };
+        header.SetBinding(Label.TextProperty, static (PlaceGroup g) => g.Name);
+        return header;
+    }),
+    GroupFooterTemplate = new DataTemplate(() =>
+    {
+        var footer = new Label { FontSize = 12, Padding = new Thickness(12, 0, 12, 8) };
+        footer.SetBinding(Label.TextProperty, static (PlaceGroup g) => g.Count, stringFormat: "{0} places");
+        return footer;
+    }),
+};

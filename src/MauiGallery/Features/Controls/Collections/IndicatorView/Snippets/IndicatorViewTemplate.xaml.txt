@@ -1,0 +1,30 @@
+<IndicatorView
+    x:Name="SlideIndicator"
+    IndicatorColor="{AppThemeBinding Light=#D1D1D6, Dark=#48484A}"
+    SelectedIndicatorColor="{AppThemeBinding Light=#1D4ED8, Dark=#93C5FD}"
+    HorizontalOptions="Center">
+    <IndicatorView.IndicatorTemplate>
+        <DataTemplate>
+            <!-- The root's BackgroundColor is set to IndicatorColor or SelectedIndicatorColor -->
+            <Border
+                WidthRequest="8"
+                HeightRequest="8"
+                Margin="3,0"
+                StrokeShape="RoundRectangle 4"
+                StrokeThickness="0">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="WidthRequest" Value="24" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Border>
+        </DataTemplate>
+    </IndicatorView.IndicatorTemplate>
+</IndicatorView>

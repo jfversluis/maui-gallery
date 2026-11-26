@@ -1,0 +1,299 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Collections.CollectionViewPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Collections"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="LayoutOptions" Type="{x:Type x:String}">
+            <x:String>VerticalList</x:String>
+            <x:String>VerticalGrid</x:String>
+            <x:String>HorizontalList</x:String>
+            <x:String>HorizontalGrid</x:String>
+        </x:Array>
+        <x:Array x:Key="SelectionModeOptions" Type="{x:Type SelectionMode}">
+            <x:Static Member="SelectionMode.None" />
+            <x:Static Member="SelectionMode.Single" />
+            <x:Static Member="SelectionMode.Multiple" />
+        </x:Array>
+
+        <!-- The selected row's background. Background is a Brush, so the theme-aware color is a brush too. -->
+        <SolidColorBrush x:Key="PlaceSelectedBrush" Color="{AppThemeBinding Light=#DBEAFE, Dark=#1E3A5F}" />
+
+        <!-- One row per place, shared by the examples on this page. -->
+        <DataTemplate x:Key="PlaceTemplate" x:DataType="local:Place">
+            <Grid Padding="12,8" ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="Background" Value="{StaticResource PlaceSelectedBrush}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+                <Border WidthRequest="40"
+                        HeightRequest="40"
+                        StrokeShape="RoundRectangle 10"
+                        StrokeThickness="0"
+                        BackgroundColor="{Binding Color}">
+                    <Label Text="{Binding Glyph}"
+                           FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                           FontSize="22"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                </Border>
+                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                    <Label Text="{Binding Name}" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                    <Label Text="{Binding Country}"
+                           FontSize="13"
+                           TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
+                           LineBreakMode="TailTruncation" />
+                </VerticalStackLayout>
+            </Grid>
+        </DataTemplate>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <Border Style="{StaticResource SubtlePanel}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Style="{StaticResource TextIcon}"
+                           Text="{x:Static icons:FluentIconsRegular.Lightbulb24}"
+                           TextColor="{DynamicResource ColorAccentText}"
+                           VerticalOptions="Start" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                        <Label Text="Coming from ListView or TableView?" Style="{StaticResource TextBodyStrong}" />
+                        <Label Style="{StaticResource TextBodySecondary}"
+                               Text="ListView, TableView and their cells are obsolete since .NET 10. CollectionView replaces both: it virtualizes its items, lays them out as lists or grids, and needs no ViewCell. Put the cell's content straight in the DataTemplate, use SelectionChanged instead of ItemTapped, SwipeView for context actions and RefreshView for pull to refresh." />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- 1. Layouts -->
+            <ControlExample x:Name="LayoutExample"
+                            Title="Show items as a list or a grid"
+                            Description="Give CollectionView an ItemsSource and an ItemTemplate. ItemsLayout arranges the items in a vertical or horizontal list or grid, and only the visible items are created."
+                            XamlSource="CollectionViewLayout.xaml.txt"
+                            CSharpSource="CollectionViewLayout.cs.txt">
+                <CollectionView x:Name="LayoutCollection"
+                                ItemsSource="{x:Static local:PlaceData.All}"
+                                WidthRequest="{OnIdiom Phone=280, Default=400}"
+                                HeightRequest="320"
+                                VerticalOptions="Start"
+                                ItemTemplate="{StaticResource PlaceTemplate}"
+                                AutomationId="sample-layout-collection" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="ItemsLayout" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="LayoutPicker"
+                                ItemsSource="{StaticResource LayoutOptions}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnLayoutChanged"
+                                AutomationId="option-layout" />
+                        <Label Text="{Binding Value, Source={x:Reference LayoutSpan}, StringFormat='Span: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="LayoutSpan"
+                                Minimum="1"
+                                Maximum="3"
+                                Value="2"
+                                IsEnabled="False"
+                                ValueChanged="OnLayoutChanged"
+                                AutomationId="option-span" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="LayoutXamlSubstitution" Key="ItemsLayout" Default="VerticalList" />
+                    <Substitution x:Name="LayoutCodeSubstitution" Key="ItemsLayoutCode" IsExpression="True" Default="LinearItemsLayout.Vertical" />
+                    <Substitution Key="HeightRequest" Value="{Binding HeightRequest, Source={x:Reference LayoutCollection}, x:DataType=CollectionView}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Selection -->
+            <ControlExample x:Name="SelectionExample"
+                            Title="Let people select items"
+                            Description="SelectionMode turns on single or multiple selection. Read SelectedItem or SelectedItems, or handle SelectionChanged. A Selected visual state in the template highlights the chosen rows."
+                            XamlSource="CollectionViewSelection.xaml.txt"
+                            CSharpSource="CollectionViewSelection.cs.txt">
+                <CollectionView x:Name="SelectionCollection"
+                                ItemsSource="{x:Static local:PlaceData.All}"
+                                WidthRequest="{OnIdiom Phone=280, Default=400}"
+                                HeightRequest="280"
+                                SelectionMode="{Binding SelectedItem, Source={x:Reference SelectionModePicker}, x:DataType=Picker}"
+                                SelectionChanged="OnSelectionChanged"
+                                ItemTemplate="{StaticResource PlaceTemplate}"
+                                AutomationId="sample-selection-collection" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="SelectionMode" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="SelectionModePicker"
+                                ItemsSource="{StaticResource SelectionModeOptions}"
+                                SelectedIndex="1"
+                                AutomationId="option-selection-mode" />
+                        <Button Text="Clear selection"
+                                Clicked="OnClearSelectionClicked"
+                                HorizontalOptions="Start"
+                                Margin="0,4,0,0"
+                                AutomationId="option-clear-selection" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="SelectionMode" Value="{Binding SelectedItem, Source={x:Reference SelectionModePicker}, x:DataType=Picker}" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Grouping -->
+            <ControlExample x:Name="GroupingExample"
+                            Title="Group items under headers"
+                            Description="Bind ItemsSource to a list of groups, where each group is a list of items with its own properties, and set IsGrouped. GroupHeaderTemplate and GroupFooterTemplate render around each group."
+                            XamlSource="CollectionViewGrouping.xaml.txt"
+                            CSharpSource="CollectionViewGrouping.cs.txt">
+                <CollectionView x:Name="GroupingCollection"
+                                ItemsSource="{x:Static local:PlaceData.ByContinent}"
+                                WidthRequest="{OnIdiom Phone=280, Default=400}"
+                                HeightRequest="320"
+                                IsGrouped="True"
+                                ItemTemplate="{StaticResource PlaceTemplate}"
+                                AutomationId="sample-grouping-collection">
+                    <CollectionView.GroupHeaderTemplate>
+                        <DataTemplate x:DataType="local:PlaceGroup">
+                            <Label Text="{Binding Name}"
+                                   FontSize="13"
+                                   FontAttributes="Bold"
+                                   TextTransform="Uppercase"
+                                   Padding="12,16,12,4" />
+                        </DataTemplate>
+                    </CollectionView.GroupHeaderTemplate>
+                    <CollectionView.GroupFooterTemplate>
+                        <DataTemplate x:DataType="local:PlaceGroup">
+                            <Label Text="{Binding Count, StringFormat='{0} places'}"
+                                   FontSize="12"
+                                   TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
+                                   Padding="12,0,12,8" />
+                        </DataTemplate>
+                    </CollectionView.GroupFooterTemplate>
+                </CollectionView>
+            </ControlExample>
+
+            <!-- 4. Header, footer and empty view -->
+            <ControlExample x:Name="EmptyExample"
+                            Title="Add a header, a footer and an empty view"
+                            Description="Header and Footer scroll with the items. EmptyView appears whenever ItemsSource has no items, such as when a search finds nothing. Try searching for something that isn't there."
+                            XamlSource="CollectionViewEmptyView.xaml.txt"
+                            CSharpSource="CollectionViewEmptyView.cs.txt">
+                <VerticalStackLayout x:Name="EmptySample"
+                                     Spacing="8"
+                                     WidthRequest="{OnIdiom Phone=280, Default=400}"
+                                     x:DataType="local:PlaceSearchViewModel">
+                    <SearchBar Text="{Binding SearchText}"
+                               Placeholder="Search places"
+                               AutomationId="sample-empty-search" />
+                    <CollectionView x:Name="EmptyCollection"
+                                    HeightRequest="280"
+                                    ItemsSource="{Binding Results}"
+                                    ItemTemplate="{StaticResource PlaceTemplate}"
+                                    AutomationId="sample-empty-collection">
+                        <CollectionView.Header>
+                            <Label Text="{Binding Summary}"
+                                   FontSize="13"
+                                   FontAttributes="Bold"
+                                   Padding="12,8"
+                                   AutomationId="sample-empty-header" />
+                        </CollectionView.Header>
+                        <CollectionView.Footer>
+                            <Label Text="Can't find a place? Suggest one."
+                                   FontSize="12"
+                                   TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
+                                   HorizontalTextAlignment="Center"
+                                   Padding="12,12,12,16" />
+                        </CollectionView.Footer>
+                        <CollectionView.EmptyView>
+                            <VerticalStackLayout Padding="24,48" Spacing="8" AutomationId="sample-empty-view">
+                                <Label Text="{x:Static icons:FluentIconsRegular.Search24}"
+                                       FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                       FontSize="40"
+                                       TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
+                                       HorizontalOptions="Center" />
+                                <Label Text="No places found"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center" />
+                                <Label Text="Try a different city or country."
+                                       FontSize="13"
+                                       TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
+                                       HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </CollectionView.EmptyView>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 5. Incremental loading -->
+            <ControlExample x:Name="LoadMoreExample"
+                            Title="Load more as people scroll"
+                            Description="When fewer than RemainingItemsThreshold items are left to scroll, CollectionView runs RemainingItemsThresholdReachedCommand. Fetch the next page there and add it to an ObservableCollection."
+                            XamlSource="CollectionViewLoadMore.xaml.txt"
+                            CSharpSource="CollectionViewLoadMore.cs.txt">
+                <CollectionView x:Name="LoadMoreCollection"
+                                WidthRequest="{OnIdiom Phone=280, Default=400}"
+                                HeightRequest="320"
+                                x:DataType="local:OrderFeedViewModel"
+                                ItemsSource="{Binding Orders}"
+                                RemainingItemsThreshold="{Binding Value, Source={x:Reference LoadMoreThreshold}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
+                                AutomationId="sample-load-more-collection">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="local:Order">
+                            <Grid Padding="12,10" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Title}" FontAttributes="Bold" />
+                                    <Label Text="{Binding Details}"
+                                           FontSize="13"
+                                           TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}" />
+                                </VerticalStackLayout>
+                                <Label Grid.Column="1" Text="{Binding TotalText}" VerticalOptions="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.Footer>
+                        <HorizontalStackLayout Padding="12,12,12,16" Spacing="8" HorizontalOptions="Center">
+                            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                               IsVisible="{Binding IsLoading}"
+                                               HeightRequest="20"
+                                               WidthRequest="20" />
+                            <Label Text="{Binding Status}"
+                                   FontSize="13"
+                                   TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
+                                   VerticalOptions="Center"
+                                   AutomationId="sample-load-more-status" />
+                        </HorizontalStackLayout>
+                    </CollectionView.Footer>
+                </CollectionView>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference LoadMoreThreshold}, StringFormat='RemainingItemsThreshold: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="LoadMoreThreshold"
+                                Minimum="0"
+                                Maximum="10"
+                                Value="5"
+                                AutomationId="option-threshold" />
+                        <Button x:Name="LoadMoreReset"
+                                Text="Start over"
+                                HorizontalOptions="Start"
+                                Margin="0,4,0,0"
+                                AutomationId="option-load-more-reset" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="RemainingItemsThreshold" Value="{Binding Value, Source={x:Reference LoadMoreThreshold}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

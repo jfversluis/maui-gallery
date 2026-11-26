@@ -1,0 +1,186 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Collections.BindableLayoutPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Collections"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <local:ChatMessageTemplateSelector x:Key="ChatTemplates">
+            <local:ChatMessageTemplateSelector.IncomingTemplate>
+                <DataTemplate x:DataType="local:ChatMessage">
+                    <Border HorizontalOptions="Start"
+                            MaximumWidthRequest="240"
+                            Padding="12,8"
+                            StrokeShape="RoundRectangle 16,16,4,16"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light=#E5E5EA, Dark=#3A3A3C}">
+                        <Label Text="{Binding Text}" />
+                    </Border>
+                </DataTemplate>
+            </local:ChatMessageTemplateSelector.IncomingTemplate>
+            <local:ChatMessageTemplateSelector.OutgoingTemplate>
+                <DataTemplate x:DataType="local:ChatMessage">
+                    <Border HorizontalOptions="End"
+                            MaximumWidthRequest="240"
+                            Padding="12,8"
+                            StrokeShape="RoundRectangle 16,16,16,4"
+                            StrokeThickness="0"
+                            BackgroundColor="#2563EB">
+                        <Label Text="{Binding Text}" TextColor="White" />
+                    </Border>
+                </DataTemplate>
+            </local:ChatMessageTemplateSelector.OutgoingTemplate>
+        </local:ChatMessageTemplateSelector>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <Border Style="{StaticResource SubtlePanel}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Style="{StaticResource TextIcon}"
+                           Text="{x:Static icons:FluentIconsRegular.Lightbulb24}"
+                           TextColor="{DynamicResource ColorAccentText}"
+                           VerticalOptions="Start" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                        <Label Text="BindableLayout or CollectionView?" Style="{StaticResource TextBodyStrong}" />
+                        <Label Style="{StaticResource TextBodySecondary}"
+                               Text="BindableLayout creates a view for every item up front and keeps them all, with no scrolling, selection or virtualization of its own. That suits small, bounded sets such as tags, a few settings rows or a short thread. For long or unbounded lists, use CollectionView." />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- 1. ItemsSource and ItemTemplate -->
+            <ControlExample x:Name="TagsExample"
+                            Title="Generate children from a collection"
+                            Description="Set BindableLayout.ItemsSource and ItemTemplate on any layout, here a wrapping FlexLayout. With an ObservableCollection, adding and removing items adds and removes the views. Tap a tag to remove it."
+                            XamlSource="BindableLayoutTags.xaml.txt"
+                            CSharpSource="BindableLayoutTags.cs.txt">
+                <VerticalStackLayout x:Name="TagsSample"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=400}"
+                                     x:DataType="local:TagListViewModel">
+                    <FlexLayout x:Name="TagsLayout"
+                                Wrap="Wrap"
+                                BindableLayout.ItemsSource="{Binding Tags}"
+                                AutomationId="sample-tags-layout">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Border Margin="0,0,8,8"
+                                        Padding="12,6"
+                                        StrokeShape="RoundRectangle 16"
+                                        StrokeThickness="0"
+                                        BackgroundColor="{AppThemeBinding Light=#E5E7EB, Dark=#3A3A3C}"
+                                        SemanticProperties.Description="{Binding ., StringFormat='Remove {0}'}"
+                                        AutomationId="{Binding ., StringFormat='sample-tag-{0}'}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:TagListViewModel}}, Path=RemoveTagCommand, x:DataType=local:TagListViewModel}"
+                                                              CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Label Text="{Binding .}" VerticalOptions="Center" />
+                                        <Label Text="{x:Static icons:FluentIconsRegular.Dismiss24}"
+                                               FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                               FontSize="12"
+                                               VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <Entry Text="{Binding NewTag}"
+                               Placeholder="Add a tag"
+                               ReturnCommand="{Binding AddTagCommand}"
+                               AutomationId="sample-tags-entry" />
+                        <Button Grid.Column="1"
+                                Text="Add"
+                                Command="{Binding AddTagCommand}"
+                                AutomationId="sample-tags-add" />
+                    </Grid>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 2. EmptyView -->
+            <ControlExample x:Name="TasksExample"
+                            Title="Show an empty view"
+                            Description="BindableLayout.EmptyView appears when ItemsSource has no items. Check off the tasks to see it; EmptyViewTemplate does the same with a template."
+                            XamlSource="BindableLayoutEmptyView.xaml.txt"
+                            CSharpSource="BindableLayoutEmptyView.cs.txt">
+                <VerticalStackLayout x:Name="TasksSample"
+                                     WidthRequest="{OnIdiom Phone=280, Default=400}"
+                                     MinimumHeightRequest="132"
+                                     BindableLayout.ItemsSource="{Binding Tasks}"
+                                     x:DataType="local:TaskListViewModel"
+                                     AutomationId="sample-tasks-layout">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="local:TodoItem">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" MinimumHeightRequest="44">
+                                <CheckBox Command="{Binding Source={RelativeSource AncestorType={x:Type local:TaskListViewModel}}, Path=CompleteCommand, x:DataType=local:TaskListViewModel}"
+                                          CommandParameter="{Binding .}"
+                                          VerticalOptions="Center"
+                                          SemanticProperties.Description="{Binding Title}"
+                                          AutomationId="{Binding Due, StringFormat='sample-task-{0}'}" />
+                                <Label Grid.Column="1" Text="{Binding Title}" VerticalOptions="Center" />
+                                <Label Grid.Column="2"
+                                       Text="{Binding Due}"
+                                       FontSize="13"
+                                       TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                    <BindableLayout.EmptyView>
+                        <VerticalStackLayout Spacing="6" Padding="0,16" AutomationId="sample-tasks-empty">
+                            <Label Text="{x:Static icons:FluentIconsRegular.CheckmarkCircle24}"
+                                   FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                   FontSize="36"
+                                   TextColor="#16A34A"
+                                   HorizontalOptions="Center" />
+                            <Label Text="All done for today" FontAttributes="Bold" HorizontalOptions="Center" />
+                            <Label Text="Enjoy the trip!"
+                                   FontSize="13"
+                                   TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
+                                   HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </BindableLayout.EmptyView>
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <Button x:Name="TasksRestore"
+                            Text="Restore tasks"
+                            HorizontalOptions="Start"
+                            AutomationId="option-restore-tasks" />
+                </ControlExample.Options>
+            </ControlExample>
+
+            <!-- 3. DataTemplateSelector -->
+            <ControlExample x:Name="ChatExample"
+                            Title="Pick a template per item"
+                            Description="BindableLayout.ItemTemplateSelector takes a DataTemplateSelector, which chooses a template for each item. Here, your messages and replies get different bubbles. Send one to see."
+                            XamlSource="BindableLayoutSelector.xaml.txt"
+                            CSharpSource="BindableLayoutSelector.cs.txt">
+                <VerticalStackLayout x:Name="ChatSample"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=400}"
+                                     x:DataType="local:ChatViewModel">
+                    <VerticalStackLayout x:Name="ChatLayout"
+                                         Spacing="8"
+                                         BindableLayout.ItemsSource="{Binding Messages}"
+                                         BindableLayout.ItemTemplateSelector="{StaticResource ChatTemplates}"
+                                         AutomationId="sample-chat-layout" />
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <Entry Text="{Binding Draft}"
+                               Placeholder="Message"
+                               ReturnCommand="{Binding SendCommand}"
+                               AutomationId="sample-chat-entry" />
+                        <Button Grid.Column="1"
+                                Text="Send"
+                                Command="{Binding SendCommand}"
+                                AutomationId="sample-chat-send" />
+                    </Grid>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

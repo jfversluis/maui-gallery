@@ -1,0 +1,44 @@
+public record Trip(string Title, string Details, string Glyph, Color Color);
+
+var carousel = new CarouselView
+{
+    ItemsSource = trips,
+    HeightRequest = 200,
+    Loop = $(Loop),
+    PeekAreaInsets = new Thickness($(PeekAreaInsets), 0),
+    ItemsLayout = new LinearItemsLayout(ItemsLayoutOrientation.Horizontal)
+    {
+        ItemSpacing = 8,
+        SnapPointsType = SnapPointsType.MandatorySingle,
+        SnapPointsAlignment = SnapPointsAlignment.Center,
+    },
+    ItemTemplate = new DataTemplate(() =>
+    {
+        var icon = new Label { FontFamily = "FluentIcons", FontSize = 40, TextColor = Colors.White };
+        icon.SetBinding(Label.TextProperty, static (Trip t) => t.Glyph);
+
+        var title = new Label { FontSize = 22, FontAttributes = FontAttributes.Bold, TextColor = Colors.White };
+        title.SetBinding(Label.TextProperty, static (Trip t) => t.Title);
+
+        var details = new Label { TextColor = Color.FromArgb("#E6FFFFFF") };
+        details.SetBinding(Label.TextProperty, static (Trip t) => t.Details);
+
+        var content = new Grid { RowDefinitions = { new(GridLength.Star), new(GridLength.Auto), new(GridLength.Auto) } };
+        content.Add(icon, 0, 0);
+        content.Add(title, 0, 1);
+        content.Add(details, 0, 2);
+
+        var card = new Border
+        {
+            StrokeShape = new RoundRectangle { CornerRadius = 16 },
+            StrokeThickness = 0,
+            Padding = 20,
+            Content = content,
+        };
+        card.SetBinding(VisualElement.BackgroundColorProperty, static (Trip t) => t.Color);
+        return card;
+    }),
+};
+
+carousel.CurrentItemChanged += (s, e) =>
+    Debug.WriteLine($"Now showing {((Trip)e.CurrentItem).Title}");

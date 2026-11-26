@@ -1,0 +1,25 @@
+<SwipeView
+    x:Name="PackingList"
+    SwipeStarted="OnSwipeStarted"
+    SwipeEnded="OnSwipeEnded"
+    OpenRequested="OnOpenRequested">
+    <SwipeView.LeftItems>
+        <SwipeItems>
+            <SwipeItem Text="Pin" BackgroundColor="#2563EB" Invoked="OnItemInvoked" />
+        </SwipeItems>
+    </SwipeView.LeftItems>
+    <SwipeView.RightItems>
+        <SwipeItems>
+            <SwipeItem Text="Delete" BackgroundColor="#DC2626" Invoked="OnItemInvoked" />
+        </SwipeItems>
+    </SwipeView.RightItems>
+    <Grid Padding="16,12" BackgroundColor="{AppThemeBinding Light=White, Dark=#1C1C1E}">
+        <Label Text="Packing list" FontAttributes="Bold" />
+    </Grid>
+</SwipeView>
+
+<HorizontalStackLayout Spacing="8">
+    <Button Text="Open left" Clicked="OnOpenLeftClicked" />
+    <Button Text="Open right" Clicked="OnOpenRightClicked" />
+    <Button Text="Close" Clicked="OnCloseClicked" />
+</HorizontalStackLayout>

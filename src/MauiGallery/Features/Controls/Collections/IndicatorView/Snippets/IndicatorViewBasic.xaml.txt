@@ -1,0 +1,15 @@
+<VerticalStackLayout Spacing="12">
+    <CarouselView
+        ItemsSource="{Binding Slides}"
+        ItemTemplate="{StaticResource SlideTemplate}"
+        IndicatorView="{x:Reference SlideIndicator}"
+        Loop="False"
+        HeightRequest="180" />
+    <IndicatorView
+        x:Name="SlideIndicator"
+        IndicatorsShape="$(IndicatorsShape)"
+        IndicatorSize="$(IndicatorSize)"
+        IndicatorColor="{AppThemeBinding Light=#D1D1D6, Dark=#48484A}"
+        SelectedIndicatorColor="$(SelectedIndicatorColor)"
+        HorizontalOptions="Center" />
+</VerticalStackLayout>

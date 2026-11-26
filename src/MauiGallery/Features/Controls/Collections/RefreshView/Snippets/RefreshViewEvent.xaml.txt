@@ -1,0 +1,10 @@
+<RefreshView x:Name="BudgetRefresh" Refreshing="OnRefreshing">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="8">
+            <Label Text="Trip budget" FontAttributes="Bold" />
+            <Label x:Name="Spent" FontSize="28" FontAttributes="Bold" />
+            <ProgressBar x:Name="Progress" />
+            <Label x:Name="Updated" FontSize="13" />
+        </VerticalStackLayout>
+    </ScrollView>
+</RefreshView>
