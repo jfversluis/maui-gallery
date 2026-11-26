@@ -11,6 +11,7 @@ public partial class App : Application
         InitializeComponent();
         _windows = windows;
         themeService.Initialize(this);
+        PageLoadTrace.Mark("app");
     }
 
     protected override Window CreateWindow(IActivationState? activationState) => _windows.Create();

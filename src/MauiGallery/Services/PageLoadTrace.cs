@@ -7,7 +7,8 @@ namespace MauiGallery.Services;
 /// <summary>
 /// Measures how long a page takes from the navigation request until it has been laid out, and writes one line per
 /// navigation, for example <c>[PageLoad] button 412 ms: resolve 3, construct 260, handlers 90, layout 55 | code 31 (8x)</c>.
-/// Work that continues after that, such as examples filling in, is reported on a second line.
+/// Work that continues after that, such as examples filling in, is reported on a second line. App startup is measured
+/// the same way, from <see cref="BeginStartup"/> until the first page has been laid out.
 /// </summary>
 /// <remarks>
 /// Milestones are time since the previous milestone; the part after the bar adds up work that was timed with
@@ -21,6 +22,7 @@ public static class PageLoadTrace
     private static string? _route;
     private static long _start;
     private static bool _ended;
+    private static bool _isStartingUp;
 
     /// <summary>Whether a navigation is being measured.</summary>
     public static bool IsActive => _route is not null;
@@ -31,9 +33,25 @@ public static class PageLoadTrace
     /// </summary>
     public static int Navigation { get; private set; }
 
+    /// <summary>Starts measuring app startup, which ends when the first page has been laid out.</summary>
+    public static void BeginStartup()
+    {
+        Begin("startup");
+        _isStartingUp = true;
+    }
+
     /// <summary>Starts measuring a navigation. Any measurement still in progress is discarded.</summary>
     public static void Begin(string route)
     {
+        // The first navigation is part of startup.
+        if (_isStartingUp)
+        {
+            _isStartingUp = false;
+            _route = $"startup {route}";
+            Mark("window");
+            return;
+        }
+
         Milestones.Clear();
         Work.Clear();
         _route = route;
