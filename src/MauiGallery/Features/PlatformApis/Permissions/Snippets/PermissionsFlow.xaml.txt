@@ -1,0 +1,8 @@
+<VerticalStackLayout x:DataType="local:CameraAccessViewModel" Spacing="12">
+    <Label Text="{Binding Message}" />
+    <Button Text="Scan a code" Command="{Binding EnableCameraCommand}" />
+    <Button
+        Text="Open Settings"
+        IsVisible="{Binding CanOpenSettings}"
+        Command="{Binding OpenSettingsCommand}" />
+</VerticalStackLayout>

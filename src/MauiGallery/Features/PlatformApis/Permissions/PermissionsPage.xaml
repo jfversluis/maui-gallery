@@ -1,0 +1,172 @@
+<SamplePage x:Class="MauiGallery.Features.PlatformApis.PermissionsPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <local:PermissionStatusColorConverter x:Key="StatusColor" />
+        <Style x:Key="StatusChip" TargetType="Border">
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+            <Setter Property="Padding" Value="10,3" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <Style x:Key="StatusChipText" TargetType="Label">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontAttributes" Value="Bold" />
+        </Style>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Check -->
+            <ControlExample x:Name="CheckExample"
+                            Title="Check a permission"
+                            Description="CheckStatusAsync reads a permission's status without asking the user, so you can call it any time: to decide what to show, or to refresh after a visit to Settings. This list refreshes whenever the page appears."
+                            ShowStyleToggle="False"
+                            CSharpSource="PermissionsCheck.cs.txt">
+                <VerticalStackLayout x:Name="CheckSample"
+                                     x:DataType="local:PermissionsViewModel"
+                                     BindableLayout.ItemsSource="{Binding Items}"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=360}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="local:PermissionItem">
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                <Label Text="{Binding Name}" VerticalOptions="Center" />
+                                <Border Grid.Column="1"
+                                        Style="{StaticResource StatusChip}"
+                                        BackgroundColor="{Binding Status, Converter={StaticResource StatusColor}}"
+                                        SemanticProperties.Description="{Binding Status, StringFormat='Status: {0}'}">
+                                    <Label Text="{Binding Status}" Style="{StaticResource StatusChipText}" />
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <Button Text="Check again"
+                            HorizontalOptions="Start"
+                            Clicked="OnCheckAgainClicked"
+                            AutomationId="option-permissions-check" />
+                </ControlExample.Options>
+            </ControlExample>
+
+            <!-- 2. Request -->
+            <ControlExample x:Name="RequestExample"
+                            Title="Request a permission"
+                            Description="RequestAsync shows the system prompt, once. After a no, iOS and Mac never ask again, and Android asks one more time before it stops too; RequestAsync then returns Denied straight away. ShouldShowRationale is Android's hint that the user said no once, so explain why before the last chance. Declare each permission in AndroidManifest.xml and Info.plist first, or the call throws."
+                            ShowStyleToggle="False"
+                            CSharpSource="PermissionsRequest.cs.txt">
+                <VerticalStackLayout x:Name="RequestSample"
+                                     x:DataType="local:PermissionsViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=360}">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                        <Label Text="{Binding Selected.Name}" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
+                        <Border Grid.Column="1"
+                                Style="{StaticResource StatusChip}"
+                                BackgroundColor="{Binding Selected.Status, Converter={StaticResource StatusColor}}">
+                            <Label Text="{Binding Selected.Status}"
+                                   Style="{StaticResource StatusChipText}"
+                                   AutomationId="sample-permissions-request-status" />
+                        </Border>
+                    </Grid>
+                    <Label Text="{Binding Selected.ShouldShowRationale, StringFormat='ShouldShowRationale: {0}'}" FontSize="13" />
+                    <Button x:Name="RequestButton"
+                            Text="Request"
+                            HorizontalOptions="Start"
+                            Command="{Binding Selected.RequestCommand}"
+                            AutomationId="sample-permissions-request" />
+                    <Label Text="{Binding Selected.Message}"
+                           IsVisible="{Binding Selected.Message, Converter={StaticResource IsNotNullOrEmpty}}"
+                           FontSize="13"
+                           AutomationId="sample-permissions-request-message" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Permission" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="RequestPermission"
+                                ItemDisplayBinding="{Binding Name, x:DataType=local:PermissionItem}"
+                                AutomationId="option-permissions-request-permission" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="RequestPermissionSubstitution" Key="Permission" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. The complete flow -->
+            <ControlExample x:Name="FlowExample"
+                            Title="Explain, ask, then point to Settings"
+                            Description="Ask at the moment a feature needs access, not at launch. If the user said no before, explain the benefit first. Once they've said no for good, show what's off and offer AppInfo.ShowSettingsUI, which opens the app's own page in Settings. Don't ask in a loop."
+                            ShowStyleToggle="False"
+                            XamlSource="PermissionsFlow.xaml.txt"
+                            CSharpSource="PermissionsFlow.cs.txt">
+                <VerticalStackLayout x:Name="FlowSample"
+                                     x:DataType="local:CameraAccessViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=360}">
+                    <Image HorizontalOptions="Start" HeightRequest="32" WidthRequest="32">
+                        <Image.Source>
+                            <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                             Glyph="{x:Static icons:FluentIconsRegular.ScanCamera24}"
+                                             Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}"
+                                             Size="32" />
+                        </Image.Source>
+                    </Image>
+                    <Label Text="{Binding Message}" AutomationId="sample-permissions-flow-message" />
+                    <HorizontalStackLayout Spacing="12">
+                        <Button x:Name="FlowButton"
+                                Text="Scan a code"
+                                Command="{Binding EnableCameraCommand}"
+                                AutomationId="sample-permissions-flow-scan" />
+                        <Button Text="Open Settings"
+                                IsVisible="{Binding CanOpenSettings}"
+                                Command="{Binding OpenSettingsCommand}"
+                                AutomationId="sample-permissions-flow-settings" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 4. A custom permission -->
+            <ControlExample x:Name="CustomExample"
+                            Title="Write your own permission"
+                            Description="Derive from Permissions.BasePermission to wrap permissions .NET MAUI doesn't have, or to combine several into one. This one stands for recording video, which needs the camera and the microphone. On Android you can instead derive from BasePlatformPermission and list the manifest permissions."
+                            ShowStyleToggle="False"
+                            CSharpSource="PermissionsCustom.cs.txt">
+                <VerticalStackLayout x:Name="CustomSample"
+                                     x:DataType="local:PermissionItem"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=360}">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                        <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
+                        <Border Grid.Column="1"
+                                Style="{StaticResource StatusChip}"
+                                BackgroundColor="{Binding Status, Converter={StaticResource StatusColor}}">
+                            <Label Text="{Binding Status}"
+                                   Style="{StaticResource StatusChipText}"
+                                   AutomationId="sample-permissions-custom-status" />
+                        </Border>
+                    </Grid>
+                    <HorizontalStackLayout Spacing="12">
+                        <Button x:Name="CustomButton"
+                                Text="Request"
+                                Command="{Binding RequestCommand}"
+                                AutomationId="sample-permissions-custom-request" />
+                        <Button Text="Check"
+                                Command="{Binding CheckCommand}"
+                                AutomationId="sample-permissions-custom-check" />
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding Message}"
+                           IsVisible="{Binding Message, Converter={StaticResource IsNotNullOrEmpty}}"
+                           FontSize="13" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

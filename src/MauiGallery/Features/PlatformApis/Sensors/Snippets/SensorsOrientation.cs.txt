@@ -1,0 +1,23 @@
+if (OrientationSensor.Default.IsSupported)
+{
+    OrientationSensor.Default.ReadingChanged += OnOrientationSensorReadingChanged;
+    OrientationSensor.Default.Start(SensorSpeed.$(Speed));
+}
+
+// Stop when you're done, at the latest when the page disappears
+OrientationSensor.Default.Stop();
+OrientationSensor.Default.ReadingChanged -= OnOrientationSensorReadingChanged;
+
+private void OnOrientationSensorReadingChanged(object? sender, OrientationSensorChangedEventArgs e)
+{
+    // A quaternion, relative to the Earth: X east, Y north, Z up
+    Quaternion orientation = e.Reading.Orientation;
+}
+
+// Turn the quaternion into angles for the UI
+private static (double Forward, double Sideways) ToTilt(Quaternion q)
+{
+    var forward = Math.Atan2(2 * ((q.W * q.X) + (q.Y * q.Z)), 1 - (2 * ((q.X * q.X) + (q.Y * q.Y))));
+    var sideways = Math.Asin(Math.Clamp(2 * ((q.W * q.Y) - (q.Z * q.X)), -1, 1));
+    return (forward * 180 / Math.PI, sideways * 180 / Math.PI);
+}

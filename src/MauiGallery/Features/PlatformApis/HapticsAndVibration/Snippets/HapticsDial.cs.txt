@@ -1,0 +1,24 @@
+public partial class DialViewModel(IHapticFeedback haptics) : ObservableObject
+{
+    private int _lastStep;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Step))]
+    public partial double Level { get; set; }
+
+    public int Step => (int)Math.Round(Level);
+
+    // One click per whole step, like the notches of a dial
+    partial void OnLevelChanged(double value)
+    {
+        var step = (int)Math.Round(value);
+        if (step != _lastStep)
+        {
+            _lastStep = step;
+            haptics.Perform(HapticFeedbackType.Click);
+        }
+    }
+}
+
+// MauiProgram.cs: register the interface so it can be injected
+builder.Services.AddSingleton(HapticFeedback.Default);

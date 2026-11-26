@@ -3,4 +3,35 @@
 	<application android:allowBackup="true" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
+
+	<!-- Platform API samples. Each is requested only when you use its sample, and nothing leaves the device. -->
+	<!-- Geolocation and Geocoding: show where you are. -->
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<!-- Media picker: take a photo or video. Flashlight: turn on the camera's torch. -->
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.FLASHLIGHT" />
+	<!-- Permissions: shows how to check and request microphone access. -->
+	<uses-permission android:name="android.permission.RECORD_AUDIO" />
+	<!-- Haptics and vibration. -->
+	<uses-permission android:name="android.permission.VIBRATE" />
+
+	<!-- None of this hardware is required: the samples explain what's missing instead. -->
+	<uses-feature android:name="android.hardware.camera" android:required="false" />
+	<uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+	<uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+	<uses-feature android:name="android.hardware.location" android:required="false" />
+	<uses-feature android:name="android.hardware.location.gps" android:required="false" />
+	<uses-feature android:name="android.hardware.location.network" android:required="false" />
+	<uses-feature android:name="android.hardware.microphone" android:required="false" />
+
+	<!-- Android 11+ package visibility: lets the media picker find the camera app. -->
+	<queries>
+		<intent>
+			<action android:name="android.media.action.IMAGE_CAPTURE" />
+		</intent>
+		<intent>
+			<action android:name="android.media.action.VIDEO_CAPTURE" />
+		</intent>
+	</queries>
 </manifest>

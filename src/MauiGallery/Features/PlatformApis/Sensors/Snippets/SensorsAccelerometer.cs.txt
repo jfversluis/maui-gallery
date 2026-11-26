@@ -1,0 +1,30 @@
+public void StartAccelerometer()
+{
+    if (!Accelerometer.Default.IsSupported)
+    {
+        return;
+    }
+
+    Accelerometer.Default.ReadingChanged += OnAccelerometerReadingChanged;
+    Accelerometer.Default.ShakeDetected += OnShakeDetected;
+    Accelerometer.Default.Start(SensorSpeed.$(Speed));
+}
+
+// Stop when you're done, at the latest when the page disappears
+public void StopAccelerometer()
+{
+    Accelerometer.Default.Stop();
+    Accelerometer.Default.ReadingChanged -= OnAccelerometerReadingChanged;
+    Accelerometer.Default.ShakeDetected -= OnShakeDetected;
+}
+
+private void OnAccelerometerReadingChanged(object? sender, AccelerometerChangedEventArgs e)
+{
+    // In multiples of gravity: Z is about 1 when the device lies flat, face up
+    Vector3 acceleration = e.Reading.Acceleration;
+
+    // Readings can arrive on a background thread
+    MainThread.BeginInvokeOnMainThread(() => Bubble.TranslationX = acceleration.X * 80);
+}
+
+private void OnShakeDetected(object? sender, EventArgs e) => Debug.WriteLine("Shaken!");

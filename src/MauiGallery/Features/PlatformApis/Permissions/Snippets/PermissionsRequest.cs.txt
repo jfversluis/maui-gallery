@@ -1,0 +1,12 @@
+var status = await Permissions.CheckStatusAsync<Permissions.$(Permission)>();
+if (status != PermissionStatus.Granted)
+{
+    // Shows the system prompt, unless the user already said no for good
+    status = await Permissions.RequestAsync<Permissions.$(Permission)>();
+}
+
+if (status != PermissionStatus.Granted
+    && Permissions.ShouldShowRationale<Permissions.$(Permission)>())
+{
+    // Android only: the user said no once. Explain why before asking again.
+}

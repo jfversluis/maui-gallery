@@ -1,0 +1,43 @@
+// Recording video needs the camera and the microphone: one permission for both
+public class CameraAndMicrophone : Permissions.BasePermission
+{
+    private readonly Permissions.Camera _camera = new();
+    private readonly Permissions.Microphone _microphone = new();
+
+    public override async Task<PermissionStatus> CheckStatusAsync() =>
+        Combine(await _camera.CheckStatusAsync(), await _microphone.CheckStatusAsync());
+
+    public override async Task<PermissionStatus> RequestAsync()
+    {
+        var camera = await _camera.RequestAsync();
+        if (camera != PermissionStatus.Granted)
+        {
+            return camera;
+        }
+
+        return Combine(camera, await _microphone.RequestAsync());
+    }
+
+    public override void EnsureDeclared()
+    {
+        _camera.EnsureDeclared();
+        _microphone.EnsureDeclared();
+    }
+
+    public override bool ShouldShowRationale() => _camera.ShouldShowRationale() || _microphone.ShouldShowRationale();
+
+    private static PermissionStatus Combine(PermissionStatus camera, PermissionStatus microphone) =>
+        camera != PermissionStatus.Granted ? camera : microphone;
+}
+
+// Use it like any built-in permission
+var status = await Permissions.RequestAsync<CameraAndMicrophone>();
+
+#if ANDROID
+// Android only: list the manifest permissions, and BasePlatformPermission does the rest
+public class ActivityRecognition : Permissions.BasePlatformPermission
+{
+    public override (string androidPermission, bool isRuntime)[] RequiredPermissions =>
+        [(Android.Manifest.Permission.ActivityRecognition, true)];
+}
+#endif

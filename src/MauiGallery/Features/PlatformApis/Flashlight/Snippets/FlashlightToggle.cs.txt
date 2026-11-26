@@ -1,0 +1,17 @@
+// Android: the CAMERA and FLASHLIGHT permissions in AndroidManifest.xml
+if (!await Flashlight.Default.IsSupportedAsync())
+{
+    return;
+}
+
+try
+{
+    await Flashlight.Default.TurnOnAsync();
+}
+catch (PermissionException)
+{
+    // Android: the user said no to camera access
+}
+
+// Always turn it off again, at the latest when the page disappears
+await Flashlight.Default.TurnOffAsync();

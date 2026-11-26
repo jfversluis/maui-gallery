@@ -1,0 +1,27 @@
+public async Task StartListeningAsync()
+{
+    Geolocation.Default.LocationChanged += OnLocationChanged;
+    Geolocation.Default.ListeningFailed += OnListeningFailed;
+
+    var request = new GeolocationListeningRequest(GeolocationAccuracy.$(Accuracy), TimeSpan.FromSeconds($(MinimumTime)));
+    var started = await Geolocation.Default.StartListeningForegroundAsync(request);
+}
+
+// Call it when you're done, at the latest when the page disappears
+public void StopListening()
+{
+    Geolocation.Default.StopListeningForeground();
+    Geolocation.Default.LocationChanged -= OnLocationChanged;
+    Geolocation.Default.ListeningFailed -= OnListeningFailed;
+}
+
+private void OnLocationChanged(object? sender, GeolocationLocationChangedEventArgs e)
+{
+    var location = e.Location;
+    Debug.WriteLine($"Moved to {location.Latitude}, {location.Longitude}");
+}
+
+private void OnListeningFailed(object? sender, GeolocationListeningFailedEventArgs e)
+{
+    // e.Error is PositionUnavailable or Unauthorized
+}

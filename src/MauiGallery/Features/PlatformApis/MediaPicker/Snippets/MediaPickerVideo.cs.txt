@@ -1,0 +1,13 @@
+var videos = await MediaPicker.Default.PickVideosAsync(new MediaPickerOptions { SelectionLimit = 1 });
+FileResult? video = videos.FirstOrDefault();
+
+// Recording also needs NSMicrophoneUsageDescription on iOS and Mac
+if (MediaPicker.Default.IsCaptureSupported)
+{
+    video = await MediaPicker.Default.CaptureVideoAsync();
+}
+
+if (video is not null)
+{
+    Debug.WriteLine($"{video.FileName} ({video.ContentType}) at {video.FullPath}");
+}

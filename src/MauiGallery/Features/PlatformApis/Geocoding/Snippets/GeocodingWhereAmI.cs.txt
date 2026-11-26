@@ -1,0 +1,10 @@
+var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+var location = await Geolocation.Default.GetLocationAsync(request);
+
+if (location is not null)
+{
+    // An extension method that takes the Location itself
+    var placemarks = await Geocoding.Default.GetPlacemarksAsync(location);
+    var placemark = placemarks.FirstOrDefault();
+    Debug.WriteLine($"You're in {placemark?.Locality}, {placemark?.CountryName}");
+}

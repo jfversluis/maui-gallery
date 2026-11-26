@@ -1,0 +1,19 @@
+if (Compass.Default.IsSupported)
+{
+    Compass.Default.ReadingChanged += OnCompassReadingChanged;
+    // The filter smooths the readings on Android; the other platforms ignore it
+    Compass.Default.Start(SensorSpeed.$(Speed), applyLowPassFilter: $(LowPass));
+}
+
+// Stop when you're done, at the latest when the page disappears
+Compass.Default.Stop();
+Compass.Default.ReadingChanged -= OnCompassReadingChanged;
+
+private void OnCompassReadingChanged(object? sender, CompassChangedEventArgs e)
+{
+    // Degrees clockwise from magnetic north
+    double heading = e.Reading.HeadingMagneticNorth;
+
+    // Turn a compass rose the other way, so its N keeps pointing north
+    MainThread.BeginInvokeOnMainThread(() => CompassRose.Rotation = -heading);
+}

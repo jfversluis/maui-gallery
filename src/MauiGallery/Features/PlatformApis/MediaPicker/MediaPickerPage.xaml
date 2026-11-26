@@ -1,0 +1,192 @@
+<SamplePage x:Class="MauiGallery.Features.PlatformApis.MediaPickerPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="SizeOptions" Type="{x:Type x:String}">
+            <x:String>Original</x:String>
+            <x:String>2048</x:String>
+            <x:String>1024</x:String>
+            <x:String>512</x:String>
+        </x:Array>
+        <SolidColorBrush x:Key="FrameBrush" Color="{AppThemeBinding Light=#AEAEB2, Dark=#636366}" />
+        <Style x:Key="PhotoFrame" TargetType="Border">
+            <Setter Property="Stroke" Value="{StaticResource FrameBrush}" />
+            <Setter Property="StrokeThickness" Value="1" />
+            <Setter Property="StrokeDashArray" Value="4,4" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+            <Setter Property="WidthRequest" Value="{OnIdiom Phone=280, Default=360}" />
+            <Setter Property="HeightRequest" Value="220" />
+        </Style>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Pick a photo -->
+            <ControlExample x:Name="PickExample"
+                            Title="Pick a photo"
+                            Description="PickPhotosAsync opens the system photo picker, which needs no permission; a SelectionLimit of 1 picks one photo. (PickPhotoAsync, which did this before, is obsolete in .NET 11.) It returns an empty list if the user cancels. MediaPickerOptions can scale the photo down and compress it for you. Copy the file into your app's storage if you keep it: the picker's copy can be temporary."
+                            ShowStyleToggle="False"
+                            CSharpSource="MediaPickerPhoto.cs.txt">
+                <VerticalStackLayout x:Name="PickSample"
+                                     x:DataType="local:MediaPickerViewModel"
+                                     Spacing="12">
+                    <Border Style="{StaticResource PhotoFrame}">
+                        <Grid>
+                            <Label Text="No photo yet"
+                                   TextColor="#8E8E93"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding HasNoPhoto}" />
+                            <Image Source="{Binding PhotoPath}" Aspect="AspectFit" AutomationId="sample-media-photo" />
+                        </Grid>
+                    </Border>
+                    <Button x:Name="PickButton"
+                            Text="Pick a photo"
+                            HorizontalOptions="Center"
+                            Command="{Binding PickPhotoCommand}"
+                            AutomationId="sample-media-pick-photo" />
+                    <Label Text="{Binding PhotoInfo}"
+                           FontSize="13"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           AutomationId="sample-media-photo-info" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout x:Name="PickOptions" x:DataType="local:MediaPickerViewModel" Spacing="8">
+                        <Label Text="MaximumWidth and MaximumHeight" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="PickSize"
+                                ItemsSource="{StaticResource SizeOptions}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnPickSizeChanged"
+                                AutomationId="option-media-size" />
+                        <Label Text="{Binding CompressionQuality, StringFormat='CompressionQuality: {0:0}'}" Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="PickQuality"
+                                Minimum="10"
+                                Maximum="100"
+                                Value="{Binding CompressionQuality}"
+                                AutomationId="option-media-quality" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="PickSizeSubstitution" Key="Size" />
+                    <Substitution Key="Quality" Value="{Binding Value, Source={x:Reference PickQuality}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="100" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Pick several photos -->
+            <ControlExample x:Name="PickManyExample"
+                            Title="Pick several photos"
+                            Description="Raise SelectionLimit to let the user choose several photos at once, or set it to 0 for no limit. Each one comes back as a FileResult. Not every Android picker enforces the limit, so don't rely on it."
+                            ShowStyleToggle="False"
+                            CSharpSource="MediaPickerPhotos.cs.txt">
+                <VerticalStackLayout x:Name="PickManySample"
+                                     x:DataType="local:MediaPickerViewModel"
+                                     Spacing="12">
+                    <ScrollView Orientation="Horizontal"
+                                HeightRequest="96"
+                                WidthRequest="{OnIdiom Phone=280, Default=360}"
+                                HorizontalScrollBarVisibility="Never">
+                        <HorizontalStackLayout BindableLayout.ItemsSource="{Binding PhotoPaths}" Spacing="8">
+                            <BindableLayout.EmptyView>
+                                <Border Style="{StaticResource PhotoFrame}" HeightRequest="96">
+                                    <Label Text="No photos yet" TextColor="#8E8E93" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                            </BindableLayout.EmptyView>
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <Border StrokeThickness="0" StrokeShape="RoundRectangle 8" WidthRequest="96" HeightRequest="96">
+                                        <Image Source="{Binding .}" Aspect="AspectFill" />
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </HorizontalStackLayout>
+                    </ScrollView>
+                    <Button x:Name="PickManyButton"
+                            Text="Pick photos"
+                            HorizontalOptions="Center"
+                            Command="{Binding PickPhotosCommand}"
+                            AutomationId="sample-media-pick-photos" />
+                    <Label Text="{Binding PhotosInfo}"
+                           FontSize="13"
+                           HorizontalOptions="Center"
+                           AutomationId="sample-media-photos-info" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout x:Name="PickManyOptions" x:DataType="local:MediaPickerViewModel" Spacing="8">
+                        <Label Text="{Binding SelectionLimit, StringFormat='SelectionLimit: {0:0}'}" Style="{StaticResource OptionLabel}" />
+                        <Stepper x:Name="PickManyLimit"
+                                 Minimum="0"
+                                 Maximum="10"
+                                 Value="{Binding SelectionLimit}"
+                                 AutomationId="option-media-limit" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Limit" Value="{Binding Value, Source={x:Reference PickManyLimit}, x:DataType=Stepper, Converter={StaticResource Rounded}}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Take a photo -->
+            <ControlExample x:Name="CaptureExample"
+                            Title="Take a photo"
+                            Description="CapturePhotoAsync opens the camera. Check IsCaptureSupported first: simulators and many computers have no camera. It needs camera permission, which .NET MAUI requests for you, and a usage description in Info.plist. On Android 11 and later, declare the IMAGE_CAPTURE intent in the manifest's queries."
+                            ShowStyleToggle="False"
+                            CSharpSource="MediaPickerCapture.cs.txt">
+                <VerticalStackLayout x:Name="CaptureSample"
+                                     x:DataType="local:MediaPickerViewModel"
+                                     Spacing="12">
+                    <Border Style="{StaticResource PhotoFrame}">
+                        <Grid>
+                            <Label Text="{Binding IsCaptureSupported, StringFormat='IsCaptureSupported: {0}'}"
+                                   TextColor="#8E8E93"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding HasNoCapture}" />
+                            <Image Source="{Binding CapturedPath}" Aspect="AspectFit" AutomationId="sample-media-captured" />
+                        </Grid>
+                    </Border>
+                    <Button x:Name="CaptureButton"
+                            Text="Take a photo"
+                            HorizontalOptions="Center"
+                            Command="{Binding CapturePhotoCommand}"
+                            AutomationId="sample-media-capture-photo" />
+                    <Label Text="{Binding CaptureInfo}"
+                           FontSize="13"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           AutomationId="sample-media-capture-info" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 4. Videos -->
+            <ControlExample x:Name="VideoExample"
+                            Title="Pick or record a video"
+                            Description="PickVideosAsync and CaptureVideoAsync work like their photo siblings and return the video file. Recording also needs the microphone on iOS and Mac. Play the result with a media player control, such as MediaElement from the .NET MAUI Community Toolkit."
+                            ShowStyleToggle="False"
+                            CSharpSource="MediaPickerVideo.cs.txt">
+                <VerticalStackLayout x:Name="VideoSample"
+                                     x:DataType="local:MediaPickerViewModel"
+                                     Spacing="12">
+                    <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
+                        <Button x:Name="VideoButton"
+                                Text="Pick a video"
+                                Command="{Binding PickVideoCommand}"
+                                AutomationId="sample-media-pick-video" />
+                        <Button Text="Record a video"
+                                Command="{Binding CaptureVideoCommand}"
+                                AutomationId="sample-media-capture-video" />
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding VideoInfo}"
+                           FontSize="13"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           AutomationId="sample-media-video-info" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

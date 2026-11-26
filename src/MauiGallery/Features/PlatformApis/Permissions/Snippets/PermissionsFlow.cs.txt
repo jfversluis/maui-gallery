@@ -1,0 +1,42 @@
+public partial class CameraAccessViewModel(IDialogService dialogs, IAppInfo appInfo) : ObservableObject
+{
+    [ObservableProperty]
+    public partial string Message { get; set; } = "Scanning a code needs the camera.";
+
+    [ObservableProperty]
+    public partial bool CanOpenSettings { get; set; }
+
+    [RelayCommand]
+    private async Task EnableCameraAsync()
+    {
+        var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
+        if (status != PermissionStatus.Granted)
+        {
+            // The user said no before but can still be asked: explain first
+            if (Permissions.ShouldShowRationale<Permissions.Camera>()
+                && !await dialogs.ConfirmAsync("Use the camera?", "The camera reads the code. Nothing is recorded or saved.", "Continue", "Not now"))
+            {
+                return;
+            }
+
+            status = await Permissions.RequestAsync<Permissions.Camera>();
+        }
+
+        if (status == PermissionStatus.Granted)
+        {
+            Message = "The camera is ready to scan.";
+            CanOpenSettings = false;
+            return;
+        }
+
+        // Asking again won't show a prompt. Say what's off and offer Settings.
+        Message = "Camera access is off. Turn it on in Settings to scan codes.";
+        CanOpenSettings = true;
+        SemanticScreenReader.Announce(Message);
+    }
+
+    [RelayCommand]
+    private void OpenSettings() => appInfo.ShowSettingsUI();
+}
+
+// IDialogService is your own wrapper around Page.DisplayAlertAsync, so the view model doesn't need a page

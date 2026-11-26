@@ -1,0 +1,8 @@
+if (HapticFeedback.Default.IsSupported)
+{
+    // A short tap, for a confirmation
+    HapticFeedback.Default.Perform(HapticFeedbackType.Click);
+
+    // A firmer one, for a press-and-hold
+    HapticFeedback.Default.Perform(HapticFeedbackType.LongPress);
+}
