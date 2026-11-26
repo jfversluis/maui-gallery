@@ -90,7 +90,7 @@ public sealed partial class GalleryCatalog
                 new(GalleryPlatforms.MacCatalyst, "LayoutView (UIView)"),
                 new(GalleryPlatforms.Windows, "LayoutPanel"),
             ],
-            RelatedIds = ["collection-view"],
+            RelatedIds = ["collection-view", "flex-layout", "stack-layout"],
             DocsUrl = new(DocsRoot + "user-interface/layouts/bindablelayout"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.bindablelayout"),
             SourceUrl = new(SourceRoot + "Controls/Collections/BindableLayout"),
