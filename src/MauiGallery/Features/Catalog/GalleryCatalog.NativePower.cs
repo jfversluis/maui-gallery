@@ -28,7 +28,6 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "user-interface/handlers/customize"),
             ApiUrl = new(ApiRoot + "microsoft.maui.propertymapperextensions"),
             SourceUrl = new(SourceRoot + "NativePower/HandlerCustomization"),
-            IsFeatured = true,
         },
         new()
         {
@@ -70,7 +69,6 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "user-interface/handlers/create"),
             ApiUrl = new(ApiRoot + "microsoft.maui.handlers.viewhandler-2"),
             SourceUrl = new(SourceRoot + "NativePower/NativeViews"),
-            IsFeatured = true,
         },
         new()
         {
@@ -113,6 +111,7 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "user-interface/handlers/"),
             ApiUrl = new(ApiRoot + "microsoft.maui.iviewhandler"),
             SourceUrl = new(SourceRoot + "NativePower/NativeViewInspector"),
+            FeaturedTask = "Prove it's native",
         },
     ];
 }

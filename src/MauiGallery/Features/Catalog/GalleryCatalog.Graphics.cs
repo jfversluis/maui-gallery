@@ -36,7 +36,6 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "user-interface/controls/shapes/"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.shapes.shape"),
             SourceUrl = new(SourceRoot + "Controls/Graphics/Shapes"),
-            IsFeatured = true,
         },
         new()
         {

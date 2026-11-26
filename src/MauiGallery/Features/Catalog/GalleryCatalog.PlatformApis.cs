@@ -28,7 +28,7 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "platform-integration/appmodel/permissions"),
             ApiUrl = new(ApiRoot + "microsoft.maui.applicationmodel.permissions"),
             SourceUrl = new(SourceRoot + "PlatformApis/Permissions"),
-            IsFeatured = true,
+            FeaturedTask = "Use the device",
         },
         new()
         {
@@ -91,7 +91,6 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "platform-integration/device/sensors"),
             ApiUrl = new(ApiRoot + "microsoft.maui.devices.sensors"),
             SourceUrl = new(SourceRoot + "PlatformApis/Sensors"),
-            IsFeatured = true,
         },
         new()
         {

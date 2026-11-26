@@ -35,6 +35,8 @@ public sealed partial class HomeViewModel : ObservableObject,
         _navigation = navigation;
         _browser = browser;
 
+        Featured = [.. catalog.Featured];
+        HasFeatured = Featured.Count > 0;
         Categories = [.. catalog.PopulatedCategories.Select(c => new CategoryTile(c, catalog.InCategory(c.Id).Count()))];
         RefreshFavorites();
         RefreshRecents();
@@ -49,8 +51,8 @@ public sealed partial class HomeViewModel : ObservableObject,
         new("What's new", "The latest in .NET MAUI.", FluentIconsRegular.Sparkle24, new("https://learn.microsoft.com/dotnet/maui/whats-new/")),
     ];
 
-    /// <summary>Featured items the user has not visited recently, so Home never shows the same card twice.</summary>
-    public ObservableCollection<GalleryItem> Featured { get; } = [];
+    /// <summary>A short, curated tour: one item per task, labeled with it. Always complete, even if visited.</summary>
+    public IReadOnlyList<GalleryItem> Featured { get; }
 
     public IReadOnlyList<CategoryTile> Categories { get; }
 
@@ -64,8 +66,7 @@ public sealed partial class HomeViewModel : ObservableObject,
     [ObservableProperty]
     public partial bool HasFavorites { get; set; }
 
-    [ObservableProperty]
-    public partial bool HasFeatured { get; set; }
+    public bool HasFeatured { get; }
 
     public void Receive(FavoritesChangedMessage message) => RefreshFavorites();
 
@@ -93,8 +94,6 @@ public sealed partial class HomeViewModel : ObservableObject,
     {
         Replace(Recents, _recents.Ids.Take(4));
         HasRecents = Recents.Count > 0;
-        Replace(Featured, _catalog.Featured.Select(i => i.Id).Except(Recents.Select(i => i.Id)));
-        HasFeatured = Featured.Count > 0;
     }
 
     private void Replace(ObservableCollection<GalleryItem> target, IEnumerable<string> ids)

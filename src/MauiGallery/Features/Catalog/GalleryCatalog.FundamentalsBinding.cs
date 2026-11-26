@@ -21,7 +21,6 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "fundamentals/data-binding/"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.binding"),
             SourceUrl = new(SourceRoot + "Fundamentals/DataBinding"),
-            IsFeatured = true,
         },
         new()
         {

@@ -28,7 +28,6 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "user-interface/pop-ups"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.page.displayalertasync"),
             SourceUrl = new(SourceRoot + "Controls/Dialogs/Alerts"),
-            IsFeatured = true,
         },
         new()
         {

@@ -22,7 +22,7 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "user-interface/layouts/grid"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.grid"),
             SourceUrl = new(SourceRoot + "Controls/Layout/Grid"),
-            IsFeatured = true,
+            FeaturedTask = "Build a layout",
         },
         new()
         {
