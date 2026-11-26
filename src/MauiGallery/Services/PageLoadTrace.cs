@@ -7,6 +7,7 @@ namespace MauiGallery.Services;
 /// <summary>
 /// Measures how long a page takes from the navigation request until it has been laid out, and writes one line per
 /// navigation, for example <c>[PageLoad] button 412 ms: resolve 3, construct 260, handlers 90, layout 55 | code 31 (8x)</c>.
+/// Work that continues after that, such as examples filling in, is reported on a second line.
 /// </summary>
 /// <remarks>
 /// Milestones are time since the previous milestone; the part after the bar adds up work that was timed with
@@ -19,6 +20,7 @@ public static class PageLoadTrace
     private static readonly Dictionary<string, (TimeSpan Time, int Count)> Work = new(StringComparer.Ordinal);
     private static string? _route;
     private static long _start;
+    private static bool _ended;
 
     /// <summary>Whether a navigation is being measured.</summary>
     public static bool IsActive => _route is not null;
@@ -35,6 +37,7 @@ public static class PageLoadTrace
         Milestones.Clear();
         Work.Clear();
         _route = route;
+        _ended = false;
         Navigation++;
         _start = Stopwatch.GetTimestamp();
     }
@@ -42,7 +45,7 @@ public static class PageLoadTrace
     /// <summary>Records a milestone, such as "construct", for the navigation being measured.</summary>
     public static void Mark(string milestone)
     {
-        if (IsActive)
+        if (IsActive && !_ended)
         {
             Milestones.Add((milestone, Stopwatch.GetTimestamp()));
         }
@@ -51,15 +54,16 @@ public static class PageLoadTrace
     /// <summary>Adds the time until the returned scope is disposed to the named work, such as "code".</summary>
     public static WorkScope Measure(string work) => new(IsActive ? work : null, Stopwatch.GetTimestamp());
 
-    /// <summary>Records the final milestone and writes the measurement.</summary>
+    /// <summary>Records the final milestone, once the page is on screen, and writes the measurement.</summary>
     public static void End(string milestone)
     {
-        if (!IsActive)
+        if (!IsActive || _ended)
         {
             return;
         }
 
         Mark(milestone);
+        _ended = true;
         var line = new StringBuilder("[PageLoad] ")
             .Append(_route).Append(' ')
             .Append(Milliseconds(_start, Milestones[^1].Timestamp)).Append(" ms:");
@@ -71,6 +75,27 @@ public static class PageLoadTrace
         }
 
         line.Length--;
+        Write(line);
+    }
+
+    /// <summary>Reports work that finished after the page appeared, such as its examples filling in.</summary>
+    public static void EndDeferred(string milestone)
+    {
+        if (!_ended || !IsActive)
+        {
+            Mark(milestone);
+            return;
+        }
+
+        var line = new StringBuilder("[PageLoad] ")
+            .Append(_route).Append(' ').Append(milestone).Append(" after ")
+            .Append(Milliseconds(_start, Stopwatch.GetTimestamp())).Append(" ms");
+        Write(line);
+        _route = null;
+    }
+
+    private static void Write(StringBuilder line)
+    {
         if (Work.Count > 0)
         {
             line.Append(" |");
@@ -78,9 +103,10 @@ public static class PageLoadTrace
             {
                 line.Append(CultureInfo.InvariantCulture, $" {name} {time.TotalMilliseconds:0} ({count}x)");
             }
+
+            Work.Clear();
         }
 
-        _route = null;
         Console.WriteLine(line.ToString());
     }
 

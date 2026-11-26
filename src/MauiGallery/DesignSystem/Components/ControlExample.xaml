@@ -23,7 +23,7 @@
     <!-- Explicit because this class's [ContentProperty] is Example, which is for the consumer's sample. -->
     <ContentView.Content>
         <Border Style="{StaticResource Card}" Padding="0">
-            <Grid RowDefinitions="Auto,Auto">
+            <Grid x:Name="CardLayout" RowDefinitions="Auto,Auto">
 
                 <!-- Header -->
                 <VerticalStackLayout Padding="20,18,20,16" Spacing="4">
@@ -55,6 +55,25 @@
                         </Grid>
                     </Border>
                 </VerticalStackLayout>
+
+                <!--
+                    Shown while the example is waiting to be realized, so a page appears before all of its examples
+                    are built. ControlExample swaps in the body below when it is its turn.
+                -->
+                <Grid x:Name="Placeholder"
+                      Grid.Row="1"
+                      BackgroundColor="{DynamicResource ColorStage}"
+                      AutomationId="example-loading">
+                    <DotGridView DotColor="{DynamicResource ColorStageDot}" />
+                    <BoxView Style="{StaticResource Divider}" VerticalOptions="Start" />
+                    <ActivityIndicator IsRunning="True"
+                                       Color="{DynamicResource ColorAccentText}"
+                                       WidthRequest="{StaticResource IconSizeLarge}"
+                                       HeightRequest="{StaticResource IconSizeLarge}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       SemanticProperties.Description="Loading example" />
+                </Grid>
 
                 <!--
                     Stage, options, output and code. Columns and rows are assigned in code from the available width:
