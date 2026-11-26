@@ -24,7 +24,7 @@ the reference implementation. Read it before writing a new page.
 4. **Write snippets** in a `Snippets` folder: `<Control><Example>.xaml.txt` and `.cs.txt`, unique names across the
    app. Every `$(Name)` needs a `Substitution` with that `Key`; set `Default` so unchanged properties drop out, and
    `IsExpression="True"` for values that are C# code.
-5. **Add the catalog entry** in `Features/Catalog/GalleryCatalog.Data.cs`: kebab-case `Id`, one-sentence
+5. **Add the catalog entry** in the category's `Features/Catalog/GalleryCatalog.<Category>.cs`: kebab-case `Id`, one-sentence
    `Description`, `NativeMappings` for each platform, `RelatedIds`, docs, API and source URLs.
 6. **Verify** (below). Do not report the sample as done until every check passes.
 

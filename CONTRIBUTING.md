@@ -98,7 +98,7 @@ Booleans, numbers and colors are formatted for XAML and C# automatically.
 
 ### 3. Register it in the catalog
 
-Add an entry to `Features/Catalog/GalleryCatalog.Data.cs`. Routing, dependency injection, navigation, search and
+Add an entry to the category's file, `Features/Catalog/GalleryCatalog.<Category>.cs`. Routing, dependency injection, navigation, search and
 deep links (`mauigallery://item/{id}`) all come from this entry.
 
 ```csharp
