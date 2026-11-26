@@ -1,0 +1,197 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Layouts.StackLayoutPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <local:LayoutSampleResources />
+            </ResourceDictionary.MergedDictionaries>
+            <x:Array x:Key="LayoutOptionNames" Type="{x:Type x:String}">
+                <x:String>Start</x:String>
+                <x:String>Center</x:String>
+                <x:String>End</x:String>
+                <x:String>Fill</x:String>
+            </x:Array>
+            <x:Array x:Key="OrientationOptions" Type="{x:Type StackOrientation}">
+                <x:Static Member="StackOrientation.Vertical" />
+                <x:Static Member="StackOrientation.Horizontal" />
+            </x:Array>
+            <Style x:Key="Avatar" TargetType="Border">
+                <Setter Property="WidthRequest" Value="44" />
+                <Setter Property="HeightRequest" Value="44" />
+                <Setter Property="StrokeThickness" Value="0" />
+                <Setter Property="StrokeShape" Value="Ellipse" />
+            </Style>
+            <Style x:Key="AvatarText" TargetType="Label">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Vertical -->
+            <ControlExample x:Name="VerticalExample"
+                            Title="Stack views vertically"
+                            Description="VerticalStackLayout places its children one below the other, with Spacing between them. Each child's HorizontalOptions decides where it sits across the width; the dashed outline is the stack."
+                            ShowStyleToggle="False"
+                            XamlSource="StackLayoutVertical.xaml.txt"
+                            CSharpSource="StackLayoutVertical.cs.txt">
+                <Border Style="{StaticResource LayoutFrame}" WidthRequest="260">
+                    <VerticalStackLayout x:Name="VerticalSample"
+                                         Spacing="{Binding Value, Source={x:Reference VerticalSpacing}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                         AutomationId="sample-vertical-stack">
+                        <Border Style="{StaticResource Tile}">
+                            <Label Text="First" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource TileGreen}">
+                            <Label Text="Second item" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource TileAmber}">
+                            <Label Text="Third" Style="{StaticResource TileText}" />
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference VerticalSpacing}, StringFormat='Spacing: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="VerticalSpacing" Minimum="0" Maximum="32" Value="8" AutomationId="option-vertical-spacing" />
+                        <Label Text="Children: HorizontalOptions" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="VerticalChildOptions"
+                                ItemsSource="{StaticResource LayoutOptionNames}"
+                                SelectedIndex="1"
+                                SelectedIndexChanged="OnVerticalChildOptionsChanged"
+                                AutomationId="option-vertical-horizontal-options" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Spacing" Value="{Binding Value, Source={x:Reference VerticalSpacing}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                    <Substitution Key="HorizontalOptions" Value="{Binding SelectedItem, Source={x:Reference VerticalChildOptions}, x:DataType=Picker}" Default="Fill" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Horizontal -->
+            <ControlExample x:Name="HorizontalExample"
+                            Title="Stack views horizontally"
+                            Description="HorizontalStackLayout places its children side by side. The stack is as tall as its tallest child, and VerticalOptions aligns the shorter ones."
+                            ShowStyleToggle="False"
+                            XamlSource="StackLayoutHorizontal.xaml.txt"
+                            CSharpSource="StackLayoutHorizontal.cs.txt">
+                <Border Style="{StaticResource LayoutFrame}" HorizontalOptions="Center">
+                    <HorizontalStackLayout x:Name="HorizontalSample"
+                                           Spacing="{Binding Value, Source={x:Reference HorizontalSpacing}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                           AutomationId="sample-horizontal-stack">
+                        <Border Style="{StaticResource Tile}">
+                            <Label Text="Short" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource TileGreen}" HeightRequest="96" VerticalOptions="Fill">
+                            <Label Text="Tall" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource TilePink}" HeightRequest="60">
+                            <Label Text="Medium" Style="{StaticResource TileText}" />
+                        </Border>
+                    </HorizontalStackLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference HorizontalSpacing}, StringFormat='Spacing: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="HorizontalSpacing" Minimum="0" Maximum="32" Value="8" AutomationId="option-horizontal-spacing" />
+                        <Label Text="Short and Medium: VerticalOptions" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="HorizontalChildOptions"
+                                ItemsSource="{StaticResource LayoutOptionNames}"
+                                SelectedIndex="1"
+                                SelectedIndexChanged="OnHorizontalChildOptionsChanged"
+                                AutomationId="option-horizontal-vertical-options" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Spacing" Value="{Binding Value, Source={x:Reference HorizontalSpacing}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                    <Substitution Key="VerticalOptions" Value="{Binding SelectedItem, Source={x:Reference HorizontalChildOptions}, x:DataType=Picker}" Default="Fill" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Nesting -->
+            <ControlExample x:Name="NestedExample"
+                            Title="Nest stacks for simple rows"
+                            Description="Stacks combine well for small, fixed arrangements such as an avatar next to two lines of text. They never hand a child the remaining space; use a Grid with a * column for that."
+                            XamlSource="StackLayoutNested.xaml.txt"
+                            CSharpSource="StackLayoutNested.cs.txt">
+                <VerticalStackLayout x:Name="NestedSample" Spacing="16" AutomationId="sample-nested-stack">
+                    <HorizontalStackLayout Spacing="12">
+                        <Border Style="{StaticResource Avatar}" BackgroundColor="#0D9488">
+                            <Label Text="AL" Style="{StaticResource AvatarText}" />
+                        </Border>
+                        <VerticalStackLayout VerticalOptions="Center">
+                            <Label Text="Ada Lovelace" FontAttributes="Bold" />
+                            <Label Text="Mathematician" FontSize="13" Opacity="0.7" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="12">
+                        <Border Style="{StaticResource Avatar}" BackgroundColor="#7C3AED">
+                            <Label Text="GH" Style="{StaticResource AvatarText}" />
+                        </Border>
+                        <VerticalStackLayout VerticalOptions="Center">
+                            <Label Text="Grace Hopper" FontAttributes="Bold" />
+                            <Label Text="Computer scientist" FontSize="13" Opacity="0.7" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="12">
+                        <Border Style="{StaticResource Avatar}" BackgroundColor="#EA580C">
+                            <Label Text="AT" Style="{StaticResource AvatarText}" />
+                        </Border>
+                        <VerticalStackLayout VerticalOptions="Center">
+                            <Label Text="Alan Turing" FontAttributes="Bold" />
+                            <Label Text="Logician" FontSize="13" Opacity="0.7" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 4. StackLayout -->
+            <ControlExample x:Name="LegacyExample"
+                            Title="Switch orientation with StackLayout"
+                            Description="StackLayout is the original, more general stack. Prefer VerticalStackLayout and HorizontalStackLayout, which are lighter; use StackLayout only when the Orientation changes at runtime."
+                            ShowStyleToggle="False"
+                            XamlSource="StackLayoutOrientation.xaml.txt"
+                            CSharpSource="StackLayoutOrientation.cs.txt">
+                <Border Style="{StaticResource LayoutFrame}" HorizontalOptions="Center">
+                    <StackLayout x:Name="LegacySample"
+                                 Orientation="{Binding SelectedItem, Source={x:Reference LegacyOrientation}, x:DataType=Picker}"
+                                 Spacing="8"
+                                 AutomationId="sample-legacy-stack">
+                        <Border Style="{StaticResource Tile}">
+                            <Label Text="One" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource TileGreen}">
+                            <Label Text="Two" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource TileAmber}">
+                            <Label Text="Three" Style="{StaticResource TileText}" />
+                        </Border>
+                    </StackLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Orientation" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="LegacyOrientation"
+                                ItemsSource="{StaticResource OrientationOptions}"
+                                SelectedIndex="1"
+                                AutomationId="option-legacy-orientation" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Orientation" Value="{Binding SelectedItem, Source={x:Reference LegacyOrientation}, x:DataType=Picker}" Default="Vertical" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

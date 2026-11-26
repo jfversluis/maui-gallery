@@ -1,0 +1,13 @@
+<VerticalStackLayout
+    Spacing="$(Spacing)"
+    WidthRequest="260">
+    <Label
+        Text="First"
+        HorizontalOptions="$(HorizontalOptions)" />
+    <Label
+        Text="Second item"
+        HorizontalOptions="$(HorizontalOptions)" />
+    <Label
+        Text="Third"
+        HorizontalOptions="$(HorizontalOptions)" />
+</VerticalStackLayout>

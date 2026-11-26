@@ -1,0 +1,7 @@
+<StackLayout
+    Orientation="$(Orientation)"
+    Spacing="8">
+    <Label Text="One" />
+    <Label Text="Two" />
+    <Label Text="Three" />
+</StackLayout>

@@ -1,0 +1,15 @@
+var grid = new Grid
+{
+    ColumnDefinitions = [new(GridLength.Star), new(GridLength.Star), new(GridLength.Star)],
+    RowDefinitions = [new(GridLength.Star), new(GridLength.Star), new(GridLength.Star)],
+    ColumnSpacing = 6,
+    RowSpacing = 6,
+    HeightRequest = 180,
+};
+
+var placed = new Label { Text = "Placed" };
+grid.Add(placed);
+Grid.SetRow(placed, $(Row));
+Grid.SetColumn(placed, $(Column));
+Grid.SetRowSpan(placed, $(RowSpan));
+Grid.SetColumnSpan(placed, $(ColumnSpan));

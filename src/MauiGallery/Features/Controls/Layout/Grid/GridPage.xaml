@@ -1,0 +1,217 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Layouts.GridPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <local:LayoutSampleResources />
+            </ResourceDictionary.MergedDictionaries>
+            <x:Array x:Key="ColumnPresets" Type="{x:Type x:String}">
+                <x:String>Auto,*,80</x:String>
+                <x:String>*,*,*</x:String>
+                <x:String>*,2*,*</x:String>
+                <x:String>Auto,Auto,*</x:String>
+                <x:String>80,*,Auto</x:String>
+            </x:Array>
+            <x:Array x:Key="RowPresets" Type="{x:Type x:String}">
+                <x:String>Auto,*</x:String>
+                <x:String>*,*</x:String>
+                <x:String>*,2*</x:String>
+                <x:String>40,*</x:String>
+                <x:String>Auto,Auto</x:String>
+            </x:Array>
+        </ResourceDictionary>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Rows and columns -->
+            <ControlExample x:Name="DefinitionsExample"
+                            Title="Size rows and columns"
+                            Description="Auto sizes a row or column to its content, * shares the remaining space in proportion (2* gets twice as much), and a number is a fixed size. Spacing adds gaps between cells."
+                            ShowStyleToggle="False"
+                            XamlSource="GridDefinitions.xaml.txt"
+                            CSharpSource="GridDefinitions.cs.txt">
+                <Border Style="{StaticResource LayoutFrame}" WidthRequest="300">
+                    <Grid x:Name="DefinitionsGrid"
+                          HeightRequest="180"
+                          ColumnSpacing="{Binding Value, Source={x:Reference DefinitionsColumnSpacing}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                          RowSpacing="{Binding Value, Source={x:Reference DefinitionsRowSpacing}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                          AutomationId="sample-definitions-grid">
+                        <Border Style="{StaticResource Tile}">
+                            <Label Text="A" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Grid.Column="1" Style="{StaticResource TileGreen}">
+                            <Label Text="B" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Grid.Column="2" Style="{StaticResource TileAmber}">
+                            <Label Text="C" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Grid.Row="1" Style="{StaticResource TilePink}">
+                            <Label Text="Wider D" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource TileViolet}">
+                            <Label Text="E" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource Tile}">
+                            <Label Text="F" Style="{StaticResource TileText}" />
+                        </Border>
+                    </Grid>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="ColumnDefinitions" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="DefinitionsColumns"
+                                ItemsSource="{StaticResource ColumnPresets}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnDefinitionsChanged"
+                                AutomationId="option-definitions-columns" />
+                        <Label Text="RowDefinitions" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="DefinitionsRows"
+                                ItemsSource="{StaticResource RowPresets}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnDefinitionsChanged"
+                                AutomationId="option-definitions-rows" />
+                        <Label Text="{Binding Value, Source={x:Reference DefinitionsColumnSpacing}, StringFormat='ColumnSpacing: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="DefinitionsColumnSpacing" Minimum="0" Maximum="24" Value="8" AutomationId="option-definitions-column-spacing" />
+                        <Label Text="{Binding Value, Source={x:Reference DefinitionsRowSpacing}, StringFormat='RowSpacing: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="DefinitionsRowSpacing" Minimum="0" Maximum="24" Value="8" AutomationId="option-definitions-row-spacing" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="ColumnDefinitions" Value="{Binding SelectedItem, Source={x:Reference DefinitionsColumns}, x:DataType=Picker}" />
+                    <Substitution Key="RowDefinitions" Value="{Binding SelectedItem, Source={x:Reference DefinitionsRows}, x:DataType=Picker}" />
+                    <Substitution x:Name="ColumnDefinitionsCode" Key="ColumnDefinitionsCode" IsExpression="True" />
+                    <Substitution x:Name="RowDefinitionsCode" Key="RowDefinitionsCode" IsExpression="True" />
+                    <Substitution Key="ColumnSpacing" Value="{Binding Value, Source={x:Reference DefinitionsColumnSpacing}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                    <Substitution Key="RowSpacing" Value="{Binding Value, Source={x:Reference DefinitionsRowSpacing}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Placement and spans -->
+            <ControlExample x:Name="PlacementExample"
+                            Title="Place and span cells"
+                            Description="Grid.Row and Grid.Column put a child in a cell; Grid.RowSpan and Grid.ColumnSpan stretch it across several. The dashed outlines show the cells of this 3 × 3 grid."
+                            ShowStyleToggle="False"
+                            XamlSource="GridPlacement.xaml.txt"
+                            CSharpSource="GridPlacement.cs.txt">
+                <Grid ColumnDefinitions="*,*,*"
+                      RowDefinitions="*,*,*"
+                      ColumnSpacing="6"
+                      RowSpacing="6"
+                      WidthRequest="300"
+                      HeightRequest="180">
+                    <Border Style="{StaticResource LayoutFrame}" />
+                    <Border Grid.Column="1" Style="{StaticResource LayoutFrame}" />
+                    <Border Grid.Column="2" Style="{StaticResource LayoutFrame}" />
+                    <Border Grid.Row="1" Style="{StaticResource LayoutFrame}" />
+                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource LayoutFrame}" />
+                    <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource LayoutFrame}" />
+                    <Border Grid.Row="2" Style="{StaticResource LayoutFrame}" />
+                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource LayoutFrame}" />
+                    <Border Grid.Row="2" Grid.Column="2" Style="{StaticResource LayoutFrame}" />
+                    <Border x:Name="PlacedTile" Style="{StaticResource TileViolet}" AutomationId="sample-placement-tile">
+                        <Label x:Name="PlacedTileText" Style="{StaticResource TileText}" />
+                    </Border>
+                </Grid>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="{Binding Value, Source={x:Reference PlacementRow}, StringFormat='Grid.Row: {0:0}', x:DataType=Stepper}"
+                                   Style="{StaticResource OptionLabel}"
+                                   VerticalOptions="Center" />
+                            <Stepper x:Name="PlacementRow" Grid.Column="1" Minimum="0" Maximum="2" Value="0" ValueChanged="OnPlacementChanged" AutomationId="option-placement-row" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="{Binding Value, Source={x:Reference PlacementColumn}, StringFormat='Grid.Column: {0:0}', x:DataType=Stepper}"
+                                   Style="{StaticResource OptionLabel}"
+                                   VerticalOptions="Center" />
+                            <Stepper x:Name="PlacementColumn" Grid.Column="1" Minimum="0" Maximum="2" Value="0" ValueChanged="OnPlacementChanged" AutomationId="option-placement-column" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="{Binding Value, Source={x:Reference PlacementRowSpan}, StringFormat='Grid.RowSpan: {0:0}', x:DataType=Stepper}"
+                                   Style="{StaticResource OptionLabel}"
+                                   VerticalOptions="Center" />
+                            <Stepper x:Name="PlacementRowSpan" Grid.Column="1" Minimum="1" Maximum="3" Value="1" ValueChanged="OnPlacementChanged" AutomationId="option-placement-row-span" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="{Binding Value, Source={x:Reference PlacementColumnSpan}, StringFormat='Grid.ColumnSpan: {0:0}', x:DataType=Stepper}"
+                                   Style="{StaticResource OptionLabel}"
+                                   VerticalOptions="Center" />
+                            <Stepper x:Name="PlacementColumnSpan" Grid.Column="1" Minimum="1" Maximum="3" Value="2" ValueChanged="OnPlacementChanged" AutomationId="option-placement-column-span" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Row" Value="{Binding Value, Source={x:Reference PlacementRow}, x:DataType=Stepper}" Default="0" />
+                    <Substitution Key="Column" Value="{Binding Value, Source={x:Reference PlacementColumn}, x:DataType=Stepper}" Default="0" />
+                    <Substitution Key="RowSpan" Value="{Binding Value, Source={x:Reference PlacementRowSpan}, x:DataType=Stepper}" Default="1" />
+                    <Substitution Key="ColumnSpan" Value="{Binding Value, Source={x:Reference PlacementColumnSpan}, x:DataType=Stepper}" Default="1" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. A form -->
+            <ControlExample x:Name="FormExample"
+                            Title="Lay out a form"
+                            Description="An Auto column for the labels and a * column for the fields keeps every field aligned. A row of buttons spans both columns."
+                            XamlSource="GridForm.xaml.txt"
+                            CSharpSource="GridForm.cs.txt">
+                <Grid x:Name="FormGrid"
+                      ColumnDefinitions="Auto,*"
+                      RowDefinitions="Auto,Auto,Auto,Auto"
+                      ColumnSpacing="12"
+                      RowSpacing="12"
+                      WidthRequest="300">
+                    <Label Text="Name" VerticalOptions="Center" />
+                    <Entry x:Name="FormName" Grid.Column="1" Placeholder="Ada Lovelace" AutomationId="sample-form-name" />
+                    <Label Grid.Row="1" Text="Email" VerticalOptions="Center" />
+                    <Entry Grid.Row="1" Grid.Column="1" Placeholder="ada@example.com" Keyboard="Email" AutomationId="sample-form-email" />
+                    <Label Grid.Row="2" Text="Message" Margin="0,8,0,0" />
+                    <Editor Grid.Row="2" Grid.Column="1" HeightRequest="96" Placeholder="How can we help?" AutomationId="sample-form-message" />
+                    <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="2" Spacing="8" HorizontalOptions="End">
+                        <Button Text="Cancel" Clicked="OnFormCancelClicked" AutomationId="sample-form-cancel" />
+                        <Button Text="Send" Clicked="OnFormSendClicked" AutomationId="sample-form-send" />
+                    </HorizontalStackLayout>
+                </Grid>
+            </ControlExample>
+
+            <!-- 4. Layering -->
+            <ControlExample x:Name="LayeringExample"
+                            Title="Layer views in one cell"
+                            Description="Children in the same cell draw on top of each other in order. Use alignment and margins to place text and badges over a background, without nesting extra layouts."
+                            ShowStyleToggle="False"
+                            XamlSource="GridLayering.xaml.txt"
+                            CSharpSource="GridLayering.cs.txt">
+                <Grid x:Name="LayeringGrid" WidthRequest="300" HeightRequest="160" AutomationId="sample-layering-grid">
+                    <Border StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="1,1">
+                                <GradientStop Color="#0EA5E9" Offset="0" />
+                                <GradientStop Color="#6366F1" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <VerticalStackLayout Padding="16" VerticalOptions="End">
+                        <Label Text="Weekend in Lisbon" TextColor="White" FontSize="20" FontAttributes="Bold" />
+                        <Label Text="3 nights, from €420" TextColor="White" />
+                    </VerticalStackLayout>
+                    <Border Margin="12"
+                            Padding="8,2"
+                            HorizontalOptions="End"
+                            VerticalOptions="Start"
+                            BackgroundColor="White"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 10">
+                        <Label Text="NEW" FontSize="12" FontAttributes="Bold" TextColor="#4F46E5" />
+                    </Border>
+                </Grid>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

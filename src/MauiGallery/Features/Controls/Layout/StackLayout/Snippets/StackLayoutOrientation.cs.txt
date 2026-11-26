@@ -1,0 +1,15 @@
+var stack = new StackLayout
+{
+    Orientation = StackOrientation.$(Orientation),
+    Spacing = 8,
+    Children =
+    {
+        new Label { Text = "One" },
+        new Label { Text = "Two" },
+        new Label { Text = "Three" },
+    },
+};
+
+// Unlike the dedicated stacks, the orientation can change at runtime.
+void OnWindowSizeChanged(object? sender, EventArgs e) =>
+    stack.Orientation = Window.Width > 600 ? StackOrientation.Horizontal : StackOrientation.Vertical;

@@ -1,0 +1,37 @@
+var people = new VerticalStackLayout { Spacing = 16 };
+people.Add(CreatePersonRow("AL", "Ada Lovelace", "Mathematician", Color.FromArgb("#0D9488")));
+people.Add(CreatePersonRow("GH", "Grace Hopper", "Computer scientist", Color.FromArgb("#7C3AED")));
+people.Add(CreatePersonRow("AT", "Alan Turing", "Logician", Color.FromArgb("#EA580C")));
+
+static HorizontalStackLayout CreatePersonRow(string initials, string name, string role, Color color) => new()
+{
+    Spacing = 12,
+    Children =
+    {
+        new Border
+        {
+            WidthRequest = 44,
+            HeightRequest = 44,
+            StrokeThickness = 0,
+            StrokeShape = new Ellipse(),
+            BackgroundColor = color,
+            Content = new Label
+            {
+                Text = initials,
+                TextColor = Colors.White,
+                FontAttributes = FontAttributes.Bold,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center,
+            },
+        },
+        new VerticalStackLayout
+        {
+            VerticalOptions = LayoutOptions.Center,
+            Children =
+            {
+                new Label { Text = name, FontAttributes = FontAttributes.Bold },
+                new Label { Text = role, FontSize = 13, Opacity = 0.7 },
+            },
+        },
+    },
+};

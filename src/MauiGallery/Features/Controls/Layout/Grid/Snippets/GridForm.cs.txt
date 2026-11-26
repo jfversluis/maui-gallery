@@ -1,0 +1,27 @@
+var grid = new Grid
+{
+    ColumnDefinitions = [new(GridLength.Auto), new(GridLength.Star)],
+    RowDefinitions = [new(GridLength.Auto), new(GridLength.Auto), new(GridLength.Auto), new(GridLength.Auto)],
+    ColumnSpacing = 12,
+    RowSpacing = 12,
+};
+
+grid.Add(new Label { Text = "Name", VerticalOptions = LayoutOptions.Center });
+grid.Add(new Entry { Placeholder = "Ada Lovelace" }, 1);
+
+grid.Add(new Label { Text = "Email", VerticalOptions = LayoutOptions.Center }, 0, 1);
+grid.Add(new Entry { Placeholder = "ada@example.com", Keyboard = Keyboard.Email }, 1, 1);
+
+grid.Add(new Label { Text = "Message", Margin = new Thickness(0, 8, 0, 0) }, 0, 2);
+grid.Add(new Editor { HeightRequest = 96, Placeholder = "How can we help?" }, 1, 2);
+
+var cancel = new Button { Text = "Cancel" };
+var send = new Button { Text = "Send" };
+cancel.Clicked += OnCancelClicked;
+send.Clicked += OnSendClicked;
+
+var buttons = new HorizontalStackLayout { Spacing = 8, HorizontalOptions = LayoutOptions.End };
+buttons.Add(cancel);
+buttons.Add(send);
+grid.Add(buttons, 0, 3);
+Grid.SetColumnSpan(buttons, 2);
