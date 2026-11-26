@@ -1,0 +1,14 @@
+<Window.TitleBar>
+    <!-- A search box needs more room than the standard 32-point title bar -->
+    <TitleBar Title="Contoso Mail" HeightRequest="48">
+        <TitleBar.LeadingContent>
+            <ImageButton Source="back.png" WidthRequest="32" HeightRequest="32" Clicked="OnBackClicked" />
+        </TitleBar.LeadingContent>
+        <TitleBar.Content>
+            <SearchBar Placeholder="Search mail" BackgroundColor="Transparent" MaximumWidthRequest="320" VerticalOptions="Center" />
+        </TitleBar.Content>
+        <TitleBar.TrailingContent>
+            <ImageButton Source="account.png" WidthRequest="32" HeightRequest="32" Clicked="OnAccountClicked" />
+        </TitleBar.TrailingContent>
+    </TitleBar>
+</Window.TitleBar>

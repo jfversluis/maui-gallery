@@ -1,0 +1,13 @@
+<ContentPage x:Class="MauiGallery.Features.Navigation.TitleBarWindowPage"
+             xmlns:local="clr-namespace:MauiGallery.Features.Navigation"
+             x:DataType="local:TitleBarWindowPage"
+             Title="Title bar">
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="12" MaximumWidthRequest="560">
+            <Label Text="Inbox" FontSize="28" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level1" />
+            <Label Text="This window has a custom TitleBar. Change the options in the gallery and the title bar updates." />
+            <Label x:Name="Status" AutomationId="titlebar-window-status" />
+            <Button Text="Close this window" Clicked="OnCloseClicked" HorizontalOptions="Start" AutomationId="titlebar-window-close" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,111 @@
+<SamplePage x:Class="MauiGallery.Features.Navigation.MultiWindowPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:catalog="clr-namespace:MauiGallery.Core.Catalog;assembly=MauiGallery.Core"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <Border x:Name="UnsupportedNote" Style="{StaticResource SubtlePanel}" IsVisible="False" AutomationId="multi-window-note">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Style="{StaticResource TextIcon}"
+                           Text="{x:Static icons:FluentIconsRegular.WindowMultiple24}"
+                           TextColor="{DynamicResource ColorAccentText}"
+                           VerticalOptions="Start" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                        <Label Text="An iPad, Mac and PC feature" Style="{StaticResource TextBodyStrong}" />
+                        <Label Style="{StaticResource TextBodySecondary}"
+                               Text="Phones run an app in a single window, so the buttons below are turned off here. On an iPad, a Mac or a Windows PC they open real windows; the code works unchanged." />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- 1. A gallery page in a new window -->
+            <ControlExample x:Name="ItemExample"
+                            Title="Open a page in a new window"
+                            Description="Application.Current.OpenWindow shows another Window. Give each window its own Shell, so the windows navigate independently. This is what Open in new window does in this gallery: try it with the page below, or press Cmd+N (Ctrl+N on Windows) for a new gallery window."
+                            XamlSource="MultiWindowItem.xaml.txt"
+                            CSharpSource="MultiWindowItem.cs.txt">
+                <Button x:Name="ItemButton"
+                        Text="Open in a new window"
+                        Clicked="OnItemClicked"
+                        AutomationId="sample-item-open" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Page" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ItemPicker" ItemDisplayBinding="{Binding Title, x:DataType=catalog:GalleryItem}" AutomationId="option-item-page" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="ItemRouteSubstitution" Key="Route" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. A custom window -->
+            <ControlExample x:Name="CustomExample"
+                            Title="Open a window with a size and title"
+                            Description="Any page can be the root of a window. Set Title, a position and a size on the Window, and minimum sizes to keep it usable. On Mac, the size only applies when X and Y are set too. The properties follow the user as they move and resize the window, so the page in it binds to them. iPadOS decides window sizes itself."
+                            XamlSource="MultiWindowCustom.xaml.txt"
+                            CSharpSource="MultiWindowCustom.cs.txt">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=420}">
+                    <Button x:Name="CustomButton"
+                            Text="Open the window"
+                            Clicked="OnCustomClicked"
+                            HorizontalOptions="Center"
+                            AutomationId="sample-custom-open" />
+                    <Button x:Name="CloseAllButton"
+                            Text="Close the windows I opened"
+                            Clicked="OnCloseAllClicked"
+                            IsEnabled="False"
+                            HorizontalOptions="Center"
+                            AutomationId="sample-custom-close-all" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Title" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="CustomTitle" Text="Notes" AutomationId="option-custom-title" />
+                        <Label Text="{Binding Value, Source={x:Reference CustomWidth}, StringFormat='Width: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="CustomWidth" Minimum="360" Maximum="1000" Value="480" AutomationId="option-custom-width" />
+                        <Label Text="{Binding Value, Source={x:Reference CustomHeight}, StringFormat='Height: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="CustomHeight" Minimum="360" Maximum="900" Value="520" AutomationId="option-custom-height" />
+                        <Label Text="{Binding Value, Source={x:Reference CustomX}, StringFormat='X: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="CustomX" Minimum="0" Maximum="800" Value="120" AutomationId="option-custom-x" />
+                        <Label Text="{Binding Value, Source={x:Reference CustomY}, StringFormat='Y: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="CustomY" Minimum="0" Maximum="400" Value="120" AutomationId="option-custom-y" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Title" Value="{Binding Text, Source={x:Reference CustomTitle}, x:DataType=Entry}" />
+                    <Substitution Key="Width" Value="{Binding Value, Source={x:Reference CustomWidth}, Converter={StaticResource Rounded}, x:DataType=Slider}" />
+                    <Substitution Key="Height" Value="{Binding Value, Source={x:Reference CustomHeight}, Converter={StaticResource Rounded}, x:DataType=Slider}" />
+                    <Substitution Key="X" Value="{Binding Value, Source={x:Reference CustomX}, Converter={StaticResource Rounded}, x:DataType=Slider}" />
+                    <Substitution Key="Y" Value="{Binding Value, Source={x:Reference CustomY}, Converter={StaticResource Rounded}, x:DataType=Slider}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Lifecycle -->
+            <ControlExample x:Name="LifecycleExample"
+                            Title="Follow the window lifecycle"
+                            Description="Every Window raises Created, Activated, Deactivated, Stopped, Resumed and Destroying, so each window can save and restore its own state. The log shows the events of this gallery window and of the windows opened above. On a phone, send the app to the background and back. On Mac, a visible window stays activated even when another window has focus: minimize or close one instead."
+                            CSharpSource="MultiWindowLifecycle.cs.txt"
+                            ShowStyleToggle="False">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=420}">
+                    <Label x:Name="LifecycleLog"
+                           Text="No events yet"
+                           LineBreakMode="WordWrap"
+                           AutomationId="sample-lifecycle-log" />
+                    <Button Text="Clear the log"
+                            Clicked="OnClearLogClicked"
+                            HorizontalOptions="Center"
+                            AutomationId="sample-lifecycle-clear" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

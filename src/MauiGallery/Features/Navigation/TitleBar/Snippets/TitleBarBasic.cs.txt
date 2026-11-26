@@ -1,0 +1,12 @@
+var window = new Window(new InboxPage())
+{
+    TitleBar = new TitleBar
+    {
+        Title = $(Title),
+        Subtitle = $(Subtitle),
+        Icon = $(IconCode),
+        BackgroundColor = $(BackgroundColor),
+        ForegroundColor = $(ForegroundColorCode),
+    },
+};
+Application.Current?.OpenWindow(window);

@@ -1,0 +1,35 @@
+<ContentPage x:Class="MauiGallery.Features.Navigation.NotesWindowPage"
+             x:DataType="Window"
+             Title="Notes">
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="12" MaximumWidthRequest="520">
+            <Label Text="{Binding Title}" FontSize="28" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level1" />
+            <Label Text="A second window with its own page. Move it, resize it, or switch between windows, and watch the events in the gallery." />
+            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" ColumnSpacing="16" RowSpacing="6">
+                <Label Text="Size" FontAttributes="Bold" />
+                <Label Grid.Column="1" AutomationId="window-size">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{Binding Width, StringFormat='{0:0}'}" />
+                            <Span Text=" × " />
+                            <Span Text="{Binding Height, StringFormat='{0:0}'}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Grid.Row="1" Text="Position" FontAttributes="Bold" />
+                <Label Grid.Row="1" Grid.Column="1" AutomationId="window-position">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{Binding X, StringFormat='{0:0}'}" />
+                            <Span Text=", " />
+                            <Span Text="{Binding Y, StringFormat='{0:0}'}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </Grid>
+            <Button Text="Make it bigger" Clicked="OnBiggerClicked" AutomationId="window-bigger" />
+            <Button Text="Move to the top left" Clicked="OnMoveClicked" AutomationId="window-move" />
+            <Button Text="Close this window" Clicked="OnCloseClicked" AutomationId="window-close" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,103 @@
+<SamplePage x:Class="MauiGallery.Features.Navigation.TitleBarPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <Border x:Name="UnsupportedNote" Style="{StaticResource SubtlePanel}" IsVisible="{OnPlatform MacCatalyst=False, WinUI=False, Default=True}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Style="{StaticResource TextIcon}"
+                           Text="{x:Static icons:FluentIconsRegular.Desktop24}"
+                           TextColor="{DynamicResource ColorAccentText}"
+                           VerticalOptions="Start" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                        <Label Text="A desktop feature" Style="{StaticResource TextBodyStrong}" />
+                        <Label Style="{StaticResource TextBodySecondary}"
+                               Text="TitleBar draws the title bar of a desktop window, on Windows and Mac. iPhone, iPad and Android windows have no title bar, so the buttons below are turned off here." />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- 1. Title, subtitle and icon -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Give a window a title bar"
+                            Description="Set Window.TitleBar to a TitleBar to draw the title area yourself: a title, a subtitle and an icon to start with, with your own colors. The sample opens a new window, so the gallery's own window stays as it is. Change the options while it's open."
+                            XamlSource="TitleBarBasic.xaml.txt"
+                            CSharpSource="TitleBarBasic.cs.txt">
+                <Button x:Name="BasicButton"
+                        Text="Open a window with a title bar"
+                        Clicked="OnOpenClicked"
+                        AutomationId="sample-basic-open" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Title" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="BasicTitle" Text="Contoso Mail" TextChanged="OnOptionChanged" AutomationId="option-basic-title" />
+                        <Label Text="Subtitle" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="BasicSubtitle" Text="Inbox" TextChanged="OnOptionChanged" AutomationId="option-basic-subtitle" />
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Icon" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="BasicIcon" Grid.Column="1" IsToggled="True" Toggled="OnOptionChanged" AutomationId="option-basic-icon" />
+                        </Grid>
+                        <Label Text="BackgroundColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="BasicBackground" AutomationId="option-basic-background" />
+                        <Label Text="ForegroundColor" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="BasicForeground" SelectedIndexChanged="OnOptionChanged" AutomationId="option-basic-foreground">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Default</x:String>
+                                    <x:String>White</x:String>
+                                    <x:String>Black</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Title" Value="{Binding Text, Source={x:Reference BasicTitle}, x:DataType=Entry}" />
+                    <Substitution Key="Subtitle" Value="{Binding Text, Source={x:Reference BasicSubtitle}, x:DataType=Entry}" Default="" />
+                    <Substitution x:Name="BasicIconSubstitution" Key="Icon" />
+                    <Substitution x:Name="BasicIconCodeSubstitution" Key="IconCode" IsExpression="True" />
+                    <Substitution Key="BackgroundColor" Value="{Binding SelectedColor, Source={x:Reference BasicBackground}, x:DataType=SwatchPicker}" />
+                    <Substitution x:Name="BasicForegroundSubstitution" Key="ForegroundColor" />
+                    <Substitution x:Name="BasicForegroundCodeSubstitution" Key="ForegroundColorCode" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Content -->
+            <ControlExample x:Name="ContentExample"
+                            Title="Put controls in the title bar"
+                            Description="LeadingContent sits before the title, Content in the middle and TrailingContent at the end, next to the window buttons on Windows. A search box in the middle and an account button at the end are common. Controls in the title bar stay interactive; the rest of it still drags the window."
+                            XamlSource="TitleBarContent.xaml.txt"
+                            CSharpSource="TitleBarContent.cs.txt">
+                <Button x:Name="ContentButton"
+                        Text="Open a window with a title bar"
+                        Clicked="OnOpenClicked"
+                        AutomationId="sample-content-open" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="LeadingContent (back)" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="ContentLeading" Grid.Column="1" Toggled="OnOptionChanged" AutomationId="option-content-leading" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Content (search)" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="ContentSearch" Grid.Column="1" IsToggled="True" Toggled="OnOptionChanged" AutomationId="option-content-search" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="TrailingContent (account)" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="ContentTrailing" Grid.Column="1" IsToggled="True" Toggled="OnOptionChanged" AutomationId="option-content-trailing" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="ContentLeadingSubstitution" Key="Leading" IsExpression="True" />
+                    <Substitution x:Name="ContentSearchSubstitution" Key="Search" IsExpression="True" />
+                    <Substitution x:Name="ContentTrailingSubstitution" Key="Trailing" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

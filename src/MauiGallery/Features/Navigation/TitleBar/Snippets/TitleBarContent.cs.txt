@@ -1,0 +1,17 @@
+var backButton = new ImageButton { Source = "back.png", WidthRequest = 32, HeightRequest = 32 };
+var accountButton = new ImageButton { Source = "account.png", WidthRequest = 32, HeightRequest = 32 };
+var searchBar = new SearchBar
+{
+    Placeholder = "Search mail",
+    BackgroundColor = Colors.Transparent,
+    MaximumWidthRequest = 320,
+    VerticalOptions = LayoutOptions.Center,
+};
+
+// A search box needs more room than the standard 32-point title bar
+var titleBar = new TitleBar { Title = "Contoso Mail", HeightRequest = 48 };
+titleBar.LeadingContent = $(Leading);
+titleBar.Content = $(Search);
+titleBar.TrailingContent = $(Trailing);
+
+window.TitleBar = titleBar;

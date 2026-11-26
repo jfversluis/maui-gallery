@@ -1,0 +1,16 @@
+// App.xaml.cs: one place to handle every window's lifecycle
+protected override Window CreateWindow(IActivationState? activationState)
+{
+    var window = new Window(new AppShell());
+
+    window.Created += (_, _) => Debug.WriteLine("Created");
+    window.Activated += (_, _) => Debug.WriteLine("Activated: now the active window");
+    window.Deactivated += (_, _) => Debug.WriteLine("Deactivated: another window is active");
+    window.Stopped += (_, _) => SaveState();           // hidden, minimized or in the background
+    window.Resumed += (_, _) => RestoreState();
+    window.Destroying += (_, _) => Debug.WriteLine("Destroying: closed");
+
+    return window;
+}
+
+// Windows opened with Application.Current.OpenWindow raise the same events

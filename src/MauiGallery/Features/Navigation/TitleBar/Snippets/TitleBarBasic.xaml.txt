@@ -1,0 +1,11 @@
+<!-- A Window in XAML, or set Window.TitleBar in code -->
+<Window x:Class="MyApp.MailWindow">
+    <Window.TitleBar>
+        <TitleBar
+            Title="$(Title)"
+            Subtitle="$(Subtitle)"
+            Icon="$(Icon)"
+            BackgroundColor="$(BackgroundColor)"
+            ForegroundColor="$(ForegroundColor)" />
+    </Window.TitleBar>
+</Window>

@@ -1,0 +1,5 @@
+// Each window gets its own Shell, so the windows navigate independently
+var shell = new AppShell();
+shell.Loaded += async (_, _) => await shell.GoToAsync($(Route));
+
+Application.Current?.OpenWindow(new Window(shell));

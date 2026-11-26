@@ -1,0 +1,21 @@
+var page = new NotesPage();
+var window = new Window(page)
+{
+    Title = $(Title),
+
+    // Mac applies the size only when the position is set too
+    X = $(X),
+    Y = $(Y),
+    Width = $(Width),
+    Height = $(Height),
+    MinimumWidth = 360,
+    MinimumHeight = 360,
+};
+
+// The page binds to its window's size and position
+page.BindingContext = window;
+Application.Current?.OpenWindow(window);
+
+// Later: resize it, or close it
+window.Width += 100;
+Application.Current?.CloseWindow(window);

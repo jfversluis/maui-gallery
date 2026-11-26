@@ -1,0 +1,15 @@
+<!-- NotesPage.xaml: the binding context is the page's Window -->
+<ContentPage x:Class="MyApp.NotesPage" x:DataType="Window">
+    <VerticalStackLayout Padding="24" Spacing="12">
+        <Label Text="{Binding Title}" FontSize="28" FontAttributes="Bold" />
+        <Label>
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="{Binding Width, StringFormat='{0:0}'}" />
+                    <Span Text=" × " />
+                    <Span Text="{Binding Height, StringFormat='{0:0}'}" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+    </VerticalStackLayout>
+</ContentPage>
