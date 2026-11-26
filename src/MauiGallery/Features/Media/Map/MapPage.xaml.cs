@@ -112,6 +112,12 @@ public sealed partial class MapPage : SamplePage
             status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
         }
 
+        // The switch may have been turned off, or the page closed, while the permission prompt was up.
+        if (!UserShowing.IsToggled)
+        {
+            return;
+        }
+
         if (status != PermissionStatus.Granted)
         {
             UserShowing.IsToggled = false;
