@@ -28,7 +28,8 @@
                 <!-- Header -->
                 <VerticalStackLayout Padding="20,18,20,16" Spacing="4">
                     <Label Text="{Binding Title, Source={x:Reference Self}}"
-                           Style="{StaticResource TextTitle3}" />
+                           Style="{StaticResource TextTitle3}"
+                           SemanticProperties.HeadingLevel="Level2" />
                     <Label Text="{Binding Description, Source={x:Reference Self}}"
                            Style="{StaticResource TextBodySecondary}"
                            IsVisible="{Binding Description, Source={x:Reference Self}, Converter={StaticResource IsNotNullOrEmpty}}" />

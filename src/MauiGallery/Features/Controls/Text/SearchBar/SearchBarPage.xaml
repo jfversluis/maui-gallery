@@ -55,7 +55,7 @@
                     <SearchBar x:Name="CommandSearchBar"
                                Placeholder="Search fruit, then press Search"
                                SearchCommand="{Binding SearchCommand}"
-                               SearchCommandParameter="{Binding Text, Source={RelativeSource Self}, x:DataType=SearchBar}"
+                               SearchCommandParameter="{Binding Text, Source={x:Reference CommandSearchBar}, x:DataType=SearchBar}"
                                AutomationId="sample-command-search-bar" />
                     <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
                         <ActivityIndicator IsRunning="{Binding SearchCommand.IsRunning}"

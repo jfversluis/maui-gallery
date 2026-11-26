@@ -46,7 +46,7 @@ public sealed class ColorPalette : ContentView
             return;
         }
 
-        // TryGetValue rather than ContainsKey: the tokens live in merged dictionaries, which ContainsKey ignores.
+        // TryGetValue, not ContainsKey: the tokens live in a merged dictionary, which ContainsKey doesn't search.
         Groups = [.. TokenGroups.Select(group => new ColorTokenGroup(
             group.Title,
             [.. group.Keys

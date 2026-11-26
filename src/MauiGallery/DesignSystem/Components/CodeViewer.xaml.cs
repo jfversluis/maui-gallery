@@ -72,6 +72,8 @@ public partial class CodeViewer : ContentView
         CSharpTab.IsVisible = hasCSharp;
         XamlTab.Style = (Style)Resources[_language == CodeLanguage.Xaml ? "SelectedTab" : "Tab"];
         CSharpTab.Style = (Style)Resources[_language == CodeLanguage.CSharp ? "SelectedTab" : "Tab"];
+        SemanticProperties.SetDescription(XamlTab, _language == CodeLanguage.Xaml ? "XAML code, selected" : "XAML code");
+        SemanticProperties.SetDescription(CSharpTab, _language == CodeLanguage.CSharp ? "C sharp code, selected" : "C sharp code");
 
         var code = CurrentCode ?? string.Empty;
         var lineCount = SyntaxHighlighter.CountLines(code);
