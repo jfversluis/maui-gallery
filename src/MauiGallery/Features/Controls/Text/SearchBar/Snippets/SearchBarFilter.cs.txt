@@ -1,0 +1,17 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class FruitListViewModel : ObservableObject
+{
+    private static readonly string[] AllFruit =
+        ["Apple", "Banana", "Blueberry", "Cherry", "Grape", "Mango", "Orange", "Strawberry"];
+
+    [ObservableProperty]
+    public partial string Query { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial IReadOnlyList<string> Results { get; private set; } = AllFruit;
+
+    partial void OnQueryChanged(string value) =>
+        Results = string.IsNullOrWhiteSpace(value)
+            ? AllFruit
+            : [.. AllFruit.Where(f => f.Contains(value.Trim(), StringComparison.OrdinalIgnoreCase))];
+}

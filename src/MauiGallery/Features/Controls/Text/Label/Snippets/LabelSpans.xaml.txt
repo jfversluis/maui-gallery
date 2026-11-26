@@ -1,0 +1,18 @@
+<Label WidthRequest="280">
+    <Label.FormattedText>
+        <FormattedString>
+            <Span Text=".NET MAUI" FontAttributes="Bold" />
+            <Span Text=" builds native apps for " />
+            <Span Text="Android, iOS, macOS and Windows" FontAttributes="Italic" />
+            <Span Text=" from one codebase. " />
+            <Span
+                Text="Learn more"
+                TextColor="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}"
+                TextDecorations="Underline">
+                <Span.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnLearnMoreTapped" />
+                </Span.GestureRecognizers>
+            </Span>
+        </FormattedString>
+    </Label.FormattedText>
+</Label>

@@ -1,0 +1,5 @@
+<SearchBar
+    WidthRequest="300"
+    Placeholder="$(Placeholder)"
+    HorizontalTextAlignment="$(HorizontalTextAlignment)"
+    SearchButtonPressed="OnSearchButtonPressed" />

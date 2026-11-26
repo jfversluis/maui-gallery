@@ -1,0 +1,113 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Pickers.DatePickerPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Pickers"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Pick a date"
+                            Description="A DatePicker shows a date and opens the platform's calendar or wheel to change it. Format takes a .NET date format string."
+                            XamlSource="DatePickerBasic.xaml.txt"
+                            CSharpSource="DatePickerBasic.cs.txt">
+                <DatePicker x:Name="BasicDatePicker"
+                            Format="{Binding SelectedItem, Source={x:Reference BasicFormat}, x:DataType=Picker}"
+                            DateSelected="OnBasicDateSelected"
+                            AutomationId="sample-basic-date-picker" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Format" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="BasicFormat"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnBasicFormatChanged"
+                                AutomationId="option-basic-format">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>d</x:String>
+                                    <x:String>D</x:String>
+                                    <x:String>MMM d, yyyy</x:String>
+                                    <x:String>yyyy-MM-dd</x:String>
+                                    <x:String>dddd d MMMM</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Format" Value="{Binding SelectedItem, Source={x:Reference BasicFormat}, x:DataType=Picker}" Default="d" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Range -->
+            <ControlExample x:Name="RangeExample"
+                            Title="Limit the range"
+                            Description="MinimumDate and MaximumDate keep the choice within bounds, such as the next few weeks for a booking. Dates outside the range can't be picked."
+                            XamlSource="DatePickerRange.xaml.txt"
+                            CSharpSource="DatePickerRange.cs.txt">
+                <VerticalStackLayout x:Name="RangeSample"
+                                     WidthRequest="280"
+                                     Spacing="12"
+                                     x:DataType="local:DatePickerRangeViewModel">
+                    <DatePicker x:Name="RangePicker"
+                                Date="{Binding CheckIn}"
+                                MinimumDate="{Binding Today}"
+                                MaximumDate="{Binding LastBookableDate}"
+                                HorizontalOptions="Center"
+                                AutomationId="sample-range-date-picker" />
+                    <Label Text="{Binding LastBookableDate, StringFormat='Bookable until {0:D}'}"
+                           HorizontalTextAlignment="Center"
+                           AutomationId="sample-range-summary" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference RangeDays}, StringFormat='Days ahead: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="RangeDays"
+                                Minimum="7"
+                                Maximum="90"
+                                Value="30"
+                                ValueChanged="OnRangeDaysChanged"
+                                AutomationId="option-range-days" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Days" Value="{Binding Value, Source={x:Reference RangeDays}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. No date yet, open from code -->
+            <ControlExample x:Name="OptionalExample"
+                            Title="Start empty and open from code"
+                            Description="Date is nullable, so a DatePicker can show no date until one is chosen. Set IsOpen to show the picker from your own button."
+                            XamlSource="DatePickerOptional.xaml.txt"
+                            CSharpSource="DatePickerOptional.cs.txt">
+                <VerticalStackLayout x:Name="OptionalSample"
+                                     WidthRequest="280"
+                                     Spacing="12"
+                                     x:DataType="local:DatePickerOptionalViewModel">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Label Text="Due date" VerticalOptions="Center" />
+                        <DatePicker x:Name="OptionalPicker"
+                                    Grid.Column="1"
+                                    Date="{Binding DueDate}"
+                                    IsOpen="{Binding IsPickerOpen}"
+                                    Format="D"
+                                    AutomationId="sample-optional-date-picker" />
+                    </Grid>
+                    <Label Text="{Binding Summary}" AutomationId="sample-optional-summary" />
+                    <HorizontalStackLayout Spacing="8">
+                        <Button Text="Choose a date"
+                                Command="{Binding ChooseCommand}"
+                                AutomationId="sample-optional-choose" />
+                        <Button Text="Clear"
+                                Command="{Binding ClearCommand}"
+                                AutomationId="sample-optional-clear" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

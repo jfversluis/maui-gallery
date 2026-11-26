@@ -1,0 +1,9 @@
+var label = new Label
+{
+    Text = "Typography is the craft of arranging type to make written language legible, readable and appealing.",
+    WidthRequest = 280,
+    TextDecorations = TextDecorations.$(TextDecorations),
+    TextTransform = TextTransform.$(TextTransform),
+    CharacterSpacing = $(CharacterSpacing),
+    LineHeight = $(LineHeight),
+};

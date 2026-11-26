@@ -1,0 +1,13 @@
+<VerticalStackLayout WidthRequest="280" Spacing="4">
+    <Editor
+        x:Name="editor"
+        HeightRequest="100"
+        Placeholder="What's on your mind?"
+        MaxLength="$(MaxLength)"
+        TextChanged="OnTextChanged" />
+    <Label
+        x:Name="counter"
+        Text="0/$(MaxLength)"
+        HorizontalOptions="End"
+        FontSize="13" />
+</VerticalStackLayout>

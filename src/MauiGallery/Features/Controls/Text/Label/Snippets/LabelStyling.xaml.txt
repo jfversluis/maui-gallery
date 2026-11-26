@@ -1,0 +1,7 @@
+<Label
+    Text="Typography is the craft of arranging type to make written language legible, readable and appealing."
+    WidthRequest="280"
+    TextDecorations="$(TextDecorations)"
+    TextTransform="$(TextTransform)"
+    CharacterSpacing="$(CharacterSpacing)"
+    LineHeight="$(LineHeight)" />

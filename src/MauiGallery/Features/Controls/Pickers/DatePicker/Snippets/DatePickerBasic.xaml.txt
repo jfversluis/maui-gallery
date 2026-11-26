@@ -1,0 +1,3 @@
+<DatePicker
+    Format="$(Format)"
+    DateSelected="OnDateSelected" />

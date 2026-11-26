@@ -1,0 +1,13 @@
+var entry = new Entry
+{
+    WidthRequest = 280,
+    Placeholder = "Tap to show the keyboard",
+    Keyboard = Keyboard.$(Keyboard),
+    ReturnType = ReturnType.$(ReturnType),
+};
+entry.Completed += OnCompleted;
+
+void OnCompleted(object? sender, EventArgs e)
+{
+    // The user pressed the return key
+}

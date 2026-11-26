@@ -1,0 +1,20 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class ReminderViewModel : ObservableObject
+{
+    // null until the user picks a time
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(ClearCommand))]
+    public partial TimeSpan? ReminderTime { get; set; }
+
+    // IsOpen binds two-way: it turns false again when the picker closes
+    [ObservableProperty]
+    public partial bool IsPickerOpen { get; set; }
+
+    [RelayCommand]
+    private void Choose() => IsPickerOpen = true;
+
+    [RelayCommand(CanExecute = nameof(HasReminder))]
+    private void Clear() => ReminderTime = null;
+
+    private bool HasReminder() => ReminderTime is not null;
+}

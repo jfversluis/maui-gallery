@@ -1,0 +1,104 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Text.EditorPage"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="AutoSizeOptions" Type="{x:Type EditorAutoSizeOption}">
+            <x:Static Member="EditorAutoSizeOption.Disabled" />
+            <x:Static Member="EditorAutoSizeOption.TextChanges" />
+        </x:Array>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Multi-line text"
+                            Description="An Editor takes several lines of text, such as a comment or a note. Give it a height, or let it grow with its content."
+                            XamlSource="EditorBasic.xaml.txt"
+                            CSharpSource="EditorBasic.cs.txt">
+                <Editor WidthRequest="280"
+                        HeightRequest="120"
+                        Placeholder="{Binding Text, Source={x:Reference BasicPlaceholder}, x:DataType=Entry}"
+                        IsReadOnly="{Binding IsToggled, Source={x:Reference BasicReadOnly}, x:DataType=Switch}"
+                        TextChanged="OnBasicTextChanged"
+                        Completed="OnBasicCompleted"
+                        AutomationId="sample-basic-editor" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Placeholder" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="BasicPlaceholder" Text="Leave a comment" AutomationId="option-basic-placeholder" />
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
+                            <Label Text="IsReadOnly" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="BasicReadOnly" Grid.Column="1" AutomationId="option-basic-read-only" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Placeholder" Value="{Binding Text, Source={x:Reference BasicPlaceholder}, x:DataType=Entry}" Default="" />
+                    <Substitution Key="IsReadOnly" Value="{Binding IsToggled, Source={x:Reference BasicReadOnly}, x:DataType=Switch}" Default="False" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Auto size -->
+            <ControlExample Title="Grow with the text"
+                            Description="Set AutoSize to TextChanges and the editor resizes as lines are added or removed, instead of scrolling inside a fixed height."
+                            XamlSource="EditorAutoSize.xaml.txt"
+                            CSharpSource="EditorAutoSize.cs.txt">
+                <Editor WidthRequest="280"
+                        Placeholder="Type a few lines to see it grow"
+                        AutoSize="{Binding SelectedItem, Source={x:Reference AutoSizeOption}, x:DataType=Picker}"
+                        AutomationId="sample-autosize-editor" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="AutoSize" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="AutoSizeOption"
+                                ItemsSource="{StaticResource AutoSizeOptions}"
+                                SelectedIndex="1"
+                                AutomationId="option-autosize" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="AutoSize" Value="{Binding SelectedItem, Source={x:Reference AutoSizeOption}, x:DataType=Picker}" Default="Disabled" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Max length -->
+            <ControlExample x:Name="LimitExample"
+                            Title="Limit the length"
+                            Description="MaxLength stops input at a number of characters. Pair it with a counter so people know how much room is left."
+                            XamlSource="EditorMaxLength.xaml.txt"
+                            CSharpSource="EditorMaxLength.cs.txt">
+                <VerticalStackLayout WidthRequest="280" Spacing="4">
+                    <Editor x:Name="LimitEditor"
+                            HeightRequest="100"
+                            Placeholder="What's on your mind?"
+                            MaxLength="{Binding Value, Source={x:Reference LimitMaxLength}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                            TextChanged="OnLimitTextChanged"
+                            AutomationId="sample-limit-editor" />
+                    <Label x:Name="LimitCounter"
+                           HorizontalOptions="End"
+                           FontSize="13"
+                           AutomationId="sample-limit-counter" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference LimitMaxLength}, StringFormat='MaxLength: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="LimitMaxLength"
+                                Minimum="10"
+                                Maximum="280"
+                                Value="140"
+                                ValueChanged="OnLimitMaxLengthChanged"
+                                AutomationId="option-limit-max-length" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="MaxLength" Value="{Binding Value, Source={x:Reference LimitMaxLength}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

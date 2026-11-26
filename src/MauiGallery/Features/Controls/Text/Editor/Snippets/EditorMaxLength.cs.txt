@@ -1,0 +1,20 @@
+var editor = new Editor
+{
+    HeightRequest = 100,
+    Placeholder = "What's on your mind?",
+    MaxLength = $(MaxLength),
+};
+var counter = new Label
+{
+    Text = $"0/{editor.MaxLength}",
+    HorizontalOptions = LayoutOptions.End,
+    FontSize = 13,
+};
+editor.TextChanged += (sender, e) => counter.Text = $"{e.NewTextValue.Length}/{editor.MaxLength}";
+
+var layout = new VerticalStackLayout
+{
+    WidthRequest = 280,
+    Spacing = 4,
+    Children = { editor, counter },
+};

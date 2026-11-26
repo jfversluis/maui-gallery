@@ -1,0 +1,103 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Text.SearchBarPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Text"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="AlignmentOptions" Type="{x:Type TextAlignment}">
+            <x:Static Member="TextAlignment.Start" />
+            <x:Static Member="TextAlignment.Center" />
+            <x:Static Member="TextAlignment.End" />
+        </x:Array>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="A search field"
+                            Description="A SearchBar is a text field styled for search, with a search icon and a cancel button. SearchButtonPressed fires when the user submits."
+                            XamlSource="SearchBarBasic.xaml.txt"
+                            CSharpSource="SearchBarBasic.cs.txt">
+                <SearchBar x:Name="BasicSearchBar"
+                           WidthRequest="300"
+                           Placeholder="{Binding Text, Source={x:Reference BasicPlaceholder}, x:DataType=Entry}"
+                           HorizontalTextAlignment="{Binding SelectedItem, Source={x:Reference BasicAlignment}, x:DataType=Picker}"
+                           SearchButtonPressed="OnBasicSearchButtonPressed"
+                           AutomationId="sample-basic-search-bar" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Placeholder" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="BasicPlaceholder" Text="Search" AutomationId="option-basic-placeholder" />
+                        <Label Text="HorizontalTextAlignment" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="BasicAlignment"
+                                ItemsSource="{StaticResource AlignmentOptions}"
+                                SelectedIndex="0"
+                                AutomationId="option-basic-alignment" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Placeholder" Value="{Binding Text, Source={x:Reference BasicPlaceholder}, x:DataType=Entry}" Default="" />
+                    <Substitution Key="HorizontalTextAlignment" Value="{Binding SelectedItem, Source={x:Reference BasicAlignment}, x:DataType=Picker}" Default="Start" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Search command -->
+            <ControlExample x:Name="CommandExample"
+                            Title="Run a search command"
+                            Description="With MVVM, bind SearchCommand to an ICommand and pass the query with SearchCommandParameter. An async command reports when it's running."
+                            XamlSource="SearchBarCommand.xaml.txt"
+                            CSharpSource="SearchBarCommand.cs.txt">
+                <VerticalStackLayout x:Name="CommandSample"
+                                     WidthRequest="300"
+                                     Spacing="12"
+                                     x:DataType="local:SearchBarCommandViewModel">
+                    <SearchBar x:Name="CommandSearchBar"
+                               Placeholder="Search fruit, then press Search"
+                               SearchCommand="{Binding SearchCommand}"
+                               SearchCommandParameter="{Binding Text, Source={RelativeSource Self}, x:DataType=SearchBar}"
+                               AutomationId="sample-command-search-bar" />
+                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <ActivityIndicator IsRunning="{Binding SearchCommand.IsRunning}"
+                                           IsVisible="{Binding SearchCommand.IsRunning}"
+                                           HeightRequest="20"
+                                           WidthRequest="20" />
+                        <Label Text="{Binding Status}" VerticalOptions="Center" AutomationId="sample-command-status" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 3. Live filtering -->
+            <ControlExample x:Name="FilterExample"
+                            Title="Filter a list as you type"
+                            Description="Bind Text two-way to a view model and filter the items whenever it changes. Show a message when nothing matches."
+                            XamlSource="SearchBarFilter.xaml.txt"
+                            CSharpSource="SearchBarFilter.cs.txt">
+                <VerticalStackLayout x:Name="FilterSample"
+                                     WidthRequest="300"
+                                     Spacing="12"
+                                     x:DataType="local:SearchBarFilterViewModel">
+                    <SearchBar x:Name="FilterSearchBar"
+                               Text="{Binding Query}"
+                               Placeholder="Filter fruit"
+                               AutomationId="sample-filter-search-bar" />
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Results}"
+                                         Spacing="6"
+                                         Padding="12,0"
+                                         AutomationId="sample-filter-results">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Label Text="{Binding .}" />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                        <BindableLayout.EmptyView>
+                            <Label Text="No fruit matches your search" AutomationId="sample-filter-empty" />
+                        </BindableLayout.EmptyView>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

@@ -1,0 +1,201 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Text.LabelPage"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="FontAttributeOptions" Type="{x:Type FontAttributes}">
+            <x:Static Member="FontAttributes.None" />
+            <x:Static Member="FontAttributes.Bold" />
+            <x:Static Member="FontAttributes.Italic" />
+        </x:Array>
+        <x:Array x:Key="TextDecorationOptions" Type="{x:Type TextDecorations}">
+            <x:Static Member="TextDecorations.None" />
+            <x:Static Member="TextDecorations.Underline" />
+            <x:Static Member="TextDecorations.Strikethrough" />
+        </x:Array>
+        <x:Array x:Key="TextTransformOptions" Type="{x:Type TextTransform}">
+            <x:Static Member="TextTransform.None" />
+            <x:Static Member="TextTransform.Uppercase" />
+            <x:Static Member="TextTransform.Lowercase" />
+        </x:Array>
+        <x:Array x:Key="LineHeightOptions" Type="{x:Type x:Double}">
+            <x:Double>1</x:Double>
+            <x:Double>1.25</x:Double>
+            <x:Double>1.5</x:Double>
+            <x:Double>2</x:Double>
+        </x:Array>
+        <x:Array x:Key="LineBreakModeOptions" Type="{x:Type LineBreakMode}">
+            <x:Static Member="LineBreakMode.WordWrap" />
+            <x:Static Member="LineBreakMode.CharacterWrap" />
+            <x:Static Member="LineBreakMode.NoWrap" />
+            <x:Static Member="LineBreakMode.HeadTruncation" />
+            <x:Static Member="LineBreakMode.MiddleTruncation" />
+            <x:Static Member="LineBreakMode.TailTruncation" />
+        </x:Array>
+        <x:Array x:Key="TextTypeOptions" Type="{x:Type TextType}">
+            <x:Static Member="TextType.Html" />
+            <x:Static Member="TextType.Text" />
+        </x:Array>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample Title="Display text"
+                            Description="A Label shows read-only text. Set the font size and attributes, or leave them out to use the platform's body text style."
+                            XamlSource="LabelBasic.xaml.txt"
+                            CSharpSource="LabelBasic.cs.txt">
+                <Label Text="{Binding Text, Source={x:Reference BasicText}, x:DataType=Entry}"
+                       FontSize="{Binding Value, Source={x:Reference BasicFontSize}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                       FontAttributes="{Binding SelectedItem, Source={x:Reference BasicAttributes}, x:DataType=Picker}"
+                       AutomationId="sample-basic-label" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Text" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="BasicText" Text="Hello, .NET MAUI!" AutomationId="option-basic-text" />
+                        <Label Text="{Binding Value, Source={x:Reference BasicFontSize}, StringFormat='FontSize: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="BasicFontSize" Minimum="12" Maximum="40" Value="20" AutomationId="option-basic-font-size" />
+                        <Label Text="FontAttributes" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="BasicAttributes"
+                                ItemsSource="{StaticResource FontAttributeOptions}"
+                                SelectedIndex="0"
+                                AutomationId="option-basic-attributes" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Text" Value="{Binding Text, Source={x:Reference BasicText}, x:DataType=Entry}" />
+                    <Substitution Key="FontSize" Value="{Binding Value, Source={x:Reference BasicFontSize}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                    <Substitution Key="FontAttributes" Value="{Binding SelectedItem, Source={x:Reference BasicAttributes}, x:DataType=Picker}" Default="None" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Decorations and spacing -->
+            <ControlExample Title="Decorate and space text"
+                            Description="Underline or strike through text, change its case, and tune the spacing between letters and lines without touching the string itself."
+                            XamlSource="LabelStyling.xaml.txt"
+                            CSharpSource="LabelStyling.cs.txt">
+                <Label Text="Typography is the craft of arranging type to make written language legible, readable and appealing."
+                       WidthRequest="280"
+                       TextDecorations="{Binding SelectedItem, Source={x:Reference StylingDecorations}, x:DataType=Picker}"
+                       TextTransform="{Binding SelectedItem, Source={x:Reference StylingTransform}, x:DataType=Picker}"
+                       CharacterSpacing="{Binding Value, Source={x:Reference StylingSpacing}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                       LineHeight="{Binding SelectedItem, Source={x:Reference StylingLineHeight}, x:DataType=Picker}"
+                       AutomationId="sample-styling-label" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="TextDecorations" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="StylingDecorations"
+                                ItemsSource="{StaticResource TextDecorationOptions}"
+                                SelectedIndex="1"
+                                AutomationId="option-styling-decorations" />
+                        <Label Text="TextTransform" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="StylingTransform"
+                                ItemsSource="{StaticResource TextTransformOptions}"
+                                SelectedIndex="0"
+                                AutomationId="option-styling-transform" />
+                        <Label Text="{Binding Value, Source={x:Reference StylingSpacing}, StringFormat='CharacterSpacing: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="StylingSpacing" Minimum="0" Maximum="8" Value="0" AutomationId="option-styling-spacing" />
+                        <Label Text="LineHeight" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="StylingLineHeight"
+                                ItemsSource="{StaticResource LineHeightOptions}"
+                                SelectedIndex="2"
+                                AutomationId="option-styling-line-height" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="TextDecorations" Value="{Binding SelectedItem, Source={x:Reference StylingDecorations}, x:DataType=Picker}" Default="None" IsExpression="True" />
+                    <Substitution Key="TextTransform" Value="{Binding SelectedItem, Source={x:Reference StylingTransform}, x:DataType=Picker}" Default="None" IsExpression="True" />
+                    <Substitution Key="CharacterSpacing" Value="{Binding Value, Source={x:Reference StylingSpacing}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                    <Substitution Key="LineHeight" Value="{Binding SelectedItem, Source={x:Reference StylingLineHeight}, x:DataType=Picker}" Default="1" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Wrapping and truncation -->
+            <ControlExample Title="Wrap and truncate"
+                            Description="LineBreakMode decides how text that doesn't fit is wrapped or shortened with an ellipsis. MaxLines caps the number of lines."
+                            XamlSource="LabelTruncation.xaml.txt"
+                            CSharpSource="LabelTruncation.cs.txt">
+                <Label x:Name="TruncationLabel"
+                       Text=".NET MAUI is a cross-platform framework for creating native mobile and desktop apps with C# and XAML, from a single shared codebase that runs on Android, iOS, macOS and Windows."
+                       WidthRequest="280"
+                       LineBreakMode="{Binding SelectedItem, Source={x:Reference TruncationMode}, x:DataType=Picker}"
+                       AutomationId="sample-truncation-label" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="LineBreakMode" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="TruncationMode"
+                                ItemsSource="{StaticResource LineBreakModeOptions}"
+                                SelectedIndex="5"
+                                AutomationId="option-truncation-mode" />
+                        <Label x:Name="TruncationMaxLinesLabel" Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="TruncationMaxLines"
+                                Minimum="0"
+                                Maximum="5"
+                                Value="2"
+                                ValueChanged="OnMaxLinesChanged"
+                                AutomationId="option-truncation-max-lines" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="LineBreakMode" Value="{Binding SelectedItem, Source={x:Reference TruncationMode}, x:DataType=Picker}" Default="WordWrap" IsExpression="True" />
+                    <Substitution x:Name="MaxLinesSubstitution" Key="MaxLines" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 4. Formatted text -->
+            <ControlExample x:Name="SpansExample"
+                            Title="Mix styles with spans"
+                            Description="FormattedText combines spans with their own font, color and decorations in one label. Add a gesture recognizer to a span to make it a link."
+                            XamlSource="LabelSpans.xaml.txt"
+                            CSharpSource="LabelSpans.cs.txt">
+                <Label WidthRequest="280" AutomationId="sample-spans-label">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text=".NET MAUI" FontAttributes="Bold" />
+                            <Span Text=" builds native apps for " />
+                            <Span Text="Android, iOS, macOS and Windows" FontAttributes="Italic" />
+                            <Span Text=" from one codebase. " />
+                            <Span Text="Learn more"
+                                  TextColor="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}"
+                                  TextDecorations="Underline">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnLearnMoreTapped" />
+                                </Span.GestureRecognizers>
+                            </Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </ControlExample>
+
+            <!-- 5. HTML -->
+            <ControlExample Title="Render HTML"
+                            ShowStyleToggle="False"
+                            Description="With TextType set to Html, the label renders basic markup such as bold, italic and line breaks. On iOS and Mac Catalyst, HTML text doesn't pick up the default font and color, so set them in the markup and with TextColor."
+                            XamlSource="LabelHtml.xaml.txt"
+                            CSharpSource="LabelHtml.cs.txt">
+                <Label WidthRequest="280"
+                       TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                       TextType="{Binding SelectedItem, Source={x:Reference HtmlTextType}, x:DataType=Picker}"
+                       AutomationId="sample-html-label">
+                    <![CDATA[<span style="font: -apple-system-body">Text can be <strong>bold</strong> or <em>italic</em>,<br/>and lines break where you choose.</span>]]>
+                </Label>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="TextType" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="HtmlTextType"
+                                ItemsSource="{StaticResource TextTypeOptions}"
+                                SelectedIndex="0"
+                                AutomationId="option-html-text-type" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="TextType" Value="{Binding SelectedItem, Source={x:Reference HtmlTextType}, x:DataType=Picker}" Default="Text" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

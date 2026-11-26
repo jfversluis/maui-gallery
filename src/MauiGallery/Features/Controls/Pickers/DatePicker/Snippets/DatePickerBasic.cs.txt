@@ -1,0 +1,10 @@
+var datePicker = new DatePicker
+{
+    Format = $(Format),
+};
+datePicker.DateSelected += OnDateSelected;
+
+void OnDateSelected(object? sender, DateChangedEventArgs e)
+{
+    // e.OldDate and e.NewDate are DateTime? values
+}

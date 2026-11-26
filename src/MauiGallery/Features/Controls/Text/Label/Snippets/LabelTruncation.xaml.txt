@@ -1,0 +1,5 @@
+<Label
+    Text=".NET MAUI is a cross-platform framework for creating native mobile and desktop apps with C# and XAML, from a single shared codebase that runs on Android, iOS, macOS and Windows."
+    WidthRequest="280"
+    LineBreakMode="$(LineBreakMode)"
+    MaxLines="$(MaxLines)" />

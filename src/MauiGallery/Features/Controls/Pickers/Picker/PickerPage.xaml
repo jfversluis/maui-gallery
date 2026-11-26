@@ -1,0 +1,70 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Pickers.PickerPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Pickers"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Pick from a list"
+                            Description="A Picker lets people choose one item from a list. Title prompts for a choice until something is selected."
+                            XamlSource="PickerBasic.xaml.txt"
+                            CSharpSource="PickerBasic.cs.txt">
+                <Picker x:Name="BasicPicker"
+                        WidthRequest="280"
+                        Title="{Binding Text, Source={x:Reference BasicTitle}, x:DataType=Entry}"
+                        SelectedIndexChanged="OnBasicSelectedIndexChanged"
+                        AutomationId="sample-basic-picker">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Small</x:String>
+                            <x:String>Medium</x:String>
+                            <x:String>Large</x:String>
+                            <x:String>Extra large</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Title" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="BasicTitle" Text="Choose a size" AutomationId="option-basic-title" />
+                        <Button Text="Clear selection"
+                                Clicked="OnBasicClearClicked"
+                                HorizontalOptions="Start"
+                                AutomationId="option-basic-clear" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Title" Value="{Binding Text, Source={x:Reference BasicTitle}, x:DataType=Entry}" Default="" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Objects and two-way binding -->
+            <ControlExample x:Name="BindingExample"
+                            Title="Bind to a list of objects"
+                            Description="Bind ItemsSource to your own objects and use ItemDisplayBinding to choose the text to show. SelectedItem binds two-way, so the view model can change the selection too."
+                            XamlSource="PickerBinding.xaml.txt"
+                            CSharpSource="PickerBinding.cs.txt">
+                <VerticalStackLayout x:Name="BindingSample"
+                                     WidthRequest="280"
+                                     Spacing="12"
+                                     x:DataType="local:PickerBindingViewModel">
+                    <Picker x:Name="BindingPicker"
+                            Title="Choose a city"
+                            ItemsSource="{Binding Cities}"
+                            ItemDisplayBinding="{Binding Name, x:DataType=local:City}"
+                            SelectedItem="{Binding SelectedCity}"
+                            AutomationId="sample-binding-picker" />
+                    <Label Text="{Binding Summary}" AutomationId="sample-binding-summary" />
+                    <Button Text="Surprise me"
+                            Command="{Binding PickRandomCommand}"
+                            HorizontalOptions="Start"
+                            AutomationId="sample-binding-random" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

@@ -1,0 +1,13 @@
+var searchBar = new SearchBar
+{
+    WidthRequest = 300,
+    Placeholder = $(Placeholder),
+    HorizontalTextAlignment = TextAlignment.$(HorizontalTextAlignment),
+};
+searchBar.SearchButtonPressed += OnSearchButtonPressed;
+
+void OnSearchButtonPressed(object? sender, EventArgs e)
+{
+    var query = searchBar.Text;
+    // Run the search
+}

@@ -1,0 +1,4 @@
+<Label
+    Text="$(Text)"
+    FontSize="$(FontSize)"
+    FontAttributes="$(FontAttributes)" />

@@ -1,0 +1,11 @@
+var timePicker = new TimePicker
+{
+    Time = new TimeSpan(9, 30, 0),
+    Format = $(Format),
+};
+timePicker.TimeSelected += OnTimeSelected;
+
+void OnTimeSelected(object? sender, TimeChangedEventArgs e)
+{
+    // e.OldTime and e.NewTime are TimeSpan? values
+}

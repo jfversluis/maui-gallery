@@ -1,0 +1,158 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Text.EntryPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Text"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="ClearButtonOptions" Type="{x:Type ClearButtonVisibility}">
+            <x:Static Member="ClearButtonVisibility.Never" />
+            <x:Static Member="ClearButtonVisibility.WhileEditing" />
+        </x:Array>
+        <x:Array x:Key="KeyboardOptions" Type="{x:Type x:String}">
+            <x:String>Default</x:String>
+            <x:String>Text</x:String>
+            <x:String>Email</x:String>
+            <x:String>Url</x:String>
+            <x:String>Numeric</x:String>
+            <x:String>Telephone</x:String>
+            <x:String>Chat</x:String>
+        </x:Array>
+        <x:Array x:Key="ReturnTypeOptions" Type="{x:Type ReturnType}">
+            <x:Static Member="ReturnType.Default" />
+            <x:Static Member="ReturnType.Done" />
+            <x:Static Member="ReturnType.Go" />
+            <x:Static Member="ReturnType.Next" />
+            <x:Static Member="ReturnType.Search" />
+            <x:Static Member="ReturnType.Send" />
+        </x:Array>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="A single line of text"
+                            Description="An Entry takes one line of input. A placeholder hints at what to type, and the clear button empties the field in one tap."
+                            XamlSource="EntryBasic.xaml.txt"
+                            CSharpSource="EntryBasic.cs.txt">
+                <Entry WidthRequest="280"
+                       Placeholder="{Binding Text, Source={x:Reference BasicPlaceholder}, x:DataType=Entry}"
+                       ClearButtonVisibility="{Binding SelectedItem, Source={x:Reference BasicClearButton}, x:DataType=Picker}"
+                       IsReadOnly="{Binding IsToggled, Source={x:Reference BasicReadOnly}, x:DataType=Switch}"
+                       TextChanged="OnBasicTextChanged"
+                       AutomationId="sample-basic-entry" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Placeholder" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="BasicPlaceholder" Text="Your name" AutomationId="option-basic-placeholder" />
+                        <Label Text="ClearButtonVisibility" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="BasicClearButton"
+                                ItemsSource="{StaticResource ClearButtonOptions}"
+                                SelectedIndex="1"
+                                AutomationId="option-basic-clear-button" />
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
+                            <Label Text="IsReadOnly" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="BasicReadOnly" Grid.Column="1" AutomationId="option-basic-read-only" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Placeholder" Value="{Binding Text, Source={x:Reference BasicPlaceholder}, x:DataType=Entry}" Default="" />
+                    <Substitution Key="ClearButtonVisibility" Value="{Binding SelectedItem, Source={x:Reference BasicClearButton}, x:DataType=Picker}" Default="Never" IsExpression="True" />
+                    <Substitution Key="IsReadOnly" Value="{Binding IsToggled, Source={x:Reference BasicReadOnly}, x:DataType=Switch}" Default="False" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Keyboards and the return key -->
+            <ControlExample x:Name="KeyboardExample"
+                            Title="Pick the right keyboard"
+                            Description="Keyboard shows a software keyboard that suits the data, and ReturnType labels its return key. Completed fires when the user presses it."
+                            XamlSource="EntryKeyboard.xaml.txt"
+                            CSharpSource="EntryKeyboard.cs.txt">
+                <Entry x:Name="KeyboardEntry"
+                       WidthRequest="280"
+                       Placeholder="Tap to show the keyboard"
+                       ReturnType="{Binding SelectedItem, Source={x:Reference KeyboardReturnType}, x:DataType=Picker}"
+                       Completed="OnKeyboardCompleted"
+                       AutomationId="sample-keyboard-entry" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Keyboard" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="KeyboardType"
+                                ItemsSource="{StaticResource KeyboardOptions}"
+                                SelectedIndex="2"
+                                SelectedIndexChanged="OnKeyboardTypeChanged"
+                                AutomationId="option-keyboard-type" />
+                        <Label Text="ReturnType" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="KeyboardReturnType"
+                                ItemsSource="{StaticResource ReturnTypeOptions}"
+                                SelectedIndex="1"
+                                AutomationId="option-keyboard-return-type" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Keyboard" Value="{Binding SelectedItem, Source={x:Reference KeyboardType}, x:DataType=Picker}" Default="Default" IsExpression="True" />
+                    <Substitution Key="ReturnType" Value="{Binding SelectedItem, Source={x:Reference KeyboardReturnType}, x:DataType=Picker}" Default="Default" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Passwords -->
+            <ControlExample x:Name="PasswordExample"
+                            Title="Enter a password"
+                            Description="IsPassword masks the characters as they're typed. Toggle it to let people check what they entered."
+                            XamlSource="EntryPassword.xaml.txt"
+                            CSharpSource="EntryPassword.cs.txt">
+                <VerticalStackLayout WidthRequest="280" Spacing="8">
+                    <Entry x:Name="PasswordEntry"
+                           Placeholder="Password"
+                           IsPassword="True"
+                           AutomationId="sample-password-entry" />
+                    <HorizontalStackLayout Spacing="4">
+                        <CheckBox x:Name="ShowPassword"
+                                  CheckedChanged="OnShowPasswordChanged"
+                                  AutomationId="sample-password-show" />
+                        <Label Text="Show password" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 4. Validation -->
+            <ControlExample x:Name="ValidationExample"
+                            Title="Validate as you type"
+                            Description="Bind Text to a view model, check the value whenever it changes, and show feedback next to the field. MaxLength stops input at a fixed length."
+                            XamlSource="EntryValidation.xaml.txt"
+                            CSharpSource="EntryValidation.cs.txt">
+                <VerticalStackLayout x:Name="ValidationSample"
+                                     WidthRequest="280"
+                                     Spacing="8"
+                                     x:DataType="local:EntryValidationViewModel">
+                    <Entry x:Name="ValidationEntry"
+                           Text="{Binding Email}"
+                           Placeholder="name@example.com"
+                           Keyboard="Email"
+                           ReturnType="Done"
+                           MaxLength="{Binding MaxLength}"
+                           IsSpellCheckEnabled="False"
+                           IsTextPredictionEnabled="False"
+                           ReturnCommand="{Binding SubscribeCommand}"
+                           AutomationId="sample-validation-entry" />
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <Label Text="{Binding ErrorMessage}"
+                               TextColor="{AppThemeBinding Light=#C42B1C, Dark=#FF99A4}"
+                               FontSize="13"
+                               AutomationId="sample-validation-error" />
+                        <Label Grid.Column="1"
+                               Text="{Binding CharacterCount}"
+                               FontSize="13"
+                               AutomationId="sample-validation-count" />
+                    </Grid>
+                    <Button Text="Subscribe"
+                            Command="{Binding SubscribeCommand}"
+                            AutomationId="sample-validation-subscribe" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

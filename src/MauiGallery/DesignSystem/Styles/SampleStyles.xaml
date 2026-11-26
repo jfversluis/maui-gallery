@@ -51,6 +51,13 @@
         <Setter Property="PlaceholderColor" Value="{DynamicResource ColorTextTertiary}" />
     </Style>
 
+    <Style TargetType="SearchBar">
+        <Setter Property="FontFamily" Value="Inter" />
+        <Setter Property="TextColor" Value="{DynamicResource ColorTextPrimary}" />
+        <Setter Property="PlaceholderColor" Value="{DynamicResource ColorTextTertiary}" />
+        <Setter Property="CancelButtonColor" Value="{DynamicResource ColorAccent}" />
+    </Style>
+
     <Style TargetType="CheckBox">
         <Setter Property="Color" Value="{DynamicResource ColorAccent}" />
     </Style>

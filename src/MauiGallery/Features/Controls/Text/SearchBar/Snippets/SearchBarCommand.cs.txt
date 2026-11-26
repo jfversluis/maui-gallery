@@ -1,0 +1,20 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class SearchViewModel(IFruitService fruitService) : ObservableObject
+{
+    [ObservableProperty]
+    public partial string Status { get; set; } = "Results appear here";
+
+    [RelayCommand]
+    private async Task SearchAsync(string? query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            Status = "Type something to search for";
+            return;
+        }
+
+        Status = "Searching…";
+        var results = await fruitService.SearchAsync(query);
+        Status = $"Results for “{query}”: {results.Count}";
+    }
+}

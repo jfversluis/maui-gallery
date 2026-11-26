@@ -1,0 +1,20 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class TaskViewModel : ObservableObject
+{
+    // null until the user picks a date
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(ClearCommand))]
+    public partial DateTime? DueDate { get; set; }
+
+    // IsOpen binds two-way: it turns false again when the picker closes
+    [ObservableProperty]
+    public partial bool IsPickerOpen { get; set; }
+
+    [RelayCommand]
+    private void Choose() => IsPickerOpen = true;
+
+    [RelayCommand(CanExecute = nameof(HasDueDate))]
+    private void Clear() => DueDate = null;
+
+    private bool HasDueDate() => DueDate is not null;
+}

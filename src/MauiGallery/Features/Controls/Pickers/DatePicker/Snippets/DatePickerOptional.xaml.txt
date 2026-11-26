@@ -1,0 +1,14 @@
+<VerticalStackLayout x:DataType="local:TaskViewModel" WidthRequest="280" Spacing="12">
+    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+        <Label Text="Due date" VerticalOptions="Center" />
+        <DatePicker
+            Grid.Column="1"
+            Date="{Binding DueDate}"
+            IsOpen="{Binding IsPickerOpen}"
+            Format="D" />
+    </Grid>
+    <HorizontalStackLayout Spacing="8">
+        <Button Text="Choose a date" Command="{Binding ChooseCommand}" />
+        <Button Text="Clear" Command="{Binding ClearCommand}" />
+    </HorizontalStackLayout>
+</VerticalStackLayout>

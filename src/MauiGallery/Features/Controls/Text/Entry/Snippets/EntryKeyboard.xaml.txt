@@ -1,0 +1,6 @@
+<Entry
+    WidthRequest="280"
+    Placeholder="Tap to show the keyboard"
+    Keyboard="$(Keyboard)"
+    ReturnType="$(ReturnType)"
+    Completed="OnCompleted" />

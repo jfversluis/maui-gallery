@@ -1,0 +1,28 @@
+var link = new Span
+{
+    Text = "Learn more",
+    TextColor = Color.FromArgb("#512BD4"),
+    TextDecorations = TextDecorations.Underline,
+};
+var tap = new TapGestureRecognizer();
+tap.Tapped += OnLearnMoreTapped;
+link.GestureRecognizers.Add(tap);
+
+var label = new Label
+{
+    WidthRequest = 280,
+    FormattedText = new FormattedString
+    {
+        Spans =
+        {
+            new Span { Text = ".NET MAUI", FontAttributes = FontAttributes.Bold },
+            new Span { Text = " builds native apps for " },
+            new Span { Text = "Android, iOS, macOS and Windows", FontAttributes = FontAttributes.Italic },
+            new Span { Text = " from one codebase. " },
+            link,
+        },
+    },
+};
+
+async void OnLearnMoreTapped(object? sender, TappedEventArgs e) =>
+    await Browser.Default.OpenAsync("https://dotnet.microsoft.com/apps/maui", BrowserLaunchMode.SystemPreferred);
