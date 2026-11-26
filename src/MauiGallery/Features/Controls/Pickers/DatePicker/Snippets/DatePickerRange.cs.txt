@@ -1,0 +1,10 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class BookingViewModel : ObservableObject
+{
+    public DateTime Today { get; } = DateTime.Today;
+
+    public DateTime LastBookableDate => Today.AddDays($(Days));
+
+    [ObservableProperty]
+    public partial DateTime? CheckIn { get; set; } = DateTime.Today.AddDays(1);
+}

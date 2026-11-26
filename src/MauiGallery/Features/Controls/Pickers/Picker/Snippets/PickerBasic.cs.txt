@@ -1,0 +1,13 @@
+var picker = new Picker
+{
+    WidthRequest = 280,
+    Title = $(Title),
+    ItemsSource = new[] { "Small", "Medium", "Large", "Extra large" },
+};
+picker.SelectedIndexChanged += OnSelectedIndexChanged;
+
+void OnSelectedIndexChanged(object? sender, EventArgs e)
+{
+    // SelectedIndex is -1 when nothing is selected
+    var size = (string?)picker.SelectedItem;
+}

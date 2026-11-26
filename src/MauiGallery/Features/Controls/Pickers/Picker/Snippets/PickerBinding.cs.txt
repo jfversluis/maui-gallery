@@ -1,0 +1,24 @@
+public record City(string Name, string Country, int Population);
+
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class CitiesViewModel : ObservableObject
+{
+    public IReadOnlyList<City> Cities { get; } =
+    [
+        new("Amsterdam", "the Netherlands", 931_000),
+        new("Cairo", "Egypt", 10_100_000),
+        new("Tokyo", "Japan", 14_100_000),
+    ];
+
+    // Picker.SelectedItem binds two-way by default
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Summary))]
+    public partial City? SelectedCity { get; set; }
+
+    public string Summary => SelectedCity is { } city
+        ? $"{city.Name} is in {city.Country} and has about {city.Population:N0} people."
+        : "No city selected yet.";
+
+    [RelayCommand]
+    private void PickRandom() => SelectedCity = Cities[Random.Shared.Next(Cities.Count)];
+}

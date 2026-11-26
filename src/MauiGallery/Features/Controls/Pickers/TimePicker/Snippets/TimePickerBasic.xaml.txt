@@ -1,0 +1,4 @@
+<TimePicker
+    Time="9:30"
+    Format="$(Format)"
+    TimeSelected="OnTimeSelected" />
