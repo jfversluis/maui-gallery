@@ -7,6 +7,7 @@
                 SwipeBehaviorOnInvoked="$(SwipeBehaviorOnInvoked)">
                 <SwipeItem
                     Text="Archive"
+                    TextColor="White"
                     BackgroundColor="#16A34A"
                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:InboxViewModel}}, Path=ArchiveCommand}"
                     CommandParameter="{Binding .}">

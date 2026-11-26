@@ -46,6 +46,7 @@
                                             <SwipeItem Text="Archive"
                                                        IconImageSource="{StaticResource ArchiveIcon}"
                                                        BackgroundColor="#16A34A"
+                                                       TextColor="White"
                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:InboxViewModel}}, Path=ArchiveCommand, x:DataType=local:InboxViewModel}"
                                                        CommandParameter="{Binding .}" />
                                         </SwipeItems>
@@ -55,11 +56,13 @@
                                             <SwipeItem Text="Flag"
                                                        IconImageSource="{StaticResource FlagIcon}"
                                                        BackgroundColor="#D97706"
+                                                       TextColor="White"
                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:InboxViewModel}}, Path=ToggleFlagCommand, x:DataType=local:InboxViewModel}"
                                                        CommandParameter="{Binding .}" />
                                             <SwipeItem Text="Delete"
                                                        IconImageSource="{StaticResource DeleteIcon}"
                                                        BackgroundColor="#DC2626"
+                                                       TextColor="White"
                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:InboxViewModel}}, Path=DeleteCommand, x:DataType=local:InboxViewModel}"
                                                        CommandParameter="{Binding .}" />
                                         </SwipeItems>
@@ -203,6 +206,7 @@
                                 <SwipeItem Text="Pin"
                                            IconImageSource="{StaticResource PinIcon}"
                                            BackgroundColor="#2563EB"
+                                           TextColor="White"
                                            Invoked="OnCodeItemInvoked" />
                             </SwipeItems>
                         </SwipeView.LeftItems>
@@ -211,6 +215,7 @@
                                 <SwipeItem Text="Delete"
                                            IconImageSource="{StaticResource DeleteIcon}"
                                            BackgroundColor="#DC2626"
+                                           TextColor="White"
                                            Invoked="OnCodeItemInvoked" />
                             </SwipeItems>
                         </SwipeView.RightItems>
