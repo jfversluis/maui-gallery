@@ -1,0 +1,107 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Dialogs.PromptsPage"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Ask for text"
+                            Description="DisplayPromptAsync shows a dialog with a text field and returns what the user typed, or null when they cancel."
+                            XamlSource="PromptBasic.xaml.txt"
+                            CSharpSource="PromptBasic.cs.txt">
+                <Button x:Name="BasicButton"
+                        Text="New playlist"
+                        Clicked="OnBasicClicked"
+                        AutomationId="sample-basic-button" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Title" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="BasicTitle" Text="New playlist" AutomationId="option-basic-title" />
+                        <Label Text="Message" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="BasicMessage" Text="Give your playlist a name." AutomationId="option-basic-message" />
+                        <Label Text="Accept (button text)" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="BasicAccept" Text="Create" AutomationId="option-basic-accept" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Title" Value="{Binding Text, Source={x:Reference BasicTitle}, x:DataType=Entry}" />
+                    <Substitution Key="Message" Value="{Binding Text, Source={x:Reference BasicMessage}, x:DataType=Entry}" />
+                    <Substitution Key="Accept" Value="{Binding Text, Source={x:Reference BasicAccept}, x:DataType=Entry}" Default="OK" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. The text field -->
+            <ControlExample x:Name="InputExample"
+                            Title="Configure the text field"
+                            Description="Pick the keyboard that fits the answer, limit its length, and help with a placeholder or an initial value. Named arguments keep the call readable."
+                            XamlSource="PromptInput.xaml.txt"
+                            CSharpSource="PromptInput.cs.txt">
+                <Button x:Name="InputButton"
+                        Text="Verify email"
+                        Clicked="OnInputClicked"
+                        AutomationId="sample-input-button" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Keyboard" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="InputKeyboard"
+                                SelectedIndexChanged="OnInputKeyboardChanged"
+                                AutomationId="option-input-keyboard">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Default</x:String>
+                                    <x:String>Numeric</x:String>
+                                    <x:String>Telephone</x:String>
+                                    <x:String>Email</x:String>
+                                    <x:String>Url</x:String>
+                                    <x:String>Text</x:String>
+                                    <x:String>Chat</x:String>
+                                    <x:String>Plain</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <Label Text="{Binding Value, Source={x:Reference InputMaxLength}, StringFormat='maxLength: {0} (-1 for no limit)', x:DataType=Stepper}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Stepper x:Name="InputMaxLength"
+                                 Minimum="-1"
+                                 Maximum="12"
+                                 Value="6"
+                                 AutomationId="option-input-max-length" />
+                        <Label Text="Placeholder" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="InputPlaceholder" Text="6-digit code" AutomationId="option-input-placeholder" />
+                        <Label Text="Initial value" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="InputInitialValue" AutomationId="option-input-initial-value" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Placeholder" Value="{Binding Text, Source={x:Reference InputPlaceholder}, x:DataType=Entry}" Default="" />
+                    <Substitution Key="MaxLength" Value="{Binding Value, Source={x:Reference InputMaxLength}, x:DataType=Stepper}" Default="-1" />
+                    <Substitution x:Name="InputKeyboardSubstitution" Key="Keyboard" IsExpression="True" Default="Keyboard.Default" />
+                    <Substitution Key="InitialValue" Value="{Binding Text, Source={x:Reference InputInitialValue}, x:DataType=Entry}" Default="" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Handling the answer -->
+            <ControlExample x:Name="RenameExample"
+                            Title="Rename something"
+                            Description="Pass the current name as the initial value so the user can edit it. Check for null (cancelled) and for an empty answer before you use the result."
+                            XamlSource="PromptRename.xaml.txt"
+                            CSharpSource="PromptRename.cs.txt">
+                <VerticalStackLayout Spacing="12">
+                    <Label x:Name="RenameName"
+                           Text="Summer road trip"
+                           FontSize="18"
+                           HorizontalOptions="Center"
+                           AutomationId="sample-rename-name" />
+                    <Button x:Name="RenameButton"
+                            Text="Rename"
+                            Clicked="OnRenameClicked"
+                            HorizontalOptions="Center"
+                            AutomationId="sample-rename-button" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

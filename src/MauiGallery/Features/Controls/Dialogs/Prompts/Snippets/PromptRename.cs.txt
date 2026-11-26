@@ -1,0 +1,13 @@
+private async void OnRenameClicked(object? sender, EventArgs e)
+{
+    string? name = await DisplayPromptAsync(
+        "Rename",
+        "Enter a new name for this album.",
+        initialValue: AlbumName.Text);
+
+    // null means the user cancelled; also ignore an empty answer
+    if (!string.IsNullOrWhiteSpace(name))
+    {
+        AlbumName.Text = name.Trim();
+    }
+}

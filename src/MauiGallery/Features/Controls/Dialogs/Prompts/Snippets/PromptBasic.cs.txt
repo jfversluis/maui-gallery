@@ -1,0 +1,12 @@
+private async void OnNewPlaylistClicked(object? sender, EventArgs e)
+{
+    string? name = await DisplayPromptAsync(
+        $(Title),
+        $(Message),
+        accept: $(Accept));
+
+    if (name is not null)
+    {
+        // Create the playlist
+    }
+}

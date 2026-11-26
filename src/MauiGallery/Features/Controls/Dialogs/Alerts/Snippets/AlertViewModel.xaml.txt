@@ -1,0 +1,6 @@
+<VerticalStackLayout x:DataType="local:DraftsViewModel" Spacing="12">
+    <Label Text="{Binding Summary}" />
+    <Button
+        Text="Delete all drafts"
+        Command="{Binding DeleteAllCommand}" />
+</VerticalStackLayout>

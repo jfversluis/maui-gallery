@@ -1,0 +1,3 @@
+<Button
+    Text="New playlist"
+    Clicked="OnNewPlaylistClicked" />

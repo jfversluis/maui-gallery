@@ -1,0 +1,3 @@
+<Button
+    Text="Delete photo"
+    Clicked="OnDeleteClicked" />

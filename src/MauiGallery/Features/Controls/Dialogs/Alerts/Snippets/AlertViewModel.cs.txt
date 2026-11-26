@@ -1,0 +1,40 @@
+public interface IDialogService
+{
+    Task<bool> ConfirmAsync(string title, string message, string accept, string cancel);
+}
+
+public class DialogService : IDialogService
+{
+    public Task<bool> ConfirmAsync(string title, string message, string accept, string cancel) =>
+        CurrentPage.DisplayAlertAsync(title, message, accept, cancel);
+
+    // The page of the window the user is working in
+    static Page CurrentPage =>
+        Application.Current!.Windows.FirstOrDefault(w => w.IsActivated)?.Page
+        ?? Application.Current.Windows[0].Page!;
+}
+
+// MauiProgram.cs
+builder.Services.AddSingleton<IDialogService, DialogService>();
+
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class DraftsViewModel(IDialogService dialogs) : ObservableObject
+{
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Summary))]
+    [NotifyCanExecuteChangedFor(nameof(DeleteAllCommand))]
+    public partial int DraftCount { get; set; } = 3;
+
+    public string Summary => $"{DraftCount} drafts";
+
+    [RelayCommand(CanExecute = nameof(HasDrafts))]
+    private async Task DeleteAllAsync()
+    {
+        if (await dialogs.ConfirmAsync("Delete all drafts?", "You can't undo this.", "Delete", "Cancel"))
+        {
+            DraftCount = 0;
+        }
+    }
+
+    private bool HasDrafts() => DraftCount > 0;
+}

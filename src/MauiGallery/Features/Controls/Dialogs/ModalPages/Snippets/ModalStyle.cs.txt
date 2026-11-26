@@ -1,0 +1,6 @@
+using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
+
+var page = new WhatsNewPage();
+page.On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.$(Style));
+await Navigation.PushModalAsync(page);

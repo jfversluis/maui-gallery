@@ -1,0 +1,5 @@
+private async void OnSaveClicked(object? sender, EventArgs e)
+{
+    await DisplayAlertAsync($(Title), $(Message), $(Cancel));
+    // Runs after the user dismisses the alert
+}

@@ -1,0 +1,11 @@
+<!-- The calling page -->
+<Button Text="What's new" Clicked="OnWhatsNewClicked" />
+
+<!-- WhatsNewPage.xaml -->
+<ContentPage x:Class="MyApp.WhatsNewPage" Title="What's new">
+    <VerticalStackLayout Padding="24" Spacing="16">
+        <Label Text="What's new" FontSize="28" FontAttributes="Bold" />
+        <Label Text="Invite friends to add their photos to an album you share." />
+        <Button Text="Close" Clicked="OnCloseClicked" />
+    </VerticalStackLayout>
+</ContentPage>

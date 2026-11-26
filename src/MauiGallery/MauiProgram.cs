@@ -66,6 +66,7 @@ public static class MauiProgram
         .AddSingleton<ActiveWindowTracker>()
         .AddSingleton<INavigationService, ShellNavigationService>()
         .AddSingleton<IWindowService, WindowService>()
+        .AddSingleton<IDialogService, DialogService>()
         .AddSingleton<GalleryWindowFactory>()
         .AddSingleton<DeepLinkRouter>()
         .AddSingleton<SamplePageServices>()

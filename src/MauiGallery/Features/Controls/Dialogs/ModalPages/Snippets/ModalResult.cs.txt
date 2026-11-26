@@ -1,0 +1,39 @@
+public record Contact(string Name, string Email);
+
+public partial class NewContactPage : ContentPage
+{
+    readonly TaskCompletionSource<Contact?> _result = new();
+
+    public NewContactPage() => InitializeComponent();
+
+    public Task<Contact?> Result => _result.Task;
+
+    // Swiping a sheet down on iOS, or Back on Android
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        _result.TrySetResult(null);
+    }
+
+    async void OnSaveClicked(object? sender, EventArgs e)
+    {
+        _result.TrySetResult(new Contact(NameEntry.Text, EmailEntry.Text));
+        await Navigation.PopModalAsync();
+    }
+
+    async void OnCancelClicked(object? sender, EventArgs e)
+    {
+        _result.TrySetResult(null);
+        await Navigation.PopModalAsync();
+    }
+}
+
+// The calling page
+var form = new NewContactPage();
+await Navigation.PushModalAsync(form);
+
+Contact? contact = await form.Result;
+if (contact is not null)
+{
+    // Use the new contact
+}

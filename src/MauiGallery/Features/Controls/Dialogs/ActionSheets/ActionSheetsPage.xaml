@@ -1,0 +1,72 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Dialogs.ActionSheetsPage"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Choices -->
+            <ControlExample x:Name="ChoiceExample"
+                            Title="Choose from a list"
+                            Description="DisplayActionSheetAsync shows a list of choices and returns the text of the one the user picked. iOS and Mac show a native action sheet, a popover on iPad and Mac; Android and Windows show a dialog with a list."
+                            XamlSource="ActionSheetChoice.xaml.txt"
+                            CSharpSource="ActionSheetChoice.cs.txt">
+                <Button x:Name="ChoiceButton"
+                        Text="Add attachment"
+                        Clicked="OnChoiceClicked"
+                        AutomationId="sample-choice-button" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Title" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="ChoiceTitle" Text="Add an attachment" AutomationId="option-choice-title" />
+                        <Label Text="Buttons (comma-separated)" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="ChoiceButtons"
+                               Text="Camera, Photo library, Files"
+                               TextChanged="OnChoiceButtonsChanged"
+                               AutomationId="option-choice-buttons" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Title" Value="{Binding Text, Source={x:Reference ChoiceTitle}, x:DataType=Entry}" />
+                    <Substitution x:Name="ChoiceButtonsSubstitution" Key="Buttons" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Cancel and destruction -->
+            <ControlExample x:Name="DestructiveExample"
+                            Title="Cancel and destructive buttons"
+                            Description="The cancel button closes the sheet and the destruction button is highlighted as dangerous, in red on iOS and Mac. Pass null to leave either out. FlowDirection applies on Android and Windows."
+                            XamlSource="ActionSheetDestructive.xaml.txt"
+                            CSharpSource="ActionSheetDestructive.cs.txt">
+                <Button x:Name="DestructiveButton"
+                        Text="Photo options"
+                        Clicked="OnDestructiveClicked"
+                        AutomationId="sample-destructive-button" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Cancel (empty for null)" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="DestructiveCancel"
+                               Text="Cancel"
+                               TextChanged="OnDestructiveOptionChanged"
+                               AutomationId="option-destructive-cancel" />
+                        <Label Text="Destruction (empty for null)" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="DestructiveDestruction"
+                               Text="Delete"
+                               TextChanged="OnDestructiveOptionChanged"
+                               AutomationId="option-destructive-destruction" />
+                        <Label Text="FlowDirection" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="DestructiveFlow"
+                                SelectedIndexChanged="OnDestructiveOptionChanged"
+                                AutomationId="option-destructive-flow" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="DestructiveCancelSubstitution" Key="Cancel" IsExpression="True" />
+                    <Substitution x:Name="DestructiveDestructionSubstitution" Key="Destruction" IsExpression="True" />
+                    <Substitution x:Name="DestructiveFlowSubstitution" Key="FlowDirection" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

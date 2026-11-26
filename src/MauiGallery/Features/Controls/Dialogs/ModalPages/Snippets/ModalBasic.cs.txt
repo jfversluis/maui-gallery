@@ -1,0 +1,11 @@
+// The calling page
+private async void OnWhatsNewClicked(object? sender, EventArgs e)
+{
+    await Navigation.PushModalAsync(new WhatsNewPage(), $(Animated));
+}
+
+// WhatsNewPage.xaml.cs
+private async void OnCloseClicked(object? sender, EventArgs e)
+{
+    await Navigation.PopModalAsync();
+}

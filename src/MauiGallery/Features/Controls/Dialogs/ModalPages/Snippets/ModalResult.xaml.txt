@@ -1,0 +1,11 @@
+<!-- NewContactPage.xaml -->
+<ContentPage x:Class="MyApp.NewContactPage" Title="New contact">
+    <VerticalStackLayout Padding="24" Spacing="12">
+        <Entry x:Name="NameEntry" Placeholder="Name" />
+        <Entry x:Name="EmailEntry" Placeholder="Email" Keyboard="Email" />
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+            <Button Text="Cancel" Clicked="OnCancelClicked" />
+            <Button Grid.Column="1" Text="Save" Clicked="OnSaveClicked" />
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

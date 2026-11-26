@@ -1,0 +1,10 @@
+private async void OnAddAttachmentClicked(object? sender, EventArgs e)
+{
+    string choice = await DisplayActionSheetAsync(
+        $(Title),
+        "Cancel",
+        null,
+        $(Buttons));
+
+    // choice is the text of the button the user picked
+}

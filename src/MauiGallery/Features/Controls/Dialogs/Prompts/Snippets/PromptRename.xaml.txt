@@ -1,0 +1,4 @@
+<VerticalStackLayout Spacing="12">
+    <Label x:Name="AlbumName" Text="Summer road trip" FontSize="18" />
+    <Button Text="Rename" Clicked="OnRenameClicked" />
+</VerticalStackLayout>

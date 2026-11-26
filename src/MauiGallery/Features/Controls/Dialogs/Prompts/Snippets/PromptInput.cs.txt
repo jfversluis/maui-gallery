@@ -1,0 +1,11 @@
+private async void OnVerifyClicked(object? sender, EventArgs e)
+{
+    string? code = await DisplayPromptAsync(
+        "Verify your email",
+        "Enter the code we sent to you.",
+        placeholder: $(Placeholder),
+        maxLength: $(MaxLength),
+        keyboard: $(Keyboard),
+        initialValue: $(InitialValue),
+        accept: "Verify");
+}

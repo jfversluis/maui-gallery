@@ -1,0 +1,36 @@
+<ContentPage x:Class="MauiGallery.Features.Controls.Dialogs.ContactFormPage"
+             xmlns:local="clr-namespace:MauiGallery.Features.Controls.Dialogs"
+             x:DataType="local:ContactFormPage"
+             Title="New contact">
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="12" MaximumWidthRequest="520">
+            <Label Text="New contact"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   Margin="0,0,0,8"
+                   SemanticProperties.HeadingLevel="Level1" />
+            <Label Text="Name" />
+            <Entry x:Name="NameEntry"
+                   Placeholder="Ada Lovelace"
+                   TextChanged="OnTextChanged"
+                   AutomationId="modal-name" />
+            <Label Text="Email" />
+            <Entry x:Name="EmailEntry"
+                   Placeholder="ada@example.com"
+                   Keyboard="Email"
+                   TextChanged="OnTextChanged"
+                   AutomationId="modal-email" />
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,12,0,0">
+                <Button Text="Cancel"
+                        Clicked="OnCancelClicked"
+                        AutomationId="modal-cancel" />
+                <Button x:Name="SaveButton"
+                        Grid.Column="1"
+                        Text="Save"
+                        IsEnabled="False"
+                        Clicked="OnSaveClicked"
+                        AutomationId="modal-save" />
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

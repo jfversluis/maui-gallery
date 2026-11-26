@@ -1,0 +1,88 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Dialogs.AlertsPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Dialogs"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. One button -->
+            <ControlExample x:Name="MessageExample"
+                            Title="Show a message"
+                            Description="DisplayAlertAsync with a single button tells the user something and waits until they dismiss it. Await it to continue after the alert closes."
+                            XamlSource="AlertMessage.xaml.txt"
+                            CSharpSource="AlertMessage.cs.txt">
+                <Button x:Name="MessageButton"
+                        Text="Save changes"
+                        Clicked="OnMessageClicked"
+                        AutomationId="sample-message-button" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Title" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="MessageTitle" Text="Changes saved" AutomationId="option-message-title" />
+                        <Label Text="Message" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="MessageText" Text="Your profile is up to date." AutomationId="option-message-text" />
+                        <Label Text="Cancel (button text)" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="MessageCancel" Text="OK" AutomationId="option-message-cancel" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Title" Value="{Binding Text, Source={x:Reference MessageTitle}, x:DataType=Entry}" />
+                    <Substitution Key="Message" Value="{Binding Text, Source={x:Reference MessageText}, x:DataType=Entry}" />
+                    <Substitution Key="Cancel" Value="{Binding Text, Source={x:Reference MessageCancel}, x:DataType=Entry}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Two buttons -->
+            <ControlExample x:Name="QuestionExample"
+                            Title="Ask a question"
+                            Description="With an accept and a cancel button, DisplayAlertAsync returns true when the user accepts. A FlowDirection lays the alert out right to left on Android and Windows; iOS and Mac follow the app's language."
+                            XamlSource="AlertQuestion.xaml.txt"
+                            CSharpSource="AlertQuestion.cs.txt">
+                <Button x:Name="QuestionButton"
+                        Text="Delete photo"
+                        Clicked="OnQuestionClicked"
+                        AutomationId="sample-question-button" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Accept (button text)" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="QuestionAccept" Text="Delete" AutomationId="option-question-accept" />
+                        <Label Text="Cancel (button text)" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="QuestionCancel" Text="Cancel" AutomationId="option-question-cancel" />
+                        <Label Text="FlowDirection" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="QuestionFlow"
+                                SelectedIndexChanged="OnQuestionFlowChanged"
+                                AutomationId="option-question-flow" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Accept" Value="{Binding Text, Source={x:Reference QuestionAccept}, x:DataType=Entry}" />
+                    <Substitution Key="Cancel" Value="{Binding Text, Source={x:Reference QuestionCancel}, x:DataType=Entry}" />
+                    <Substitution x:Name="QuestionFlowSubstitution" Key="FlowDirection" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. From a view model -->
+            <ControlExample x:Name="ViewModelExample"
+                            Title="Confirm from a view model"
+                            Description="View models don't know about pages. Put the dialog behind a small interface, register it with dependency injection and await it from a command."
+                            XamlSource="AlertViewModel.xaml.txt"
+                            CSharpSource="AlertViewModel.cs.txt">
+                <VerticalStackLayout x:Name="DraftsSample" Spacing="12" x:DataType="local:DraftsViewModel">
+                    <Label Text="{Binding Summary}" HorizontalOptions="Center" AutomationId="sample-drafts-summary" />
+                    <Button x:Name="DraftsButton"
+                            Text="Delete all drafts"
+                            Command="{Binding DeleteAllCommand}"
+                            AutomationId="sample-drafts-delete" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <Button x:Name="DraftsRestore"
+                            Text="Restore drafts"
+                            HorizontalOptions="Start"
+                            AutomationId="option-drafts-restore" />
+                </ControlExample.Options>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

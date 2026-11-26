@@ -1,0 +1,71 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Dialogs.ModalPagesPage"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Push and pop -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Show a modal page"
+                            Description="PushModalAsync shows a page on top of everything else, without the app's navigation around it. The page closes itself with PopModalAsync."
+                            XamlSource="ModalBasic.xaml.txt"
+                            CSharpSource="ModalBasic.cs.txt">
+                <Button x:Name="BasicButton"
+                        Text="What's new"
+                        Clicked="OnBasicClicked"
+                        AutomationId="sample-basic-button" />
+                <ControlExample.Options>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="animated" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                        <Switch x:Name="BasicAnimated" Grid.Column="1" IsToggled="True" AutomationId="option-basic-animated" />
+                    </Grid>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Animated" Value="{Binding IsToggled, Source={x:Reference BasicAnimated}, x:DataType=Switch}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Presentation style -->
+            <ControlExample x:Name="StyleExample"
+                            Title="Choose how it's presented on iOS and Mac"
+                            Description="On iOS and Mac Catalyst, the ModalPresentationStyle platform-specific picks a sheet that keeps the page behind it visible, or a full-screen cover. Sheets can be swiped down to close. Android and Windows always cover the window."
+                            XamlSource="ModalStyle.xaml.txt"
+                            CSharpSource="ModalStyle.cs.txt">
+                <Button x:Name="StyleButton"
+                        Text="What's new"
+                        Clicked="OnStyleClicked"
+                        AutomationId="sample-style-button" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="ModalPresentationStyle" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="StylePicker" AutomationId="option-style" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Style" Value="{Binding SelectedItem, Source={x:Reference StylePicker}, x:DataType=Picker}" Default="FullScreen" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Results -->
+            <ControlExample x:Name="ResultExample"
+                            Title="Return a result"
+                            Description="A modal page is a good fit for a form. Expose a Task that completes when the user saves or cancels, so the caller can await the answer like a dialog."
+                            XamlSource="ModalResult.xaml.txt"
+                            CSharpSource="ModalResult.cs.txt">
+                <VerticalStackLayout Spacing="12">
+                    <Label x:Name="ResultSummary"
+                           Text="No contact yet"
+                           HorizontalOptions="Center"
+                           AutomationId="sample-result-summary" />
+                    <Button x:Name="ResultButton"
+                            Text="New contact"
+                            Clicked="OnResultClicked"
+                            HorizontalOptions="Center"
+                            AutomationId="sample-result-button" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

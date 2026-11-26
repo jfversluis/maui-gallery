@@ -1,0 +1,25 @@
+<ContentPage x:Class="MauiGallery.Features.Controls.Dialogs.WhatsNewPage"
+             xmlns:local="clr-namespace:MauiGallery.Features.Controls.Dialogs"
+             x:DataType="local:WhatsNewPage"
+             Title="What's new">
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16" MaximumWidthRequest="520">
+            <Label Text="What's new"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   SemanticProperties.HeadingLevel="Level1" />
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Shared albums" FontAttributes="Bold" />
+                <Label Text="Invite friends to add their photos to an album you share." />
+            </VerticalStackLayout>
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Smarter search" FontAttributes="Bold" />
+                <Label Text="Search for places, people and things in your photos." />
+            </VerticalStackLayout>
+            <Label Text="This is a modal page. Close it with the button, or swipe a sheet down on iOS." />
+            <Button Text="Close"
+                    Clicked="OnCloseClicked"
+                    AutomationId="modal-close" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,19 @@
+private async void OnPhotoOptionsClicked(object? sender, EventArgs e)
+{
+    string action = await DisplayActionSheetAsync(
+        "What do you want to do with this photo?",
+        $(Cancel),
+        $(Destruction),
+        $(FlowDirection),
+        "Share", "Duplicate");
+
+    switch (action)
+    {
+        case "Share":
+            // Share the photo
+            break;
+        case "Delete":
+            // Delete the photo
+            break;
+    }
+}

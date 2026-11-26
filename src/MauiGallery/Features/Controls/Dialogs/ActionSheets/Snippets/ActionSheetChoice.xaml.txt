@@ -1,0 +1,3 @@
+<Button
+    Text="Add attachment"
+    Clicked="OnAddAttachmentClicked" />

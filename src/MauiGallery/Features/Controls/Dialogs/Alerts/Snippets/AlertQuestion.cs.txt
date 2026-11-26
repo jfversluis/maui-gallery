@@ -1,0 +1,14 @@
+private async void OnDeleteClicked(object? sender, EventArgs e)
+{
+    bool delete = await DisplayAlertAsync(
+        "Delete this photo?",
+        "It will be removed from all your devices.",
+        $(Accept),
+        $(Cancel),
+        $(FlowDirection));
+
+    if (delete)
+    {
+        // Delete the photo
+    }
+}

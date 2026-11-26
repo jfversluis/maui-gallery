@@ -1,0 +1,3 @@
+<Button
+    Text="Verify email"
+    Clicked="OnVerifyClicked" />
