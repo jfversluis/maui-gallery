@@ -46,8 +46,8 @@ $reviewRoutes = [ordered]@{
     'entry'           = '//main/controls/entry'
     'slider'          = '//main/controls/slider'
     'menu-bar'        = '//main/controls/menu-bar'
-    'web-view'        = '//main/controls/web-view'
     'hybrid-web-view' = '//main/controls/hybrid-web-view'
+    'web-view'        = '//main/controls/web-view'
     'blazor-web-view' = '//main/controls/blazor-web-view'
 }
 
@@ -247,7 +247,7 @@ $ids = @(if ($Pages) {
 Write-Summary "Screen: $(Get-ScreenSize), pages: $($ids.Count), configurations: $Configs`n"
 
 $script:seenLogLines = [System.Collections.Generic.HashSet[string]]::new()
-Remove-Item (Join-Path ([System.IO.Path]::GetTempPath()) 'MauiGallery-crash.log') -ErrorAction SilentlyContinue
+Remove-Item (Join-Path ([System.IO.Path]::GetTempPath()) 'MauiGallery-*.log') -ErrorAction SilentlyContinue
 if (-not (Start-App)) {
     Save-Screen (Join-Path $OutDir 'desktop/startup-failure.png')
     Write-Summary "`n## Failures`n"
@@ -339,6 +339,8 @@ Get-WinEvent -FilterHashtable @{ LogName = 'Application'; StartTime = (Get-Date)
 if (Test-AppAlive) { Stop-Process -Id $script:proc.Id -Force }
 
 # Debug builds write unhandled exceptions here (Platforms/Windows/App.xaml.cs).
+$firstChanceLog = Join-Path ([System.IO.Path]::GetTempPath()) 'MauiGallery-first-chance.log'
+if (Test-Path $firstChanceLog) { Copy-Item $firstChanceLog (Join-Path $OutDir 'logs/first-chance.log') }
 $crashLog = Join-Path ([System.IO.Path]::GetTempPath()) 'MauiGallery-crash.log'
 if (Test-Path $crashLog) {
     Copy-Item $crashLog (Join-Path $OutDir 'logs/crash.log')
