@@ -1,0 +1,17 @@
+<Border
+    Padding="20"
+    StrokeThickness="0"
+    StrokeShape="RoundRectangle 16"
+    BackgroundColor="{AppThemeBinding Light=White, Dark=#2C2C2E}">
+    <Border.Shadow>
+        <Shadow
+            Brush="Black"
+            Radius="$(Radius)"
+            Offset="0,$(OffsetY)"
+            Opacity="$(Opacity)" />
+    </Border.Shadow>
+    <VerticalStackLayout Spacing="4">
+        <Label Text="Daily summary" FontAttributes="Bold" FontSize="18" />
+        <Label Text="8,412 steps, 3 workouts" />
+    </VerticalStackLayout>
+</Border>

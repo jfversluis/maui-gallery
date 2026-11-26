@@ -1,0 +1,16 @@
+var border = new Border
+{
+    HeightRequest = 120,
+    StrokeShape = new RoundRectangle { CornerRadius = 12 },
+    StrokeThickness = 2,
+    Stroke = Color.FromArgb("#2563EB"),
+    StrokeDashArray = $(StrokeDashArrayCode),
+    StrokeDashOffset = $(StrokeDashOffset),
+    StrokeLineCap = PenLineCap.$(StrokeLineCap),
+    Content = new Label
+    {
+        Text = "Drop files here",
+        HorizontalOptions = LayoutOptions.Center,
+        VerticalOptions = LayoutOptions.Center,
+    },
+};

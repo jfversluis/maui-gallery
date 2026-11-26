@@ -34,7 +34,7 @@ public sealed partial class GalleryCatalog
             PageType = typeof(StackLayoutPage),
             Keywords = ["VerticalStackLayout", "HorizontalStackLayout", "stack", "row", "column", "spacing", "list", "layout"],
             NativeMappings = LayoutPanelMappings,
-            RelatedIds = ["grid", "flex-layout"],
+            RelatedIds = ["grid", "flex-layout", "scroll-view"],
             DocsUrl = new(DocsRoot + "user-interface/layouts/stacklayout"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.verticalstacklayout"),
             SourceUrl = new(SourceRoot + "Controls/Layout/StackLayout"),
@@ -68,6 +68,42 @@ public sealed partial class GalleryCatalog
             DocsUrl = new(DocsRoot + "user-interface/layouts/absolutelayout"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.absolutelayout"),
             SourceUrl = new(SourceRoot + "Controls/Layout/AbsoluteLayout"),
+        },
+        new()
+        {
+            Id = "scroll-view",
+            Title = "ScrollView",
+            Description = "Scrolls content that is larger than the space available, vertically, horizontally or both.",
+            CategoryId = CategoryIds.Layout,
+            IconGlyph = FluentIconsRegular.ArrowAutofitHeight24,
+            PageType = typeof(ScrollViewPage),
+            Keywords = ["scroll", "scrolling", "pan", "overflow", "ScrollToAsync", "scroll bar", "offset"],
+            NativeMappings =
+            [
+                new(GalleryPlatforms.iOS, "UIScrollView"),
+                new(GalleryPlatforms.Android, "MauiScrollView (NestedScrollView)"),
+                new(GalleryPlatforms.MacCatalyst, "UIScrollView"),
+                new(GalleryPlatforms.Windows, "ScrollViewer"),
+            ],
+            RelatedIds = ["stack-layout", "grid"],
+            DocsUrl = new(DocsRoot + "user-interface/controls/scrollview"),
+            ApiUrl = new(ApiRoot + "microsoft.maui.controls.scrollview"),
+            SourceUrl = new(SourceRoot + "Controls/Layout/ScrollView"),
+        },
+        new()
+        {
+            Id = "border",
+            Title = "Border",
+            Description = "Draws a stroke, background and shadow around one view, in any shape. Replaces Frame.",
+            CategoryId = CategoryIds.Layout,
+            IconGlyph = FluentIconsRegular.BorderOutside24,
+            PageType = typeof(BorderPage),
+            Keywords = ["Frame", "stroke", "outline", "corner radius", "rounded", "shadow", "dash", "gradient", "card", "shape"],
+            NativeMappings = ContentPanelMappings,
+            RelatedIds = ["grid"],
+            DocsUrl = new(DocsRoot + "user-interface/controls/border"),
+            ApiUrl = new(ApiRoot + "microsoft.maui.controls.border"),
+            SourceUrl = new(SourceRoot + "Controls/Layout/Border"),
         },
     ];
 

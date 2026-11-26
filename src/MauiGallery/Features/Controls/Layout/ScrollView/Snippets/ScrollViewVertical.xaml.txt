@@ -1,0 +1,11 @@
+<ScrollView
+    HeightRequest="220"
+    VerticalScrollBarVisibility="$(VerticalScrollBarVisibility)"
+    Scrolled="OnScrolled">
+    <VerticalStackLayout Padding="8" Spacing="8">
+        <Label Text="Item 1" />
+        <Label Text="Item 2" />
+        <!-- ... -->
+        <Label Text="Item 20" />
+    </VerticalStackLayout>
+</ScrollView>

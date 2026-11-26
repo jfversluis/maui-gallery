@@ -1,0 +1,23 @@
+var border = new Border
+{
+    Padding = 20,
+    StrokeThickness = 0,
+    StrokeShape = new RoundRectangle { CornerRadius = 16 },
+    Shadow = new Shadow
+    {
+        Brush = Colors.Black,
+        Radius = $(Radius),
+        Offset = new Point(0, $(OffsetY)),
+        Opacity = $(Opacity)f,
+    },
+    Content = new VerticalStackLayout
+    {
+        Spacing = 4,
+        Children =
+        {
+            new Label { Text = "Daily summary", FontAttributes = FontAttributes.Bold, FontSize = 18 },
+            new Label { Text = "8,412 steps, 3 workouts" },
+        },
+    },
+};
+border.SetAppThemeColor(VisualElement.BackgroundColorProperty, Colors.White, Color.FromArgb("#2C2C2E"));

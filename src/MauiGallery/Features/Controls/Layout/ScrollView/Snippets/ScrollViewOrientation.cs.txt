@@ -1,0 +1,21 @@
+var cells = new FlexLayout { WidthRequest = 640, Wrap = FlexWrap.Wrap };
+foreach (var row in Enumerable.Range(1, 10))
+{
+    foreach (var column in "ABCDEFGHIJ")
+    {
+        cells.Add(new Label { Text = $"{column}{row}", WidthRequest = 60, HeightRequest = 60, Margin = 2 });
+    }
+}
+
+var scrollView = new ScrollView
+{
+    HeightRequest = 220,
+    Orientation = ScrollOrientation.$(Orientation),
+    Content = cells,
+};
+scrollView.Scrolled += OnScrolled;
+
+void OnScrolled(object? sender, ScrolledEventArgs e)
+{
+    // e.ScrollX and e.ScrollY are the offsets in device-independent units
+}
