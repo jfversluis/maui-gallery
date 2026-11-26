@@ -8,8 +8,8 @@ dark at three window widths: compact (520), medium (900) and expanded (1440). It
 | --- | --- |
 | `summary.md` | Agent connection, configurations, navigation failures, crashes (also shown on the run page) |
 | `pages/<theme>-<size>/<id>.png` | DevFlow screenshot of every page's content |
-| `review/<page>-<theme>-<width>.png` | Full window captures (title bar, Mica, sidebar): shell pages at every width, a few control pages at 1440 |
-| `logs/` | DevFlow logs per configuration, log errors per page, .NET and crash entries from the Windows event log |
+| `review/<page>-<theme>-<width>.png` | Full window captures (title bar, Mica, sidebar): shell pages at every width, a few control pages at 1440, and web views again after they've loaded (`-late`) |
+| `logs/` | DevFlow logs per configuration, log errors per page, navigation timestamps, the Windows event log, and the Debug build's `crash.log` (unhandled exceptions) and `first-chance.log` (every distinct exception, handled or not) |
 | `diagnostics/` | DevFlow layout diagnostics per page, when the agent supports them |
 | `desktop/` | Full-screen captures after launch and at the end |
 | `build.binlog` | The MSBuild binary log |
@@ -20,7 +20,9 @@ crashes the app is recorded, the app is relaunched and the crawl goes on.
 
 ## Running it
 
-The workflow runs on every push to the Windows branch that touches the app, and on demand:
+The workflow runs on demand, and on pushes to the branch it was developed on (edit `on.push` to add others). Manual
+runs need the workflow on the default branch; until then, change the `CRAWL_PAGES` and `CRAWL_CONFIGS` defaults at
+the top of the workflow to crawl less on a push.
 
 ```bash
 gh workflow run windows-ui.yml                                  # whole catalog, all six configurations
@@ -40,7 +42,9 @@ maui devflow broker start
 
 ## Using your own Windows machine
 
-GitHub-hosted `windows-latest` runners have a desktop session, so the crawl runs there by default. To run it on a
+GitHub-hosted `windows-latest` runners (Windows Server) have a desktop session, so the crawl runs there by default.
+Their display has no transparency effects, so Mica shows its solid fallback color, and a cold WebView2 start takes
+several seconds. To run it on a
 Windows 11 machine instead, such as a Dev Box (for real Mica, a GPU, or a specific Windows build), register the
 machine as a self-hosted runner with the `windows-ui` label.
 
