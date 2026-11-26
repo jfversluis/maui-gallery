@@ -7,7 +7,7 @@ namespace MauiGallery.Services;
 /// Maps the theme preference onto <see cref="Application.UserAppTheme"/>, which also switches the native controls,
 /// and swaps the design system's light and dark token dictionaries to match.
 /// </summary>
-public sealed class ThemeService(IPreferences preferences, IMessenger messenger) : IThemeService
+public sealed partial class ThemeService(IPreferences preferences, IMessenger messenger) : IThemeService
 {
     private const string PreferenceKey = "theme";
 
@@ -36,6 +36,7 @@ public sealed class ThemeService(IPreferences preferences, IMessenger messenger)
         ArgumentNullException.ThrowIfNull(application);
 
         _application = application;
+        RegisterNativeWindowStyle();
         application.RequestedThemeChanged += (_, e) => ApplyTokens(e.RequestedTheme);
         Apply(Preference);
         ApplyTokens(application.RequestedTheme);
@@ -54,7 +55,14 @@ public sealed class ThemeService(IPreferences preferences, IMessenger messenger)
             ThemePreference.Dark => AppTheme.Dark,
             _ => AppTheme.Unspecified,
         };
+        ApplyNativeWindowStyle();
     }
+
+    /// <summary>Hooks windows created later, so they get the preferred style too.</summary>
+    partial void RegisterNativeWindowStyle();
+
+    /// <summary>Applies the preferred style to every open window's native controls.</summary>
+    partial void ApplyNativeWindowStyle();
 
     private void ApplyTokens(AppTheme theme)
     {
