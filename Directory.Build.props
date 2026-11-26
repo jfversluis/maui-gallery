@@ -15,5 +15,11 @@
     <Authors>Gerald Versluis and contributors</Authors>
     <Copyright>Copyright (c) Gerald Versluis</Copyright>
     <RepositoryUrl>https://github.com/jfversluis/maui-gallery</RepositoryUrl>
+
+    <!--
+      The app version shown in the stores (ApplicationDisplayVersion). Bump it here for each release, and tag the
+      release commit v<Version>. Use major.minor.patch only: the stores reject prerelease suffixes.
+    -->
+    <Version>1.0.0</Version>
   </PropertyGroup>
 </Project>

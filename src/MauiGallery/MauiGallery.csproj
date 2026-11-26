@@ -15,8 +15,12 @@
     <!-- Phone home screens truncate the full name (".NET MAUI…"); the store listing keeps it. -->
     <ApplicationTitle Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' or $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">MAUI Gallery</ApplicationTitle>
     <ApplicationId>com.jfversluis.mauigallery</ApplicationId>
-    <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
-    <ApplicationVersion>1</ApplicationVersion>
+    <!--
+      The version people see comes from Version in Directory.Build.props. The build number must grow with every store
+      upload: the release workflow passes -p:ApplicationVersion=<run number>, local builds use 1.
+    -->
+    <ApplicationDisplayVersion>$(Version)</ApplicationDisplayVersion>
+    <ApplicationVersion Condition="'$(ApplicationVersion)' == ''">1</ApplicationVersion>
 
     <!-- XAML: source-generated (the .NET 11 default) and strict, so binding mistakes fail the build. -->
     <MauiStrictXamlCompilation>true</MauiStrictXamlCompilation>
