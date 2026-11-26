@@ -39,6 +39,20 @@ public sealed class BorderlessEntry : Entry
             textBox.Resources["TextControlBorderThemeThicknessFocused"] = new Microsoft.UI.Xaml.Thickness(0);
             textBox.Resources["TextControlBackgroundPointerOver"] = transparent;
             textBox.Resources["TextControlBackgroundFocused"] = transparent;
+
+            // WinUI focuses the first tab stop when a window opens, which put a caret in the search box at launch.
+            // Leave the tab order until the box has loaded and that initial focus has been given out.
+            textBox.IsTabStop = false;
+            textBox.Loaded += OnLoaded;
+
+            static void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+            {
+                var loadedTextBox = (Microsoft.UI.Xaml.Controls.TextBox)sender;
+                loadedTextBox.Loaded -= OnLoaded;
+                loadedTextBox.DispatcherQueue.TryEnqueue(
+                    Microsoft.UI.Dispatching.DispatcherQueuePriority.Low,
+                    () => loadedTextBox.IsTabStop = true);
+            }
 #endif
         });
     }

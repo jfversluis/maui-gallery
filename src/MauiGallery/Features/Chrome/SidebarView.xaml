@@ -94,7 +94,7 @@
                        TextColor="{DynamicResource ColorTextTertiary}" />
                 <BorderlessEntry x:Name="SearchEntry"
                                  Grid.Column="1"
-                                 Placeholder="Search controls and APIs"
+                                 Placeholder="Search the gallery"
                                  SemanticProperties.Hint="{OnPlatform MacCatalyst='Shortcut: Command K', iOS='Shortcut: Command K', WinUI='Shortcut: Control K', Default=''}"
                                  Text="{Binding Query}"
                                  ReturnCommand="{Binding OpenFirstResultCommand}"
