@@ -9,6 +9,7 @@ public sealed partial class ActivityIndicatorPage : SamplePage
     {
         InitializeComponent();
         LoadSample.BindingContext = new ActivityIndicatorForecastViewModel();
+        BasicExample.NativeTarget = BasicIndicator;
         LoadExample.NativeTarget = LoadIndicator;
     }
 }

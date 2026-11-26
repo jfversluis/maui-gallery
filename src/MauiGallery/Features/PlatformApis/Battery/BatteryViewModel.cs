@@ -6,11 +6,11 @@ namespace MauiGallery.Features.PlatformApis;
 public sealed partial class BatteryViewModel(IBattery battery) : ObservableObject
 {
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(ChargeText), nameof(HasChargeLevel), nameof(SyncPlan))]
+    [NotifyPropertyChangedFor(nameof(ChargeText), nameof(HasChargeLevel), nameof(DisplayLevel), nameof(SyncPlan))]
     public partial double ChargeLevel { get; set; } = -1;
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(SyncPlan))]
+    [NotifyPropertyChangedFor(nameof(ChargeText), nameof(HasChargeLevel), nameof(DisplayLevel), nameof(SyncPlan))]
     public partial BatteryState State { get; set; }
 
     [ObservableProperty]
@@ -35,14 +35,17 @@ public sealed partial class BatteryViewModel(IBattery battery) : ObservableObjec
     public partial string? LastEvent { get; set; }
 
     // ChargeLevel is -1 where the device doesn't report it, such as a simulator or a desktop without a battery.
-    public bool HasChargeLevel => ChargeLevel >= 0;
+    public bool HasChargeLevel => ChargeLevel >= 0 || State == BatteryState.Full;
 
-    public string ChargeText => HasChargeLevel ? $"{ChargeLevel:P0}" : "Not reported";
+    // Some Macs report a full battery with a near-zero level; trust the state.
+    public double DisplayLevel => State == BatteryState.Full ? 1 : Math.Clamp(ChargeLevel, 0, 1);
+
+    public string ChargeText => HasChargeLevel ? $"{DisplayLevel:P0}" : "Not reported";
 
     public string SyncPlan =>
         EnergySaver == EnergySaverStatus.On ? "Paused: energy saver is on"
         : PowerSource is BatteryPowerSource.AC or BatteryPowerSource.Usb or BatteryPowerSource.Wireless ? "Every 5 minutes, plugged in"
-        : HasChargeLevel && ChargeLevel < LowBatteryThreshold ? "Paused: the battery is low"
+        : HasChargeLevel && DisplayLevel < LowBatteryThreshold ? "Paused: the battery is low"
         : "Every 30 minutes";
 
     /// <summary>Reads the battery and starts listening for changes. Call it when the page appears.</summary>

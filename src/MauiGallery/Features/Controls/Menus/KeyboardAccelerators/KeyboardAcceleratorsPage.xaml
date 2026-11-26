@@ -30,6 +30,9 @@
             <!-- 1. A shortcut -->
             <ControlExample x:Name="BasicExample"
                             Title="Add a shortcut to a menu item"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="Add a KeyboardAccelerator to a MenuFlyoutItem with a Key and Modifiers. The menu shows the shortcut next to the item, and pressing it runs the item. Choose a shortcut, then try it."
                             XamlSource="KeyboardAcceleratorBasic.xaml.txt"
                             CSharpSource="KeyboardAcceleratorBasic.cs.txt">
@@ -61,7 +64,7 @@
                         <Label Text="Modifiers" Style="{StaticResource OptionLabel}" />
                         <Grid x:Name="BasicCmdRow" ColumnDefinitions="Auto,*" ColumnSpacing="8" IsVisible="{OnPlatform MacCatalyst=True, iOS=True, Default=False}">
                             <CheckBox x:Name="BasicCmd" CheckedChanged="OnShortcutChanged" AutomationId="option-basic-cmd" />
-                            <Label Grid.Column="1" Text="Cmd (⌘ Command)" VerticalOptions="Center" Style="{StaticResource OptionLabel}" />
+                            <Label Grid.Column="1" Text="Cmd (Command)" VerticalOptions="Center" Style="{StaticResource OptionLabel}" />
                         </Grid>
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                             <CheckBox x:Name="BasicCtrl" CheckedChanged="OnShortcutChanged" AutomationId="option-basic-ctrl" />
@@ -73,7 +76,7 @@
                         </Grid>
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                             <CheckBox x:Name="BasicShift" IsChecked="True" CheckedChanged="OnShortcutChanged" AutomationId="option-basic-shift" />
-                            <Label Grid.Column="1" x:Name="BasicShiftLabel" Text="Shift" VerticalOptions="Center" Style="{StaticResource OptionLabel}" />
+                            <Label Grid.Column="1" Text="Shift" VerticalOptions="Center" Style="{StaticResource OptionLabel}" />
                         </Grid>
                     </VerticalStackLayout>
                 </ControlExample.Options>
@@ -87,6 +90,9 @@
             <!-- 2. Platform modifiers -->
             <ControlExample x:Name="PlatformExample"
                             Title="Use each platform's modifier"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="Mac shortcuts use Command where Windows uses Ctrl, so set Modifiers per platform with OnPlatform. Cmd only exists on Mac and Windows only on Windows; Ctrl, Alt and Shift work on both."
                             XamlSource="KeyboardAcceleratorPlatform.xaml.txt"
                             CSharpSource="KeyboardAcceleratorPlatform.cs.txt">
@@ -101,6 +107,9 @@
             <!-- 3. The gallery's own shortcuts -->
             <ControlExample x:Name="AppExample"
                             Title="Shortcuts in this app"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="The gallery's menu bar is defined on its Shell, so you can read its shortcuts from Shell.MenuBarItems at run time. This list is built that way, from the menus you see in the menu bar."
                             CSharpSource="KeyboardAcceleratorApp.cs.txt">
                 <VerticalStackLayout x:Name="AppShortcuts"

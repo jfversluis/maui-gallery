@@ -1,13 +1,16 @@
-<Picker
-    WidthRequest="280"
-    Title="$(Title)"
-    SelectedIndexChanged="OnSelectedIndexChanged">
-    <Picker.ItemsSource>
-        <x:Array Type="{x:Type x:String}">
-            <x:String>Small</x:String>
-            <x:String>Medium</x:String>
-            <x:String>Large</x:String>
-            <x:String>Extra large</x:String>
-        </x:Array>
-    </Picker.ItemsSource>
-</Picker>
+<VerticalStackLayout Spacing="6">
+    <Label Text="Size" FontAttributes="Bold" />
+    <Picker
+        WidthRequest="280"
+        Title="$(Title)"
+        SelectedIndexChanged="OnSelectedIndexChanged">
+        <Picker.ItemsSource>
+            <x:Array Type="{x:Type x:String}">
+                <x:String>Small</x:String>
+                <x:String>Medium</x:String>
+                <x:String>Large</x:String>
+                <x:String>Extra large</x:String>
+            </x:Array>
+        </Picker.ItemsSource>
+    </Picker>
+</VerticalStackLayout>

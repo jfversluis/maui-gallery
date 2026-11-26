@@ -1,3 +1,7 @@
-<ActivityIndicator
-    IsRunning="$(IsRunning)"
-    SemanticProperties.Description="Loading" />
+<HorizontalStackLayout Spacing="12">
+    <ActivityIndicator x:Name="spinner"
+        IsRunning="$(IsRunning)" />
+    <Label Text="Loading…"
+        IsVisible="{Binding IsRunning, Source={x:Reference spinner}, x:DataType=ActivityIndicator}"
+        VerticalOptions="Center" />
+</HorizontalStackLayout>

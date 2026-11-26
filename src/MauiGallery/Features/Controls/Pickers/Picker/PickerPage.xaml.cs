@@ -9,6 +9,7 @@ public sealed partial class PickerPage : SamplePage
     {
         InitializeComponent();
         BindingSample.BindingContext = new PickerBindingViewModel();
+        BasicExample.NativeTarget = BasicPicker;
         BindingExample.NativeTarget = BindingPicker;
     }
 

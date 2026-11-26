@@ -21,11 +21,11 @@ public sealed partial class KeyboardAcceleratorsPage : SamplePage
     {
         InitializeComponent();
 
+        // Spelled out: the options pane uses the chrome font, whose modifier symbols read poorly at this size.
         if (MenuShortcuts.Style == ShortcutStyle.Mac)
         {
-            BasicCtrlLabel.Text = "Ctrl (⌃ Control)";
-            BasicAltLabel.Text = "Alt (⌥ Option)";
-            BasicShiftLabel.Text = "Shift (⇧)";
+            BasicCtrlLabel.Text = "Ctrl (Control)";
+            BasicAltLabel.Text = "Alt (Option)";
         }
 
         BasicCmd.IsChecked = MenuShortcuts.Primary == KeyboardAcceleratorModifiers.Cmd;

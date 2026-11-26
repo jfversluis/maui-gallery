@@ -6,13 +6,20 @@
             <ControlPageHeader />
 
             <!-- 1. The basics -->
-            <ControlExample Title="Show that something is happening"
+            <ControlExample x:Name="BasicExample"
+                            Title="Show that something is happening"
                             Description="An activity indicator spins while IsRunning is true. Use it when you can't tell how long the work will take; otherwise prefer a ProgressBar."
                             XamlSource="ActivityIndicatorBasic.xaml.txt"
                             CSharpSource="ActivityIndicatorBasic.cs.txt">
-                <ActivityIndicator IsRunning="{Binding IsToggled, Source={x:Reference BasicRunning}, x:DataType=Switch}"
-                                   SemanticProperties.Description="Loading"
-                                   AutomationId="sample-basic-indicator" />
+                <HorizontalStackLayout Spacing="12">
+                    <ActivityIndicator x:Name="BasicIndicator"
+                                       IsRunning="{Binding IsToggled, Source={x:Reference BasicRunning}, x:DataType=Switch}"
+                                       AutomationId="sample-basic-indicator" />
+                    <Label Text="Loading…"
+                           IsVisible="{Binding IsRunning, Source={x:Reference BasicIndicator}, x:DataType=ActivityIndicator}"
+                           VerticalOptions="Center"
+                           AutomationId="sample-basic-status" />
+                </HorizontalStackLayout>
                 <ControlExample.Options>
                     <Grid ColumnDefinitions="*,Auto">
                         <Label Text="IsRunning" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
