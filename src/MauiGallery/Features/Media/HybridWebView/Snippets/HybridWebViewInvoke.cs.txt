@@ -15,8 +15,10 @@ public sealed record DeviceSummary(string Platform, string Version, string Model
 [JsonSerializable(typeof(string))]
 internal sealed partial class HybridJsonContext : JsonSerializerContext;
 
-// In the page's constructor
-WebPage.SetInvokeJavaScriptTarget(new HybridBridge(DeviceInfo.Current), HybridJsonContext.Default);
+// In the page's constructor. A source generator replaces this call with reflection-free code, but it can't see
+// x:Name fields generated from XAML: call it through a typed local, or it throws at run time.
+HybridWebView webView = WebPage;
+webView.SetInvokeJavaScriptTarget(new HybridBridge(DeviceInfo.Current), HybridJsonContext.Default);
 
 /* index.html:
 <script src="_framework/hybridwebview.js"></script>

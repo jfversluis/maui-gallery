@@ -33,12 +33,20 @@ public sealed partial class HybridWebViewPage : SamplePage
         }
 
         _lastLevel = level;
-        var label = await GaugeWebView.InvokeJavaScriptAsync(
-            "setLevel",
-            HybridJsonContext.Default.String,
-            [level],
-            [HybridJsonContext.Default.Int32]);
-        GaugeExample.Output = $"setLevel({level}) returned \"{label}\"";
+        try
+        {
+            var label = await GaugeWebView.InvokeJavaScriptAsync(
+                "setLevel",
+                HybridJsonContext.Default.String,
+                [level],
+                [HybridJsonContext.Default.Int32]);
+            GaugeExample.Output = $"setLevel({level}) returned \"{label}\"";
+        }
+        catch (Exception ex)
+        {
+            // JavaScript errors, or a page that hasn't loaded yet, surface here as an exception.
+            GaugeExample.Output = $"setLevel({level}) failed: {ex.Message}";
+        }
     }
 
     private void OnSendClicked(object? sender, EventArgs e)
