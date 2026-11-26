@@ -19,7 +19,7 @@ public sealed partial class GraphicsViewPage : SamplePage
         ChartView.Drawable = _chart;
         GaugeView.Drawable = _gauge;
         SketchView.Drawable = _sketch;
-        SketchView.Loaded += (_, _) => ScrollCapture.Attach(SketchView);
+        ScrollCapture.Attach(SketchView);
 
         ChartColor.PropertyChanged += OnSwatchChanged;
         GaugeColor.PropertyChanged += OnSwatchChanged;
@@ -105,11 +105,11 @@ public sealed partial class GraphicsViewPage : SamplePage
 
     private void OnSketchEnd(object? sender, TouchEventArgs e)
     {
-        ScrollCapture.End();
+        ScrollCapture.End(SketchView);
         SketchExample.Output = _sketch.StrokeCount == 1 ? "1 stroke" : $"{_sketch.StrokeCount} strokes";
     }
 
-    private void OnSketchCancel(object? sender, EventArgs e) => ScrollCapture.End();
+    private void OnSketchCancel(object? sender, EventArgs e) => ScrollCapture.End(SketchView);
 
     private void OnSketchClear(object? sender, EventArgs e)
     {
