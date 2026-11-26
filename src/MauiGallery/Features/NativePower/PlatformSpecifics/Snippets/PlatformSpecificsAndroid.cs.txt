@@ -1,0 +1,5 @@
+using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
+
+// Android is also a namespace when you build for Android, so name the platform in full
+button.On<Microsoft.Maui.Controls.PlatformConfiguration.Android>().SetRippleColor($(RippleColor));
+entry.On<Microsoft.Maui.Controls.PlatformConfiguration.Android>().SetImeOptions(ImeFlags.$(ImeOptions));

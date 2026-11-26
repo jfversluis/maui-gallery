@@ -1,0 +1,70 @@
+// NativeOsInfo.cs, in shared code
+public interface INativeOsInfo
+{
+    string GetBuild();
+
+    string? GetThermalState();
+}
+
+public partial class NativeOsInfo : INativeOsInfo
+{
+    public string GetBuild() => ReadBuild();
+
+    public string? GetThermalState() => ReadThermalState();
+
+    // Each platform implements these
+    private static partial string ReadBuild();
+
+    private static partial string? ReadThermalState();
+}
+
+// Platforms/Android/NativeOsInfo.cs: compiled for Android only
+public partial class NativeOsInfo
+{
+    private static partial string ReadBuild() => $"Android {Build.VERSION.Release}, build {Build.Display}";
+
+    private static partial string? ReadThermalState()
+    {
+        if (!OperatingSystem.IsAndroidVersionAtLeast(29))
+        {
+            return null;
+        }
+
+        var power = Android.App.Application.Context.GetSystemService(Context.PowerService) as PowerManager;
+        return power?.CurrentThermalStatus.ToString();
+    }
+}
+
+// Platforms/iOS/NativeOsInfo.cs (and a copy in Platforms/MacCatalyst)
+public partial class NativeOsInfo
+{
+    private static partial string ReadBuild() => NSProcessInfo.ProcessInfo.OperatingSystemVersionString;
+
+    private static partial string? ReadThermalState() => NSProcessInfo.ProcessInfo.ThermalState.ToString();
+}
+
+// Platforms/Windows/NativeOsInfo.cs
+public partial class NativeOsInfo
+{
+    private static partial string ReadBuild()
+    {
+        var v = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion, CultureInfo.InvariantCulture);
+        return $"Windows {(v >> 48) & 0xFFFF}.{(v >> 32) & 0xFFFF}.{(v >> 16) & 0xFFFF}.{v & 0xFFFF}";
+    }
+
+    private static partial string? ReadThermalState() => null;
+}
+
+// MauiProgram.cs
+builder.Services.AddSingleton<INativeOsInfo, NativeOsInfo>();
+
+// A page that gets it from dependency injection
+public partial class AboutPage : ContentPage
+{
+    public AboutPage(INativeOsInfo osInfo)
+    {
+        InitializeComponent();
+        build.Text = osInfo.GetBuild();
+        thermal.Text = osInfo.GetThermalState() ?? "Not reported";
+    }
+}

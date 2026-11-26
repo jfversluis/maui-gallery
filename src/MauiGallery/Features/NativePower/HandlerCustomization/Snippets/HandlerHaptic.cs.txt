@@ -1,0 +1,50 @@
+public class HapticSlider : Slider
+{
+    public static readonly BindableProperty StepProperty =
+        BindableProperty.Create(nameof(Step), typeof(double), typeof(HapticSlider), 10d);
+
+    int? _detent;
+
+    public double Step
+    {
+        get => (double)GetValue(StepProperty);
+        set => SetValue(StepProperty, value);
+    }
+
+    // True when Value moved into a different step since the last call
+    internal bool CrossedDetent()
+    {
+        var detent = (int)Math.Round(Value / Step);
+        var crossed = _detent is not null && _detent != detent;
+        _detent = detent;
+        return crossed;
+    }
+}
+
+// MauiProgram.cs
+SliderHandler.Mapper.ModifyMapping(nameof(ISlider.Value), (handler, view, mapValue) =>
+{
+    // Let .NET MAUI move the native thumb first
+    mapValue?.Invoke(handler, view);
+
+    if (view is not HapticSlider slider || !slider.CrossedDetent())
+    {
+        return;
+    }
+
+#if IOS || MACCATALYST
+    new UISelectionFeedbackGenerator().SelectionChanged();
+#elif ANDROID
+    if (OperatingSystem.IsAndroidVersionAtLeast(27))
+    {
+        handler.PlatformView.PerformHapticFeedback(FeedbackConstants.ClockTick);
+    }
+#endif
+});
+
+var slider = new HapticSlider
+{
+    Maximum = 100,
+    Value = 50,
+    Step = $(Step),
+};

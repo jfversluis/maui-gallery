@@ -1,0 +1,83 @@
+<SamplePage x:Class="MauiGallery.Features.NativePower.PlatformCodePage"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Runtime checks -->
+            <ControlExample x:Name="RuntimeExample"
+                            Title="Check the platform at run time"
+                            Description="DeviceInfo tells you the platform, idiom and OS version while the app runs, and OperatingSystem.IsAndroidVersionAtLeast and its siblings check for newer APIs. In XAML, OnPlatform and OnIdiom pick a value per platform or device type. These checks compile everywhere, so they can't call native APIs themselves."
+                            ShowStyleToggle="False"
+                            XamlSource="PlatformCodeRuntime.xaml.txt"
+                            CSharpSource="PlatformCodeRuntime.cs.txt">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=260, Default=340}">
+                    <Label x:Name="RuntimeGreeting"
+                           Text="{OnPlatform iOS='Hello from iOS', Android='Hello from Android', MacCatalyst='Hello from the Mac', WinUI='Hello from Windows'}"
+                           FontSize="{OnIdiom Phone=18, Default=22}"
+                           FontAttributes="Bold"
+                           AutomationId="sample-platform-runtime-greeting" />
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="6">
+                        <Label Text="Platform" FontSize="13" />
+                        <Label x:Name="RuntimePlatform" Grid.Column="1" FontSize="13" AutomationId="sample-platform-runtime-platform" />
+                        <Label Grid.Row="1" Text="Idiom" FontSize="13" />
+                        <Label x:Name="RuntimeIdiom" Grid.Row="1" Grid.Column="1" FontSize="13" />
+                        <Label Grid.Row="2" Text="Version" FontSize="13" />
+                        <Label x:Name="RuntimeVersion" Grid.Row="2" Grid.Column="1" FontSize="13" />
+                        <Label x:Name="RuntimeCheckName" Grid.Row="3" FontSize="13" />
+                        <Label x:Name="RuntimeCheck" Grid.Row="3" Grid.Column="1" FontSize="13" AutomationId="sample-platform-runtime-check" />
+                    </Grid>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 2. Conditional compilation -->
+            <ControlExample x:Name="AccentExample"
+                            Title="Call native APIs with #if"
+                            Description="Each platform is a separate build with its own symbol: ANDROID, IOS, MACCATALYST and WINDOWS. Code inside #if ANDROID only exists in the Android build, so it can use Android types directly. Keep these blocks small and in one helper, like this one that reads the system accent color, rather than scattered through pages."
+                            ShowStyleToggle="False"
+                            XamlSource="PlatformCodeConditional.xaml.txt"
+                            CSharpSource="PlatformCodeConditional.cs.txt">
+                <HorizontalStackLayout Spacing="16">
+                    <Border x:Name="AccentSwatch"
+                            WidthRequest="56"
+                            HeightRequest="56"
+                            StrokeShape="Ellipse"
+                            StrokeThickness="1"
+                            Stroke="{AppThemeBinding Light=#1F000000, Dark=#33FFFFFF}"
+                            AutomationId="sample-platform-accent-swatch" />
+                    <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                        <Label Text="System accent color" FontSize="13" />
+                        <Label x:Name="AccentHex" FontSize="18" FontAttributes="Bold" AutomationId="sample-platform-accent-hex" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+                <ControlExample.Options>
+                    <Button Text="Read again" Clicked="OnReadAccentClicked" HorizontalOptions="Start" AutomationId="option-platform-accent-read" />
+                </ControlExample.Options>
+            </ControlExample>
+
+            <!-- 3. Partial classes in platform folders -->
+            <ControlExample x:Name="PartialExample"
+                            Title="Implement a service per platform"
+                            Description="For more than a few lines, declare partial methods in shared code and implement them in Platforms/Android, Platforms/iOS, Platforms/MacCatalyst and Platforms/Windows. The .NET MAUI SDK compiles each folder for its own platform only. iOS and Mac Catalyst are separate folders, so code they share goes in both or behind #if IOS || MACCATALYST. Naming files NativeOsInfo.android.cs instead takes a few lines of MSBuild, which this app doesn't add. Register the class with dependency injection and inject it where you need it."
+                            ShowStyleToggle="False"
+                            XamlSource="PlatformCodePartial.xaml.txt"
+                            CSharpSource="PlatformCodePartial.cs.txt">
+                <Grid ColumnDefinitions="Auto,*"
+                      RowDefinitions="Auto,Auto"
+                      ColumnSpacing="12"
+                      RowSpacing="8"
+                      WidthRequest="{OnIdiom Phone=260, Default=380}">
+                    <Label Text="Build" FontSize="13" />
+                    <Label x:Name="OsBuild" Grid.Column="1" FontSize="13" AutomationId="sample-platform-os-build" />
+                    <Label Grid.Row="1" Text="Thermal state" FontSize="13" />
+                    <Label x:Name="OsThermal" Grid.Row="1" Grid.Column="1" FontSize="13" AutomationId="sample-platform-os-thermal" />
+                </Grid>
+                <ControlExample.Options>
+                    <Button Text="Refresh" Clicked="OnRefreshOsInfoClicked" HorizontalOptions="Start" AutomationId="option-platform-os-refresh" />
+                </ControlExample.Options>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

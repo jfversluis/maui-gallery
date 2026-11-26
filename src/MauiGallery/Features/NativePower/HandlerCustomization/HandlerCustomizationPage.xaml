@@ -1,0 +1,97 @@
+<SamplePage x:Class="MauiGallery.Features.NativePower.HandlerCustomizationPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.NativePower"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Subclass guard -->
+            <ControlExample x:Name="SubclassExample"
+                            Title="Customize one kind of control"
+                            Description="Every .NET MAUI control is drawn by a handler, and its Mapper lists what runs to update the native view. AppendToMapping adds your own step, with full access to handler.PlatformView. The mapper is shared by every Entry in the app, so check for a subclass and leave the rest alone; drop the check only when every control of that type should change."
+                            ShowStyleToggle="False"
+                            XamlSource="HandlerSubclass.xaml.txt"
+                            CSharpSource="HandlerSubclass.cs.txt">
+                <VerticalStackLayout Spacing="16" WidthRequest="{OnIdiom Phone=260, Default=320}">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Entry" FontSize="13" />
+                        <Entry Placeholder="Platform default" AutomationId="sample-handler-default-entry" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="PlainEntry in a Border" FontSize="13" />
+                        <Border Padding="14,6"
+                                StrokeShape="RoundRectangle 20"
+                                Stroke="{AppThemeBinding Light=#C7C7CC, Dark=#545458}">
+                            <local:PlainEntry x:Name="PlainSample"
+                                              Placeholder="Search recipes"
+                                              AutomationId="sample-handler-plain-entry" />
+                        </Border>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 2. Attached property guard, toggled live -->
+            <ControlExample x:Name="TintExample"
+                            Title="Turn a customization on and off"
+                            Description="An attached property marks controls without subclassing them, and carries a value. When it changes, call Handler.UpdateValue with your mapping key and the handler runs the mapping again, just as it does for its own properties. Focus the field and select some text to see the native caret and selection color."
+                            ShowStyleToggle="False"
+                            XamlSource="HandlerTint.xaml.txt"
+                            CSharpSource="HandlerTint.cs.txt">
+                <VerticalStackLayout Spacing="8" WidthRequest="{OnIdiom Phone=260, Default=320}">
+                    <Label Text="Promo code" />
+                    <Entry x:Name="TintSample"
+                           Text="MAUI-2026"
+                           AutomationId="sample-handler-tint-entry" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="NativeTint.Color" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="TintEnabled"
+                                    Grid.Column="1"
+                                    IsToggled="True"
+                                    Toggled="OnTintChanged"
+                                    AutomationId="option-handler-tint-enabled" />
+                        </Grid>
+                        <SwatchPicker x:Name="TintColor"
+                                      SelectedColor="#DB2777"
+                                      IsEnabled="{Binding IsToggled, Source={x:Reference TintEnabled}, x:DataType=Switch}"
+                                      PropertyChanged="OnTintColorPropertyChanged" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="TintSubstitution" Key="Color" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. ModifyMapping -->
+            <ControlExample x:Name="HapticExample"
+                            Title="Wrap a built-in mapping"
+                            Description="ModifyMapping replaces a mapping and hands you the one it replaced, so you decide when, or whether, .NET MAUI's own code runs. This slider lets MAUI move the native thumb, then plays the platform's selection haptic each time the value crosses a step. PrependToMapping is the other option: it runs your code before MAUI's."
+                            ShowStyleToggle="False"
+                            XamlSource="HandlerHaptic.xaml.txt"
+                            CSharpSource="HandlerHaptic.cs.txt">
+                <VerticalStackLayout Spacing="8" WidthRequest="{OnIdiom Phone=260, Default=320}">
+                    <Label Text="{Binding Value, Source={x:Reference HapticSample}, StringFormat='Volume: {0:0}', x:DataType=local:HapticSlider}" />
+                    <local:HapticSlider x:Name="HapticSample"
+                                        Maximum="100"
+                                        Value="50"
+                                        Step="{Binding Value, Source={x:Reference HapticStep}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                        AutomationId="sample-handler-haptic-slider" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference HapticStep}, StringFormat='Step: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="HapticStep" Minimum="5" Maximum="25" Value="10" AutomationId="option-handler-haptic-step" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Step" Value="{Binding Value, Source={x:Reference HapticStep}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="10" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

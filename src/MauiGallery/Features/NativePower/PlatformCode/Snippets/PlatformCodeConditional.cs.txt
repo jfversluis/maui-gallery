@@ -1,0 +1,27 @@
+public static class SystemAccentColor
+{
+    public static Color? Read()
+    {
+#if ANDROID
+        // Material You colors arrived in Android 12
+        if (OperatingSystem.IsAndroidVersionAtLeast(31))
+        {
+            var argb = Android.App.Application.Context.GetColor(Android.Resource.Color.SystemAccent1500);
+            return new Android.Graphics.Color(argb).ToColor();
+        }
+
+        return null;
+#elif IOS || MACCATALYST
+        return UIKit.UIColor.Tint.ToColor();
+#elif WINDOWS
+        var settings = new Windows.UI.ViewManagement.UISettings();
+        return settings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Accent).ToColor();
+#else
+        return null;
+#endif
+    }
+}
+
+var accent = SystemAccentColor.Read();
+swatch.BackgroundColor = accent ?? Colors.Transparent;
+hex.Text = accent?.ToArgbHex() ?? "No accent color";

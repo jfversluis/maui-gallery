@@ -1,0 +1,5 @@
+using Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;
+
+// Windows is also a namespace when you build for Windows, so name the platform in full
+button.On<Microsoft.Maui.Controls.PlatformConfiguration.Windows>().SetAccessKey($(AccessKey));
+label.On<Microsoft.Maui.Controls.PlatformConfiguration.Windows>().SetDetectReadingOrderFromContent($(DetectReadingOrderFromContent));

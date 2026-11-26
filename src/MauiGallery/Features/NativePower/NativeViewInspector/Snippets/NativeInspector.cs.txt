@@ -1,0 +1,24 @@
+var view = new $(Element);
+view.Shadow = $(Shadow);
+
+view.HandlerChanged += (sender, e) =>
+{
+    if (view.Handler is not IViewHandler handler)
+    {
+        return;
+    }
+
+    // The native control .NET MAUI created, such as a UIButton
+    var platformView = handler.PlatformView!;
+
+    // A native wrapper, only when a feature such as Shadow or Clip needs one
+    var containerView = handler.ContainerView;
+
+    // What goes into the native layout; ToPlatform(mauiContext) returns the same view
+    var outermost = containerView ?? platformView;
+
+    for (var type = platformView.GetType(); type is not null; type = type.BaseType)
+    {
+        Debug.WriteLine(type.FullName);
+    }
+};

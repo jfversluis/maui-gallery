@@ -1,0 +1,64 @@
+#if IOS || MACCATALYST
+using PlatformView = UIKit.UIView;
+#elif ANDROID
+using PlatformView = Android.Views.View;
+#elif WINDOWS
+using PlatformView = Microsoft.UI.Xaml.FrameworkElement;
+#endif
+
+// A view that shows whatever native view Create returns
+public class PlatformViewHost : View
+{
+    public Func<IMauiContext, PlatformView>? Create { get; set; }
+
+    public Action<PlatformView>? Release { get; set; }
+}
+
+public class PlatformViewHostHandler() : ViewHandler<PlatformViewHost, PlatformView>(ViewMapper)
+{
+    protected override PlatformView CreatePlatformView() => VirtualView.Create!(MauiContext!);
+
+    protected override void DisconnectHandler(PlatformView platformView)
+    {
+        VirtualView?.Release?.Invoke(platformView);
+        base.DisconnectHandler(platformView);
+    }
+}
+
+// MauiProgram.cs
+builder.ConfigureMauiHandlers(handlers =>
+    handlers.AddHandler<PlatformViewHost, PlatformViewHostHandler>());
+
+// The page: set Create before the view is shown
+#if IOS || MACCATALYST
+caption.Text = "Highlight color";
+host.WidthRequest = host.HeightRequest = 44;
+host.Create = _ =>
+{
+    var well = new UIColorWell { Title = "Highlight color", SupportsAlpha = false };
+    well.ValueChanged += OnColorWellChanged;
+    return well;
+};
+host.Release = view => ((UIColorWell)view).ValueChanged -= OnColorWellChanged;
+#elif ANDROID
+caption.Text = "Show only";
+host.Create = mauiContext =>
+{
+    var chip = new Chip(mauiContext.Context);
+    chip.SetChipDrawable(ChipDrawable.CreateFromAttributes(
+        mauiContext.Context, null, 0, Resource.Style.Widget_MaterialComponents_Chip_Filter));
+    chip.Text = "Vegetarian";
+    chip.CheckedChange += OnChipCheckedChange;
+    return chip;
+};
+host.Release = view => ((Chip)view).CheckedChange -= OnChipCheckedChange;
+#elif WINDOWS
+caption.Text = "Your rating";
+host.Create = _ =>
+{
+    var rating = new RatingControl { Value = 3 };
+    rating.ValueChanged += OnRatingValueChanged;
+    return rating;
+};
+host.Release = view => ((RatingControl)view).ValueChanged -= OnRatingValueChanged;
+#endif

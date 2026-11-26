@@ -1,0 +1,13 @@
+var greeting = new Label
+{
+    Text = DeviceInfo.Platform == DevicePlatform.Android ? "Hello from Android" : "Hello",
+    FontSize = DeviceInfo.Idiom == DeviceIdiom.Phone ? 18 : 22,
+};
+
+// Check for an OS version before using a newer API
+if (OperatingSystem.IsAndroidVersionAtLeast(31))
+{
+    // Android 12 or later
+}
+
+Debug.WriteLine($"{DeviceInfo.Platform} {DeviceInfo.VersionString} on a {DeviceInfo.Idiom}");

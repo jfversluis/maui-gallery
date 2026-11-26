@@ -1,0 +1,4 @@
+<HorizontalStackLayout Spacing="16">
+    <Border x:Name="swatch" WidthRequest="56" HeightRequest="56" StrokeShape="Ellipse" />
+    <Label x:Name="hex" VerticalOptions="Center" />
+</HorizontalStackLayout>

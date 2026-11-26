@@ -1,0 +1,133 @@
+<SamplePage x:Class="MauiGallery.Features.NativePower.PlatformSpecificsPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+            xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+            xmlns:windows="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;assembly=Microsoft.Maui.Controls"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <Border Style="{StaticResource SubtlePanel}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Style="{StaticResource TextIcon}"
+                           Text="{x:Static icons:FluentIconsRegular.PhoneLaptop24}"
+                           TextColor="{DynamicResource ColorAccentText}"
+                           VerticalOptions="Start" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                        <Label x:Name="PlatformTitle" Style="{StaticResource TextBodyStrong}" />
+                        <Label Style="{StaticResource TextBodySecondary}"
+                               Text="Platform-specifics are attached properties that only one platform reads. The others ignore them, so you can set them in shared XAML without #if. Each example below says whether it changes anything on this device." />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- 1. iOS -->
+            <ControlExample x:Name="IosExample"
+                            Title="iOS: shrink text to fit, tap to jump"
+                            Description="AdjustsFontSizeToFitWidth shrinks an Entry's text instead of scrolling it, CursorColor colors its caret, and UpdateOnTap moves a Slider's thumb to where you tap, as UISlider normally can't. Import the iOSSpecific namespace and set them as attached properties, or call On&lt;iOS&gt;() in C#. .NET MAUI applies these on iOS only, not on Mac Catalyst. UITextField also needs a MinimumFontSize before it shrinks text, which .NET MAUI doesn't set, so the C# sets one."
+                            ShowStyleToggle="False"
+                            XamlSource="PlatformSpecificsIos.xaml.txt"
+                            CSharpSource="PlatformSpecificsIos.cs.txt">
+                <VerticalStackLayout Spacing="16" WidthRequest="{OnIdiom Phone=220, Default=240}">
+                    <Entry x:Name="IosEntry"
+                           Text="maui.developer@contoso-example.com"
+                           ios:Entry.AdjustsFontSizeToFitWidth="{Binding IsToggled, Source={x:Reference IosAdjusts}, x:DataType=Switch}"
+                           ios:Entry.CursorColor="{Binding SelectedColor, Source={x:Reference IosCursor}, x:DataType=SwatchPicker}"
+                           AutomationId="sample-specifics-ios-entry" />
+                    <Slider x:Name="IosSlider"
+                            Maximum="100"
+                            Value="30"
+                            ios:Slider.UpdateOnTap="{Binding IsToggled, Source={x:Reference IosUpdateOnTap}, x:DataType=Switch}"
+                            AutomationId="sample-specifics-ios-slider" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="AdjustsFontSizeToFitWidth" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="IosAdjusts" Grid.Column="1" IsToggled="True" AutomationId="option-specifics-ios-adjusts" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="UpdateOnTap" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="IosUpdateOnTap" Grid.Column="1" IsToggled="True" AutomationId="option-specifics-ios-update-on-tap" />
+                        </Grid>
+                        <Label Text="CursorColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="IosCursor" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="AdjustsFontSizeToFitWidth" Value="{Binding IsToggled, Source={x:Reference IosAdjusts}, x:DataType=Switch}" Default="False" />
+                    <Substitution Key="UpdateOnTap" Value="{Binding IsToggled, Source={x:Reference IosUpdateOnTap}, x:DataType=Switch}" Default="False" />
+                    <Substitution Key="CursorColor" Value="{Binding SelectedColor, Source={x:Reference IosCursor}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Android -->
+            <ControlExample x:Name="AndroidExample"
+                            Title="Android: ripple color and keyboard flags"
+                            Description="RippleColor colors the ink ripple a Button draws when pressed. ImeOptions sets the keyboard's action and flags; NoPersonalizedLearning asks the keyboard not to learn from what's typed, the incognito mode Gboard shows with a hat icon. ReturnType is the cross-platform way to choose the action key, and ImeOptions replaces it. App-wide options, such as Application.WindowSoftInputModeAdjust, work the same way on Application."
+                            ShowStyleToggle="False"
+                            XamlSource="PlatformSpecificsAndroid.xaml.txt"
+                            CSharpSource="PlatformSpecificsAndroid.cs.txt">
+                <VerticalStackLayout Spacing="16" WidthRequest="{OnIdiom Phone=240, Default=280}">
+                    <Button x:Name="AndroidButton"
+                            Text="Add to cart"
+                            android:Button.RippleColor="{Binding SelectedColor, Source={x:Reference AndroidRipple}, x:DataType=SwatchPicker}"
+                            AutomationId="sample-specifics-android-button" />
+                    <Entry x:Name="AndroidEntry"
+                           Placeholder="Private note"
+                           android:Entry.ImeOptions="{Binding SelectedItem, Source={x:Reference AndroidIme}, x:DataType=Picker}"
+                           AutomationId="sample-specifics-android-entry" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="RippleColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="AndroidRipple" SelectedColor="#0D9488" />
+                        <Label Text="ImeOptions" Style="{StaticResource OptionLabel}" Margin="0,4,0,0" />
+                        <Picker x:Name="AndroidIme" AutomationId="option-specifics-android-ime" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="RippleColor" Value="{Binding SelectedColor, Source={x:Reference AndroidRipple}, x:DataType=SwatchPicker}" />
+                    <Substitution x:Name="AndroidImeSubstitution" Key="ImeOptions" Default="Default" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Windows -->
+            <ControlExample x:Name="WindowsExample"
+                            Title="Windows: access keys and reading order"
+                            Description="An AccessKey lets keyboard users press Alt and a letter to invoke a control; Windows shows the letters in a key tip when Alt is pressed. DetectReadingOrderFromContent lays out text right to left when it starts with a right-to-left script, such as Hebrew or Arabic."
+                            ShowStyleToggle="False"
+                            XamlSource="PlatformSpecificsWindows.xaml.txt"
+                            CSharpSource="PlatformSpecificsWindows.cs.txt">
+                <VerticalStackLayout Spacing="16" WidthRequest="{OnIdiom Phone=240, Default=280}">
+                    <Button x:Name="WindowsButton"
+                            Text="Save"
+                            Clicked="OnWindowsButtonClicked"
+                            windows:VisualElement.AccessKey="{Binding Text, Source={x:Reference WindowsAccessKey}, x:DataType=Entry}"
+                            AutomationId="sample-specifics-windows-button" />
+                    <Label x:Name="WindowsLabel"
+                           Text="שלום! .NET MAUI runs on Windows."
+                           windows:Label.DetectReadingOrderFromContent="{Binding IsToggled, Source={x:Reference WindowsReadingOrder}, x:DataType=Switch}"
+                           AutomationId="sample-specifics-windows-label" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="AccessKey" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="WindowsAccessKey" Text="S" MaxLength="1" AutomationId="option-specifics-windows-access-key" />
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
+                            <Label Text="DetectReadingOrderFromContent" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="WindowsReadingOrder" Grid.Column="1" IsToggled="True" AutomationId="option-specifics-windows-reading-order" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="AccessKey" Value="{Binding Text, Source={x:Reference WindowsAccessKey}, x:DataType=Entry}" Default="" />
+                    <Substitution Key="DetectReadingOrderFromContent" Value="{Binding IsToggled, Source={x:Reference WindowsReadingOrder}, x:DataType=Switch}" Default="False" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

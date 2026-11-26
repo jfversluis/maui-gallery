@@ -1,0 +1,3 @@
+<Entry
+    Text="MAUI-2026"
+    local:NativeTint.Color="$(Color)" />

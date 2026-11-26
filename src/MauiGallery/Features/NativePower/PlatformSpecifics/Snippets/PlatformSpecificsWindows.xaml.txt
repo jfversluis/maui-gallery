@@ -1,0 +1,10 @@
+<VerticalStackLayout
+    xmlns:windows="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;assembly=Microsoft.Maui.Controls"
+    Spacing="16">
+    <Button
+        Text="Save"
+        windows:VisualElement.AccessKey="$(AccessKey)" />
+    <Label
+        Text="שלום! .NET MAUI runs on Windows."
+        windows:Label.DetectReadingOrderFromContent="$(DetectReadingOrderFromContent)" />
+</VerticalStackLayout>

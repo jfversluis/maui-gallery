@@ -1,0 +1,7 @@
+<local:NativeCalendar
+    x:Name="calendar"
+    MinimumDate="$(MinimumDate)"
+    MaximumDate="$(MaximumDate)"
+    DateSelected="OnDateSelected" />
+
+<Button Text="Today" Clicked="OnTodayClicked" />

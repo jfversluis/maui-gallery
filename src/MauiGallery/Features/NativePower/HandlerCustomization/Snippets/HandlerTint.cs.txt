@@ -1,0 +1,47 @@
+public static class NativeTint
+{
+    public static readonly BindableProperty ColorProperty = BindableProperty.CreateAttached(
+        "Color", typeof(Color), typeof(NativeTint), null, propertyChanged: OnColorChanged);
+
+    public static Color? GetColor(BindableObject view) => (Color?)view.GetValue(ColorProperty);
+
+    public static void SetColor(BindableObject view, Color? value) => view.SetValue(ColorProperty, value);
+
+    // Run the mapping again whenever the value changes
+    static void OnColorChanged(BindableObject bindable, object? oldValue, object? newValue) =>
+        (bindable as IView)?.Handler?.UpdateValue(nameof(NativeTint));
+}
+
+// MauiProgram.cs
+EntryHandler.Mapper.AppendToMapping(nameof(NativeTint), (handler, view) =>
+{
+    if (view is not Entry entry || !entry.IsSet(NativeTint.ColorProperty))
+    {
+        return;
+    }
+
+    // Null restores the platform default
+    var color = NativeTint.GetColor(entry);
+#if IOS || MACCATALYST
+    handler.PlatformView.TintColor = color?.ToPlatform();
+#elif ANDROID
+    var tint = color is null ? null : ColorStateList.ValueOf(color.ToPlatform());
+    handler.PlatformView.BackgroundTintList = tint;
+    if (OperatingSystem.IsAndroidVersionAtLeast(29))
+    {
+        handler.PlatformView.TextCursorDrawable?.SetTintList(tint);
+    }
+#elif WINDOWS
+    if (color is null)
+    {
+        handler.PlatformView.ClearValue(TextBox.SelectionHighlightColorProperty);
+    }
+    else
+    {
+        handler.PlatformView.SelectionHighlightColor = new SolidColorBrush(color.ToWindowsColor());
+    }
+#endif
+});
+
+var entry = new Entry { Text = "MAUI-2026" };
+NativeTint.SetColor(entry, $(Color));

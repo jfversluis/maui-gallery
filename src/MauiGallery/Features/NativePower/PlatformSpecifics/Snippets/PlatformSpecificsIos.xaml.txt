@@ -1,0 +1,12 @@
+<VerticalStackLayout
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    Spacing="16">
+    <Entry
+        Text="maui.developer@contoso-example.com"
+        ios:Entry.AdjustsFontSizeToFitWidth="$(AdjustsFontSizeToFitWidth)"
+        ios:Entry.CursorColor="$(CursorColor)" />
+    <Slider
+        Maximum="100"
+        Value="30"
+        ios:Slider.UpdateOnTap="$(UpdateOnTap)" />
+</VerticalStackLayout>

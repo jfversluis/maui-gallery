@@ -1,0 +1,18 @@
+using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
+
+// entry and slider are the Entry and Slider in the XAML
+entry.On<iOS>().SetAdjustsFontSizeToFitWidth($(AdjustsFontSizeToFitWidth));
+entry.On<iOS>().SetCursorColor($(CursorColor));
+slider.On<iOS>().SetUpdateOnTap($(UpdateOnTap));
+
+#if IOS
+// UITextField only shrinks text to fit when it has a minimum font size, which .NET MAUI doesn't set
+entry.HandlerChanged += (sender, e) =>
+{
+    if (entry.Handler?.PlatformView is UIKit.UITextField textField)
+    {
+        textField.MinimumFontSize = 10;
+    }
+};
+#endif

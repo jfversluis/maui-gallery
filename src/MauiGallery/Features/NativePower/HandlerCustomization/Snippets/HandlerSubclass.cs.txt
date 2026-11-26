@@ -1,0 +1,30 @@
+// The subclass marks the entries to customize
+public class PlainEntry : Entry
+{
+}
+
+// MauiProgram.cs: change the mapper once, at startup
+EntryHandler.Mapper.AppendToMapping(nameof(PlainEntry), (handler, view) =>
+{
+    if (view is not PlainEntry)
+    {
+        return;
+    }
+
+#if IOS || MACCATALYST
+    handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+#elif ANDROID
+    handler.PlatformView.Background = null;
+#elif WINDOWS
+    handler.PlatformView.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
+    handler.PlatformView.Background = null;
+#endif
+});
+
+var entry = new PlainEntry { Placeholder = "Search recipes" };
+var border = new Border
+{
+    Padding = new Thickness(14, 6),
+    StrokeShape = new RoundRectangle { CornerRadius = 20 },
+    Content = entry,
+};
