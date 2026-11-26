@@ -120,8 +120,9 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Padding" Value="8" />
-        <Setter Property="WidthRequest" Value="{OnIdiom Phone=44, Default=36}" />
-        <Setter Property="HeightRequest" Value="{OnIdiom Phone=44, Default=36}" />
+        <!-- Phones: 44 pt is Apple's minimum touch target, 48 dp is Android's. -->
+        <Setter Property="WidthRequest" Value="{OnIdiom Phone={OnPlatform Android=48, Default=44}, Default=36}" />
+        <Setter Property="HeightRequest" Value="{OnIdiom Phone={OnPlatform Android=48, Default=44}, Default=36}" />
         <Setter Property="behaviors:Hover.Background" Value="ColorSurfaceHover" />
     </Style>
 

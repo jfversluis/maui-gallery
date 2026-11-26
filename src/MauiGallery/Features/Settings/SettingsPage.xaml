@@ -23,9 +23,9 @@
                         <Label Text="Applies to the app and to every native control in the samples."
                                Style="{StaticResource TextCaption}"
                                Margin="0,0,0,8" />
-                        <RadioButton Content="Use system setting" Value="{x:Static services:ThemePreference.System}" AutomationId="theme-system" />
-                        <RadioButton Content="Light" Value="{x:Static services:ThemePreference.Light}" AutomationId="theme-light" />
-                        <RadioButton Content="Dark" Value="{x:Static services:ThemePreference.Dark}" AutomationId="theme-dark" />
+                        <RadioButton Content="Use system setting" Value="{x:Static services:ThemePreference.System}" AutomationId="theme-system" MinimumHeightRequest="{OnPlatform Android=48}" />
+                        <RadioButton Content="Light" Value="{x:Static services:ThemePreference.Light}" AutomationId="theme-light" MinimumHeightRequest="{OnPlatform Android=48}" />
+                        <RadioButton Content="Dark" Value="{x:Static services:ThemePreference.Dark}" AutomationId="theme-dark" MinimumHeightRequest="{OnPlatform Android=48}" />
                     </VerticalStackLayout>
                 </Border>
             </VerticalStackLayout>
