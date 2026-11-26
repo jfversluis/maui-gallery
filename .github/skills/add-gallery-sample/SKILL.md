@@ -49,7 +49,9 @@ maui devflow ui screenshot --agent-port <port> --output <id>-light.png
 
 Then, with the DevFlow MCP tools:
 
-- `maui_layout_diagnostics` reports no clipping or overlap.
+- Screenshots show no clipping or overlap at phone and desktop widths. Check suspicious elements with
+  `maui devflow ui query --selector "..." --fields bounds` (the nuget.org agent doesn't implement
+  `maui_layout_diagnostics` yet).
 - Change each option with `maui_tap` / `maui_fill` and confirm with `maui_query` that both the sample and the
   `code-text` element changed.
 - Repeat in dark mode (Settings, then Theme) and at a phone width (iOS simulator or Android emulator; see

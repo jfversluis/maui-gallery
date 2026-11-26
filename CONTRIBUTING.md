@@ -133,8 +133,8 @@ Then run the app and check the page on at least one mobile and one desktop targe
 - Every option changes the sample **and** the code.
 - No clipped or overlapping content at phone width and at a wide desktop window.
 
-With DevFlow: `maui devflow ui navigate "//main/controls/{id}"`, then `maui devflow ui screenshot`, and the
-`maui_layout_diagnostics` MCP tool. AI agents can follow the `add-gallery-sample` skill in `.github/skills`.
+With DevFlow: `maui devflow ui navigate "//main/controls/{id}"`, then `maui devflow ui screenshot`, and
+`maui devflow ui query --fields bounds` for anything that looks clipped. AI agents can follow the `add-gallery-sample` skill in `.github/skills`.
 
 ## Code conventions
 

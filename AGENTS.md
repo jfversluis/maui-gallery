@@ -58,6 +58,8 @@ connected, always pass `--agent-port` (CLI) or `agentPort` (MCP), and `--wait-pl
 
 Known quirks:
 
+- The nuget.org DevFlow agent doesn't implement `maui_layout_diagnostics` yet: review screenshots and use
+  `ui query --fields bounds`.
 - Screenshots: prefer `maui devflow ui screenshot --output file.png` (CLI). On Mac Catalyst the MCP tool can crop the
   window, and on Android it can return a stale image; `adb exec-out screencap -p` is a reliable fallback.
 - Switch themes through the app (Settings, then Theme, AutomationIds `theme-light` / `theme-dark`), or system-wide
