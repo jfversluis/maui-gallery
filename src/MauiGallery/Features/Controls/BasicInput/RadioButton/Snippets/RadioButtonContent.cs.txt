@@ -1,0 +1,25 @@
+RadioButton CreateThemeOption(string name, string glyph) => new()
+{
+    // A View as Content needs a ControlTemplate; DefaultTemplate keeps the standard look
+    ControlTemplate = RadioButton.DefaultTemplate,
+    Value = name,
+    Content = new HorizontalStackLayout
+    {
+        Spacing = 8,
+        Children =
+        {
+            new Image
+            {
+                WidthRequest = 20,
+                HeightRequest = 20,
+                Source = new FontImageSource { FontFamily = "FluentIcons", Glyph = glyph },
+            },
+            new Label { Text = name, VerticalOptions = LayoutOptions.Center },
+        },
+    },
+};
+
+var light = CreateThemeOption("Light", FluentIconsRegular.WeatherSunnyHigh24);
+light.IsChecked = true;
+var dark = CreateThemeOption("Dark", FluentIconsRegular.WeatherMoon24);
+var themes = new VerticalStackLayout { light, dark };

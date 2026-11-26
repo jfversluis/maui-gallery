@@ -1,0 +1,33 @@
+<VerticalStackLayout>
+    <RadioButton
+        ControlTemplate="{x:Static RadioButton.DefaultTemplate}"
+        Value="Light"
+        IsChecked="True"
+        SemanticProperties.Description="Light">
+        <RadioButton.Content>
+            <HorizontalStackLayout Spacing="8">
+                <Image WidthRequest="20" HeightRequest="20">
+                    <Image.Source>
+                        <FontImageSource FontFamily="FluentIcons" Glyph="{x:Static icons:FluentIconsRegular.WeatherSunnyHigh24}" />
+                    </Image.Source>
+                </Image>
+                <Label Text="Light" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </RadioButton.Content>
+    </RadioButton>
+    <RadioButton
+        ControlTemplate="{x:Static RadioButton.DefaultTemplate}"
+        Value="Dark"
+        SemanticProperties.Description="Dark">
+        <RadioButton.Content>
+            <HorizontalStackLayout Spacing="8">
+                <Image WidthRequest="20" HeightRequest="20">
+                    <Image.Source>
+                        <FontImageSource FontFamily="FluentIcons" Glyph="{x:Static icons:FluentIconsRegular.WeatherMoon24}" />
+                    </Image.Source>
+                </Image>
+                <Label Text="Dark" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </RadioButton.Content>
+    </RadioButton>
+</VerticalStackLayout>

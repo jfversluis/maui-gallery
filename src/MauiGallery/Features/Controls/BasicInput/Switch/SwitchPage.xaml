@@ -1,0 +1,117 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.BasicInput.SwitchPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.BasicInput"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="A simple switch"
+                            Description="Use a switch for a setting that takes effect immediately, such as turning a feature on or off. Handle Toggled to react."
+                            XamlSource="SwitchBasic.xaml.txt"
+                            CSharpSource="SwitchBasic.cs.txt">
+                <HorizontalStackLayout Spacing="12">
+                    <Label Text="Airplane mode" VerticalOptions="Center" />
+                    <Switch x:Name="BasicSwitch"
+                            IsEnabled="{Binding IsToggled, Source={x:Reference BasicEnabled}, x:DataType=Switch}"
+                            SemanticProperties.Description="Airplane mode"
+                            Toggled="OnBasicToggled"
+                            AutomationId="sample-basic-switch" />
+                </HorizontalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="IsToggled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <CheckBox Grid.Column="1"
+                                      IsChecked="{Binding IsToggled, Source={x:Reference BasicSwitch}, x:DataType=Switch}"
+                                      AutomationId="option-basic-toggled" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="IsEnabled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <CheckBox x:Name="BasicEnabled" Grid.Column="1" IsChecked="True" AutomationId="option-basic-enabled" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="IsToggled" Value="{Binding IsToggled, Source={x:Reference BasicSwitch}, x:DataType=Switch}" Default="False" />
+                    <Substitution Key="IsEnabled" Value="{Binding IsChecked, Source={x:Reference BasicEnabled}, x:DataType=CheckBox}" Default="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Colors -->
+            <ControlExample x:Name="ColorExample"
+                            Title="Change the colors"
+                            ShowStyleToggle="False"
+                            Description="OnColor and OffColor tint the track in each position, and ThumbColor tints the knob. Leave them unset to keep the platform's colors."
+                            XamlSource="SwitchColors.xaml.txt"
+                            CSharpSource="SwitchColors.cs.txt">
+                <HorizontalStackLayout Spacing="24">
+                    <Switch x:Name="ColorOnSwitch"
+                            IsToggled="True"
+                            OnColor="{Binding SelectedColor, Source={x:Reference ColorOn}, x:DataType=SwatchPicker}"
+                            OffColor="{Binding SelectedColor, Source={x:Reference ColorOff}, x:DataType=SwatchPicker}"
+                            ThumbColor="{Binding SelectedColor, Source={x:Reference ColorThumb}, x:DataType=SwatchPicker}"
+                            SemanticProperties.Description="On"
+                            AutomationId="sample-color-on" />
+                    <Switch OnColor="{Binding SelectedColor, Source={x:Reference ColorOn}, x:DataType=SwatchPicker}"
+                            OffColor="{Binding SelectedColor, Source={x:Reference ColorOff}, x:DataType=SwatchPicker}"
+                            ThumbColor="{Binding SelectedColor, Source={x:Reference ColorThumb}, x:DataType=SwatchPicker}"
+                            SemanticProperties.Description="Off"
+                            AutomationId="sample-color-off" />
+                </HorizontalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="OnColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="ColorOn" SelectedColor="#0D9488" />
+                        <Label Text="OffColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="ColorOff" SelectedColor="#DB2777" />
+                        <Label Text="ThumbColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="ColorThumb" SelectedColor="#374151" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="OnColor" Value="{Binding SelectedColor, Source={x:Reference ColorOn}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="OffColor" Value="{Binding SelectedColor, Source={x:Reference ColorOff}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="ThumbColor" Value="{Binding SelectedColor, Source={x:Reference ColorThumb}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Data binding -->
+            <ControlExample x:Name="SettingsExample"
+                            Title="Bind to settings"
+                            Description="Bind IsToggled two-way to your view model. Binding IsEnabled to another setting disables options that only apply when their parent is on."
+                            XamlSource="SwitchSettings.xaml.txt"
+                            CSharpSource="SwitchSettings.cs.txt">
+                <Grid x:Name="SettingsSample"
+                      x:DataType="local:SwitchSettingsViewModel"
+                      ColumnDefinitions="*,Auto"
+                      RowDefinitions="Auto,Auto,Auto"
+                      ColumnSpacing="24"
+                      RowSpacing="8"
+                      MinimumWidthRequest="260">
+                    <Label Text="Notifications" VerticalOptions="Center" />
+                    <Switch x:Name="NotificationsSwitch"
+                            Grid.Column="1"
+                            IsToggled="{Binding NotificationsEnabled}"
+                            SemanticProperties.Description="Notifications"
+                            AutomationId="sample-settings-notifications" />
+                    <Label Grid.Row="1" Text="Play a sound" VerticalOptions="Center" />
+                    <Switch Grid.Row="1"
+                            Grid.Column="1"
+                            IsToggled="{Binding SoundEnabled}"
+                            IsEnabled="{Binding NotificationsEnabled}"
+                            SemanticProperties.Description="Play a sound"
+                            AutomationId="sample-settings-sound" />
+                    <Label Grid.Row="2"
+                           Grid.ColumnSpan="2"
+                           Text="{Binding Summary}"
+                           Margin="0,8,0,0"
+                           AutomationId="sample-settings-summary" />
+                </Grid>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

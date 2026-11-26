@@ -1,0 +1,106 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.BasicInput.CheckBoxPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.BasicInput"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="A simple checkbox"
+                            Description="CheckBox has no text of its own: pair it with a Label, and let a tap on the label toggle it too so the target is easy to hit."
+                            XamlSource="CheckBoxBasic.xaml.txt"
+                            CSharpSource="CheckBoxBasic.cs.txt">
+                <HorizontalStackLayout x:Name="BasicSample" Spacing="4">
+                    <CheckBox x:Name="BasicCheckBox"
+                              IsEnabled="{Binding IsToggled, Source={x:Reference BasicEnabled}, x:DataType=Switch}"
+                              SemanticProperties.Description="Remember me"
+                              CheckedChanged="OnBasicCheckedChanged"
+                              AutomationId="sample-basic-checkbox" />
+                    <Label Text="Remember me" VerticalOptions="Center" AutomationId="sample-basic-label">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnBasicLabelTapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="IsChecked" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch Grid.Column="1"
+                                    IsToggled="{Binding IsChecked, Source={x:Reference BasicCheckBox}, x:DataType=CheckBox}"
+                                    AutomationId="option-basic-checked" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="IsEnabled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="BasicEnabled" Grid.Column="1" IsToggled="True" AutomationId="option-basic-enabled" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="IsChecked" Value="{Binding IsChecked, Source={x:Reference BasicCheckBox}, x:DataType=CheckBox}" Default="False" />
+                    <Substitution Key="IsEnabled" Value="{Binding IsToggled, Source={x:Reference BasicEnabled}, x:DataType=Switch}" Default="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Color -->
+            <ControlExample x:Name="ColorExample"
+                            Title="Change the color"
+                            ShowStyleToggle="False"
+                            Description="Color tints the box in both states. Use your brand color, or leave it unset to follow the platform's accent color."
+                            XamlSource="CheckBoxColor.xaml.txt"
+                            CSharpSource="CheckBoxColor.cs.txt">
+                <HorizontalStackLayout Spacing="16">
+                    <CheckBox x:Name="ColorCheckBox"
+                              IsChecked="True"
+                              Color="{Binding SelectedColor, Source={x:Reference ColorPicker}, x:DataType=SwatchPicker}"
+                              SemanticProperties.Description="Checked"
+                              AutomationId="sample-color-checked" />
+                    <CheckBox Color="{Binding SelectedColor, Source={x:Reference ColorPicker}, x:DataType=SwatchPicker}"
+                              SemanticProperties.Description="Unchecked"
+                              AutomationId="sample-color-unchecked" />
+                </HorizontalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Color" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="ColorPicker" SelectedColor="#0D9488" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Color" Value="{Binding SelectedColor, Source={x:Reference ColorPicker}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Data binding -->
+            <ControlExample x:Name="ListExample"
+                            Title="Bind a list of checkboxes"
+                            Description="Bind IsChecked two-way to each item in your view model. Here a summary and a strikethrough follow the items as you check them off."
+                            XamlSource="CheckBoxList.xaml.txt"
+                            CSharpSource="CheckBoxList.cs.txt">
+                <VerticalStackLayout x:Name="ListSample" Spacing="12" x:DataType="local:CheckBoxChecklistViewModel">
+                    <VerticalStackLayout Spacing="8" BindableLayout.ItemsSource="{Binding Tasks}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="local:ChecklistTask">
+                                <HorizontalStackLayout Spacing="4">
+                                    <CheckBox IsChecked="{Binding IsDone}"
+                                              SemanticProperties.Description="{Binding Title}"
+                                              AutomationId="{Binding AutomationId}" />
+                                    <Label Text="{Binding Title}" VerticalOptions="Center">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsDone}" Value="True">
+                                                <Setter Property="TextDecorations" Value="Strikethrough" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </HorizontalStackLayout>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                    <Label Text="{Binding Summary}" AutomationId="sample-list-summary" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

@@ -1,0 +1,5 @@
+<Slider
+    Value="0.6"
+    MinimumTrackColor="$(MinimumTrackColor)"
+    MaximumTrackColor="$(MaximumTrackColor)"
+    ThumbColor="$(ThumbColor)" />

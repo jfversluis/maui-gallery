@@ -1,0 +1,16 @@
+<ImageButton
+    WidthRequest="64"
+    HeightRequest="64"
+    Padding="16"
+    BackgroundColor="$(BackgroundColor)"
+    CornerRadius="$(CornerRadius)"
+    BorderWidth="$(BorderWidth)"
+    BorderColor="{AppThemeBinding Light=#1F1A33, Dark=White}"
+    SemanticProperties.Description="Play">
+    <ImageButton.Source>
+        <FontImageSource
+            FontFamily="FluentIcons"
+            Glyph="{x:Static icons:FluentIconsRegular.Play24}"
+            Color="White" />
+    </ImageButton.Source>
+</ImageButton>

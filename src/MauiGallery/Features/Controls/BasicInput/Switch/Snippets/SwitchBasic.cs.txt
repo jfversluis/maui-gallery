@@ -1,0 +1,12 @@
+var airplaneMode = new Switch
+{
+    IsToggled = $(IsToggled),
+    IsEnabled = $(IsEnabled),
+};
+SemanticProperties.SetDescription(airplaneMode, "Airplane mode");
+airplaneMode.Toggled += OnAirplaneModeToggled;
+
+void OnAirplaneModeToggled(object? sender, ToggledEventArgs e)
+{
+    bool isOn = e.Value;
+}

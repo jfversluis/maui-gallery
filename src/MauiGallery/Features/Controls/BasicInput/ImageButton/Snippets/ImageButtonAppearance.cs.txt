@@ -1,0 +1,17 @@
+var playButton = new ImageButton
+{
+    WidthRequest = 64,
+    HeightRequest = 64,
+    Padding = 16,
+    BackgroundColor = $(BackgroundColor),
+    CornerRadius = $(CornerRadius),
+    BorderWidth = $(BorderWidth),
+    Source = new FontImageSource
+    {
+        FontFamily = "FluentIcons",
+        Glyph = FluentIconsRegular.Play24,
+        Color = Colors.White,
+    },
+};
+playButton.SetAppThemeColor(ImageButton.BorderColorProperty, Color.FromArgb("#1F1A33"), Colors.White);
+SemanticProperties.SetDescription(playButton, "Play");

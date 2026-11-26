@@ -1,0 +1,17 @@
+const double Step = $(Step);
+
+void OnFontSizeChanged(object? sender, ValueChangedEventArgs e)
+{
+    // Snap to the nearest step. Setting Value raises ValueChanged once more with the snapped value.
+    FontSizeSlider.Value = Math.Round(e.NewValue / Step) * Step;
+}
+
+void OnDragStarted(object? sender, EventArgs e)
+{
+    // The user grabbed the thumb
+}
+
+void OnDragCompleted(object? sender, EventArgs e)
+{
+    // The user let go: a good moment to save the final value
+}

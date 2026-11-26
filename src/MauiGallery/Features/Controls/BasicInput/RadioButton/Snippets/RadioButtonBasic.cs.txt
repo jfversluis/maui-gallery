@@ -1,0 +1,28 @@
+var standard = new RadioButton { Content = "Standard", IsChecked = true };
+var express = new RadioButton { Content = "Express" };
+var sameDay = new RadioButton
+{
+    Content = "Same day",
+    IsEnabled = $(IsEnabled),
+};
+
+var delivery = new VerticalStackLayout
+{
+    new Label { Text = "Delivery", FontAttributes = FontAttributes.Bold },
+    standard,
+    express,
+    sameDay,
+};
+
+foreach (var option in new[] { standard, express, sameDay })
+{
+    option.CheckedChanged += OnDeliveryChanged;
+}
+
+void OnDeliveryChanged(object? sender, CheckedChangedEventArgs e)
+{
+    if (e.Value && sender is RadioButton selected)
+    {
+        // selected.Content is the chosen option
+    }
+}

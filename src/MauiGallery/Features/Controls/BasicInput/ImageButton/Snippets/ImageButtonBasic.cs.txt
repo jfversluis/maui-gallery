@@ -1,0 +1,20 @@
+var likeButton = new ImageButton
+{
+    WidthRequest = 56,
+    HeightRequest = 56,
+    Padding = $(Padding),
+    IsEnabled = $(IsEnabled),
+    Source = new FontImageSource
+    {
+        FontFamily = "FluentIcons",
+        Glyph = FluentIconsRegular.Heart24,
+        Color = Color.FromArgb("#512BD4"),
+    },
+};
+SemanticProperties.SetDescription(likeButton, "Like");
+likeButton.Clicked += OnLikeClicked;
+
+void OnLikeClicked(object? sender, EventArgs e)
+{
+    // Respond to the click
+}

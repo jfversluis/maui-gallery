@@ -1,0 +1,13 @@
+<HorizontalStackLayout Spacing="4">
+    <CheckBox
+        x:Name="RememberMe"
+        IsChecked="$(IsChecked)"
+        IsEnabled="$(IsEnabled)"
+        SemanticProperties.Description="Remember me"
+        CheckedChanged="OnCheckedChanged" />
+    <Label Text="Remember me" VerticalOptions="Center">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnLabelTapped" />
+        </Label.GestureRecognizers>
+    </Label>
+</HorizontalStackLayout>

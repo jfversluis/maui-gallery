@@ -1,0 +1,19 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class SettingsViewModel : ObservableObject
+{
+    // Switch.IsToggled binds two-way by default
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Summary))]
+    public partial bool NotificationsEnabled { get; set; } = true;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Summary))]
+    public partial bool SoundEnabled { get; set; } = true;
+
+    public string Summary => (NotificationsEnabled, SoundEnabled) switch
+    {
+        (false, _) => "You won't be notified",
+        (true, true) => "Notifications with sound",
+        (true, false) => "Silent notifications",
+    };
+}

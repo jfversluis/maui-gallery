@@ -1,0 +1,12 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class TicketsViewModel : ObservableObject
+{
+    private const decimal TicketPrice = 45m;
+
+    // Stepper.Value is a double and binds two-way by default
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Total))]
+    public partial double Tickets { get; set; } = 2;
+
+    public decimal Total => (decimal)Tickets * TicketPrice;
+}

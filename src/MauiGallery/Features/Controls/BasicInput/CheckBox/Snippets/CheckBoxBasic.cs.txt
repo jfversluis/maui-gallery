@@ -1,0 +1,19 @@
+var rememberMe = new CheckBox
+{
+    IsChecked = $(IsChecked),
+    IsEnabled = $(IsEnabled),
+};
+SemanticProperties.SetDescription(rememberMe, "Remember me");
+rememberMe.CheckedChanged += OnCheckedChanged;
+
+var label = new Label { Text = "Remember me", VerticalOptions = LayoutOptions.Center };
+var tap = new TapGestureRecognizer();
+tap.Tapped += (_, _) => rememberMe.IsChecked = !rememberMe.IsChecked;
+label.GestureRecognizers.Add(tap);
+
+var row = new HorizontalStackLayout { Spacing = 4, Children = { rememberMe, label } };
+
+void OnCheckedChanged(object? sender, CheckedChangedEventArgs e)
+{
+    bool isChecked = e.Value;
+}

@@ -1,0 +1,86 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.BasicInput.StepperPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.BasicInput"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="A simple stepper"
+                            Description="A stepper changes a number by a fixed Increment between Minimum and Maximum. It's precise where a slider is quick; show the value in a label."
+                            XamlSource="StepperBasic.xaml.txt"
+                            CSharpSource="StepperBasic.cs.txt">
+                <HorizontalStackLayout Spacing="16">
+                    <Label Text="{Binding Value, Source={x:Reference BasicStepper}, StringFormat='Guests: {0}', x:DataType=Stepper}"
+                           VerticalOptions="Center"
+                           MinimumWidthRequest="88"
+                           AutomationId="sample-basic-value" />
+                    <Stepper x:Name="BasicStepper"
+                             Minimum="0"
+                             Maximum="10"
+                             Value="2"
+                             IsEnabled="{Binding IsToggled, Source={x:Reference BasicEnabled}, x:DataType=Switch}"
+                             SemanticProperties.Description="Guests"
+                             ValueChanged="OnBasicValueChanged"
+                             AutomationId="sample-basic-stepper" />
+                </HorizontalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Increment" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="BasicIncrement" SelectedIndexChanged="OnBasicIncrementChanged" AutomationId="option-basic-increment">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:Double}">
+                                    <x:Double>1</x:Double>
+                                    <x:Double>0.5</x:Double>
+                                    <x:Double>2</x:Double>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
+                            <Label Text="IsEnabled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="BasicEnabled" Grid.Column="1" IsToggled="True" AutomationId="option-basic-enabled" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="IncrementSubstitution" Key="Increment" Default="1" />
+                    <Substitution Key="IsEnabled" Value="{Binding IsToggled, Source={x:Reference BasicEnabled}, x:DataType=Switch}" Default="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Data binding -->
+            <ControlExample x:Name="QuantityExample"
+                            Title="Bind a quantity"
+                            Description="Value binds two-way, so a view model can react to every step. Value is a double; convert it to the type your model uses."
+                            XamlSource="StepperQuantity.xaml.txt"
+                            CSharpSource="StepperQuantity.cs.txt">
+                <Grid x:Name="QuantitySample"
+                      x:DataType="local:StepperTicketsViewModel"
+                      ColumnDefinitions="*,Auto"
+                      RowDefinitions="Auto,Auto"
+                      ColumnSpacing="24"
+                      RowSpacing="8"
+                      MinimumWidthRequest="260">
+                    <Label Text="{Binding Tickets, StringFormat='{0} × concert ticket'}"
+                           VerticalOptions="Center"
+                           AutomationId="sample-quantity-tickets" />
+                    <Stepper x:Name="QuantityStepper"
+                             Grid.Column="1"
+                             Minimum="1"
+                             Maximum="8"
+                             Value="{Binding Tickets}"
+                             SemanticProperties.Description="Number of tickets"
+                             AutomationId="sample-quantity-stepper" />
+                    <Label Grid.Row="1"
+                           Grid.ColumnSpan="2"
+                           Text="{Binding Total, StringFormat='Total: {0:C}'}"
+                           FontAttributes="Bold"
+                           AutomationId="sample-quantity-total" />
+                </Grid>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

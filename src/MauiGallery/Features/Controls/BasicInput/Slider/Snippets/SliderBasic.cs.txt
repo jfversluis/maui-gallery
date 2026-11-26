@@ -1,0 +1,16 @@
+var volumeLabel = new Label();
+var volumeSlider = new Slider
+{
+    Minimum = $(Minimum),
+    Maximum = $(Maximum),
+    Value = 40,
+    IsEnabled = $(IsEnabled),
+};
+SemanticProperties.SetDescription(volumeSlider, "Volume");
+volumeLabel.SetBinding(Label.TextProperty, static (Slider s) => s.Value, source: volumeSlider, stringFormat: "Volume: {0:0}");
+volumeSlider.ValueChanged += OnVolumeChanged;
+
+void OnVolumeChanged(object? sender, ValueChangedEventArgs e)
+{
+    double volume = e.NewValue;
+}

@@ -1,0 +1,140 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.BasicInput.ImageButtonPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.BasicInput"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="An icon-only button"
+                            Description="ImageButton shows an image instead of text. Because it has no visible label, give it a SemanticProperties.Description so screen readers can announce it."
+                            XamlSource="ImageButtonBasic.xaml.txt"
+                            CSharpSource="ImageButtonBasic.cs.txt">
+                <ImageButton x:Name="BasicImageButton"
+                             WidthRequest="56"
+                             HeightRequest="56"
+                             Padding="{Binding Value, Source={x:Reference BasicPadding}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                             IsEnabled="{Binding IsToggled, Source={x:Reference BasicEnabled}, x:DataType=Switch}"
+                             SemanticProperties.Description="Like"
+                             Clicked="OnBasicClicked"
+                             AutomationId="sample-basic-image-button">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                         Glyph="{x:Static icons:FluentIconsRegular.Heart24}"
+                                         Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}" />
+                    </ImageButton.Source>
+                </ImageButton>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference BasicPadding}, StringFormat='Padding: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="BasicPadding" Minimum="0" Maximum="16" Value="8" AutomationId="option-basic-padding" />
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
+                            <Label Text="IsEnabled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="BasicEnabled" Grid.Column="1" IsToggled="True" AutomationId="option-basic-enabled" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Padding" Value="{Binding Value, Source={x:Reference BasicPadding}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                    <Substitution Key="IsEnabled" Value="{Binding IsToggled, Source={x:Reference BasicEnabled}, x:DataType=Switch}" Default="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Appearance -->
+            <ControlExample Title="Customize the shape"
+                            ShowStyleToggle="False"
+                            Description="Background, corners and border are regular properties, so a circular or rounded-square icon button needs no extra layout around it."
+                            XamlSource="ImageButtonAppearance.xaml.txt"
+                            CSharpSource="ImageButtonAppearance.cs.txt">
+                <ImageButton WidthRequest="64"
+                             HeightRequest="64"
+                             Padding="16"
+                             BackgroundColor="{Binding SelectedColor, Source={x:Reference AppearanceColor}, x:DataType=SwatchPicker}"
+                             CornerRadius="{Binding Value, Source={x:Reference AppearanceCorner}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                             BorderWidth="{Binding Value, Source={x:Reference AppearanceBorder}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                             BorderColor="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}"
+                             SemanticProperties.Description="Play"
+                             AutomationId="sample-appearance-image-button">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                         Glyph="{x:Static icons:FluentIconsRegular.Play24}"
+                                         Color="White" />
+                    </ImageButton.Source>
+                </ImageButton>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="BackgroundColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="AppearanceColor" SelectedColor="#512BD4" />
+                        <Label Text="{Binding Value, Source={x:Reference AppearanceCorner}, StringFormat='CornerRadius: {0:0}', x:DataType=Slider}" Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="AppearanceCorner" Minimum="0" Maximum="32" Value="32" AutomationId="option-corner" />
+                        <Label Text="{Binding Value, Source={x:Reference AppearanceBorder}, StringFormat='BorderWidth: {0:0}', x:DataType=Slider}" Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="AppearanceBorder" Minimum="0" Maximum="4" Value="0" AutomationId="option-border" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="BackgroundColor" Value="{Binding SelectedColor, Source={x:Reference AppearanceColor}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="CornerRadius" Value="{Binding Value, Source={x:Reference AppearanceCorner}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                    <Substitution Key="BorderWidth" Value="{Binding Value, Source={x:Reference AppearanceBorder}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Command with a parameter -->
+            <ControlExample x:Name="CommandExample"
+                            Title="One command, several buttons"
+                            Description="Bind every button to the same command and tell them apart with CommandParameter. A row of reactions or a formatting toolbar are typical uses."
+                            XamlSource="ImageButtonCommand.xaml.txt"
+                            CSharpSource="ImageButtonCommand.cs.txt">
+                <VerticalStackLayout x:Name="CommandSample" Spacing="12" x:DataType="local:ImageButtonReactionsViewModel">
+                    <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
+                        <ImageButton x:Name="LikeButton"
+                                     WidthRequest="48"
+                                     HeightRequest="48"
+                                     Padding="10"
+                                     Command="{Binding ReactCommand}"
+                                     CommandParameter="Like"
+                                     SemanticProperties.Description="Like"
+                                     AutomationId="sample-command-like">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                 Glyph="{x:Static icons:FluentIconsRegular.ThumbLike24}"
+                                                 Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+                        <ImageButton WidthRequest="48"
+                                     HeightRequest="48"
+                                     Padding="10"
+                                     Command="{Binding ReactCommand}"
+                                     CommandParameter="Love"
+                                     SemanticProperties.Description="Love"
+                                     AutomationId="sample-command-love">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                 Glyph="{x:Static icons:FluentIconsRegular.Heart24}"
+                                                 Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+                        <ImageButton WidthRequest="48"
+                                     HeightRequest="48"
+                                     Padding="10"
+                                     Command="{Binding ReactCommand}"
+                                     CommandParameter="Haha"
+                                     SemanticProperties.Description="Haha"
+                                     AutomationId="sample-command-haha">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                 Glyph="{x:Static icons:FluentIconsRegular.EmojiLaugh24}"
+                                                 Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}" />
+                            </ImageButton.Source>
+                        </ImageButton>
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding Summary}" HorizontalOptions="Center" AutomationId="sample-command-summary" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

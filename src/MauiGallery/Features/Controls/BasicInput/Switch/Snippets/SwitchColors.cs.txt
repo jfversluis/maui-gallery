@@ -1,0 +1,7 @@
+var colorfulSwitch = new Switch
+{
+    IsToggled = true,
+    OnColor = $(OnColor),
+    OffColor = $(OffColor),
+    ThumbColor = $(ThumbColor),
+};

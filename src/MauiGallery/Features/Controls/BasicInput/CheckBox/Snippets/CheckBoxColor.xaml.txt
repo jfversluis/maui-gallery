@@ -1,0 +1,4 @@
+<HorizontalStackLayout Spacing="16">
+    <CheckBox IsChecked="True" Color="$(Color)" />
+    <CheckBox Color="$(Color)" />
+</HorizontalStackLayout>

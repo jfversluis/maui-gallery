@@ -1,0 +1,11 @@
+<VerticalStackLayout Spacing="8">
+    <Label Text="Aa" FontSize="{Binding Value, Source={x:Reference FontSizeSlider}, x:DataType=Slider}" />
+    <Slider
+        x:Name="FontSizeSlider"
+        Minimum="12"
+        Maximum="36"
+        Value="20"
+        ValueChanged="OnFontSizeChanged"
+        DragStarted="OnDragStarted"
+        DragCompleted="OnDragCompleted" />
+</VerticalStackLayout>

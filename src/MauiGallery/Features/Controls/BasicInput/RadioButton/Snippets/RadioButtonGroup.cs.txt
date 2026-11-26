@@ -1,0 +1,10 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class SizeViewModel : ObservableObject
+{
+    // Two-way bound to RadioButtonGroup.SelectedValue: holds the checked button's Value
+    [ObservableProperty]
+    public partial string Size { get; set; } = "M";
+
+    [RelayCommand]
+    private void Reset() => Size = "M";
+}

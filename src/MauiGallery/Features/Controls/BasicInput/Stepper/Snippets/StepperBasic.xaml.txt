@@ -1,0 +1,14 @@
+<HorizontalStackLayout Spacing="16">
+    <Label
+        Text="{Binding Value, Source={x:Reference GuestsStepper}, StringFormat='Guests: {0}', x:DataType=Stepper}"
+        VerticalOptions="Center" />
+    <Stepper
+        x:Name="GuestsStepper"
+        Minimum="0"
+        Maximum="10"
+        Value="2"
+        Increment="$(Increment)"
+        IsEnabled="$(IsEnabled)"
+        SemanticProperties.Description="Guests"
+        ValueChanged="OnGuestsChanged" />
+</HorizontalStackLayout>

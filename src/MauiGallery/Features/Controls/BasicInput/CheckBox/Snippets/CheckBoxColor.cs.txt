@@ -1,0 +1,10 @@
+var checkedBox = new CheckBox
+{
+    IsChecked = true,
+    Color = $(Color),
+};
+
+var uncheckedBox = new CheckBox
+{
+    Color = $(Color),
+};

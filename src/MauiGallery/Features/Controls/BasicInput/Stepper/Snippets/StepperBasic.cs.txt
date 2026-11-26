@@ -1,0 +1,17 @@
+var guestsLabel = new Label { VerticalOptions = LayoutOptions.Center };
+var guestsStepper = new Stepper
+{
+    Minimum = 0,
+    Maximum = 10,
+    Value = 2,
+    Increment = $(Increment),
+    IsEnabled = $(IsEnabled),
+};
+SemanticProperties.SetDescription(guestsStepper, "Guests");
+guestsLabel.SetBinding(Label.TextProperty, static (Stepper s) => s.Value, source: guestsStepper, stringFormat: "Guests: {0}");
+guestsStepper.ValueChanged += OnGuestsChanged;
+
+void OnGuestsChanged(object? sender, ValueChangedEventArgs e)
+{
+    double guests = e.NewValue;
+}

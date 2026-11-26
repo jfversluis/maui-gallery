@@ -1,0 +1,5 @@
+<Switch
+    IsToggled="True"
+    OnColor="$(OnColor)"
+    OffColor="$(OffColor)"
+    ThumbColor="$(ThumbColor)" />

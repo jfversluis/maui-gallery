@@ -1,0 +1,10 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class ReactionsViewModel : ObservableObject
+{
+    [ObservableProperty]
+    public partial string Summary { get; set; } = "How do you feel about this?";
+
+    // CommandParameter is passed in as the reaction
+    [RelayCommand]
+    private void React(string reaction) => Summary = $"You reacted with {reaction}";
+}

@@ -1,0 +1,133 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.BasicInput.SliderPage"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="A simple slider"
+                            Description="Pick a value from a continuous range between Minimum and Maximum. Show the value next to it, because the slider itself doesn't."
+                            XamlSource="SliderBasic.xaml.txt"
+                            CSharpSource="SliderBasic.cs.txt">
+                <VerticalStackLayout Spacing="8" WidthRequest="280">
+                    <Label Text="{Binding Value, Source={x:Reference BasicSlider}, StringFormat='Volume: {0:0}', x:DataType=Slider}"
+                           AutomationId="sample-basic-value" />
+                    <Slider x:Name="BasicSlider"
+                            Minimum="{Binding Value, Source={x:Reference BasicMinimum}, x:DataType=Stepper}"
+                            Maximum="{Binding Value, Source={x:Reference BasicMaximum}, x:DataType=Stepper}"
+                            Value="40"
+                            IsEnabled="{Binding IsToggled, Source={x:Reference BasicEnabled}, x:DataType=Switch}"
+                            SemanticProperties.Description="Volume"
+                            ValueChanged="OnBasicValueChanged"
+                            AutomationId="sample-basic-slider" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="{Binding Value, Source={x:Reference BasicMinimum}, StringFormat='Minimum: {0:0}', x:DataType=Stepper}"
+                                   Style="{StaticResource OptionLabel}"
+                                   VerticalOptions="Center" />
+                            <Stepper x:Name="BasicMinimum" Grid.Column="1" Minimum="0" Maximum="40" Increment="10" Value="0" AutomationId="option-basic-minimum" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="{Binding Value, Source={x:Reference BasicMaximum}, StringFormat='Maximum: {0:0}', x:DataType=Stepper}"
+                                   Style="{StaticResource OptionLabel}"
+                                   VerticalOptions="Center" />
+                            <Stepper x:Name="BasicMaximum" Grid.Column="1" Minimum="60" Maximum="200" Increment="20" Value="100" AutomationId="option-basic-maximum" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="IsEnabled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="BasicEnabled" Grid.Column="1" IsToggled="True" AutomationId="option-basic-enabled" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Minimum" Value="{Binding Value, Source={x:Reference BasicMinimum}, x:DataType=Stepper}" Default="0" />
+                    <Substitution Key="Maximum" Value="{Binding Value, Source={x:Reference BasicMaximum}, x:DataType=Stepper}" />
+                    <Substitution Key="IsEnabled" Value="{Binding IsToggled, Source={x:Reference BasicEnabled}, x:DataType=Switch}" Default="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Colors -->
+            <ControlExample x:Name="ColorExample"
+                            Title="Change the colors"
+                            ShowStyleToggle="False"
+                            Description="MinimumTrackColor fills the track up to the thumb, MaximumTrackColor fills the rest, and ThumbColor tints the knob."
+                            XamlSource="SliderColors.xaml.txt"
+                            CSharpSource="SliderColors.cs.txt">
+                <Slider x:Name="ColorSlider"
+                        WidthRequest="280"
+                        Value="0.6"
+                        MinimumTrackColor="{Binding SelectedColor, Source={x:Reference ColorMinimumTrack}, x:DataType=SwatchPicker}"
+                        MaximumTrackColor="{Binding SelectedColor, Source={x:Reference ColorMaximumTrack}, x:DataType=SwatchPicker}"
+                        ThumbColor="{Binding SelectedColor, Source={x:Reference ColorThumb}, x:DataType=SwatchPicker}"
+                        SemanticProperties.Description="Colored slider"
+                        AutomationId="sample-color-slider" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="MinimumTrackColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="ColorMinimumTrack" SelectedColor="#DB2777" />
+                        <Label Text="MaximumTrackColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="ColorMaximumTrack" SelectedColor="#374151" />
+                        <Label Text="ThumbColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="ColorThumb" SelectedColor="#DB2777" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="MinimumTrackColor" Value="{Binding SelectedColor, Source={x:Reference ColorMinimumTrack}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="MaximumTrackColor" Value="{Binding SelectedColor, Source={x:Reference ColorMaximumTrack}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="ThumbColor" Value="{Binding SelectedColor, Source={x:Reference ColorThumb}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Steps and drag events -->
+            <ControlExample x:Name="StepExample"
+                            Title="Snap to steps and track dragging"
+                            Description="Slider has no step property: round the value in ValueChanged to snap it. DragStarted and DragCompleted tell you when the user grabs and releases the thumb."
+                            XamlSource="SliderSteps.xaml.txt"
+                            CSharpSource="SliderSteps.cs.txt">
+                <VerticalStackLayout Spacing="8" WidthRequest="280">
+                    <Label x:Name="StepPreview"
+                           Text="Aa"
+                           FontSize="{Binding Value, Source={x:Reference StepSlider}, x:DataType=Slider}"
+                           HorizontalOptions="Center"
+                           HeightRequest="56"
+                           VerticalTextAlignment="Center"
+                           AutomationId="sample-step-preview" />
+                    <Slider x:Name="StepSlider"
+                            Minimum="12"
+                            Maximum="36"
+                            Value="20"
+                            SemanticProperties.Description="Font size"
+                            ValueChanged="OnStepValueChanged"
+                            DragStarted="OnStepDragStarted"
+                            DragCompleted="OnStepDragCompleted"
+                            AutomationId="sample-step-slider" />
+                    <Label Text="{Binding Value, Source={x:Reference StepSlider}, StringFormat='FontSize: {0:0}', x:DataType=Slider}"
+                           HorizontalOptions="Center"
+                           AutomationId="sample-step-value" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Step" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="StepSize" SelectedIndexChanged="OnStepSizeChanged" AutomationId="option-step-size">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>1</x:String>
+                                    <x:String>2</x:String>
+                                    <x:String>4</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="StepSubstitution" Key="Step" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

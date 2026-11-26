@@ -1,0 +1,24 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class ChecklistTask(string title) : ObservableObject
+{
+    public string Title { get; } = title;
+
+    [ObservableProperty]
+    public partial bool IsDone { get; set; }
+}
+
+public partial class ChecklistViewModel : ObservableObject
+{
+    public ChecklistViewModel()
+    {
+        Tasks = [new("Install the .NET MAUI workload") { IsDone = true }, new("Create a new project"), new("Run it on a device")];
+        foreach (var task in Tasks)
+        {
+            task.PropertyChanged += (_, _) => OnPropertyChanged(nameof(Summary));
+        }
+    }
+
+    public IReadOnlyList<ChecklistTask> Tasks { get; }
+
+    public string Summary => $"{Tasks.Count(t => t.IsDone)} of {Tasks.Count} done";
+}

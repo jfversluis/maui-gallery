@@ -1,0 +1,29 @@
+<VerticalStackLayout x:DataType="local:ReactionsViewModel" Spacing="12">
+    <HorizontalStackLayout Spacing="12">
+        <ImageButton
+            Command="{Binding ReactCommand}"
+            CommandParameter="Like"
+            SemanticProperties.Description="Like">
+            <ImageButton.Source>
+                <FontImageSource FontFamily="FluentIcons" Glyph="{x:Static icons:FluentIconsRegular.ThumbLike24}" />
+            </ImageButton.Source>
+        </ImageButton>
+        <ImageButton
+            Command="{Binding ReactCommand}"
+            CommandParameter="Love"
+            SemanticProperties.Description="Love">
+            <ImageButton.Source>
+                <FontImageSource FontFamily="FluentIcons" Glyph="{x:Static icons:FluentIconsRegular.Heart24}" />
+            </ImageButton.Source>
+        </ImageButton>
+        <ImageButton
+            Command="{Binding ReactCommand}"
+            CommandParameter="Haha"
+            SemanticProperties.Description="Haha">
+            <ImageButton.Source>
+                <FontImageSource FontFamily="FluentIcons" Glyph="{x:Static icons:FluentIconsRegular.EmojiLaugh24}" />
+            </ImageButton.Source>
+        </ImageButton>
+    </HorizontalStackLayout>
+    <Label Text="{Binding Summary}" />
+</VerticalStackLayout>

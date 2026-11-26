@@ -1,0 +1,11 @@
+<VerticalStackLayout Spacing="8">
+    <Label Text="{Binding Value, Source={x:Reference VolumeSlider}, StringFormat='Volume: {0:0}', x:DataType=Slider}" />
+    <Slider
+        x:Name="VolumeSlider"
+        Minimum="$(Minimum)"
+        Maximum="$(Maximum)"
+        Value="40"
+        IsEnabled="$(IsEnabled)"
+        SemanticProperties.Description="Volume"
+        ValueChanged="OnVolumeChanged" />
+</VerticalStackLayout>

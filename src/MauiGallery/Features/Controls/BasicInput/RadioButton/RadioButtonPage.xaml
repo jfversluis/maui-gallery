@@ -1,0 +1,224 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.BasicInput.RadioButtonPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.BasicInput"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <!-- The look of the "Redesign it with a ControlTemplate" sample: a selectable card. Stroke is a Brush, so the
+             theme-aware colors are brushes too. -->
+        <SolidColorBrush x:Key="CardStrokeChecked" Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}" />
+        <SolidColorBrush x:Key="CardStrokeUnchecked" Color="{AppThemeBinding Light=#D1D1D6, Dark=#48484A}" />
+        <ControlTemplate x:Key="CardRadioTemplate" x:DataType="RadioButton">
+            <Border x:Name="Card"
+                    WidthRequest="92"
+                    HeightRequest="92"
+                    Padding="8"
+                    StrokeShape="RoundRectangle 12"
+                    StrokeThickness="2"
+                    BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1C1C1E}">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CheckedStates">
+                            <VisualState x:Name="Checked">
+                                <VisualState.Setters>
+                                    <Setter Property="Stroke" Value="{StaticResource CardStrokeChecked}" />
+                                    <Setter TargetName="CheckMark" Property="Opacity" Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Unchecked">
+                                <VisualState.Setters>
+                                    <Setter Property="Stroke" Value="{StaticResource CardStrokeUnchecked}" />
+                                    <Setter TargetName="CheckMark" Property="Opacity" Value="0" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+                <Grid>
+                    <Ellipse x:Name="CheckMark"
+                             WidthRequest="10"
+                             HeightRequest="10"
+                             Opacity="0"
+                             Fill="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}"
+                             HorizontalOptions="End"
+                             VerticalOptions="Start" />
+                    <ContentPresenter HorizontalOptions="Center" VerticalOptions="Center" />
+                </Grid>
+            </Border>
+        </ControlTemplate>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Pick one of several options"
+                            Description="Radio buttons that share a parent layout are mutually exclusive: checking one unchecks the others. Use them when every choice should stay visible."
+                            XamlSource="RadioButtonBasic.xaml.txt"
+                            CSharpSource="RadioButtonBasic.cs.txt">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Delivery" FontAttributes="Bold" />
+                    <RadioButton x:Name="StandardRadio"
+                                 Content="Standard"
+                                 IsChecked="True"
+                                 CheckedChanged="OnBasicCheckedChanged"
+                                 AutomationId="sample-basic-standard" />
+                    <RadioButton Content="Express"
+                                 CheckedChanged="OnBasicCheckedChanged"
+                                 AutomationId="sample-basic-express" />
+                    <RadioButton Content="Same day"
+                                 IsEnabled="{Binding IsToggled, Source={x:Reference BasicSameDayEnabled}, x:DataType=Switch}"
+                                 CheckedChanged="OnBasicCheckedChanged"
+                                 AutomationId="sample-basic-same-day" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Same day: IsEnabled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                        <Switch x:Name="BasicSameDayEnabled" Grid.Column="1" IsToggled="False" AutomationId="option-basic-enabled" />
+                    </Grid>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="IsEnabled" Value="{Binding IsToggled, Source={x:Reference BasicSameDayEnabled}, x:DataType=Switch}" Default="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. RadioButtonGroup and MVVM -->
+            <ControlExample x:Name="GroupExample"
+                            Title="Bind the selection with RadioButtonGroup"
+                            Description="Set RadioButtonGroup.GroupName and SelectedValue on the parent layout to bind the whole group to one view model property. Each button's Value is what the group reports."
+                            XamlSource="RadioButtonGroup.xaml.txt"
+                            CSharpSource="RadioButtonGroup.cs.txt">
+                <VerticalStackLayout x:Name="GroupSample" Spacing="12" x:DataType="local:RadioButtonSizeViewModel">
+                    <VerticalStackLayout RadioButtonGroup.GroupName="size"
+                                         RadioButtonGroup.SelectedValue="{Binding Size}">
+                        <RadioButton x:Name="SmallRadio" Content="Small" Value="S" AutomationId="sample-group-small" />
+                        <RadioButton Content="Medium" Value="M" AutomationId="sample-group-medium" />
+                        <RadioButton Content="Large" Value="L" AutomationId="sample-group-large" />
+                    </VerticalStackLayout>
+                    <Label Text="{Binding Size, StringFormat='Size: {0}'}" AutomationId="sample-group-summary" />
+                    <Button Text="Reset to medium"
+                            Command="{Binding ResetCommand}"
+                            HorizontalOptions="Start"
+                            AutomationId="sample-group-reset" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 3. View content with the default template -->
+            <ControlExample x:Name="ContentExample"
+                            Title="Show more than text"
+                            Description="Content can be any view, such as an icon next to the text. Views need a ControlTemplate; RadioButton.DefaultTemplate keeps the standard circle on every platform."
+                            XamlSource="RadioButtonContent.xaml.txt"
+                            CSharpSource="RadioButtonContent.cs.txt">
+                <VerticalStackLayout Spacing="4">
+                    <RadioButton x:Name="LightThemeRadio"
+                                 ControlTemplate="{x:Static RadioButton.DefaultTemplate}"
+                                 Value="Light"
+                                 IsChecked="True"
+                                 SemanticProperties.Description="Light"
+                                 AutomationId="sample-content-light">
+                        <RadioButton.Content>
+                            <HorizontalStackLayout Spacing="8">
+                                <Image WidthRequest="20" HeightRequest="20" VerticalOptions="Center">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                         Glyph="{x:Static icons:FluentIconsRegular.WeatherSunnyHigh24}"
+                                                         Color="{AppThemeBinding Light=#EA580C, Dark=#FDBA74}" />
+                                    </Image.Source>
+                                </Image>
+                                <Label Text="Light" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton ControlTemplate="{x:Static RadioButton.DefaultTemplate}"
+                                 Value="Dark"
+                                 SemanticProperties.Description="Dark"
+                                 AutomationId="sample-content-dark">
+                        <RadioButton.Content>
+                            <HorizontalStackLayout Spacing="8">
+                                <Image WidthRequest="20" HeightRequest="20" VerticalOptions="Center">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                         Glyph="{x:Static icons:FluentIconsRegular.WeatherMoon24}"
+                                                         Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}" />
+                                    </Image.Source>
+                                </Image>
+                                <Label Text="Dark" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </RadioButton.Content>
+                    </RadioButton>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 4. A custom ControlTemplate -->
+            <ControlExample x:Name="TemplateExample"
+                            Title="Redesign it with a ControlTemplate"
+                            Description="A ControlTemplate replaces the circle entirely. React to the Checked and Unchecked visual states to build selectable cards that still behave as a radio group."
+                            XamlSource="RadioButtonTemplate.xaml.txt"
+                            CSharpSource="RadioButtonTemplate.cs.txt">
+                <HorizontalStackLayout x:Name="TemplateSample"
+                                       Spacing="10"
+                                       RadioButtonGroup.GroupName="commute">
+                    <RadioButton x:Name="CarRadio"
+                                 ControlTemplate="{StaticResource CardRadioTemplate}"
+                                 Value="Car"
+                                 IsChecked="True"
+                                 CheckedChanged="OnTemplateCheckedChanged"
+                                 SemanticProperties.Description="Car"
+                                 AutomationId="sample-template-car">
+                        <RadioButton.Content>
+                            <VerticalStackLayout Spacing="4">
+                                <Image WidthRequest="28" HeightRequest="28" HorizontalOptions="Center">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                         Glyph="{x:Static icons:FluentIconsRegular.VehicleCar24}"
+                                                         Color="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}" />
+                                    </Image.Source>
+                                </Image>
+                                <Label Text="Car" HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton ControlTemplate="{StaticResource CardRadioTemplate}"
+                                 Value="Bike"
+                                 CheckedChanged="OnTemplateCheckedChanged"
+                                 SemanticProperties.Description="Bike"
+                                 AutomationId="sample-template-bike">
+                        <RadioButton.Content>
+                            <VerticalStackLayout Spacing="4">
+                                <Image WidthRequest="28" HeightRequest="28" HorizontalOptions="Center">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                         Glyph="{x:Static icons:FluentIconsRegular.VehicleBicycle24}"
+                                                         Color="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}" />
+                                    </Image.Source>
+                                </Image>
+                                <Label Text="Bike" HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton ControlTemplate="{StaticResource CardRadioTemplate}"
+                                 Value="Bus"
+                                 CheckedChanged="OnTemplateCheckedChanged"
+                                 SemanticProperties.Description="Bus"
+                                 AutomationId="sample-template-bus">
+                        <RadioButton.Content>
+                            <VerticalStackLayout Spacing="4">
+                                <Image WidthRequest="28" HeightRequest="28" HorizontalOptions="Center">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                         Glyph="{x:Static icons:FluentIconsRegular.VehicleBus24}"
+                                                         Color="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}" />
+                                    </Image.Source>
+                                </Image>
+                                <Label Text="Bus" HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </RadioButton.Content>
+                    </RadioButton>
+                </HorizontalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

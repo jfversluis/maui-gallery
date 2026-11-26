@@ -1,0 +1,37 @@
+// Define CardRadioTemplate in your XAML resources (see the XAML tab), then apply it from code
+var cardTemplate = (ControlTemplate)Resources["CardRadioTemplate"];
+
+RadioButton CreateCard(string name, string glyph) => new()
+{
+    ControlTemplate = cardTemplate,
+    Value = name,
+    Content = new VerticalStackLayout
+    {
+        Spacing = 4,
+        Children =
+        {
+            new Image
+            {
+                WidthRequest = 28,
+                HeightRequest = 28,
+                Source = new FontImageSource { FontFamily = "FluentIcons", Glyph = glyph },
+            },
+            new Label { Text = name, HorizontalOptions = LayoutOptions.Center },
+        },
+    },
+};
+
+var car = CreateCard("Car", FluentIconsRegular.VehicleCar24);
+car.IsChecked = true;
+
+var commute = new HorizontalStackLayout
+{
+    Spacing = 10,
+    Children =
+    {
+        car,
+        CreateCard("Bike", FluentIconsRegular.VehicleBicycle24),
+        CreateCard("Bus", FluentIconsRegular.VehicleBus24),
+    },
+};
+RadioButtonGroup.SetGroupName(commute, "commute");

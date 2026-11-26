@@ -1,0 +1,18 @@
+<Grid
+    x:DataType="local:TicketsViewModel"
+    ColumnDefinitions="*,Auto"
+    RowDefinitions="Auto,Auto"
+    ColumnSpacing="24"
+    RowSpacing="8">
+    <Label Text="{Binding Tickets, StringFormat='{0} × concert ticket'}" VerticalOptions="Center" />
+    <Stepper
+        Grid.Column="1"
+        Minimum="1"
+        Maximum="8"
+        Value="{Binding Tickets}" />
+    <Label
+        Grid.Row="1"
+        Grid.ColumnSpan="2"
+        Text="{Binding Total, StringFormat='Total: {0:C}'}"
+        FontAttributes="Bold" />
+</Grid>

@@ -1,0 +1,14 @@
+<VerticalStackLayout>
+    <Label Text="Delivery" FontAttributes="Bold" />
+    <RadioButton
+        Content="Standard"
+        IsChecked="True"
+        CheckedChanged="OnDeliveryChanged" />
+    <RadioButton
+        Content="Express"
+        CheckedChanged="OnDeliveryChanged" />
+    <RadioButton
+        Content="Same day"
+        IsEnabled="$(IsEnabled)"
+        CheckedChanged="OnDeliveryChanged" />
+</VerticalStackLayout>

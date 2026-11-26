@@ -1,0 +1,14 @@
+<ImageButton
+    WidthRequest="56"
+    HeightRequest="56"
+    Padding="$(Padding)"
+    IsEnabled="$(IsEnabled)"
+    SemanticProperties.Description="Like"
+    Clicked="OnLikeClicked">
+    <ImageButton.Source>
+        <FontImageSource
+            FontFamily="FluentIcons"
+            Glyph="{x:Static icons:FluentIconsRegular.Heart24}"
+            Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}" />
+    </ImageButton.Source>
+</ImageButton>

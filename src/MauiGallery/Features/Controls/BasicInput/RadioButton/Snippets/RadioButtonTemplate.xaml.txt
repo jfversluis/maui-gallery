@@ -1,0 +1,65 @@
+<ContentPage.Resources>
+    <!-- Stroke is a Brush, so theme-aware stroke colors are brushes -->
+    <SolidColorBrush x:Key="CardStrokeChecked" Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}" />
+    <SolidColorBrush x:Key="CardStrokeUnchecked" Color="{AppThemeBinding Light=#D1D1D6, Dark=#48484A}" />
+
+    <ControlTemplate x:Key="CardRadioTemplate">
+        <Border
+            WidthRequest="92"
+            HeightRequest="92"
+            Padding="8"
+            StrokeShape="RoundRectangle 12"
+            StrokeThickness="2"
+            BackgroundColor="{AppThemeBinding Light=White, Dark=#1C1C1E}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CheckedStates">
+                        <VisualState x:Name="Checked">
+                            <VisualState.Setters>
+                                <Setter Property="Stroke" Value="{StaticResource CardStrokeChecked}" />
+                                <Setter TargetName="CheckMark" Property="Opacity" Value="1" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Unchecked">
+                            <VisualState.Setters>
+                                <Setter Property="Stroke" Value="{StaticResource CardStrokeUnchecked}" />
+                                <Setter TargetName="CheckMark" Property="Opacity" Value="0" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </VisualStateManager.VisualStateGroups>
+            <Grid>
+                <Ellipse
+                    x:Name="CheckMark"
+                    WidthRequest="10"
+                    HeightRequest="10"
+                    Fill="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}"
+                    HorizontalOptions="End"
+                    VerticalOptions="Start" />
+                <!-- The RadioButton's Content goes here -->
+                <ContentPresenter HorizontalOptions="Center" VerticalOptions="Center" />
+            </Grid>
+        </Border>
+    </ControlTemplate>
+</ContentPage.Resources>
+
+<HorizontalStackLayout Spacing="10" RadioButtonGroup.GroupName="commute">
+    <RadioButton
+        ControlTemplate="{StaticResource CardRadioTemplate}"
+        Value="Car"
+        IsChecked="True"
+        SemanticProperties.Description="Car">
+        <RadioButton.Content>
+            <VerticalStackLayout Spacing="4">
+                <Image WidthRequest="28" HeightRequest="28">
+                    <Image.Source>
+                        <FontImageSource FontFamily="FluentIcons" Glyph="{x:Static icons:FluentIconsRegular.VehicleCar24}" />
+                    </Image.Source>
+                </Image>
+                <Label Text="Car" HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </RadioButton.Content>
+    </RadioButton>
+    <!-- Bike and Bus follow the same pattern -->
+</HorizontalStackLayout>

@@ -1,0 +1,8 @@
+<HorizontalStackLayout Spacing="12">
+    <Label Text="Airplane mode" VerticalOptions="Center" />
+    <Switch
+        IsToggled="$(IsToggled)"
+        IsEnabled="$(IsEnabled)"
+        SemanticProperties.Description="Airplane mode"
+        Toggled="OnAirplaneModeToggled" />
+</HorizontalStackLayout>
