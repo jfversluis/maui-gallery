@@ -9,6 +9,7 @@ public partial class AppShell : Shell
     private readonly SidebarView _sidebar;
     private readonly SidebarViewModel _sidebarViewModel;
     private readonly AppShellViewModel _viewModel;
+    private Page? _leavingPage;
 
     public AppShell(SidebarView sidebar, AppShellViewModel viewModel)
     {
@@ -87,12 +88,14 @@ public partial class AppShell : Shell
     {
         base.OnNavigating(args);
         PageLoadTrace.Begin(args.Target.Location.OriginalString);
+        DeferDisconnect(CurrentPage);
     }
 
     protected override void OnNavigated(ShellNavigatedEventArgs args)
     {
         base.OnNavigated(args);
         PageLoadTrace.Mark("navigated");
+        DisconnectLeavingPage();
         TraceFirstLayout(CurrentPage);
         UpdateNavBar();
         _sidebarViewModel.UpdateSelection(CurrentState.Location.OriginalString);
@@ -100,6 +103,52 @@ public partial class AppShell : Shell
         {
             FlyoutIsPresented = false;
         }
+    }
+
+    /// <summary>
+    /// Shell disconnects the handlers of a page it removes right away, tearing down all of its native views before the
+    /// next page can appear. The page being left keeps its handlers until the new page is on screen instead.
+    /// </summary>
+    private void DeferDisconnect(Page? page)
+    {
+        if (_leavingPage is not null)
+        {
+            HandlerProperties.SetDisconnectPolicy(_leavingPage, HandlerDisconnectPolicy.Automatic);
+        }
+
+        _leavingPage = page;
+        if (page is not null)
+        {
+            HandlerProperties.SetDisconnectPolicy(page, HandlerDisconnectPolicy.Manual);
+        }
+    }
+
+    private void DisconnectLeavingPage()
+    {
+        if (_leavingPage is not { } page)
+        {
+            return;
+        }
+
+        _leavingPage = null;
+        HandlerProperties.SetDisconnectPolicy(page, HandlerDisconnectPolicy.Automatic);
+
+        // Still in a navigation stack (a page was pushed on top of it, or another tab was selected): nothing to do.
+        if (page.Parent is not null)
+        {
+            return;
+        }
+
+        DeferredWork.Enqueue(Dispatcher, () =>
+        {
+            if (page.Parent is not null || page.Handler is null)
+            {
+                return false;
+            }
+
+            page.DisconnectHandlers();
+            return true;
+        });
     }
 
     /// <summary>Ends the page load measurement once the page has been laid out and the UI thread is free again.</summary>
