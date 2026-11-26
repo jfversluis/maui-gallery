@@ -1,0 +1,14 @@
+<VerticalStackLayout
+    Spacing="8"
+    FlowDirection="$(FlowDirection)">
+    <Label Text="HorizontalTextAlignment Start" HorizontalTextAlignment="Start" />
+    <Label Text="HorizontalTextAlignment End" HorizontalTextAlignment="End" />
+    <Button Text="HorizontalOptions End" HorizontalOptions="End" />
+    <FlexLayout Wrap="Wrap">
+        <Label Text="1 Breakfast" Padding="12,6" Margin="0,0,8,8" FlexLayout.Shrink="0" />
+        <Label Text="2 Lunch" Padding="12,6" Margin="0,0,8,8" FlexLayout.Shrink="0" />
+        <Label Text="3 Dinner" Padding="12,6" Margin="0,0,8,8" FlexLayout.Shrink="0" />
+        <Label Text="4 Dessert" Padding="12,6" Margin="0,0,8,8" FlexLayout.Shrink="0" />
+        <Label Text="5 Snacks" Padding="12,6" Margin="0,0,8,8" FlexLayout.Shrink="0" />
+    </FlexLayout>
+</VerticalStackLayout>

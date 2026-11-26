@@ -1,0 +1,16 @@
+private void OnSubscribeClicked(object? sender, EventArgs e)
+{
+    var email = EmailEntry.Text?.Trim();
+    if (string.IsNullOrEmpty(email) || !email.Contains('@'))
+    {
+        EmailError.Text = "Enter an email address like you@example.com.";
+        EmailError.IsVisible = true;
+
+        // Moves the screen reader to the error once it's laid out, which reads it.
+        Dispatcher.Dispatch(EmailError.SetSemanticFocus);
+        return;
+    }
+
+    EmailError.IsVisible = false;
+    SemanticScreenReader.Announce($"Subscribed {email}");
+}

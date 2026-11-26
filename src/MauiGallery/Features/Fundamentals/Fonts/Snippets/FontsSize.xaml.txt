@@ -1,0 +1,4 @@
+<Label
+    Text="Fresh pasta in 20 minutes"
+    FontSize="$(FontSize)"
+    FontAttributes="$(FontAttributes)" />

@@ -1,0 +1,4 @@
+<VerticalStackLayout x:Name="Content" Spacing="12">
+    <Label x:Name="Greeting" FontSize="18" />
+    <Entry x:Name="Message" />
+</VerticalStackLayout>

@@ -1,0 +1,12 @@
+var tap = new TapGestureRecognizer
+{
+    NumberOfTapsRequired = $(NumberOfTapsRequired),
+    Buttons = $(ButtonsCode),
+};
+tap.Tapped += (sender, e) =>
+{
+    // The position is relative to the view you pass in.
+    Point? position = e.GetPosition(tile);
+    bool rightClick = e.Buttons == ButtonsMask.Secondary;
+};
+tile.GestureRecognizers.Add(tap);

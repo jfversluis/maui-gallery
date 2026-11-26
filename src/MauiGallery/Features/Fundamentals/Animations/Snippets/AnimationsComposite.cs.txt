@@ -1,0 +1,24 @@
+private async void OnTogetherClicked(object? sender, EventArgs e)
+{
+    // Starts all three at once and continues when the last one has finished.
+    await Task.WhenAll(
+        Card.RotateToAsync(360, 600, Easing.CubicInOut),
+        Card.ScaleToAsync(0.6, 600, Easing.CubicInOut),
+        Card.FadeToAsync(0.3, 600));
+    await ResetAsync();
+}
+
+private async void OnSequenceClicked(object? sender, EventArgs e)
+{
+    // Each animation starts when the previous one has finished.
+    await Card.RotateToAsync(360, 600, Easing.CubicInOut);
+    await Card.ScaleToAsync(0.6, 600, Easing.CubicInOut);
+    await Card.FadeToAsync(0.3, 600);
+    await ResetAsync();
+}
+
+private async Task ResetAsync()
+{
+    Card.Rotation = 0;
+    await Task.WhenAll(Card.ScaleToAsync(1, 250), Card.FadeToAsync(1, 250));
+}

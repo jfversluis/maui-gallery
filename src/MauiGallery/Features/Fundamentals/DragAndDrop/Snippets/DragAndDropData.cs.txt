@@ -1,0 +1,30 @@
+public record FoodItem(string Name, bool IsFruit);
+
+private void OnFoodDragStarting(object? sender, DragStartingEventArgs e)
+{
+    var label = (Label)sender!;
+    e.Data.Properties["Food"] = new FoodItem(label.Text, IsFruit: label.Text is "Apple" or "Banana");
+}
+
+private void OnBasketDragOver(object? sender, DragEventArgs e)
+{
+    var isFruit = e.Data.Properties.TryGetValue("Food", out var value) && value is FoodItem { IsFruit: true };
+
+    // None refuses the drop: the platform shows a "not allowed" cursor or preview.
+    e.AcceptedOperation = isFruit ? DataPackageOperation.Copy : DataPackageOperation.None;
+    Basket.Stroke = isFruit ? Colors.Green : Colors.Red;
+}
+
+private void OnBasketDragLeave(object? sender, DragEventArgs e) => Basket.Stroke = Colors.Gray;
+
+// A refused drop raises neither Drop nor DragLeave, so reset when the drag ends.
+private void OnFoodDropCompleted(object? sender, DropCompletedEventArgs e) => Basket.Stroke = Colors.Gray;
+
+private void OnBasketDrop(object? sender, DropEventArgs e)
+{
+    Basket.Stroke = Colors.Gray;
+    if (e.Data.Properties["Food"] is FoodItem food)
+    {
+        BasketLabel.Text = $"{food.Name} is in the basket";
+    }
+}

@@ -1,0 +1,24 @@
+<VerticalStackLayout Spacing="16">
+    <FlexLayout Wrap="Wrap" JustifyContent="Center">
+        <Label Text="Apple" Margin="4">
+            <Label.GestureRecognizers>
+                <DragGestureRecognizer DragStarting="OnFoodDragStarting" DropCompleted="OnFoodDropCompleted" />
+            </Label.GestureRecognizers>
+        </Label>
+        <Label Text="Carrot" Margin="4">
+            <Label.GestureRecognizers>
+                <DragGestureRecognizer DragStarting="OnFoodDragStarting" DropCompleted="OnFoodDropCompleted" />
+            </Label.GestureRecognizers>
+        </Label>
+    </FlexLayout>
+    <Border x:Name="Basket" Padding="16" StrokeDashArray="4,4" Stroke="Gray">
+        <Border.GestureRecognizers>
+            <DropGestureRecognizer
+                AllowDrop="$(AllowDrop)"
+                DragOver="OnBasketDragOver"
+                DragLeave="OnBasketDragLeave"
+                Drop="OnBasketDrop" />
+        </Border.GestureRecognizers>
+        <Label x:Name="BasketLabel" Text="Fruit basket: empty" HorizontalTextAlignment="Center" />
+    </Border>
+</VerticalStackLayout>

@@ -1,0 +1,21 @@
+<!-- xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons" -->
+<HorizontalStackLayout Spacing="24">
+    <Image SemanticProperties.Description="Icon">
+        <Image.Source>
+            <FontImageSource
+                FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                Glyph="{x:Static icons:FluentIconsRegular.$(Glyph)}"
+                Color="$(Color)"
+                Size="$(Size)" />
+        </Image.Source>
+    </Image>
+    <Button Text="Like">
+        <Button.ImageSource>
+            <FontImageSource
+                FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                Glyph="{x:Static icons:FluentIconsRegular.$(Glyph)}"
+                Color="$(Color)"
+                Size="20" />
+        </Button.ImageSource>
+    </Button>
+</HorizontalStackLayout>

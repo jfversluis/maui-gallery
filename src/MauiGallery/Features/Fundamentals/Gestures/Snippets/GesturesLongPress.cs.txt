@@ -1,0 +1,17 @@
+private void OnLongPressing(object? sender, LongPressingEventArgs e)
+{
+    // Started, then Completed when the press was long enough, or Canceled.
+    if (e.Status == GestureStatus.Started)
+    {
+        _ = Tile.ScaleToAsync(0.92, 150);
+    }
+    else if (e.Status is GestureStatus.Completed or GestureStatus.Canceled)
+    {
+        _ = Tile.ScaleToAsync(1, 150);
+    }
+}
+
+private void OnLongPressed(object? sender, LongPressedEventArgs e)
+{
+    // Show a menu, start a selection mode, ...
+}

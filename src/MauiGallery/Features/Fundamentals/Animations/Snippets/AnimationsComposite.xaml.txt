@@ -1,0 +1,15 @@
+<VerticalStackLayout Spacing="24">
+    <Border
+        x:Name="Card"
+        WidthRequest="120"
+        HeightRequest="80"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 16"
+        BackgroundColor="#0D9488">
+        <Label Text="MAUI" TextColor="White" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+    </Border>
+    <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+        <Button Text="Together" Clicked="OnTogetherClicked" />
+        <Button Grid.Column="1" Text="In sequence" Clicked="OnSequenceClicked" />
+    </Grid>
+</VerticalStackLayout>

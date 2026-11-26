@@ -1,0 +1,12 @@
+var favorite = new ImageButton
+{
+    Source = new FontImageSource
+    {
+        FontFamily = FluentIconsRegular.FontFamily,
+        Glyph = FluentIconsRegular.Heart24,
+        Color = Color.FromArgb("#DB2777"),
+        Size = 32,
+    },
+};
+SemanticProperties.SetDescription(favorite, $(Description));
+SemanticProperties.SetHint(favorite, $(Hint));

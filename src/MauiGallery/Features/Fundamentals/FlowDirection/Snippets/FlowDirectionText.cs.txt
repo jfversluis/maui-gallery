@@ -1,0 +1,7 @@
+// Usually CultureInfo.CurrentUICulture, the language the app runs in.
+var culture = CultureInfo.GetCultureInfo($(Culture));
+
+// Set it once on the page (or window) and every view in it follows.
+Content.FlowDirection = culture.TextInfo.IsRightToLeft
+    ? FlowDirection.RightToLeft
+    : FlowDirection.LeftToRight;

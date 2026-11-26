@@ -1,0 +1,17 @@
+<VerticalStackLayout Spacing="16">
+    <Grid HeightRequest="120">
+        <BoxView HeightRequest="1" VerticalOptions="End" Color="Gray" />
+        <Ellipse
+            x:Name="Ball"
+            WidthRequest="40"
+            HeightRequest="40"
+            Fill="#EA580C"
+            VerticalOptions="End"
+            HorizontalOptions="Center" />
+    </Grid>
+    <Button Text="Bounce" HorizontalOptions="Center" Clicked="OnBounceClicked" />
+    <FlexLayout Wrap="Wrap" JustifyContent="Center">
+        <Button Text="Cancel token" Margin="4" FlexLayout.Shrink="0" Clicked="OnCancelTokenClicked" />
+        <Button Text="CancelAnimations" Margin="4" FlexLayout.Shrink="0" Clicked="OnCancelAnimationsClicked" />
+    </FlexLayout>
+</VerticalStackLayout>

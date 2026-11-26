@@ -1,0 +1,15 @@
+<ImageButton
+    WidthRequest="56"
+    HeightRequest="56"
+    Padding="12"
+    SemanticProperties.Description="$(Description)"
+    SemanticProperties.Hint="$(Hint)"
+    Clicked="OnFavoriteClicked">
+    <ImageButton.Source>
+        <FontImageSource
+            FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+            Glyph="{x:Static icons:FluentIconsRegular.Heart24}"
+            Color="#DB2777"
+            Size="32" />
+    </ImageButton.Source>
+</ImageButton>

@@ -1,0 +1,2 @@
+// RightToLeft mirrors the card and everything in it; MatchParent follows its parent.
+card.FlowDirection = FlowDirection.$(FlowDirection);

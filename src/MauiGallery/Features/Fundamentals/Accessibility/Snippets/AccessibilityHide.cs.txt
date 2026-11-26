@@ -1,0 +1,5 @@
+// Hides only the icon.
+AutomationProperties.SetIsInAccessibleTree(foodIcon, $(IsInAccessibleTree));
+
+// Hides the stars row and every glyph in it.
+AutomationProperties.SetExcludedWithChildren(stars, $(ExcludedWithChildren));

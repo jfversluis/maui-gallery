@@ -1,4 +1,4 @@
-namespace MauiGallery.Features.Controls.Graphics;
+namespace MauiGallery.Features.Samples;
 
 /// <summary>
 /// Stops the scroll views around a view from taking over a drag that starts on it, so a sketchpad on a scrolling
@@ -21,6 +21,19 @@ internal static class ScrollCapture
         }
     }
 #endif
+
+    /// <summary>
+    /// Keeps the scroll views around <paramref name="view"/> still for every touch that starts on it, so its pan,
+    /// pinch or swipe gesture recognizers get the whole drag.
+    /// </summary>
+    public static void CaptureDrags(View view)
+    {
+        view.Loaded += (_, _) => Attach(view);
+        var pointer = new PointerGestureRecognizer();
+        pointer.PointerPressed += (_, _) => Begin(view);
+        pointer.PointerReleased += (_, _) => End();
+        view.GestureRecognizers.Add(pointer);
+    }
 
     public static void Attach(View view)
     {

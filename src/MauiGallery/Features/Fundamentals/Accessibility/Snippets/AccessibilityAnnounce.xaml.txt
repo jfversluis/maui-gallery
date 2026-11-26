@@ -1,0 +1,10 @@
+<VerticalStackLayout Spacing="8">
+    <Label Text="Email address" />
+    <Entry
+        x:Name="EmailEntry"
+        Placeholder="you@example.com"
+        Keyboard="Email"
+        SemanticProperties.Description="Email address" />
+    <Label x:Name="EmailError" TextColor="#DC2626" IsVisible="False" />
+    <Button Text="Subscribe" HorizontalOptions="Start" Clicked="OnSubscribeClicked" />
+</VerticalStackLayout>

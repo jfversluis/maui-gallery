@@ -1,0 +1,185 @@
+<SamplePage x:Class="MauiGallery.Features.Fundamentals.AccessibilityPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="HeadingLevelOptions" Type="{x:Type SemanticHeadingLevel}">
+            <x:Static Member="SemanticHeadingLevel.None" />
+            <x:Static Member="SemanticHeadingLevel.Level1" />
+            <x:Static Member="SemanticHeadingLevel.Level2" />
+            <x:Static Member="SemanticHeadingLevel.Level3" />
+        </x:Array>
+        <Color x:Key="IconColor">#DB2777</Color>
+        <Color x:Key="ErrorColor">#DC2626</Color>
+        <SolidColorBrush x:Key="CardStroke" Color="{AppThemeBinding Light=#D1D1D6, Dark=#48484A}" />
+        <Color x:Key="StarColor">#F59E0B</Color>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Description and hint -->
+            <ControlExample x:Name="DescribeExample"
+                            Title="Name and describe a control"
+                            Description="A screen reader reads a control's text, but an icon has none. SemanticProperties.Description gives it a name and Hint explains what it does. Turn on VoiceOver (iOS, Mac), TalkBack (Android) or Narrator (Windows) and move to the button to hear both. Output shows what will be read."
+                            XamlSource="AccessibilityDescribe.xaml.txt"
+                            CSharpSource="AccessibilityDescribe.cs.txt">
+                <ImageButton x:Name="FavoriteButton"
+                             WidthRequest="56"
+                             HeightRequest="56"
+                             Padding="12"
+                             SemanticProperties.Description="{Binding Text, Source={x:Reference DescribeDescription}, x:DataType=Entry}"
+                             SemanticProperties.Hint="{Binding Text, Source={x:Reference DescribeHint}, x:DataType=Entry}"
+                             Clicked="OnFavoriteClicked"
+                             AutomationId="sample-favorite-button">
+                    <ImageButton.Source>
+                        <FontImageSource x:Name="FavoriteIcon"
+                                         FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                         Glyph="{x:Static icons:FluentIconsRegular.Heart24}"
+                                         Color="{StaticResource IconColor}"
+                                         Size="32" />
+                    </ImageButton.Source>
+                </ImageButton>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Description" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="DescribeDescription"
+                               Text="Add to favorites"
+                               TextChanged="OnDescribeChanged"
+                               AutomationId="option-semantic-description" />
+                        <Label Text="Hint" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="DescribeHint"
+                               Text="Saves this recipe to your favorites"
+                               TextChanged="OnDescribeChanged"
+                               AutomationId="option-semantic-hint" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Description" Value="{Binding Text, Source={x:Reference DescribeDescription}, x:DataType=Entry}" Default="" />
+                    <Substitution Key="Hint" Value="{Binding Text, Source={x:Reference DescribeHint}, x:DataType=Entry}" Default="" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Headings -->
+            <ControlExample x:Name="HeadingExample"
+                            Title="Mark headings"
+                            Description="Screen reader users skim a page by jumping from heading to heading. Set SemanticProperties.HeadingLevel on the labels that start a section. iOS, Mac and Android only know whether something is a heading; Windows also reads its level."
+                            XamlSource="AccessibilityHeading.xaml.txt"
+                            CSharpSource="AccessibilityHeading.cs.txt">
+                <VerticalStackLayout x:Name="Recipe" Spacing="8" WidthRequest="{OnIdiom Phone=280, Default=360}">
+                    <Label x:Name="RecipeTitle"
+                           Text="Pasta carbonara"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           SemanticProperties.HeadingLevel="{Binding SelectedItem, Source={x:Reference TitleLevel}, x:DataType=Picker}"
+                           AutomationId="sample-heading-title" />
+                    <Label Text="Ready in 20 minutes, serves 2." />
+                    <Label x:Name="RecipeSection"
+                           Text="Ingredients"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           SemanticProperties.HeadingLevel="{Binding SelectedItem, Source={x:Reference SectionLevel}, x:DataType=Picker}"
+                           AutomationId="sample-heading-section" />
+                    <Label Text="200 g spaghetti, 100 g guanciale, 2 eggs, 50 g pecorino, black pepper." />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Title HeadingLevel" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="TitleLevel"
+                                ItemsSource="{StaticResource HeadingLevelOptions}"
+                                SelectedIndex="1"
+                                SelectedIndexChanged="OnHeadingChanged"
+                                AutomationId="option-title-heading-level" />
+                        <Label Text="Section HeadingLevel" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="SectionLevel"
+                                ItemsSource="{StaticResource HeadingLevelOptions}"
+                                SelectedIndex="2"
+                                SelectedIndexChanged="OnHeadingChanged"
+                                AutomationId="option-section-heading-level" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="TitleLevel" Value="{Binding SelectedItem, Source={x:Reference TitleLevel}, x:DataType=Picker}" Default="None" />
+                    <Substitution Key="SectionLevel" Value="{Binding SelectedItem, Source={x:Reference SectionLevel}, x:DataType=Picker}" Default="None" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Announce and focus -->
+            <ControlExample x:Name="AnnounceExample"
+                            Title="Announce changes and move focus"
+                            Description="A screen reader doesn't notice text that changes elsewhere on the screen. SemanticScreenReader.Announce reads a message out loud, and SetSemanticFocus moves the screen reader to a view, such as the first error after a failed submit."
+                            XamlSource="AccessibilityAnnounce.xaml.txt"
+                            CSharpSource="AccessibilityAnnounce.cs.txt">
+                <VerticalStackLayout Spacing="8" WidthRequest="{OnIdiom Phone=280, Default=320}">
+                    <Label x:Name="EmailLabel" Text="Email address" />
+                    <Entry x:Name="EmailEntry"
+                           Placeholder="you@example.com"
+                           Keyboard="Email"
+                           SemanticProperties.Description="Email address"
+                           AutomationId="sample-announce-email" />
+                    <Label x:Name="EmailError"
+                           TextColor="{StaticResource ErrorColor}"
+                           IsVisible="False"
+                           AutomationId="sample-announce-error" />
+                    <Button Text="Subscribe"
+                            HorizontalOptions="Start"
+                            Clicked="OnSubscribeClicked"
+                            AutomationId="sample-announce-subscribe" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 4. Hide decoration -->
+            <ControlExample x:Name="HideExample"
+                            Title="Hide decorative content"
+                            Description="A screen reader visits everything that has text or a description, including icons and font glyphs that add nothing. AutomationProperties.IsInAccessibleTree set to False hides one view, and ExcludedWithChildren hides a view with everything inside it. Output lists what a screen reader moves through."
+                            ShowStyleToggle="False"
+                            XamlSource="AccessibilityHide.xaml.txt"
+                            CSharpSource="AccessibilityHide.cs.txt">
+                <Border x:Name="RecipeCard"
+                        Padding="16"
+                        StrokeShape="RoundRectangle 12"
+                        Stroke="{StaticResource CardStroke}"
+                        WidthRequest="{OnIdiom Phone=280, Default=320}"
+                        AutomationId="sample-recipe-card">
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="4">
+                        <Image Grid.RowSpan="3"
+                               WidthRequest="40"
+                               HeightRequest="40"
+                               VerticalOptions="Center"
+                               SemanticProperties.Description="Food icon"
+                               AutomationProperties.IsInAccessibleTree="{Binding IsToggled, Source={x:Reference IconInTree}, x:DataType=Switch}">
+                            <Image.Source>
+                                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                                 Glyph="{x:Static icons:FluentIconsRegular.Food24}"
+                                                 Color="{StaticResource IconColor}" />
+                            </Image.Source>
+                        </Image>
+                        <Label Grid.Column="1" Text="Pasta carbonara" FontAttributes="Bold" />
+                        <HorizontalStackLayout Grid.Row="1" Grid.Column="1" AutomationProperties.ExcludedWithChildren="{Binding IsToggled, Source={x:Reference StarsExcluded}, x:DataType=Switch}">
+                            <Label Text="{x:Static icons:FluentIconsFilled.Star24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" TextColor="{StaticResource StarColor}" FontSize="18" />
+                            <Label Text="{x:Static icons:FluentIconsFilled.Star24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" TextColor="{StaticResource StarColor}" FontSize="18" />
+                            <Label Text="{x:Static icons:FluentIconsFilled.Star24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" TextColor="{StaticResource StarColor}" FontSize="18" />
+                            <Label Text="{x:Static icons:FluentIconsFilled.Star24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" TextColor="{StaticResource StarColor}" FontSize="18" />
+                            <Label Text="{x:Static icons:FluentIconsFilled.StarHalf24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" TextColor="{StaticResource StarColor}" FontSize="18" />
+                        </HorizontalStackLayout>
+                        <Label Grid.Row="2" Grid.Column="1" Text="4.5 out of 5, 128 reviews" />
+                    </Grid>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Icon IsInAccessibleTree" Style="{StaticResource OptionLabel}" />
+                        <Switch x:Name="IconInTree" IsToggled="False" Toggled="OnHideChanged" AutomationId="option-icon-in-tree" />
+                        <Label Text="Stars ExcludedWithChildren" Style="{StaticResource OptionLabel}" />
+                        <Switch x:Name="StarsExcluded" IsToggled="True" Toggled="OnHideChanged" AutomationId="option-stars-excluded" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="IsInAccessibleTree" Value="{Binding IsToggled, Source={x:Reference IconInTree}, x:DataType=Switch}" />
+                    <Substitution Key="ExcludedWithChildren" Value="{Binding IsToggled, Source={x:Reference StarsExcluded}, x:DataType=Switch}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

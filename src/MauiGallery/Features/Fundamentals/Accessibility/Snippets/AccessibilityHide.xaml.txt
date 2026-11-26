@@ -1,0 +1,29 @@
+<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="4">
+    <!-- Decorative: the title already says what this is. -->
+    <Image
+        Grid.RowSpan="3"
+        WidthRequest="40"
+        HeightRequest="40"
+        SemanticProperties.Description="Food icon"
+        AutomationProperties.IsInAccessibleTree="$(IsInAccessibleTree)">
+        <Image.Source>
+            <FontImageSource
+                FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                Glyph="{x:Static icons:FluentIconsRegular.Food24}"
+                Color="#DB2777" />
+        </Image.Source>
+    </Image>
+    <Label Grid.Column="1" Text="Pasta carbonara" FontAttributes="Bold" />
+    <!-- The star glyphs mean nothing when read; the label below says it in words. -->
+    <HorizontalStackLayout
+        Grid.Row="1"
+        Grid.Column="1"
+        AutomationProperties.ExcludedWithChildren="$(ExcludedWithChildren)">
+        <Label Text="{x:Static icons:FluentIconsFilled.Star24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" />
+        <Label Text="{x:Static icons:FluentIconsFilled.Star24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" />
+        <Label Text="{x:Static icons:FluentIconsFilled.Star24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" />
+        <Label Text="{x:Static icons:FluentIconsFilled.Star24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" />
+        <Label Text="{x:Static icons:FluentIconsFilled.StarHalf24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" />
+    </HorizontalStackLayout>
+    <Label Grid.Row="2" Grid.Column="1" Text="4.5 out of 5, 128 reviews" />
+</Grid>

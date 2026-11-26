@@ -1,0 +1,178 @@
+<SamplePage x:Class="MauiGallery.Features.Fundamentals.DragAndDropPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Fundamentals"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <SolidColorBrush x:Key="TargetStroke" Color="{AppThemeBinding Light=#AEAEB2, Dark=#636366}" />
+        <SolidColorBrush x:Key="TargetActiveStroke" Color="#16A34A" />
+        <SolidColorBrush x:Key="TargetRejectStroke" Color="#DC2626" />
+        <Color x:Key="ChipBackground">#512BD4</Color>
+        <Style x:Key="DropTarget" TargetType="Border">
+            <Setter Property="WidthRequest" Value="{OnIdiom Phone=280, Default=360}" />
+            <Setter Property="MinimumHeightRequest" Value="96" />
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+            <Setter Property="StrokeDashArray" Value="4,4" />
+            <Setter Property="Stroke" Value="{StaticResource TargetStroke}" />
+            <Setter Property="StrokeThickness" Value="2" />
+        </Style>
+        <Style x:Key="Chip" TargetType="Label">
+            <Setter Property="Padding" Value="16,10" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+        </Style>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Text -->
+            <ControlExample x:Name="TextExample"
+                            Title="Drag text onto a target"
+                            Description="Add a DragGestureRecognizer to make a view draggable and a DropGestureRecognizer to accept drops. MAUI packages a Label's or Entry's text and an Image's source for you. On iPad, Mac and Windows you can also drop text from other apps. On phones, press and hold to start a drag."
+                            ShowStyleToggle="False"
+                            XamlSource="DragAndDropText.xaml.txt"
+                            CSharpSource="DragAndDropText.cs.txt">
+                <VerticalStackLayout Spacing="16">
+                    <Label x:Name="TextChip"
+                           Text="{Binding Text, Source={x:Reference DragText}, x:DataType=Entry}"
+                           Style="{StaticResource Chip}"
+                           BackgroundColor="{StaticResource ChipBackground}"
+                           AutomationId="sample-drag-text">
+                        <Label.GestureRecognizers>
+                            <DragGestureRecognizer />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Border x:Name="TextTarget"
+                            Style="{StaticResource DropTarget}"
+                            AutomationId="sample-drop-text">
+                        <Border.GestureRecognizers>
+                            <DropGestureRecognizer DragOver="OnTextDragOver"
+                                                   DragLeave="OnTextDragLeave"
+                                                   Drop="OnTextDrop" />
+                        </Border.GestureRecognizers>
+                        <Label x:Name="TextTargetLabel"
+                               Text="Drop text here"
+                               HorizontalTextAlignment="Center"
+                               VerticalOptions="Center" />
+                    </Border>
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Text" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="DragText" Text="Hello from .NET MAUI" AutomationId="option-drag-text" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Text" Value="{Binding Text, Source={x:Reference DragText}, x:DataType=Entry}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Custom data -->
+            <ControlExample x:Name="DataExample"
+                            Title="Carry your own data"
+                            Description="In DragStarting, put any object in Data.Properties; the drop target reads it back. Set AcceptedOperation to None in DragOver to refuse what doesn't fit, here everything that isn't fruit. Properties only travel within your app."
+                            ShowStyleToggle="False"
+                            XamlSource="DragAndDropData.xaml.txt"
+                            CSharpSource="DragAndDropData.cs.txt">
+                <VerticalStackLayout Spacing="16">
+                    <FlexLayout Wrap="Wrap" JustifyContent="Center" WidthRequest="{OnIdiom Phone=280, Default=360}">
+                        <Label Text="Apple" Style="{StaticResource Chip}" BackgroundColor="#DC2626" Margin="4" AutomationId="sample-food-apple">
+                            <Label.GestureRecognizers>
+                                <DragGestureRecognizer DragStarting="OnFoodDragStarting" DropCompleted="OnFoodDropCompleted" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label Text="Banana" Style="{StaticResource Chip}" BackgroundColor="#CA8A04" Margin="4" AutomationId="sample-food-banana">
+                            <Label.GestureRecognizers>
+                                <DragGestureRecognizer DragStarting="OnFoodDragStarting" DropCompleted="OnFoodDropCompleted" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label Text="Carrot" Style="{StaticResource Chip}" BackgroundColor="#EA580C" Margin="4" AutomationId="sample-food-carrot">
+                            <Label.GestureRecognizers>
+                                <DragGestureRecognizer DragStarting="OnFoodDragStarting" DropCompleted="OnFoodDropCompleted" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label Text="Broccoli" Style="{StaticResource Chip}" BackgroundColor="#16A34A" Margin="4" AutomationId="sample-food-broccoli">
+                            <Label.GestureRecognizers>
+                                <DragGestureRecognizer DragStarting="OnFoodDragStarting" DropCompleted="OnFoodDropCompleted" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </FlexLayout>
+                    <Border x:Name="Basket"
+                            Style="{StaticResource DropTarget}"
+                            AutomationId="sample-drop-basket">
+                        <Border.GestureRecognizers>
+                            <DropGestureRecognizer AllowDrop="{Binding IsToggled, Source={x:Reference BasketAllowDrop}, x:DataType=Switch}"
+                                                   DragOver="OnBasketDragOver"
+                                                   DragLeave="OnBasketDragLeave"
+                                                   Drop="OnBasketDrop" />
+                        </Border.GestureRecognizers>
+                        <Label x:Name="BasketLabel"
+                               Text="Fruit basket: empty"
+                               HorizontalTextAlignment="Center"
+                               VerticalOptions="Center" />
+                    </Border>
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="AllowDrop" Style="{StaticResource OptionLabel}" />
+                        <Switch x:Name="BasketAllowDrop" IsToggled="True" AutomationId="option-basket-allow-drop" />
+                        <Button Text="Empty the basket"
+                                HorizontalOptions="Start"
+                                Clicked="OnBasketEmptyClicked"
+                                AutomationId="option-basket-empty" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="AllowDrop" Value="{Binding IsToggled, Source={x:Reference BasketAllowDrop}, x:DataType=Switch}" Default="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Reorder -->
+            <ControlExample x:Name="ReorderExample"
+                            Title="Reorder tiles"
+                            Description="Give every item both recognizers and bind their commands to a view model: remember the dragged item in DragStartingCommand, highlight the item under it in DragOverCommand and DragLeaveCommand, and move it in the collection in DropCommand."
+                            ShowStyleToggle="False"
+                            XamlSource="DragAndDropReorder.xaml.txt"
+                            CSharpSource="DragAndDropReorder.cs.txt">
+                <VerticalStackLayout x:Name="ReorderSample"
+                                     x:DataType="local:ReorderViewModel"
+                                     Spacing="8"
+                                     WidthRequest="{OnIdiom Phone=280, Default=320}"
+                                     BindableLayout.ItemsSource="{Binding Tiles}"
+                                     AutomationId="sample-reorder-list">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="local:ReorderTile">
+                            <Border HeightRequest="52"
+                                    Padding="16,0"
+                                    StrokeShape="RoundRectangle 12"
+                                    Stroke="#FACC15"
+                                    StrokeThickness="0"
+                                    BackgroundColor="{Binding Color}"
+                                    AutomationId="{Binding Name, StringFormat='sample-reorder-{0}'}">
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsDragOver}" Value="True">
+                                        <Setter Property="StrokeThickness" Value="4" />
+                                    </DataTrigger>
+                                </Border.Triggers>
+                                <Border.GestureRecognizers>
+                                    <DragGestureRecognizer DragStartingCommand="{Binding DragStartingCommand, Source={RelativeSource AncestorType={x:Type local:ReorderViewModel}}, x:DataType=local:ReorderViewModel}"
+                                                           DragStartingCommandParameter="{Binding .}" />
+                                    <DropGestureRecognizer DragOverCommand="{Binding DragOverCommand, Source={RelativeSource AncestorType={x:Type local:ReorderViewModel}}, x:DataType=local:ReorderViewModel}"
+                                                           DragOverCommandParameter="{Binding .}"
+                                                           DragLeaveCommand="{Binding DragLeaveCommand, Source={RelativeSource AncestorType={x:Type local:ReorderViewModel}}, x:DataType=local:ReorderViewModel}"
+                                                           DropCommand="{Binding DropCommand, Source={RelativeSource AncestorType={x:Type local:ReorderViewModel}}, x:DataType=local:ReorderViewModel}"
+                                                           DropCommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <Label Text="{Binding Name}" TextColor="White" FontAttributes="Bold" VerticalOptions="Center" />
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

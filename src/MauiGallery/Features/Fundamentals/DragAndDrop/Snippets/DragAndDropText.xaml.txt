@@ -1,0 +1,18 @@
+<VerticalStackLayout Spacing="16">
+    <!-- A Label's text is packaged for you when the drag starts. -->
+    <Label
+        Text="$(Text)"
+        Padding="16,10"
+        BackgroundColor="#512BD4"
+        TextColor="White">
+        <Label.GestureRecognizers>
+            <DragGestureRecognizer />
+        </Label.GestureRecognizers>
+    </Label>
+    <Border x:Name="Target" Padding="16" StrokeDashArray="4,4" Stroke="Gray">
+        <Border.GestureRecognizers>
+            <DropGestureRecognizer DragOver="OnDragOver" DragLeave="OnDragLeave" Drop="OnDrop" />
+        </Border.GestureRecognizers>
+        <Label x:Name="TargetLabel" Text="Drop text here" HorizontalTextAlignment="Center" />
+    </Border>
+</VerticalStackLayout>

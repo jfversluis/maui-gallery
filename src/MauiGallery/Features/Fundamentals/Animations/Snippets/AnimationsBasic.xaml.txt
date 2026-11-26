@@ -1,0 +1,12 @@
+<VerticalStackLayout Spacing="24">
+    <Border
+        x:Name="Card"
+        WidthRequest="120"
+        HeightRequest="80"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 16"
+        BackgroundColor="#512BD4">
+        <Label Text="MAUI" TextColor="White" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+    </Border>
+    <Button Text="Play" HorizontalOptions="Center" Clicked="OnPlayClicked" />
+</VerticalStackLayout>

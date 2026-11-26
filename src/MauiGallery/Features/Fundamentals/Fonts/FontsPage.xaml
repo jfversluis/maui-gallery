@@ -1,0 +1,193 @@
+<SamplePage x:Class="MauiGallery.Features.Fundamentals.FontsPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="FontFamilyOptions" Type="{x:Type x:String}">
+            <x:String>(platform default)</x:String>
+            <x:String>Inter</x:String>
+            <x:String>InterSemiBold</x:String>
+            <x:String>InterBold</x:String>
+            <x:String>CascadiaCode</x:String>
+        </x:Array>
+        <x:Array x:Key="FontAttributesOptions" Type="{x:Type x:String}">
+            <x:String>None</x:String>
+            <x:String>Bold</x:String>
+            <x:String>Italic</x:String>
+            <x:String>Bold, Italic</x:String>
+        </x:Array>
+        <x:Array x:Key="GlyphOptions" Type="{x:Type x:String}">
+            <x:String>Heart24</x:String>
+            <x:String>Star24</x:String>
+            <x:String>Home24</x:String>
+            <x:String>Settings24</x:String>
+            <x:String>Camera24</x:String>
+            <x:String>Mail24</x:String>
+        </x:Array>
+        <SolidColorBrush x:Key="ChipFill" Color="{AppThemeBinding Light=#EDE9FE, Dark=#2E1065}" />
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Embedded font -->
+            <ControlExample x:Name="FamilyExample"
+                            Title="Use an embedded font"
+                            Description="Put .ttf or .otf files in Resources/Fonts and register each one with an alias in MauiProgram's ConfigureFonts. Then use the alias as the FontFamily of any text control. This app embeds Inter and Cascadia Code."
+                            ShowStyleToggle="False"
+                            XamlSource="FontsFamily.xaml.txt"
+                            CSharpSource="FontsFamily.cs.txt">
+                <Label x:Name="FamilySample"
+                       Text="The quick brown fox jumps over the lazy dog. 0123456789"
+                       FontSize="20"
+                       MaximumWidthRequest="{OnIdiom Phone=280, Default=440}"
+                       AutomationId="sample-font-family" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="FontFamily" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="FamilyPicker"
+                                ItemsSource="{StaticResource FontFamilyOptions}"
+                                SelectedIndex="1"
+                                SelectedIndexChanged="OnFamilyChanged"
+                                AutomationId="option-font-family" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="FamilyText" Key="FontFamily" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Size and attributes -->
+            <ControlExample x:Name="SizeExample"
+                            Title="Size, weight and style"
+                            Description="FontSize is in device-independent units, the same on every screen density. FontAttributes makes text bold, italic or both. Named sizes such as Large or Title are obsolete: define your own sizes in keyed styles instead, like this app's type ramp."
+                            ShowStyleToggle="False"
+                            XamlSource="FontsSize.xaml.txt"
+                            CSharpSource="FontsSize.cs.txt">
+                <Label x:Name="SizeSample"
+                       Text="Fresh pasta in 20 minutes"
+                       FontSize="{Binding Value, Source={x:Reference SizeSlider}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                       HorizontalTextAlignment="Center"
+                       MaximumWidthRequest="{OnIdiom Phone=280, Default=440}"
+                       AutomationId="sample-font-size" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference SizeSlider}, StringFormat='FontSize: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="SizeSlider"
+                                Minimum="10"
+                                Maximum="48"
+                                Value="24"
+                                AutomationId="option-font-size" />
+                        <Label Text="FontAttributes" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="AttributesPicker"
+                                ItemsSource="{StaticResource FontAttributesOptions}"
+                                SelectedIndex="1"
+                                SelectedIndexChanged="OnAttributesChanged"
+                                AutomationId="option-font-attributes" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="FontSize" Value="{Binding Value, Source={x:Reference SizeSlider}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                    <Substitution x:Name="AttributesXaml" Key="FontAttributes" Default="None" />
+                    <Substitution x:Name="AttributesCode" Key="FontAttributesCode" Default="FontAttributes.None" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Auto scaling -->
+            <ControlExample x:Name="ScalingExample"
+                            Title="Follow the user's text size"
+                            Description="Text grows and shrinks with the text size people choose in their device settings: Dynamic Type on iOS and Mac, Font size on Android, Text size on Windows. Leave FontAutoScalingEnabled on for content; turn it off only for text that must fit a fixed space, such as a badge."
+                            ShowStyleToggle="False"
+                            XamlSource="FontsScaling.xaml.txt"
+                            CSharpSource="FontsScaling.cs.txt">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=360}">
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="Inbox" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
+                        <Border HeightRequest="22"
+                                Padding="8,0"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 11"
+                                Background="{StaticResource ChipFill}"
+                                VerticalOptions="Center">
+                            <Label x:Name="BadgeLabel"
+                                   Text="12 new"
+                                   FontSize="12"
+                                   TextColor="{AppThemeBinding Light=#6D28D9, Dark=#DDD6FE}"
+                                   VerticalOptions="Center"
+                                   FontAutoScalingEnabled="{Binding IsToggled, Source={x:Reference BadgeScaling}, x:DataType=Switch}"
+                                   AutomationId="sample-scaling-badge" />
+                        </Border>
+                    </HorizontalStackLayout>
+                    <Label Text="Your order has shipped and arrives Tuesday. Track it any time from the Orders tab."
+                           FontSize="15"
+                           AutomationId="sample-scaling-body" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Badge FontAutoScalingEnabled" Style="{StaticResource OptionLabel}" />
+                        <Switch x:Name="BadgeScaling" IsToggled="False" AutomationId="option-badge-scaling" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="FontAutoScalingEnabled" Value="{Binding IsToggled, Source={x:Reference BadgeScaling}, x:DataType=Switch}" Default="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 4. Font icons -->
+            <ControlExample x:Name="IconsExample"
+                            Title="Show icons from a font"
+                            Description="An icon font turns every icon into a character. FontImageSource draws one glyph as an image, in any color and size, wherever an ImageSource goes. This app uses the Fluent UI System Icons from the IconFont.Maui.FluentIcons package, which also gives each glyph a name."
+                            XamlSource="FontsIcons.xaml.txt"
+                            CSharpSource="FontsIcons.cs.txt">
+                <HorizontalStackLayout Spacing="24">
+                    <Image x:Name="IconImage"
+                           VerticalOptions="Center"
+                           SemanticProperties.Description="Icon"
+                           AutomationId="sample-icon-image">
+                        <Image.Source>
+                            <FontImageSource x:Name="ImageIcon"
+                                             FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                             Color="{Binding SelectedColor, Source={x:Reference IconColor}, x:DataType=SwatchPicker}"
+                                             Size="{Binding Value, Source={x:Reference IconSize}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                        </Image.Source>
+                    </Image>
+                    <Button Text="Like" VerticalOptions="Center" AutomationId="sample-icon-button">
+                        <Button.ImageSource>
+                            <FontImageSource x:Name="ButtonIcon"
+                                             FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                             Color="{Binding SelectedColor, Source={x:Reference IconColor}, x:DataType=SwatchPicker}"
+                                             Size="20" />
+                        </Button.ImageSource>
+                    </Button>
+                </HorizontalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Glyph" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="GlyphPicker"
+                                ItemsSource="{StaticResource GlyphOptions}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnGlyphChanged"
+                                AutomationId="option-icon-glyph" />
+                        <Label Text="Color" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="IconColor" SelectedColor="#DB2777" />
+                        <Label Text="{Binding Value, Source={x:Reference IconSize}, StringFormat='Size: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="IconSize"
+                                Minimum="16"
+                                Maximum="64"
+                                Value="40"
+                                AutomationId="option-icon-size" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Glyph" Value="{Binding SelectedItem, Source={x:Reference GlyphPicker}, x:DataType=Picker}" IsExpression="True" />
+                    <Substitution Key="Color" Value="{Binding SelectedColor, Source={x:Reference IconColor}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="Size" Value="{Binding Value, Source={x:Reference IconSize}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

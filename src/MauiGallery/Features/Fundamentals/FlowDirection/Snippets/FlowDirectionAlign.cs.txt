@@ -1,0 +1,11 @@
+var stack = new VerticalStackLayout
+{
+    Spacing = 8,
+    FlowDirection = FlowDirection.$(FlowDirection),
+    Children =
+    {
+        new Label { Text = "HorizontalTextAlignment Start", HorizontalTextAlignment = TextAlignment.Start },
+        new Label { Text = "HorizontalTextAlignment End", HorizontalTextAlignment = TextAlignment.End },
+        new Button { Text = "HorizontalOptions End", HorizontalOptions = LayoutOptions.End },
+    },
+};

@@ -1,0 +1,19 @@
+<Border
+    Padding="12"
+    StrokeShape="RoundRectangle 12"
+    FlowDirection="$(FlowDirection)">
+    <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="8">
+        <Border Grid.RowSpan="2" WidthRequest="40" HeightRequest="40" StrokeShape="Ellipse" BackgroundColor="#512BD4">
+            <Label Text="AK" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+        </Border>
+        <VerticalStackLayout Grid.Column="1">
+            <Label Text="Amira Khalil" FontAttributes="Bold" />
+            <Label Text="See you at the station!" />
+        </VerticalStackLayout>
+        <Label Grid.Column="2" Text="09:41" />
+        <HorizontalStackLayout Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Spacing="8">
+            <Button Text="Reply" />
+            <Button Text="Forward" />
+        </HorizontalStackLayout>
+    </Grid>
+</Border>

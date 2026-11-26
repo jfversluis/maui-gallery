@@ -1,0 +1,14 @@
+<VerticalStackLayout Spacing="16">
+    <Label
+        x:Name="Heart"
+        Text="{x:Static icons:FluentIconsFilled.Heart48}"
+        FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}"
+        FontSize="72"
+        TextColor="#DB2777"
+        HorizontalOptions="Center"
+        SemanticProperties.Description="Heart" />
+    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+        <Button Text="Beat" Clicked="OnBeatClicked" />
+        <Button Text="Stop" Clicked="OnStopClicked" />
+    </HorizontalStackLayout>
+</VerticalStackLayout>

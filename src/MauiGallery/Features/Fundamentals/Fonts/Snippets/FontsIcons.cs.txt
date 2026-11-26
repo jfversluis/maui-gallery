@@ -1,0 +1,25 @@
+// MauiProgram.cs: the package registers its icon fonts.
+builder.UseFluentIcons();
+
+var image = new Image
+{
+    Source = new FontImageSource
+    {
+        FontFamily = FluentIconsRegular.FontFamily,
+        Glyph = FluentIconsRegular.$(Glyph),
+        Color = $(Color),
+        Size = $(Size),
+    },
+};
+
+var button = new Button
+{
+    Text = "Like",
+    ImageSource = new FontImageSource
+    {
+        FontFamily = FluentIconsRegular.FontFamily,
+        Glyph = FluentIconsRegular.$(Glyph),
+        Color = $(Color),
+        Size = 20,
+    },
+};

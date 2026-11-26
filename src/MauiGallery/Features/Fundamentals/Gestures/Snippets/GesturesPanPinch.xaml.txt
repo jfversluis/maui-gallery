@@ -1,0 +1,13 @@
+<Border x:Name="Area" WidthRequest="400" HeightRequest="220">
+    <Border
+        x:Name="Card"
+        WidthRequest="120"
+        HeightRequest="80"
+        StrokeShape="RoundRectangle 16"
+        BackgroundColor="#2563EB">
+        <Border.GestureRecognizers>
+            <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+            <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
+        </Border.GestureRecognizers>
+    </Border>
+</Border>
