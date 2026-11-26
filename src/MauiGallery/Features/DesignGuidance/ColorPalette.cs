@@ -46,8 +46,11 @@ public sealed class ColorPalette : ContentView
             return;
         }
 
+        // TryGetValue, not ContainsKey: the tokens live in a merged dictionary, which ContainsKey doesn't search.
         Groups = [.. TokenGroups.Select(group => new ColorTokenGroup(
             group.Title,
-            [.. group.Keys.Where(resources.ContainsKey).Select(key => new ColorToken(key["Color".Length..], (Color)resources[key]))]))];
+            [.. group.Keys
+                .Select(key => resources.TryGetValue(key, out var value) && value is Color color ? new ColorToken(key["Color".Length..], color) : null)
+                .OfType<ColorToken>()]))];
     }
 }
