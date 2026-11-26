@@ -1,0 +1,314 @@
+name: Release
+
+# Builds store-ready packages: an Android App Bundle, an iOS IPA and a Mac Catalyst installer package.
+# Each job signs its package when the signing secrets exist and still builds an unsigned one when they don't, so the
+# workflow also runs on forks. See docs/releasing.md for the secrets, the outputs and the store checklists.
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      build_number:
+        description: 'Build number (ApplicationVersion). Leave empty to use the run number.'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  APP_PROJECT: src/MauiGallery/MauiGallery.csproj
+  XCODE_VERSION: '27.2'
+  # The Apple Developer team that owns com.jfversluis.mauigallery. Override with the APPLE_TEAM_ID repository variable.
+  APPLE_TEAM_ID: ${{ vars.APPLE_TEAM_ID || 'AY5KBJ6RN9' }}
+
+jobs:
+  version:
+    name: Version
+    runs-on: ubuntu-latest
+    outputs:
+      display: ${{ steps.version.outputs.display }}
+      build: ${{ steps.version.outputs.build }}
+    steps:
+      - uses: actions/checkout@v5
+      - id: version
+        name: Read the version
+        shell: bash
+        env:
+          BUILD_NUMBER: ${{ inputs.build_number }}
+        run: |
+          display=$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' Directory.Build.props | head -1)
+          build="${BUILD_NUMBER:-$GITHUB_RUN_NUMBER}"
+          if ! [[ "$display" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error file=Directory.Build.props::Version must be major.minor.patch, found '$display'."
+            exit 1
+          fi
+          if ! [[ "$build" =~ ^[0-9]+$ ]]; then
+            echo "::error::The build number must be a whole number, found '$build'."
+            exit 1
+          fi
+          if [[ "$GITHUB_REF_TYPE" == "tag" && "$GITHUB_REF_NAME" != "v$display" ]]; then
+            echo "::error::Tag $GITHUB_REF_NAME doesn't match Version $display in Directory.Build.props."
+            exit 1
+          fi
+          echo "display=$display" >> "$GITHUB_OUTPUT"
+          echo "build=$build" >> "$GITHUB_OUTPUT"
+          echo "### Version $display ($build)" >> "$GITHUB_STEP_SUMMARY"
+
+  android:
+    name: Android (AAB)
+    needs: version
+    runs-on: ubuntu-latest
+    env:
+      HAS_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+      # MSBuild reads environment variables as properties: the Map sample's Google Maps key.
+      MapsApiKey: ${{ secrets.MAPS_API_KEY }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-java@v5
+        with:
+          distribution: microsoft
+          java-version: '21'
+      - run: dotnet workload install maui-android
+
+      - name: Install the upload keystore
+        if: env.HAS_KEYSTORE == 'true'
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/upload.keystore"
+
+      - name: Publish the signed bundle
+        if: env.HAS_KEYSTORE == 'true'
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        # The passwords stay in environment variables (env:NAME), so they never appear on the command line.
+        run: >
+          dotnet publish ${{ env.APP_PROJECT }} -f net11.0-android -c Release
+          -p:AndroidPackageFormats=aab
+          -p:ApplicationVersion=${{ needs.version.outputs.build }}
+          -p:AndroidKeyStore=true
+          -p:AndroidSigningKeyStore="$RUNNER_TEMP/upload.keystore"
+          -p:AndroidSigningKeyAlias="$ANDROID_KEY_ALIAS"
+          -p:AndroidSigningStorePass=env:ANDROID_KEYSTORE_PASSWORD
+          -p:AndroidSigningKeyPass=env:ANDROID_KEY_PASSWORD
+
+      - name: Publish an unsigned bundle (no keystore secrets)
+        if: env.HAS_KEYSTORE != 'true'
+        run: |
+          echo "::warning::ANDROID_KEYSTORE_BASE64 isn't set: the bundle is signed with the debug key and can't be uploaded to Google Play."
+          dotnet publish ${{ env.APP_PROJECT }} -f net11.0-android -c Release \
+            -p:AndroidPackageFormats=aab \
+            -p:ApplicationVersion=${{ needs.version.outputs.build }}
+
+      - name: Warn about a missing Maps key
+        if: env.MapsApiKey == ''
+        run: |
+          echo "::warning::MAPS_API_KEY isn't set: the Map sample explains that this build has no Google Maps key."
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-${{ needs.version.outputs.display }}-${{ needs.version.outputs.build }}
+          # Only the -Signed bundle is usable; the other one is the unsigned intermediate.
+          path: src/MauiGallery/bin/Release/net11.0-android/publish/*-Signed.aab
+          if-no-files-found: error
+
+  ios:
+    name: iOS (IPA)
+    needs: version
+    # .NET 11 for iOS requires Xcode 27.2, available on the xcode-27 image.
+    runs-on: xcode-27
+    env:
+      HAS_SIGNING: ${{ secrets.APPLE_CERTIFICATE_P12_BASE64 != '' && secrets.APPLE_PROVISIONING_PROFILE_IOS_BASE64 != '' }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - name: Select Xcode
+        run: sudo xcode-select --switch /Applications/Xcode_${{ env.XCODE_VERSION }}.app
+      - run: dotnet workload install maui
+
+      - name: Install the distribution certificate and provisioning profile
+        id: signing
+        if: env.HAS_SIGNING == 'true'
+        env:
+          CERTIFICATE_BASE64: ${{ secrets.APPLE_CERTIFICATE_P12_BASE64 }}
+          CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          PROFILE_BASE64: ${{ secrets.APPLE_PROVISIONING_PROFILE_IOS_BASE64 }}
+        run: |
+          keychain="$RUNNER_TEMP/signing.keychain-db"
+          keychain_password=$(uuidgen)
+          security create-keychain -p "$keychain_password" "$keychain"
+          security set-keychain-settings -lut 21600 "$keychain"
+          security unlock-keychain -p "$keychain_password" "$keychain"
+          echo "$CERTIFICATE_BASE64" | base64 --decode > "$RUNNER_TEMP/distribution.p12"
+          security import "$RUNNER_TEMP/distribution.p12" -P "$CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k "$keychain"
+          security set-key-partition-list -S apple-tool:,apple: -k "$keychain_password" "$keychain" > /dev/null
+          # Add the keychain to the search list, keeping the existing ones (word splitting is intended).
+          # shellcheck disable=SC2046
+          security list-keychains -d user -s "$keychain" $(security list-keychains -d user | tr -d '"')
+
+          identity=$(security find-identity -v -p codesigning "$keychain" | grep -E "Apple Distribution|iPhone Distribution" | grep "($APPLE_TEAM_ID)" | head -1 | sed -E 's/.*"(.*)".*/\1/')
+          if [ -z "$identity" ]; then
+            echo "::error::No distribution certificate for team $APPLE_TEAM_ID in APPLE_CERTIFICATE_P12_BASE64."
+            exit 1
+          fi
+
+          echo "$PROFILE_BASE64" | base64 --decode > "$RUNNER_TEMP/ios.mobileprovision"
+          security cms -D -i "$RUNNER_TEMP/ios.mobileprovision" > "$RUNNER_TEMP/ios.plist"
+          profile_uuid=$(/usr/libexec/PlistBuddy -c 'Print UUID' "$RUNNER_TEMP/ios.plist")
+          profile_name=$(/usr/libexec/PlistBuddy -c 'Print Name' "$RUNNER_TEMP/ios.plist")
+          for dir in "$HOME/Library/MobileDevice/Provisioning Profiles" "$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles"; do
+            mkdir -p "$dir"
+            cp "$RUNNER_TEMP/ios.mobileprovision" "$dir/$profile_uuid.mobileprovision"
+          done
+
+          echo "identity=$identity" >> "$GITHUB_OUTPUT"
+          echo "profile=$profile_name" >> "$GITHUB_OUTPUT"
+
+      - name: Publish the signed IPA
+        if: env.HAS_SIGNING == 'true'
+        run: >
+          dotnet publish ${{ env.APP_PROJECT }} -f net11.0-ios -c Release
+          -p:RuntimeIdentifier=ios-arm64
+          -p:ApplicationVersion=${{ needs.version.outputs.build }}
+          -p:CodesignKey="${{ steps.signing.outputs.identity }}"
+          -p:CodesignProvision="${{ steps.signing.outputs.profile }}"
+
+      - name: Publish an unsigned IPA (no signing secrets)
+        if: env.HAS_SIGNING != 'true'
+        run: |
+          echo "::warning::APPLE_CERTIFICATE_P12_BASE64 or APPLE_PROVISIONING_PROFILE_IOS_BASE64 isn't set: the IPA is unsigned and can't be uploaded to App Store Connect."
+          dotnet publish ${{ env.APP_PROJECT }} -f net11.0-ios -c Release \
+            -p:RuntimeIdentifier=ios-arm64 \
+            -p:ApplicationVersion=${{ needs.version.outputs.build }} \
+            -p:EnableCodeSigning=false
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios-${{ needs.version.outputs.display }}-${{ needs.version.outputs.build }}
+          path: src/MauiGallery/bin/Release/net11.0-ios/ios-arm64/publish/*.ipa
+          if-no-files-found: error
+
+      - name: Remove the signing keychain
+        if: always() && steps.signing.outcome == 'success'
+        run: security delete-keychain "$RUNNER_TEMP/signing.keychain-db"
+
+  maccatalyst:
+    name: Mac Catalyst (PKG)
+    needs: version
+    runs-on: xcode-27
+    env:
+      HAS_SIGNING: ${{ secrets.APPLE_CERTIFICATE_P12_BASE64 != '' && secrets.APPLE_INSTALLER_CERTIFICATE_P12_BASE64 != '' && secrets.APPLE_PROVISIONING_PROFILE_MAC_BASE64 != '' }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - name: Select Xcode
+        run: sudo xcode-select --switch /Applications/Xcode_${{ env.XCODE_VERSION }}.app
+      - run: dotnet workload install maui
+
+      - name: Install the certificates and provisioning profile
+        id: signing
+        if: env.HAS_SIGNING == 'true'
+        env:
+          CERTIFICATE_BASE64: ${{ secrets.APPLE_CERTIFICATE_P12_BASE64 }}
+          CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          INSTALLER_CERTIFICATE_BASE64: ${{ secrets.APPLE_INSTALLER_CERTIFICATE_P12_BASE64 }}
+          # Optional: the installer certificate's own password. Defaults to APPLE_CERTIFICATE_PASSWORD.
+          INSTALLER_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_INSTALLER_CERTIFICATE_PASSWORD || secrets.APPLE_CERTIFICATE_PASSWORD }}
+          PROFILE_BASE64: ${{ secrets.APPLE_PROVISIONING_PROFILE_MAC_BASE64 }}
+        run: |
+          keychain="$RUNNER_TEMP/signing.keychain-db"
+          keychain_password=$(uuidgen)
+          security create-keychain -p "$keychain_password" "$keychain"
+          security set-keychain-settings -lut 21600 "$keychain"
+          security unlock-keychain -p "$keychain_password" "$keychain"
+          echo "$CERTIFICATE_BASE64" | base64 --decode > "$RUNNER_TEMP/distribution.p12"
+          echo "$INSTALLER_CERTIFICATE_BASE64" | base64 --decode > "$RUNNER_TEMP/installer.p12"
+          security import "$RUNNER_TEMP/distribution.p12" -P "$CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k "$keychain"
+          security import "$RUNNER_TEMP/installer.p12" -P "$INSTALLER_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k "$keychain"
+          security set-key-partition-list -S apple-tool:,apple: -k "$keychain_password" "$keychain" > /dev/null
+          # Add the keychain to the search list, keeping the existing ones (word splitting is intended).
+          # shellcheck disable=SC2046
+          security list-keychains -d user -s "$keychain" $(security list-keychains -d user | tr -d '"')
+
+          identity=$(security find-identity -v -p codesigning "$keychain" | grep -E "Apple Distribution|3rd Party Mac Developer Application" | grep "($APPLE_TEAM_ID)" | head -1 | sed -E 's/.*"(.*)".*/\1/')
+          # Installer certificates aren't code-signing identities, so list every identity in the keychain.
+          installer=$(security find-identity -v "$keychain" | grep "Installer" | grep "($APPLE_TEAM_ID)" | head -1 | sed -E 's/.*"(.*)".*/\1/')
+          if [ -z "$identity" ] || [ -z "$installer" ]; then
+            echo "::error::The certificates must include an Apple Distribution and a Mac Installer Distribution identity for team $APPLE_TEAM_ID."
+            exit 1
+          fi
+
+          echo "$PROFILE_BASE64" | base64 --decode > "$RUNNER_TEMP/mac.provisionprofile"
+          security cms -D -i "$RUNNER_TEMP/mac.provisionprofile" > "$RUNNER_TEMP/mac.plist"
+          profile_uuid=$(/usr/libexec/PlistBuddy -c 'Print UUID' "$RUNNER_TEMP/mac.plist")
+          profile_name=$(/usr/libexec/PlistBuddy -c 'Print Name' "$RUNNER_TEMP/mac.plist")
+          for dir in "$HOME/Library/MobileDevice/Provisioning Profiles" "$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles"; do
+            mkdir -p "$dir"
+            cp "$RUNNER_TEMP/mac.provisionprofile" "$dir/$profile_uuid.provisionprofile"
+          done
+
+          {
+            echo "identity=$identity"
+            echo "installer=$installer"
+            echo "profile=$profile_name"
+          } >> "$GITHUB_OUTPUT"
+
+      # Release builds are universal (Apple silicon and Intel). A provisioning profile (CodesignProvision) switches the
+      # app to Entitlements.AppStore.plist, which adds the keychain access group SecureStorage needs.
+      - name: Publish the signed package
+        if: env.HAS_SIGNING == 'true'
+        run: >
+          dotnet publish ${{ env.APP_PROJECT }} -f net11.0-maccatalyst -c Release
+          -p:ApplicationVersion=${{ needs.version.outputs.build }}
+          -p:CreatePackage=true
+          -p:EnableCodeSigning=true
+          -p:EnablePackageSigning=true
+          -p:CodesignKey="${{ steps.signing.outputs.identity }}"
+          -p:CodesignProvision="${{ steps.signing.outputs.profile }}"
+          -p:PackageSigningKey="${{ steps.signing.outputs.installer }}"
+
+      - name: Publish an unsigned package (no signing secrets)
+        if: env.HAS_SIGNING != 'true'
+        run: |
+          echo "::warning::The Apple certificates or the Mac provisioning profile aren't set: the package is unsigned and can't be uploaded to App Store Connect."
+          dotnet publish ${{ env.APP_PROJECT }} -f net11.0-maccatalyst -c Release \
+            -p:ApplicationVersion=${{ needs.version.outputs.build }} \
+            -p:CreatePackage=true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: maccatalyst-${{ needs.version.outputs.display }}-${{ needs.version.outputs.build }}
+          # Universal builds publish to a folder named after the build machine's RID (osx-arm64 on Apple silicon).
+          path: src/MauiGallery/bin/Release/net11.0-maccatalyst/*/publish/*.pkg
+          if-no-files-found: error
+
+      - name: Remove the signing keychain
+        if: always() && steps.signing.outcome == 'success'
+        run: security delete-keychain "$RUNNER_TEMP/signing.keychain-db"
+
+  windows:
+    name: Windows (MSIX)
+    needs: version
+    runs-on: windows-latest
+    steps:
+      # TODO(coordinator): MSIX packaging and signing for the Microsoft Store. Publish
+      # net11.0-windows10.0.19041.0 as an MSIX (or MSIX bundle) with
+      # -p:ApplicationVersion=${{ needs.version.outputs.build }} and upload it as the windows-<version>-<build> artifact.
+      # Keep the "build unsigned when the signing secrets are missing" behavior of the other jobs.
+      - run: echo "::notice::MSIX packaging isn't wired up yet (see the TODO in release.yml)."
