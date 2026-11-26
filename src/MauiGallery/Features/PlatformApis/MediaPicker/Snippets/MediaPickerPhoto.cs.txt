@@ -13,12 +13,6 @@ if (photo is null)
     return; // Cancelled
 }
 
-// The picker's file can be temporary: copy it somewhere your app owns
-var path = Path.Combine(FileSystem.AppDataDirectory, photo.FileName);
-await using (var source = await photo.OpenReadAsync())
-await using (var target = File.Create(path))
-{
-    await source.CopyToAsync(target);
-}
-
-PhotoImage.Source = ImageSource.FromFile(path);
+// Show it straight from the picker's file, which can be temporary.
+// To keep the photo, copy it to FileSystem.AppDataDirectory.
+PhotoImage.Source = ImageSource.FromStream(_ => photo.OpenReadAsync());

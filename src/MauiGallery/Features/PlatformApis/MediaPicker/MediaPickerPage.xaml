@@ -40,7 +40,7 @@
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center"
                                    IsVisible="{Binding HasNoPhoto}" />
-                            <Image Source="{Binding PhotoPath}" Aspect="AspectFit" AutomationId="sample-media-photo" />
+                            <Image Source="{Binding Photo}" Aspect="AspectFit" AutomationId="sample-media-photo" />
                         </Grid>
                     </Border>
                     <Button x:Name="PickButton"
@@ -89,14 +89,14 @@
                                 HeightRequest="96"
                                 WidthRequest="{OnIdiom Phone=280, Default=360}"
                                 HorizontalScrollBarVisibility="Never">
-                        <HorizontalStackLayout BindableLayout.ItemsSource="{Binding PhotoPaths}" Spacing="8">
+                        <HorizontalStackLayout BindableLayout.ItemsSource="{Binding Photos}" Spacing="8">
                             <BindableLayout.EmptyView>
                                 <Border Style="{StaticResource PhotoFrame}" HeightRequest="96">
                                     <Label Text="No photos yet" TextColor="#8E8E93" HorizontalOptions="Center" VerticalOptions="Center" />
                                 </Border>
                             </BindableLayout.EmptyView>
                             <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="x:String">
+                                <DataTemplate x:DataType="ImageSource">
                                     <Border StrokeThickness="0" StrokeShape="RoundRectangle 8" WidthRequest="96" HeightRequest="96">
                                         <Image Source="{Binding .}" Aspect="AspectFill" />
                                     </Border>
@@ -145,7 +145,7 @@
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center"
                                    IsVisible="{Binding HasNoCapture}" />
-                            <Image Source="{Binding CapturedPath}" Aspect="AspectFit" AutomationId="sample-media-captured" />
+                            <Image Source="{Binding CapturedPhoto}" Aspect="AspectFit" AutomationId="sample-media-captured" />
                         </Grid>
                     </Border>
                     <Button x:Name="CaptureButton"

@@ -5,7 +5,11 @@ using CommunityToolkit.Mvvm.Input;
 namespace MauiGallery.Features.PlatformApis;
 
 /// <summary>The view model behind the Media picker samples: pick or take photos and videos.</summary>
-public sealed partial class MediaPickerViewModel(IMediaPicker mediaPicker, IFileSystem fileSystem) : ObservableObject
+/// <remarks>
+/// It shows photos straight from the picker's files and copies nothing, so the app keeps no media of its own. The
+/// picker's files are temporary: an app that keeps a photo copies it to <see cref="FileSystem.AppDataDirectory"/>.
+/// </remarks>
+public sealed partial class MediaPickerViewModel(IMediaPicker mediaPicker) : ObservableObject
 {
     public bool IsCaptureSupported { get; } = mediaPicker.IsCaptureSupported;
 
@@ -19,9 +23,9 @@ public sealed partial class MediaPickerViewModel(IMediaPicker mediaPicker, IFile
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasNoPhoto))]
-    public partial string? PhotoPath { get; set; }
+    public partial ImageSource? Photo { get; set; }
 
-    public bool HasNoPhoto => PhotoPath is null;
+    public bool HasNoPhoto => Photo is null;
 
     [ObservableProperty]
     public partial string PhotoInfo { get; set; } = string.Empty;
@@ -30,7 +34,7 @@ public sealed partial class MediaPickerViewModel(IMediaPicker mediaPicker, IFile
     [ObservableProperty]
     public partial double SelectionLimit { get; set; } = 4;
 
-    public ObservableCollection<string> PhotoPaths { get; } = [];
+    public ObservableCollection<ImageSource> Photos { get; } = [];
 
     [ObservableProperty]
     public partial string PhotosInfo { get; set; } = string.Empty;
@@ -38,9 +42,9 @@ public sealed partial class MediaPickerViewModel(IMediaPicker mediaPicker, IFile
     // Take a photo
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasNoCapture))]
-    public partial string? CapturedPath { get; set; }
+    public partial ImageSource? CapturedPhoto { get; set; }
 
-    public bool HasNoCapture => CapturedPath is null;
+    public bool HasNoCapture => CapturedPhoto is null;
 
     [ObservableProperty]
     public partial string CaptureInfo { get; set; } = mediaPicker.IsCaptureSupported ? string.Empty : "This device has no camera.";
@@ -65,8 +69,8 @@ public sealed partial class MediaPickerViewModel(IMediaPicker mediaPicker, IFile
         var result = (await RunAsync(() => mediaPicker.PickPhotosAsync(options), info => PhotoInfo = info)).FirstOrDefault();
         if (result is not null)
         {
-            PhotoPath = await CopyToCacheAsync(result);
-            PhotoInfo = Describe(result, PhotoPath);
+            Photo = Preview(result);
+            PhotoInfo = await DescribeAsync(result);
         }
     }
 
@@ -80,10 +84,10 @@ public sealed partial class MediaPickerViewModel(IMediaPicker mediaPicker, IFile
             return;
         }
 
-        PhotoPaths.Clear();
+        Photos.Clear();
         foreach (var result in results)
         {
-            PhotoPaths.Add(await CopyToCacheAsync(result));
+            Photos.Add(Preview(result));
         }
 
         PhotosInfo = results.Count == 1 ? "1 photo" : $"{results.Count} photos";
@@ -101,8 +105,8 @@ public sealed partial class MediaPickerViewModel(IMediaPicker mediaPicker, IFile
         var result = await RunAsync(() => mediaPicker.CapturePhotoAsync(new MediaPickerOptions { MaximumWidth = 1600, MaximumHeight = 1600 }), info => CaptureInfo = info);
         if (result is not null)
         {
-            CapturedPath = await CopyToCacheAsync(result);
-            CaptureInfo = Describe(result, CapturedPath);
+            CapturedPhoto = Preview(result);
+            CaptureInfo = await DescribeAsync(result);
         }
     }
 
@@ -112,7 +116,7 @@ public sealed partial class MediaPickerViewModel(IMediaPicker mediaPicker, IFile
         var result = (await RunAsync(() => mediaPicker.PickVideosAsync(new MediaPickerOptions { SelectionLimit = 1 }), info => VideoInfo = info)).FirstOrDefault();
         if (result is not null)
         {
-            VideoInfo = Describe(result, await CopyToCacheAsync(result));
+            VideoInfo = await DescribeAsync(result);
         }
     }
 
@@ -128,7 +132,7 @@ public sealed partial class MediaPickerViewModel(IMediaPicker mediaPicker, IFile
         var result = await RunAsync(() => mediaPicker.CaptureVideoAsync(), info => VideoInfo = info);
         if (result is not null)
         {
-            VideoInfo = Describe(result, await CopyToCacheAsync(result));
+            VideoInfo = await DescribeAsync(result);
         }
     }
 
@@ -163,16 +167,21 @@ public sealed partial class MediaPickerViewModel(IMediaPicker mediaPicker, IFile
         return [];
     }
 
-    // The picker's file can be temporary: copy it to storage the app owns before using it.
-    private async Task<string> CopyToCacheAsync(FileResult file)
-    {
-        var path = Path.Combine(fileSystem.CacheDirectory, $"{Guid.NewGuid():N}{Path.GetExtension(file.FileName)}");
-        await using var source = await file.OpenReadAsync();
-        await using var target = File.Create(path);
-        await source.CopyToAsync(target);
-        return path;
-    }
+    // The image opens the picker's file when it loads, and keeps the FileResult alive as long as it's shown.
+    private static ImageSource Preview(FileResult file) => ImageSource.FromStream(_ => file.OpenReadAsync());
 
-    private static string Describe(FileResult file, string copy) =>
-        $"{file.FileName} · {new FileInfo(copy).Length / 1024.0:N0} KB · {file.ContentType}";
+    // Opening the file doesn't read it, so this is cheap even for a long video.
+    private static async Task<string> DescribeAsync(FileResult file)
+    {
+        try
+        {
+            await using var stream = await file.OpenReadAsync();
+            var size = stream.CanSeek ? $"{stream.Length / 1024.0:N0} KB" : "size unknown";
+            return $"{file.FileName} · {size} · {file.ContentType}";
+        }
+        catch (IOException)
+        {
+            return $"{file.FileName} · {file.ContentType} · couldn't be read";
+        }
+    }
 }
