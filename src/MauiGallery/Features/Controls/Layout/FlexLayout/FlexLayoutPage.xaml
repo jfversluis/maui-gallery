@@ -1,0 +1,210 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Layouts.FlexLayoutPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
+            xmlns:layouts="clr-namespace:Microsoft.Maui.Layouts;assembly=Microsoft.Maui"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <local:LayoutSampleResources />
+            </ResourceDictionary.MergedDictionaries>
+            <x:Array x:Key="DirectionOptions" Type="{x:Type layouts:FlexDirection}">
+                <x:Static Member="layouts:FlexDirection.Row" />
+                <x:Static Member="layouts:FlexDirection.RowReverse" />
+                <x:Static Member="layouts:FlexDirection.Column" />
+                <x:Static Member="layouts:FlexDirection.ColumnReverse" />
+            </x:Array>
+            <x:Array x:Key="WrapOptions" Type="{x:Type layouts:FlexWrap}">
+                <x:Static Member="layouts:FlexWrap.NoWrap" />
+                <x:Static Member="layouts:FlexWrap.Wrap" />
+                <x:Static Member="layouts:FlexWrap.Reverse" />
+            </x:Array>
+            <x:Array x:Key="JustifyOptions" Type="{x:Type layouts:FlexJustify}">
+                <x:Static Member="layouts:FlexJustify.Start" />
+                <x:Static Member="layouts:FlexJustify.Center" />
+                <x:Static Member="layouts:FlexJustify.End" />
+                <x:Static Member="layouts:FlexJustify.SpaceBetween" />
+                <x:Static Member="layouts:FlexJustify.SpaceAround" />
+                <x:Static Member="layouts:FlexJustify.SpaceEvenly" />
+            </x:Array>
+            <x:Array x:Key="AlignItemsOptions" Type="{x:Type layouts:FlexAlignItems}">
+                <x:Static Member="layouts:FlexAlignItems.Stretch" />
+                <x:Static Member="layouts:FlexAlignItems.Start" />
+                <x:Static Member="layouts:FlexAlignItems.Center" />
+                <x:Static Member="layouts:FlexAlignItems.End" />
+            </x:Array>
+            <x:Array x:Key="AlignContentOptions" Type="{x:Type layouts:FlexAlignContent}">
+                <x:Static Member="layouts:FlexAlignContent.Stretch" />
+                <x:Static Member="layouts:FlexAlignContent.Start" />
+                <x:Static Member="layouts:FlexAlignContent.Center" />
+                <x:Static Member="layouts:FlexAlignContent.End" />
+                <x:Static Member="layouts:FlexAlignContent.SpaceBetween" />
+                <x:Static Member="layouts:FlexAlignContent.SpaceAround" />
+                <x:Static Member="layouts:FlexAlignContent.SpaceEvenly" />
+            </x:Array>
+            <x:Array x:Key="BasisOptions" Type="{x:Type x:String}">
+                <x:String>Auto</x:String>
+                <x:String>25%</x:String>
+                <x:String>50%</x:String>
+                <x:String>120</x:String>
+            </x:Array>
+            <SolidColorBrush x:Key="ChipFill" Color="{AppThemeBinding Light=#EDE9FE, Dark=#2E1065}" />
+            <SolidColorBrush x:Key="ChipStroke" Color="{AppThemeBinding Light=#C4B5FD, Dark=#7C3AED}" />
+        </ResourceDictionary>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Container properties -->
+            <ControlExample x:Name="ContainerExample"
+                            Title="Arrange and align items"
+                            Description="Direction sets the main axis and Wrap lets items flow onto more lines. JustifyContent distributes items along a line, AlignItems aligns them across it, and AlignContent distributes the lines themselves."
+                            ShowStyleToggle="False"
+                            XamlSource="FlexLayoutContainer.xaml.txt"
+                            CSharpSource="FlexLayoutContainer.cs.txt">
+                <Border Style="{StaticResource LayoutFrame}" WidthRequest="300" HeightRequest="220">
+                    <FlexLayout x:Name="ContainerSample"
+                                Direction="{Binding SelectedItem, Source={x:Reference ContainerDirection}, x:DataType=Picker}"
+                                Wrap="{Binding SelectedItem, Source={x:Reference ContainerWrap}, x:DataType=Picker}"
+                                JustifyContent="{Binding SelectedItem, Source={x:Reference ContainerJustify}, x:DataType=Picker}"
+                                AlignItems="{Binding SelectedItem, Source={x:Reference ContainerAlignItems}, x:DataType=Picker}"
+                                AlignContent="{Binding SelectedItem, Source={x:Reference ContainerAlignContent}, x:DataType=Picker}"
+                                AutomationId="sample-container-flex">
+                        <Border Style="{StaticResource Tile}" WidthRequest="64">
+                            <Label Text="1" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource TileGreen}" WidthRequest="88">
+                            <Label Text="2&#10;two lines" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource TileAmber}" WidthRequest="56">
+                            <Label Text="3" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource TilePink}" WidthRequest="96">
+                            <Label Text="4" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource TileViolet}" WidthRequest="72">
+                            <Label Text="5&#10;two lines" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource Tile}" WidthRequest="60">
+                            <Label Text="6" Style="{StaticResource TileText}" />
+                        </Border>
+                    </FlexLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Direction" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ContainerDirection" ItemsSource="{StaticResource DirectionOptions}" SelectedIndex="0" AutomationId="option-container-direction" />
+                        <Label Text="Wrap" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ContainerWrap" ItemsSource="{StaticResource WrapOptions}" SelectedIndex="1" AutomationId="option-container-wrap" />
+                        <Label Text="JustifyContent" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ContainerJustify" ItemsSource="{StaticResource JustifyOptions}" SelectedIndex="0" AutomationId="option-container-justify" />
+                        <Label Text="AlignItems" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ContainerAlignItems" ItemsSource="{StaticResource AlignItemsOptions}" SelectedIndex="0" AutomationId="option-container-align-items" />
+                        <Label Text="AlignContent" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ContainerAlignContent" ItemsSource="{StaticResource AlignContentOptions}" SelectedIndex="0" AutomationId="option-container-align-content" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Direction" Value="{Binding SelectedItem, Source={x:Reference ContainerDirection}, x:DataType=Picker}" Default="Row" IsExpression="True" />
+                    <Substitution Key="Wrap" Value="{Binding SelectedItem, Source={x:Reference ContainerWrap}, x:DataType=Picker}" Default="NoWrap" IsExpression="True" />
+                    <Substitution Key="JustifyContent" Value="{Binding SelectedItem, Source={x:Reference ContainerJustify}, x:DataType=Picker}" Default="Start" IsExpression="True" />
+                    <Substitution Key="AlignItems" Value="{Binding SelectedItem, Source={x:Reference ContainerAlignItems}, x:DataType=Picker}" Default="Stretch" IsExpression="True" />
+                    <Substitution Key="AlignContent" Value="{Binding SelectedItem, Source={x:Reference ContainerAlignContent}, x:DataType=Picker}" Default="Stretch" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Tag cloud -->
+            <ControlExample x:Name="TagsExample"
+                            Title="Wrap tags into a chip cloud"
+                            Description="With Wrap, items flow onto the next line when a line is full, a natural fit for tags and filters. FlexLayout has no spacing property, so give each item a Margin, and a Shrink of 0 keeps a chip from being squeezed. Tap a tag to remove it."
+                            XamlSource="FlexLayoutTags.xaml.txt"
+                            CSharpSource="FlexLayoutTags.cs.txt">
+                <VerticalStackLayout x:Name="TagsSample" Spacing="12" WidthRequest="300" x:DataType="local:TagCloudViewModel">
+                    <FlexLayout x:Name="TagsFlex"
+                                Wrap="Wrap"
+                                BindableLayout.ItemsSource="{Binding Tags}"
+                                AutomationId="sample-tags-flex">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Border Margin="4"
+                                        Padding="12,6"
+                                        FlexLayout.Shrink="0"
+                                        StrokeShape="RoundRectangle 16"
+                                        Background="{StaticResource ChipFill}"
+                                        Stroke="{StaticResource ChipStroke}"
+                                        SemanticProperties.Description="{Binding ., StringFormat='Remove {0}'}"
+                                        AutomationId="{Binding ., StringFormat='sample-tag-{0}'}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding RemoveCommand, Source={RelativeSource AncestorType={x:Type local:TagCloudViewModel}}, x:DataType=local:TagCloudViewModel}"
+                                                              CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                    <Label Text="{Binding ., StringFormat='{0}  ✕'}" FontSize="14" />
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <Entry Text="{Binding NewTag}"
+                               Placeholder="New tag"
+                               ReturnCommand="{Binding AddCommand}"
+                               AutomationId="sample-tags-entry" />
+                        <Button Grid.Column="1" Text="Add" Command="{Binding AddCommand}" AutomationId="sample-tags-add" />
+                    </Grid>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 3. Item properties -->
+            <ControlExample x:Name="ItemsExample"
+                            Title="Grow, shrink and set a basis"
+                            Description="Basis is an item's starting size along the main axis, as a fixed value or a percentage of the line. Grow shares out the space that's left, and Shrink decides which items give up space when a line overflows."
+                            ShowStyleToggle="False"
+                            XamlSource="FlexLayoutItems.xaml.txt"
+                            CSharpSource="FlexLayoutItems.cs.txt">
+                <Border Style="{StaticResource LayoutFrame}" WidthRequest="300">
+                    <FlexLayout x:Name="ItemsSample" AutomationId="sample-items-flex">
+                        <Border x:Name="BasisTile" Style="{StaticResource Tile}">
+                            <Label Text="Basis" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border x:Name="GrowTile" Style="{StaticResource TileGreen}">
+                            <Label Text="Grow" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border x:Name="ShrinkTile" Style="{StaticResource TileAmber}">
+                            <Label Text="Shrink: long label" Style="{StaticResource TileText}" />
+                        </Border>
+                    </FlexLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Basis, first tile" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ItemsBasis"
+                                ItemsSource="{StaticResource BasisOptions}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnItemsChanged"
+                                AutomationId="option-items-basis" />
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="{Binding Value, Source={x:Reference ItemsGrow}, StringFormat='Grow, second tile: {0:0}', x:DataType=Stepper}"
+                                   Style="{StaticResource OptionLabel}"
+                                   VerticalOptions="Center" />
+                            <Stepper x:Name="ItemsGrow" Grid.Column="1" Minimum="0" Maximum="3" Value="1" ValueChanged="OnItemsChanged" AutomationId="option-items-grow" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="{Binding Value, Source={x:Reference ItemsShrink}, StringFormat='Shrink, third tile: {0:0}', x:DataType=Stepper}"
+                                   Style="{StaticResource OptionLabel}"
+                                   VerticalOptions="Center" />
+                            <Stepper x:Name="ItemsShrink" Grid.Column="1" Minimum="0" Maximum="3" Value="1" ValueChanged="OnItemsChanged" AutomationId="option-items-shrink" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Basis" Value="{Binding SelectedItem, Source={x:Reference ItemsBasis}, x:DataType=Picker}" Default="Auto" />
+                    <Substitution x:Name="BasisCode" Key="BasisCode" IsExpression="True" />
+                    <Substitution Key="Grow" Value="{Binding Value, Source={x:Reference ItemsGrow}, x:DataType=Stepper}" Default="0" />
+                    <Substitution Key="Shrink" Value="{Binding Value, Source={x:Reference ItemsShrink}, x:DataType=Stepper}" Default="1" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

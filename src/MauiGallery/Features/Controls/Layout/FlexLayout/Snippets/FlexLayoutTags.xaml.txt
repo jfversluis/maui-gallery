@@ -1,0 +1,31 @@
+<VerticalStackLayout Spacing="12" x:DataType="local:TagCloudViewModel">
+    <FlexLayout Wrap="Wrap" BindableLayout.ItemsSource="{Binding Tags}">
+        <BindableLayout.ItemTemplate>
+            <DataTemplate x:DataType="x:String">
+                <Border
+                    Margin="4"
+                    Padding="12,6"
+                    FlexLayout.Shrink="0"
+                    StrokeShape="RoundRectangle 16">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding RemoveCommand, Source={RelativeSource AncestorType={x:Type local:TagCloudViewModel}}, x:DataType=local:TagCloudViewModel}"
+                            CommandParameter="{Binding .}" />
+                    </Border.GestureRecognizers>
+                    <Label Text="{Binding ., StringFormat='{0}  ✕'}" />
+                </Border>
+            </DataTemplate>
+        </BindableLayout.ItemTemplate>
+    </FlexLayout>
+
+    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+        <Entry
+            Text="{Binding NewTag}"
+            Placeholder="New tag"
+            ReturnCommand="{Binding AddCommand}" />
+        <Button
+            Grid.Column="1"
+            Text="Add"
+            Command="{Binding AddCommand}" />
+    </Grid>
+</VerticalStackLayout>

@@ -1,0 +1,17 @@
+var flex = new FlexLayout
+{
+    Direction = FlexDirection.$(Direction),
+    Wrap = FlexWrap.$(Wrap),
+    JustifyContent = FlexJustify.$(JustifyContent),
+    AlignItems = FlexAlignItems.$(AlignItems),
+    AlignContent = FlexAlignContent.$(AlignContent),
+    WidthRequest = 300,
+    HeightRequest = 220,
+};
+
+flex.Add(new Label { Text = "1", WidthRequest = 64 });
+flex.Add(new Label { Text = "2\ntwo lines", WidthRequest = 88 });
+flex.Add(new Label { Text = "3", WidthRequest = 56 });
+flex.Add(new Label { Text = "4", WidthRequest = 96 });
+flex.Add(new Label { Text = "5\ntwo lines", WidthRequest = 72 });
+flex.Add(new Label { Text = "6", WidthRequest = 60 });

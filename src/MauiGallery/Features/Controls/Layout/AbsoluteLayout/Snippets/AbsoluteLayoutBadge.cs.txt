@@ -1,0 +1,59 @@
+var avatar = new Border
+{
+    StrokeThickness = 0,
+    StrokeShape = new Ellipse(),
+    BackgroundColor = Color.FromArgb("#0D9488"),
+    Content = new Label
+    {
+        Text = "AL",
+        TextColor = Colors.White,
+        FontSize = 28,
+        FontAttributes = FontAttributes.Bold,
+        HorizontalOptions = LayoutOptions.Center,
+        VerticalOptions = LayoutOptions.Center,
+    },
+};
+
+var badge = new Border
+{
+    MinimumWidthRequest = 26,
+    Padding = new Thickness(7, 3),
+    StrokeThickness = 2,
+    Stroke = Colors.White,
+    StrokeShape = new RoundRectangle { CornerRadius = 13 },
+    BackgroundColor = Color.FromArgb("#DC2626"),
+    IsVisible = $(BadgeVisible),
+    Content = new Label
+    {
+        Text = $(Count),
+        TextColor = Colors.White,
+        FontSize = 13,
+        FontAttributes = FontAttributes.Bold,
+        HorizontalOptions = LayoutOptions.Center,
+    },
+};
+
+var presence = new Ellipse
+{
+    Fill = Color.FromArgb("#22C55E"),
+    Stroke = Colors.White,
+    StrokeThickness = 3,
+    IsVisible = $(IsOnline),
+};
+
+var layout = new AbsoluteLayout { WidthRequest = 96, HeightRequest = 96 };
+layout.Add(avatar);
+layout.Add(badge);
+layout.Add(presence);
+
+// Fills the layout: X, Y, width and height are all proportional
+layout.SetLayoutBounds(avatar, new Rect(0, 0, 1, 1));
+layout.SetLayoutFlags(avatar, AbsoluteLayoutFlags.All);
+
+// Top-right corner, sized to its content
+layout.SetLayoutBounds(badge, new Rect(1, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+layout.SetLayoutFlags(badge, AbsoluteLayoutFlags.PositionProportional);
+
+// Near the bottom-right corner, 20 × 20
+layout.SetLayoutBounds(presence, new Rect(0.95, 0.95, 20, 20));
+layout.SetLayoutFlags(presence, AbsoluteLayoutFlags.PositionProportional);

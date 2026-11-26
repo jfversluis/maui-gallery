@@ -1,0 +1,5 @@
+<AbsoluteLayout WidthRequest="300" HeightRequest="180">
+    <Label
+        Text="80 × 50"
+        AbsoluteLayout.LayoutBounds="$(Bounds)" />
+</AbsoluteLayout>

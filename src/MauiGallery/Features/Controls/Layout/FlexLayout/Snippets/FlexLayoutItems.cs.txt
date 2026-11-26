@@ -1,0 +1,12 @@
+var basis = new Label { Text = "Basis" };
+var grow = new Label { Text = "Grow" };
+var shrink = new Label { Text = "Shrink: long label" };
+
+FlexLayout.SetBasis(basis, $(BasisCode));
+FlexLayout.SetGrow(grow, $(Grow));
+FlexLayout.SetShrink(shrink, $(Shrink));
+
+var flex = new FlexLayout { WidthRequest = 300 };
+flex.Add(basis);
+flex.Add(grow);
+flex.Add(shrink);

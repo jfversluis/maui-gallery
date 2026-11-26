@@ -1,0 +1,45 @@
+<AbsoluteLayout WidthRequest="96" HeightRequest="96">
+    <!-- Fills the layout: X, Y, width and height are all proportional -->
+    <Border
+        AbsoluteLayout.LayoutBounds="0,0,1,1"
+        AbsoluteLayout.LayoutFlags="All"
+        StrokeThickness="0"
+        StrokeShape="Ellipse"
+        BackgroundColor="#0D9488">
+        <Label
+            Text="AL"
+            TextColor="White"
+            FontSize="28"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"
+            VerticalOptions="Center" />
+    </Border>
+
+    <!-- Top-right corner, sized to its content -->
+    <Border
+        AbsoluteLayout.LayoutBounds="1,0,AutoSize,AutoSize"
+        AbsoluteLayout.LayoutFlags="PositionProportional"
+        MinimumWidthRequest="26"
+        Padding="7,3"
+        StrokeThickness="2"
+        Stroke="White"
+        StrokeShape="RoundRectangle 13"
+        BackgroundColor="#DC2626"
+        IsVisible="$(BadgeVisible)">
+        <Label
+            Text="$(Count)"
+            TextColor="White"
+            FontSize="13"
+            FontAttributes="Bold"
+            HorizontalOptions="Center" />
+    </Border>
+
+    <!-- Near the bottom-right corner, 20 × 20 -->
+    <Ellipse
+        AbsoluteLayout.LayoutBounds="0.95,0.95,20,20"
+        AbsoluteLayout.LayoutFlags="PositionProportional"
+        Fill="#22C55E"
+        Stroke="White"
+        StrokeThickness="3"
+        IsVisible="$(IsOnline)" />
+</AbsoluteLayout>

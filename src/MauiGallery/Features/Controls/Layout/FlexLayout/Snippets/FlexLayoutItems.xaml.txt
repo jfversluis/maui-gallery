@@ -1,0 +1,11 @@
+<FlexLayout WidthRequest="300">
+    <Label
+        Text="Basis"
+        FlexLayout.Basis="$(Basis)" />
+    <Label
+        Text="Grow"
+        FlexLayout.Grow="$(Grow)" />
+    <Label
+        Text="Shrink: long label"
+        FlexLayout.Shrink="$(Shrink)" />
+</FlexLayout>
