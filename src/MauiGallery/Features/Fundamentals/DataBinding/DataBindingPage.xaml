@@ -1,0 +1,150 @@
+<SamplePage x:Class="MauiGallery.Features.Fundamentals.DataBindingPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Fundamentals"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. View to view -->
+            <ControlExample x:Name="ViewToViewExample"
+                            Title="Bind one view to another"
+                            Description="A binding connects a target property to a source property and keeps them in sync. x:Reference makes another element the source: here the label's Text and Rotation follow the slider, without any code."
+                            XamlSource="DataBindingViewToView.xaml.txt"
+                            CSharpSource="DataBindingViewToView.cs.txt">
+                <VerticalStackLayout Spacing="32" WidthRequest="{OnIdiom Phone=240, Default=300}">
+                    <Label x:Name="ViewToViewLabel"
+                           Text="{Binding Value, Source={x:Reference ViewToViewSlider}, StringFormat='{0:F0}°', x:DataType=Slider}"
+                           Rotation="{Binding Value, Source={x:Reference ViewToViewSlider}, x:DataType=Slider}"
+                           FontSize="32"
+                           HorizontalOptions="Center"
+                           AutomationId="sample-view-to-view-label" />
+                    <Slider x:Name="ViewToViewSlider"
+                            Maximum="360"
+                            Value="30"
+                            SemanticProperties.Description="Rotation"
+                            AutomationId="sample-view-to-view-slider" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 2. Binding modes -->
+            <ControlExample x:Name="ModesExample"
+                            Title="Binding modes, side by side"
+                            Description="Every entry below is bound to the same Name property, each with a different Mode. Change the source, then type in each entry, and watch which way values flow. Typing into a OneWay or OneTime entry sets a local value, which replaces its binding. Entry.Text defaults to TwoWay; most other properties default to OneWay."
+                            XamlSource="DataBindingModes.xaml.txt"
+                            CSharpSource="DataBindingModes.cs.txt">
+                <VerticalStackLayout x:Name="ModesSample"
+                                     x:DataType="local:BindingModesViewModel"
+                                     Spacing="16"
+                                     WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="8">
+                        <Label Text="OneWay" VerticalOptions="Center" />
+                        <Entry Grid.Column="1" Text="{Binding Name, Mode=OneWay}" AutomationId="sample-mode-one-way" />
+                        <Label Grid.Row="1" Text="TwoWay" VerticalOptions="Center" />
+                        <Entry Grid.Row="1" Grid.Column="1" Text="{Binding Name, Mode=TwoWay}" AutomationId="sample-mode-two-way" />
+                        <Label Grid.Row="2" Text="OneTime" VerticalOptions="Center" />
+                        <Entry Grid.Row="2" Grid.Column="1" Text="{Binding Name, Mode=OneTime}" AutomationId="sample-mode-one-time" />
+                        <Label Grid.Row="3" Text="OneWayToSource" VerticalOptions="Center" />
+                        <Entry x:Name="ModesToSourceEntry"
+                               Grid.Row="3"
+                               Grid.Column="1"
+                               Text="{Binding Name, Mode=OneWayToSource}"
+                               Placeholder="Type to set the source"
+                               AutomationId="sample-mode-one-way-to-source" />
+                    </Grid>
+                    <Label Text="{Binding Name, StringFormat='Source: Name = &quot;{0}&quot;'}"
+                           HorizontalOptions="Center"
+                           AutomationId="sample-mode-source" />
+                    <Button x:Name="ModesButton"
+                            Text="Change the source"
+                            Command="{Binding ChangeSourceCommand}"
+                            HorizontalOptions="Center"
+                            AutomationId="sample-mode-change-source" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 3. StringFormat -->
+            <ControlExample x:Name="FormatExample"
+                            Title="Format values with StringFormat"
+                            Description="StringFormat applies a .NET format string to the source value, using the current culture. It works for numbers, dates and anything else that implements IFormattable, and is often all you need instead of a converter."
+                            XamlSource="DataBindingStringFormat.xaml.txt"
+                            CSharpSource="DataBindingStringFormat.cs.txt">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=260, Default=320}">
+                    <Slider x:Name="FormatSlider"
+                            Value="0.42"
+                            SemanticProperties.Description="Progress"
+                            AutomationId="sample-format-slider" />
+                    <Label Text="{Binding Value, Source={x:Reference FormatSlider}, StringFormat='{0:P0}', x:DataType=Slider}"
+                           AutomationId="sample-format-percent" />
+                    <Label Text="{Binding Value, Source={x:Reference FormatSlider}, StringFormat='Completed: {0:F3}', x:DataType=Slider}"
+                           AutomationId="sample-format-fixed" />
+                    <DatePicker x:Name="FormatDate" AutomationId="sample-format-date-picker" />
+                    <Label Text="{Binding Date, Source={x:Reference FormatDate}, StringFormat='{0:D}', x:DataType=DatePicker}"
+                           AutomationId="sample-format-long-date" />
+                    <Label Text="{Binding Date, Source={x:Reference FormatDate}, StringFormat='Due {0:MMM d}', x:DataType=DatePicker}"
+                           AutomationId="sample-format-short-date" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 4. FallbackValue and TargetNullValue -->
+            <ControlExample x:Name="FallbackExample"
+                            Title="Handle missing values"
+                            Description="TargetNullValue is shown when the source value is null. FallbackValue is shown when the binding can't produce a value at all, for example because there is no BindingContext or the value can't be converted."
+                            XamlSource="DataBindingFallback.xaml.txt"
+                            CSharpSource="DataBindingFallback.cs.txt">
+                <Border x:Name="FallbackSample"
+                        x:DataType="local:Teammate"
+                        Padding="20,16"
+                        StrokeShape="RoundRectangle 12"
+                        Stroke="#808A8886"
+                        WidthRequest="{OnIdiom Phone=240, Default=280}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Nickname" FontSize="12" Opacity="0.7" />
+                        <Label x:Name="FallbackNickname"
+                               Text="{Binding Nickname, TargetNullValue='No nickname yet', FallbackValue='No teammate selected'}"
+                               FontSize="20"
+                               AutomationId="sample-fallback-nickname" />
+                    </VerticalStackLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Source" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="FallbackSource"
+                                SelectedIndexChanged="OnFallbackSourceChanged"
+                                AutomationId="option-fallback-source">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>A teammate with a nickname</x:String>
+                                    <x:String>A teammate without one (null)</x:String>
+                                    <x:String>No teammate (no BindingContext)</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+            </ControlExample>
+
+            <!-- 5. Compiled bindings -->
+            <ControlExample x:Name="CompiledExample"
+                            Title="Compiled bindings with x:DataType"
+                            Description="x:DataType tells the XAML compiler the type of the BindingContext, so bindings are compiled to direct property access: faster, trim- and AOT-safe, and a typo in a path is a build error instead of a silent runtime failure. This app sets MauiStrictXamlCompilation, which turns every binding that can't be compiled into an error too."
+                            XamlSource="DataBindingCompiled.xaml.txt"
+                            CSharpSource="DataBindingCompiled.cs.txt">
+                <VerticalStackLayout x:Name="CompiledSample"
+                                     x:DataType="local:GreetingViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=240, Default=280}">
+                    <Entry x:Name="CompiledEntry"
+                           Text="{Binding Name}"
+                           Placeholder="Your name"
+                           AutomationId="sample-compiled-entry" />
+                    <Label Text="{Binding Greeting}"
+                           FontSize="20"
+                           HorizontalOptions="Center"
+                           AutomationId="sample-compiled-greeting" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

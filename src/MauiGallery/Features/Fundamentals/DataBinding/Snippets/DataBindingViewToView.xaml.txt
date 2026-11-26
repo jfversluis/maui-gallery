@@ -1,0 +1,8 @@
+<VerticalStackLayout Spacing="32">
+    <Label
+        Text="{Binding Value, Source={x:Reference slider}, StringFormat='{0:F0}°', x:DataType=Slider}"
+        Rotation="{Binding Value, Source={x:Reference slider}, x:DataType=Slider}"
+        FontSize="32"
+        HorizontalOptions="Center" />
+    <Slider x:Name="slider" Maximum="360" Value="30" />
+</VerticalStackLayout>

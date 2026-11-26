@@ -1,0 +1,7 @@
+var box = new BoxView
+{
+    WidthRequest = $(Size),
+    Color = Color.FromArgb("#512BD4"),
+    CornerRadius = 8,
+};
+box.SetBinding(BoxView.HeightRequestProperty, static (BoxView b) => b.WidthRequest, source: RelativeBindingSource.Self);

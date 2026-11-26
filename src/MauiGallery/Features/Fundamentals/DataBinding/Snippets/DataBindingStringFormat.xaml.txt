@@ -1,0 +1,7 @@
+<Slider x:Name="slider" Value="0.42" />
+<Label Text="{Binding Value, Source={x:Reference slider}, StringFormat='{0:P0}', x:DataType=Slider}" />
+<Label Text="{Binding Value, Source={x:Reference slider}, StringFormat='Completed: {0:F3}', x:DataType=Slider}" />
+
+<DatePicker x:Name="datePicker" />
+<Label Text="{Binding Date, Source={x:Reference datePicker}, StringFormat='{0:D}', x:DataType=DatePicker}" />
+<Label Text="{Binding Date, Source={x:Reference datePicker}, StringFormat='Due {0:MMM d}', x:DataType=DatePicker}" />

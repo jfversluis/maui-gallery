@@ -1,0 +1,14 @@
+public class InfoCard : ContentView
+{
+    public static readonly BindableProperty TitleProperty =
+        BindableProperty.Create(nameof(Title), typeof(string), typeof(InfoCard), string.Empty);
+
+    public string Title
+    {
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+}
+
+// Inside a ControlTemplate built in code
+titleLabel.SetBinding(Label.TextProperty, static (InfoCard card) => card.Title, source: RelativeBindingSource.TemplatedParent);

@@ -1,0 +1,24 @@
+public partial class CitySearchViewModel : ObservableObject
+{
+    [ObservableProperty]
+    public partial string Result { get; set; } = "Search to see the forecast";
+
+    // Compiled bindings can't see the generated SearchCancelCommand; expose it through a declared property
+    public ICommand CancelCommand => SearchCancelCommand;
+
+    // Generates SearchCommand (an AsyncRelayCommand<string?>) and SearchCancelCommand
+    [RelayCommand(IncludeCancelCommand = true)]
+    private async Task SearchAsync(string? city, CancellationToken cancellationToken)
+    {
+        Result = $"Looking up {city}…";
+        try
+        {
+            var forecast = await _weather.GetForecastAsync(city, cancellationToken);
+            Result = $"{city}: {forecast}";
+        }
+        catch (OperationCanceledException)
+        {
+            Result = "Search cancelled";
+        }
+    }
+}

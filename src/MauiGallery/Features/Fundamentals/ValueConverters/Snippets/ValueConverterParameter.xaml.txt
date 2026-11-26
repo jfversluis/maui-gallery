@@ -1,0 +1,6 @@
+<ContentPage.Resources>
+    <local:PluralConverter x:Key="Plural" />
+</ContentPage.Resources>
+
+<Label Text="{Binding Value, Source={x:Reference count}, Converter={StaticResource Plural}, ConverterParameter=$(Noun), x:DataType=Stepper}" />
+<Stepper x:Name="count" Maximum="20" Value="1" />

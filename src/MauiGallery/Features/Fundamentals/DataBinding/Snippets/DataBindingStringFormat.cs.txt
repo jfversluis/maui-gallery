@@ -1,0 +1,5 @@
+percentLabel.SetBinding(Label.TextProperty, static (Slider s) => s.Value, source: slider, stringFormat: "{0:P0}");
+fixedLabel.SetBinding(Label.TextProperty, static (Slider s) => s.Value, source: slider, stringFormat: "Completed: {0:F3}");
+
+dateLabel.SetBinding(Label.TextProperty, static (DatePicker d) => d.Date, source: datePicker, stringFormat: "{0:D}");
+dueLabel.SetBinding(Label.TextProperty, static (DatePicker d) => d.Date, source: datePicker, stringFormat: "Due {0:MMM d}");

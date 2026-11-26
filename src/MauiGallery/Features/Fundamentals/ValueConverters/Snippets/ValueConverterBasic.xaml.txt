@@ -1,0 +1,10 @@
+<ContentPage.Resources>
+    <local:RatingToStarsConverter x:Key="RatingToStars" />
+</ContentPage.Resources>
+
+<VerticalStackLayout Spacing="16">
+    <Label
+        Text="{Binding Value, Source={x:Reference rating}, Converter={StaticResource RatingToStars}, x:DataType=Stepper}"
+        FontSize="32" />
+    <Stepper x:Name="rating" Maximum="5" Value="3" />
+</VerticalStackLayout>

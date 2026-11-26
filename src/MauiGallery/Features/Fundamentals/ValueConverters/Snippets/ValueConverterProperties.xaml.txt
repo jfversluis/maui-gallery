@@ -1,0 +1,15 @@
+<ContentPage.Resources>
+    <local:BoolToColorConverter x:Key="OnlineColor" TrueColor="#13A10E" FalseColor="#8A8886" />
+</ContentPage.Resources>
+
+<HorizontalStackLayout Spacing="12">
+    <Switch x:Name="online" IsToggled="True" />
+    <BoxView
+        WidthRequest="14"
+        HeightRequest="14"
+        CornerRadius="7"
+        Color="{Binding IsToggled, Source={x:Reference online}, Converter={StaticResource OnlineColor}, x:DataType=Switch}" />
+    <Label
+        Text="Status"
+        TextColor="{Binding IsToggled, Source={x:Reference online}, Converter={StaticResource OnlineColor}, x:DataType=Switch}" />
+</HorizontalStackLayout>

@@ -1,0 +1,112 @@
+<SamplePage x:Class="MauiGallery.Features.Fundamentals.RelativeBindingsPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Fundamentals"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <SolidColorBrush x:Key="InfoCardStroke" Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}" />
+        <ControlTemplate x:Key="InfoCardTemplate" x:DataType="local:InfoCard">
+            <Border Padding="16"
+                    StrokeShape="RoundRectangle 12"
+                    StrokeThickness="2"
+                    Stroke="{StaticResource InfoCardStroke}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="{Binding Title, Source={RelativeSource TemplatedParent}, x:DataType=local:InfoCard}"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           AutomationId="sample-templated-title" />
+                    <ContentPresenter />
+                </VerticalStackLayout>
+            </Border>
+        </ControlTemplate>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Self -->
+            <ControlExample Title="Bind to the element itself"
+                            Description="RelativeSource Self makes the element its own source, so one property can follow another. Here HeightRequest follows WidthRequest and the box stays square."
+                            XamlSource="RelativeBindingSelf.xaml.txt"
+                            CSharpSource="RelativeBindingSelf.cs.txt">
+                <BoxView WidthRequest="{Binding Value, Source={x:Reference SelfSize}, x:DataType=Slider}"
+                         HeightRequest="{Binding WidthRequest, Source={RelativeSource Self}, x:DataType=BoxView}"
+                         Color="#512BD4"
+                         CornerRadius="8"
+                         AutomationId="sample-self-box" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference SelfSize}, StringFormat='WidthRequest: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="SelfSize"
+                                Minimum="40"
+                                Maximum="160"
+                                Value="96"
+                                AutomationId="option-self-size" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Size" Value="{Binding Value, Source={x:Reference SelfSize}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. AncestorType -->
+            <ControlExample x:Name="AncestorExample"
+                            Title="Bind to an ancestor"
+                            Description="Inside an item template, the BindingContext is the item. To reach a command on the page's view model, use RelativeSource AncestorType: it walks up the tree to the first element whose BindingContext is that type (or, for a view type, the element itself). AncestorLevel skips matches."
+                            XamlSource="RelativeBindingAncestor.xaml.txt"
+                            CSharpSource="RelativeBindingAncestor.cs.txt">
+                <VerticalStackLayout x:Name="AncestorSample"
+                                     x:DataType="local:ShoppingListViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=260, Default=320}">
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Items}" Spacing="4">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                    <Label Text="{Binding .}" VerticalOptions="Center" />
+                                    <Button Grid.Column="1"
+                                            Text="Remove"
+                                            Command="{Binding RemoveCommand, Source={RelativeSource AncestorType={x:Type local:ShoppingListViewModel}}, x:DataType=local:ShoppingListViewModel}"
+                                            CommandParameter="{Binding .}"
+                                            SemanticProperties.Description="{Binding ., StringFormat='Remove {0}'}" />
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                        <BindableLayout.EmptyView>
+                            <Label Text="All done!" HorizontalOptions="Center" />
+                        </BindableLayout.EmptyView>
+                    </VerticalStackLayout>
+                    <Button Text="Reset list"
+                            Command="{Binding ResetCommand}"
+                            HorizontalOptions="Center"
+                            AutomationId="sample-ancestor-reset" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 3. TemplatedParent -->
+            <ControlExample Title="Bind to the templated parent"
+                            Description="In a ControlTemplate, RelativeSource TemplatedParent binds to the control the template is applied to, so the template can show its properties. It replaces the obsolete TemplateBinding."
+                            XamlSource="RelativeBindingTemplatedParent.xaml.txt"
+                            CSharpSource="RelativeBindingTemplatedParent.cs.txt">
+                <local:InfoCard x:Name="TemplatedCard"
+                                Title="{Binding Text, Source={x:Reference TemplatedTitle}, x:DataType=Entry}"
+                                ControlTemplate="{StaticResource InfoCardTemplate}"
+                                WidthRequest="{OnIdiom Phone=240, Default=280}"
+                                AutomationId="sample-templated-card">
+                    <Label Text="The template shows the card's Title, and its content where the ContentPresenter is." />
+                </local:InfoCard>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Title" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="TemplatedTitle" Text="Good to know" AutomationId="option-templated-title" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Title" Value="{Binding Text, Source={x:Reference TemplatedTitle}, x:DataType=Entry}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

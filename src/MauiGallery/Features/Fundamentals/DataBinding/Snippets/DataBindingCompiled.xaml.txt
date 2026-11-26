@@ -1,0 +1,8 @@
+<!-- x:DataType compiles every binding below against GreetingViewModel -->
+<VerticalStackLayout x:DataType="local:GreetingViewModel" Spacing="12">
+    <Entry Text="{Binding Name}" Placeholder="Your name" />
+    <Label Text="{Binding Greeting}" FontSize="20" />
+</VerticalStackLayout>
+
+<!-- In the project file: make bindings that can't be compiled a build error -->
+<!-- <MauiStrictXamlCompilation>true</MauiStrictXamlCompilation> -->

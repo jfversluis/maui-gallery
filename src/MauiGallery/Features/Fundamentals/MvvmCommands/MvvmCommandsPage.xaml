@@ -1,0 +1,125 @@
+<SamplePage x:Class="MauiGallery.Features.Fundamentals.MvvmCommandsPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Fundamentals"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Observable properties -->
+            <ControlExample x:Name="TipExample"
+                            Title="Observable properties"
+                            Description="In MVVM the view model holds the state and logic, and the view only binds to it, so the logic is testable without UI. [ObservableProperty] generates a property that raises PropertyChanged; [NotifyPropertyChangedFor] refreshes computed properties, and the generated partial On…Changed methods let you react to a change."
+                            XamlSource="MvvmObservable.xaml.txt"
+                            CSharpSource="MvvmObservable.cs.txt">
+                <Grid x:Name="TipSample"
+                      x:DataType="local:TipCalculatorViewModel"
+                      ColumnDefinitions="Auto,*"
+                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                      ColumnSpacing="16"
+                      RowSpacing="8"
+                      WidthRequest="{OnIdiom Phone=280, Default=340}">
+                    <Label Text="Bill" VerticalOptions="Center" />
+                    <Entry Grid.Column="1"
+                           Text="{Binding BillText}"
+                           Keyboard="Numeric"
+                           SemanticProperties.Description="Bill amount"
+                           AutomationId="sample-mvvm-bill" />
+                    <Label Grid.Row="1" Text="{Binding TipPercent, StringFormat='Tip {0:0}%'}" VerticalOptions="Center" />
+                    <Slider Grid.Row="1"
+                            Grid.Column="1"
+                            Maximum="30"
+                            Value="{Binding TipPercent}"
+                            SemanticProperties.Description="Tip percentage"
+                            AutomationId="sample-mvvm-tip" />
+                    <Label Grid.Row="2" Text="{Binding People, StringFormat='{0:0} people'}" VerticalOptions="Center" />
+                    <Stepper Grid.Row="2"
+                             Grid.Column="1"
+                             Minimum="1"
+                             Maximum="12"
+                             Value="{Binding People}"
+                             SemanticProperties.Description="Number of people"
+                             AutomationId="sample-mvvm-people" />
+                    <Label Grid.Row="3" Text="Tip" Margin="0,8,0,0" />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Tip, StringFormat='{0:C}'}" Margin="0,8,0,0" HorizontalOptions="End" />
+                    <Label Grid.Row="4" Text="Total" />
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Total, StringFormat='{0:C}'}" HorizontalOptions="End" />
+                    <Label Grid.Row="5" Text="Per person" FontAttributes="Bold" />
+                    <Label Grid.Row="5"
+                           Grid.Column="1"
+                           Text="{Binding PerPerson, StringFormat='{0:C}'}"
+                           FontAttributes="Bold"
+                           HorizontalOptions="End"
+                           AutomationId="sample-mvvm-per-person" />
+                </Grid>
+            </ControlExample>
+
+            <!-- 2. CanExecute and CommandParameter -->
+            <ControlExample x:Name="PlanExample"
+                            Title="CanExecute and CommandParameter"
+                            Description="One command can serve several buttons: CommandParameter tells it which one was pressed, and CanExecute receives the same parameter. [NotifyCanExecuteChangedFor] re-evaluates CanExecute when the state changes, so the current plan's button disables itself."
+                            XamlSource="MvvmCanExecute.xaml.txt"
+                            CSharpSource="MvvmCanExecute.cs.txt">
+                <VerticalStackLayout x:Name="PlanSample"
+                                     x:DataType="local:PlanPickerViewModel"
+                                     Spacing="16">
+                    <Label Text="{Binding CurrentPlan, StringFormat='Current plan: {0}'}"
+                           HorizontalOptions="Center"
+                           AutomationId="sample-mvvm-plan" />
+                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Button x:Name="PlanFreeButton"
+                                Text="Free"
+                                CommandParameter="Free"
+                                Command="{Binding ChoosePlanCommand}"
+                                AutomationId="sample-mvvm-plan-free" />
+                        <Button Text="Pro"
+                                CommandParameter="Pro"
+                                Command="{Binding ChoosePlanCommand}"
+                                AutomationId="sample-mvvm-plan-pro" />
+                        <Button Text="Team"
+                                CommandParameter="Team"
+                                Command="{Binding ChoosePlanCommand}"
+                                AutomationId="sample-mvvm-plan-team" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 3. Async commands -->
+            <ControlExample x:Name="SearchExample"
+                            Title="Async commands and cancellation"
+                            Description="An async Task method becomes an AsyncRelayCommand. Its IsRunning property drives a busy indicator, and by default it can't start again until it finishes, so the button disables itself. With a CancellationToken parameter, IncludeCancelCommand also generates a command that cancels it."
+                            XamlSource="MvvmAsync.xaml.txt"
+                            CSharpSource="MvvmAsync.cs.txt">
+                <VerticalStackLayout x:Name="SearchSample"
+                                     x:DataType="local:CitySearchViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=260, Default=320}">
+                    <Entry x:Name="SearchCity"
+                           Text="Lisbon"
+                           Placeholder="City"
+                           SemanticProperties.Description="City"
+                           AutomationId="sample-mvvm-city" />
+                    <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
+                        <Button x:Name="SearchButton"
+                                Text="Search"
+                                Command="{Binding SearchCommand}"
+                                CommandParameter="{Binding Text, Source={x:Reference SearchCity}, x:DataType=Entry}"
+                                AutomationId="sample-mvvm-search" />
+                        <Button Text="Cancel"
+                                Command="{Binding CancelCommand}"
+                                AutomationId="sample-mvvm-cancel" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <ActivityIndicator IsRunning="{Binding SearchCommand.IsRunning}"
+                                           IsVisible="{Binding SearchCommand.IsRunning}"
+                                           HeightRequest="20"
+                                           WidthRequest="20"
+                                           AutomationId="sample-mvvm-busy" />
+                        <Label Text="{Binding Result}" VerticalOptions="Center" AutomationId="sample-mvvm-result" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

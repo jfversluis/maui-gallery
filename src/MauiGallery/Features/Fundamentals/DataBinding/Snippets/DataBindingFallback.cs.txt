@@ -1,0 +1,10 @@
+public record Teammate(string Name, string? Nickname);
+
+label.SetBinding(
+    Label.TextProperty,
+    static (Teammate teammate) => teammate.Nickname,
+    targetNullValue: "No nickname yet",
+    fallbackValue: "No teammate selected");
+
+label.BindingContext = new Teammate("Margaret", null);  // "No nickname yet"
+label.BindingContext = null;                            // "No teammate selected"

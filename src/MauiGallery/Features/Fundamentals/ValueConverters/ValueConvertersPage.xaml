@@ -1,0 +1,134 @@
+<SamplePage x:Class="MauiGallery.Features.Fundamentals.ValueConvertersPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Fundamentals"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <local:RatingToStarsConverter x:Key="RatingToStars" />
+        <local:BoolToColorConverter x:Key="OnlineColor" TrueColor="#13A10E" FalseColor="#8A8886" />
+        <local:PluralConverter x:Key="Plural" />
+        <local:AllTrueConverter x:Key="AllTrue" />
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. IValueConverter -->
+            <ControlExample x:Name="ConvertExample"
+                            Title="Convert a value"
+                            Description="When the source value isn't what the target needs, an IValueConverter translates it: here a number becomes a row of stars. Declare the converter as a resource and set the binding's Converter. .NET MAUI doesn't ship public converters; use StringFormat for plain formatting, or the .NET MAUI Community Toolkit for ready-made ones."
+                            XamlSource="ValueConverterBasic.xaml.txt"
+                            CSharpSource="ValueConverterBasic.cs.txt">
+                <VerticalStackLayout Spacing="16" WidthRequest="{OnIdiom Phone=240, Default=280}">
+                    <Label x:Name="RatingLabel"
+                           Text="{Binding Value, Source={x:Reference RatingStepper}, Converter={StaticResource RatingToStars}, x:DataType=Stepper}"
+                           FontSize="32"
+                           HorizontalOptions="Center"
+                           SemanticProperties.Description="{Binding Value, Source={x:Reference RatingStepper}, StringFormat='{0} out of 5 stars', x:DataType=Stepper}"
+                           AutomationId="sample-converter-stars" />
+                    <Stepper x:Name="RatingStepper"
+                             Maximum="5"
+                             Value="3"
+                             HorizontalOptions="Center"
+                             SemanticProperties.Description="Rating"
+                             AutomationId="sample-converter-rating" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 2. Converter properties -->
+            <ControlExample x:Name="PropertiesExample"
+                            Title="Configure a converter with properties"
+                            Description="Converters are ordinary classes, so give them properties and set them where you declare the resource. One BoolToColorConverter class can serve many places, each instance with its own colors."
+                            XamlSource="ValueConverterProperties.xaml.txt"
+                            CSharpSource="ValueConverterProperties.cs.txt">
+                <HorizontalStackLayout Spacing="12">
+                    <Switch x:Name="OnlineSwitch"
+                            IsToggled="True"
+                            VerticalOptions="Center"
+                            SemanticProperties.Description="Online"
+                            AutomationId="sample-converter-online" />
+                    <BoxView WidthRequest="14"
+                             HeightRequest="14"
+                             CornerRadius="7"
+                             VerticalOptions="Center"
+                             Color="{Binding IsToggled, Source={x:Reference OnlineSwitch}, Converter={StaticResource OnlineColor}, x:DataType=Switch}"
+                             AutomationId="sample-converter-dot" />
+                    <Label Text="Status"
+                           VerticalOptions="Center"
+                           TextColor="{Binding IsToggled, Source={x:Reference OnlineSwitch}, Converter={StaticResource OnlineColor}, x:DataType=Switch}"
+                           AutomationId="sample-converter-status" />
+                </HorizontalStackLayout>
+            </ControlExample>
+
+            <!-- 3. ConverterParameter -->
+            <ControlExample x:Name="ParameterExample"
+                            Title="Pass a ConverterParameter"
+                            Description="ConverterParameter hands the converter an extra value, so one converter handles similar cases. This one adds a noun and pluralizes it. ConverterParameter isn't bindable; it's fixed when the binding is created."
+                            XamlSource="ValueConverterParameter.xaml.txt"
+                            CSharpSource="ValueConverterParameter.cs.txt">
+                <VerticalStackLayout Spacing="16" WidthRequest="{OnIdiom Phone=240, Default=280}">
+                    <Label x:Name="ParameterLabel"
+                           FontSize="24"
+                           HorizontalOptions="Center"
+                           AutomationId="sample-converter-count-label" />
+                    <Stepper x:Name="ParameterStepper"
+                             Maximum="20"
+                             Value="1"
+                             HorizontalOptions="Center"
+                             SemanticProperties.Description="Count"
+                             AutomationId="sample-converter-count" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="ConverterParameter" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ParameterNoun"
+                                SelectedIndexChanged="OnParameterNounChanged"
+                                AutomationId="option-converter-parameter">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>photo</x:String>
+                                    <x:String>message</x:String>
+                                    <x:String>file</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Noun" Value="{Binding SelectedItem, Source={x:Reference ParameterNoun}, x:DataType=Picker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 4. MultiBinding -->
+            <ControlExample x:Name="MultiExample"
+                            Title="Combine values with MultiBinding"
+                            Description="A MultiBinding collects several sources and an IMultiValueConverter reduces them to one value. Here the button is enabled only when both boxes are checked. To simply join values into text, set StringFormat on the MultiBinding instead of a converter."
+                            XamlSource="ValueConverterMulti.xaml.txt"
+                            CSharpSource="ValueConverterMulti.cs.txt">
+                <VerticalStackLayout Spacing="8">
+                    <HorizontalStackLayout Spacing="8">
+                        <CheckBox x:Name="TermsCheck" AutomationId="sample-multi-terms" />
+                        <Label Text="I accept the terms" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="8">
+                        <CheckBox x:Name="AgeCheck" AutomationId="sample-multi-age" />
+                        <Label Text="I'm 16 or older" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <Button x:Name="MultiButton"
+                            Text="Create account"
+                            Margin="0,8,0,0"
+                            Clicked="OnCreateAccountClicked"
+                            AutomationId="sample-multi-button">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource AllTrue}">
+                                <Binding Path="IsChecked" Source="{x:Reference TermsCheck}" x:DataType="CheckBox" />
+                                <Binding Path="IsChecked" Source="{x:Reference AgeCheck}" x:DataType="CheckBox" />
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                    </Button>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

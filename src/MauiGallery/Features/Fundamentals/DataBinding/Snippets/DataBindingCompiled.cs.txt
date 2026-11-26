@@ -1,0 +1,12 @@
+public partial class GreetingViewModel : ObservableObject
+{
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Greeting))]
+    public partial string? Name { get; set; } = "Maui";
+
+    public string Greeting => string.IsNullOrWhiteSpace(Name) ? "Hello!" : $"Hello, {Name.Trim()}!";
+}
+
+// The same compiled bindings in C#: a lambda instead of a string path
+entry.SetBinding(Entry.TextProperty, static (GreetingViewModel vm) => vm.Name, BindingMode.TwoWay);
+label.SetBinding(Label.TextProperty, static (GreetingViewModel vm) => vm.Greeting);

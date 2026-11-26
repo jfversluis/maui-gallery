@@ -1,0 +1,14 @@
+public class RatingToStarsConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        var stars = Math.Clamp((int)Math.Round(System.Convert.ToDouble(value, culture)), 0, 5);
+        return new string('★', stars) + new string('☆', 5 - stars);
+    }
+
+    // Only needed for TwoWay and OneWayToSource bindings
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+        throw new NotSupportedException();
+}
+
+label.SetBinding(Label.TextProperty, static (Stepper s) => s.Value, source: rating, converter: new RatingToStarsConverter());

@@ -1,0 +1,3 @@
+<Label
+    x:DataType="local:Teammate"
+    Text="{Binding Nickname, TargetNullValue='No nickname yet', FallbackValue='No teammate selected'}" />

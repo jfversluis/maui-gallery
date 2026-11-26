@@ -1,0 +1,24 @@
+<ContentPage.Resources>
+    <local:AllTrueConverter x:Key="AllTrue" />
+</ContentPage.Resources>
+
+<CheckBox x:Name="terms" />
+<CheckBox x:Name="age" />
+<Button Text="Create account">
+    <Button.IsEnabled>
+        <MultiBinding Converter="{StaticResource AllTrue}">
+            <Binding Path="IsChecked" Source="{x:Reference terms}" x:DataType="CheckBox" />
+            <Binding Path="IsChecked" Source="{x:Reference age}" x:DataType="CheckBox" />
+        </MultiBinding>
+    </Button.IsEnabled>
+</Button>
+
+<!-- Without a converter, StringFormat joins the values -->
+<Label>
+    <Label.Text>
+        <MultiBinding StringFormat="{}{0} {1}">
+            <Binding Path="FirstName" />
+            <Binding Path="LastName" />
+        </MultiBinding>
+    </Label.Text>
+</Label>

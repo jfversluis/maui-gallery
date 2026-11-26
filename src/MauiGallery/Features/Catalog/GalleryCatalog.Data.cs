@@ -46,6 +46,7 @@ public sealed partial class GalleryCatalog
         .. MediaItems(),
         .. GraphicsItems(),
         .. FundamentalsItems(),
+        .. FundamentalsBindingItems(),
         .. NavigationItems(),
         .. PlatformApisItems(),
         .. NativePowerItems(),

@@ -1,0 +1,5 @@
+<BoxView
+    WidthRequest="$(Size)"
+    HeightRequest="{Binding WidthRequest, Source={RelativeSource Self}, x:DataType=BoxView}"
+    Color="#512BD4"
+    CornerRadius="8" />

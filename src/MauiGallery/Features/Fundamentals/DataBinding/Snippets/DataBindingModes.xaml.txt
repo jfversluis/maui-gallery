@@ -1,0 +1,11 @@
+<VerticalStackLayout x:DataType="local:PersonViewModel" Spacing="8">
+    <!-- Source to target only; typing here replaces the binding with a local value -->
+    <Entry Text="{Binding Name, Mode=OneWay}" />
+    <!-- Both directions (Entry.Text's default mode) -->
+    <Entry Text="{Binding Name, Mode=TwoWay}" />
+    <!-- Reads Name once, when the binding is applied -->
+    <Entry Text="{Binding Name, Mode=OneTime}" />
+    <!-- Target to source only; never shows changes to Name -->
+    <Entry Text="{Binding Name, Mode=OneWayToSource}" />
+    <Label Text="{Binding Name, StringFormat='Source: Name = &quot;{0}&quot;'}" />
+</VerticalStackLayout>

@@ -1,0 +1,15 @@
+public partial class ShoppingListViewModel : ObservableObject
+{
+    public ObservableCollection<string> Items { get; } = ["Apples", "Bread", "Coffee", "Milk"];
+
+    // The item template reaches this command through RelativeSource AncestorType
+    [RelayCommand]
+    private void Remove(string item) => Items.Remove(item);
+}
+
+// In C#, the same binding inside the item template
+button.SetBinding(
+    Button.CommandProperty,
+    static (ShoppingListViewModel vm) => vm.RemoveCommand,
+    source: new RelativeBindingSource(RelativeBindingSourceMode.FindAncestorBindingContext, typeof(ShoppingListViewModel)));
+button.SetBinding(Button.CommandParameterProperty, static (string item) => item);
