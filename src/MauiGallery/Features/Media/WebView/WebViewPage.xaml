@@ -2,6 +2,7 @@
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <x:Array x:Key="WebAddressOptions" Type="{x:Type x:String}">
+            <x:String>web/index.html</x:String>
             <x:String>https://dotnet.microsoft.com</x:String>
             <x:String>https://learn.microsoft.com/dotnet/maui</x:String>
             <x:String>https://github.com/dotnet/maui</x:String>
@@ -21,7 +22,7 @@
             <!-- 1. A web page -->
             <ControlExample x:Name="UrlExample"
                             Title="Show a web page"
-                            Description="Set Source to a URL to show a web page inside your app. Navigating is raised before each page loads and Navigated after, with the result. Cancel Navigating to stay in control, for example to open links to other sites in the browser. GoBack, GoForward and Reload work like a browser's buttons; CanGoBack and CanGoForward tell you when they apply."
+                            Description="Set Source to a URL, or to the path of an HTML file in Resources/Raw, as here. Navigating is raised before each page loads and Navigated after, with the result: show a loading state in between, and an error when it fails. Cancel Navigating to stay in control, for example to open links to other sites in the browser. GoBack, GoForward and Reload work like a browser's buttons; CanGoBack and CanGoForward tell you when they apply."
                             ShowStyleToggle="False"
                             XamlSource="WebViewUrl.xaml.txt"
                             CSharpSource="WebViewUrl.cs.txt">
@@ -37,15 +38,26 @@
                                 AutomationId="sample-webview-forward" />
                         <Button Text="Reload" Clicked="OnReloadClicked" AutomationId="sample-webview-reload" />
                     </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="8" MinimumHeightRequest="24">
+                        <ActivityIndicator x:Name="UrlLoading"
+                                           HeightRequest="20"
+                                           WidthRequest="20"
+                                           IsVisible="{Binding IsRunning, Source={x:Reference UrlLoading}, x:DataType=ActivityIndicator}"
+                                           AutomationId="sample-webview-loading" />
+                        <Label x:Name="UrlStatus"
+                               VerticalOptions="Center"
+                               LineBreakMode="TailTruncation"
+                               AutomationId="sample-webview-status" />
+                    </HorizontalStackLayout>
                     <WebView x:Name="UrlWebView"
-                             HeightRequest="{OnIdiom Phone=420, Default=480}"
+                             HeightRequest="{OnIdiom Phone=360, Default=400}"
                              Navigating="OnUrlNavigating"
                              Navigated="OnUrlNavigated"
                              AutomationId="sample-webview-url" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
                     <VerticalStackLayout Spacing="8">
-                        <Label Text="Source" Style="{StaticResource OptionLabel}" />
+                        <Label Text="Source (the first is bundled with the app)" Style="{StaticResource OptionLabel}" />
                         <Picker x:Name="UrlAddress"
                                 ItemsSource="{StaticResource WebAddressOptions}"
                                 SelectedIndex="0"
