@@ -7,7 +7,12 @@ namespace MauiGallery.Features.PlatformApis;
 /// <summary>The view model behind the Geolocation samples: the last known location, a fresh fix, and live updates.</summary>
 public sealed partial class GeolocationViewModel(IGeolocation geolocation) : ObservableObject
 {
+    private const string InUseElsewhere = "Another window is following the location. Stop it there first.";
+
     private Location? _previous;
+
+    // Stop() bumps it, so a start that was still waiting for permission knows the page has gone.
+    private int _generation;
 
     // Last known location
     [ObservableProperty]
@@ -70,17 +75,16 @@ public sealed partial class GeolocationViewModel(IGeolocation geolocation) : Obs
     [ObservableProperty]
     public partial string? Error { get; set; }
 
+    /// <summary>Set when Android only allows the approximate location.</summary>
+    [ObservableProperty]
+    public partial string? Note { get; set; }
+
     /// <summary>Whether location services are on for the whole device.</summary>
     public bool IsEnabled => geolocation.IsEnabled;
 
     [RelayCommand]
     private async Task GetLastKnownAsync()
     {
-        if (!await EnsurePermissionAsync())
-        {
-            return;
-        }
-
         await RunAsync(async () =>
         {
             // Fast and battery-friendly, but it can be old, or null if the device hasn't located itself lately.
@@ -93,11 +97,6 @@ public sealed partial class GeolocationViewModel(IGeolocation geolocation) : Obs
     [RelayCommand(IncludeCancelCommand = true)]
     private async Task GetCurrentAsync(CancellationToken cancellationToken)
     {
-        if (!await EnsurePermissionAsync())
-        {
-            return;
-        }
-
         CurrentCoordinates = "Locating…";
         CurrentDetails = null;
         await RunAsync(async () =>
@@ -125,28 +124,51 @@ public sealed partial class GeolocationViewModel(IGeolocation geolocation) : Obs
             return;
         }
 
-        if (!await EnsurePermissionAsync())
+        // There's one listener for the whole app: another window may be using it.
+        if (geolocation.IsListeningForeground)
         {
+            Error = InUseElsewhere;
             return;
         }
 
+        var generation = _generation;
         await RunAsync(async () =>
         {
             geolocation.LocationChanged += OnLocationChanged;
             geolocation.ListeningFailed += OnListeningFailed;
-            var request = new GeolocationListeningRequest((GeolocationAccuracy)(ListenAccuracyIndex + 1), TimeSpan.FromSeconds(MinimumSeconds));
-            IsListening = await geolocation.StartListeningForegroundAsync(request);
-            if (IsListening)
+            var started = false;
+            try
             {
+                var request = new GeolocationListeningRequest((GeolocationAccuracy)(ListenAccuracyIndex + 1), TimeSpan.FromSeconds(MinimumSeconds));
+                started = await geolocation.StartListeningForegroundAsync(request);
+                if (started && generation != _generation)
+                {
+                    // The page went away while it was starting, for example while the permission prompt was up:
+                    // don't leave the GPS on.
+                    geolocation.StopListeningForeground();
+                    started = false;
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                Error = InUseElsewhere;
+            }
+            finally
+            {
+                if (!started)
+                {
+                    Unsubscribe();
+                }
+            }
+
+            if (started)
+            {
+                IsListening = true;
                 _previous = null;
                 UpdateCount = 0;
                 MetersTravelled = 0;
                 ListenCoordinates = "Waiting for the first update…";
                 ListenDetails = null;
-            }
-            else
-            {
-                Unsubscribe();
             }
         });
     }
@@ -154,6 +176,7 @@ public sealed partial class GeolocationViewModel(IGeolocation geolocation) : Obs
     /// <summary>Stops every request. Call it when the page disappears: a listening app keeps the GPS on.</summary>
     public void Stop()
     {
+        _generation++;
         if (GetCurrentCommand.IsRunning)
         {
             GetCurrentCommand.Cancel();
@@ -201,25 +224,6 @@ public sealed partial class GeolocationViewModel(IGeolocation geolocation) : Obs
         ListenCoordinates = e.Error == GeolocationError.Unauthorized ? "Location access was turned off" : "The location is unavailable";
     });
 
-    private async Task<bool> EnsurePermissionAsync()
-    {
-        Error = null;
-        var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-        if (status != PermissionStatus.Granted)
-        {
-            status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-        }
-
-        if (status != PermissionStatus.Granted)
-        {
-            Error = "Location access is off. Turn it on in Settings to try these samples.";
-            SemanticScreenReader.Announce(Error);
-            return false;
-        }
-
-        return true;
-    }
-
     private async Task RunAsync(Func<Task> action)
     {
         Error = null;
@@ -237,7 +241,16 @@ public sealed partial class GeolocationViewModel(IGeolocation geolocation) : Obs
         }
         catch (PermissionException)
         {
+            // The location APIs ask for permission themselves, and throw this when the user says no.
             Error = "Location access is off. Turn it on in Settings to try these samples.";
+            SemanticScreenReader.Announce(Error);
         }
+
+        // On Android, Restricted means the user chose the approximate location. The location APIs accept it, and
+        // work to within a few kilometers. (On iOS Restricted means a policy blocks location; reduced accuracy is
+        // still Granted.)
+        var isApproximate = OperatingSystem.IsAndroid()
+            && await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Restricted;
+        Note = isApproximate ? "You allowed the approximate location only, so expect city-level accuracy." : null;
     }
 }

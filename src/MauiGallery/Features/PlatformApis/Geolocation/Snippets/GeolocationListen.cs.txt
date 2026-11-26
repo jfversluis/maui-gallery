@@ -1,18 +1,48 @@
+private bool _isListening;
+
 public async Task StartListeningAsync()
 {
+    // There's one listener for the whole app: another page or window may already be using it
+    if (Geolocation.Default.IsListeningForeground)
+    {
+        return;
+    }
+
     Geolocation.Default.LocationChanged += OnLocationChanged;
     Geolocation.Default.ListeningFailed += OnListeningFailed;
 
-    var request = new GeolocationListeningRequest(GeolocationAccuracy.$(Accuracy), TimeSpan.FromSeconds($(MinimumTime)));
-    var started = await Geolocation.Default.StartListeningForegroundAsync(request);
+    try
+    {
+        var request = new GeolocationListeningRequest(GeolocationAccuracy.$(Accuracy), TimeSpan.FromSeconds($(MinimumTime)));
+        // Asks for location permission if it hasn't been granted yet
+        _isListening = await Geolocation.Default.StartListeningForegroundAsync(request);
+    }
+    catch (PermissionException)
+    {
+        // The user said no
+    }
+    finally
+    {
+        if (!_isListening)
+        {
+            Geolocation.Default.LocationChanged -= OnLocationChanged;
+            Geolocation.Default.ListeningFailed -= OnListeningFailed;
+        }
+    }
 }
 
-// Call it when you're done, at the latest when the page disappears
+// Call it when you're done, at the latest when the page disappears. Only stop what you started.
 public void StopListening()
 {
+    if (!_isListening)
+    {
+        return;
+    }
+
     Geolocation.Default.StopListeningForeground();
     Geolocation.Default.LocationChanged -= OnLocationChanged;
     Geolocation.Default.ListeningFailed -= OnListeningFailed;
+    _isListening = false;
 }
 
 private void OnLocationChanged(object? sender, GeolocationLocationChangedEventArgs e)
@@ -23,5 +53,6 @@ private void OnLocationChanged(object? sender, GeolocationLocationChangedEventAr
 
 private void OnListeningFailed(object? sender, GeolocationListeningFailedEventArgs e)
 {
-    // e.Error is PositionUnavailable or Unauthorized
+    // MAUI has already stopped listening. e.Error is PositionUnavailable or Unauthorized
+    StopListening();
 }
