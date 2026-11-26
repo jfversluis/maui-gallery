@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using MauiGallery.DesignSystem.Styles;
+using Microsoft.Maui.Layouts;
 
 namespace MauiGallery.DesignSystem.Components;
 
@@ -29,7 +30,18 @@ public partial class ControlExample : ContentView
 
     public static readonly BindableProperty ShowStyleToggleProperty =
         BindableProperty.Create(nameof(ShowStyleToggle), typeof(bool), typeof(ControlExample), true,
-            propertyChanged: (b, _, value) => ((ControlExample)b).StyleToggle.IsVisible = (bool)value);
+            propertyChanged: (b, _, _) => ((ControlExample)b).UpdateToolbar());
+
+    public static readonly BindableProperty ShowRtlToggleProperty =
+        BindableProperty.Create(nameof(ShowRtlToggle), typeof(bool), typeof(ControlExample), true,
+            propertyChanged: (b, _, _) => ((ControlExample)b).UpdateToolbar());
+
+    public static readonly BindableProperty ShowNativeBadgeProperty =
+        BindableProperty.Create(nameof(ShowNativeBadge), typeof(bool), typeof(ControlExample), true,
+            propertyChanged: (b, _, _) => ((ControlExample)b).UpdateToolbar());
+
+    public static readonly BindableProperty NoticeProperty =
+        BindableProperty.Create(nameof(Notice), typeof(string), typeof(ControlExample));
 
     public static readonly BindableProperty OutputProperty =
         BindableProperty.Create(nameof(Output), typeof(string), typeof(ControlExample));
@@ -42,6 +54,9 @@ public partial class ControlExample : ContentView
 
     /// <summary>Width at which the options pane moves from below the stage to its right.</summary>
     private const double SideBySideWidth = 760;
+
+    private const double StageMinimumHeight = 140;
+    private const double CompactStageMinimumHeight = 120;
 
     private static readonly Lazy<SampleStyles> StyledLook = new(() => new SampleStyles());
 
@@ -111,6 +126,36 @@ public partial class ControlExample : ContentView
     {
         get => (bool)GetValue(ShowStyleToggleProperty);
         set => SetValue(ShowStyleToggleProperty, value);
+    }
+
+    /// <summary>
+    /// Whether the LTR/RTL toggle is shown. Turn it off when mirroring means nothing, for example when the stage
+    /// only holds a button that calls an API.
+    /// </summary>
+    public bool ShowRtlToggle
+    {
+        get => (bool)GetValue(ShowRtlToggleProperty);
+        set => SetValue(ShowRtlToggleProperty, value);
+    }
+
+    /// <summary>
+    /// Whether the badge with the sample's native type is shown. Turn it off when the stage only triggers an API and
+    /// the native control isn't the point.
+    /// </summary>
+    public bool ShowNativeBadge
+    {
+        get => (bool)GetValue(ShowNativeBadgeProperty);
+        set => SetValue(ShowNativeBadgeProperty, value);
+    }
+
+    /// <summary>
+    /// A short callout above the stage for prerequisites or unsupported states, such as "iOS only". Keep longer
+    /// explanations in the description.
+    /// </summary>
+    public string? Notice
+    {
+        get => (string?)GetValue(NoticeProperty);
+        set => SetValue(NoticeProperty, value);
     }
 
     /// <summary>A short log line describing the last event the sample raised.</summary>
@@ -193,7 +238,13 @@ public partial class ControlExample : ContentView
 
         Code.Xaml = Render(XamlSource, s => s.XamlText);
         Code.CSharp = Render(CSharpSource, s => s.CSharpText);
-        Code.IsVisible = Code.Xaml is not null || Code.CSharp is not null;
+        var hasCode = Code.Xaml is not null || Code.CSharp is not null;
+        if (CodeArea.IsVisible != hasCode)
+        {
+            CodeArea.IsVisible = hasCode;
+            _sideBySide = null;
+            UpdateLayout();
+        }
     }
 
     private string? Render(string? source, Func<Substitution, string?> format)
@@ -214,10 +265,23 @@ public partial class ControlExample : ContentView
 
     private void UpdateBadgeTarget() => Badge.Target = NativeTarget ?? Example;
 
+    private void UpdateToolbar()
+    {
+        Badge.IsVisible = ShowNativeBadge;
+        StyleToggle.IsVisible = ShowStyleToggle;
+        RtlToggle.IsVisible = ShowRtlToggle;
+        ToolbarToggles.IsVisible = ShowStyleToggle || ShowRtlToggle;
+        Toolbar.IsVisible = ShowNativeBadge || ToolbarToggles.IsVisible;
+        Toolbar.JustifyContent = ShowNativeBadge ? FlexJustify.SpaceBetween : FlexJustify.End;
+        StageHost.Padding = Toolbar.IsVisible ? new Thickness(24, 16, 24, 32) : new Thickness(24, 28);
+    }
+
     private void UpdateLayout()
     {
         var hasOptions = Options is not null;
-        var sideBySide = hasOptions && Width >= SideBySideWidth;
+        var wide = Width >= SideBySideWidth;
+        var sideBySide = hasOptions && wide;
+        Stage.MinimumHeightRequest = wide ? StageMinimumHeight : CompactStageMinimumHeight;
         if (_sideBySide == sideBySide && Body.ColumnDefinitions.Count > 0)
         {
             return;
@@ -231,12 +295,19 @@ public partial class ControlExample : ContentView
 
         if (sideBySide)
         {
+            // The options rail runs beside the stage, output and code. The code row takes up any extra height, so
+            // tall options never stretch the stage itself. Without code, the stage takes it instead.
+            var stretchStage = !CodeArea.IsVisible;
             Body.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
             Body.ColumnDefinitions.Add(new ColumnDefinition((double)Application.Current!.Resources["OptionsPaneWidth"]));
-            Body.SetRow(OptionsPanel, 0);
-            Body.SetColumn(OptionsPanel, 1);
-            Body.SetRow(OptionsDivider, 0);
-            Body.SetColumn(OptionsDivider, 1);
+            Body.RowDefinitions.Add(new RowDefinition(stretchStage ? GridLength.Star : GridLength.Auto));
+            Body.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
+            Body.RowDefinitions.Add(new RowDefinition(stretchStage ? GridLength.Auto : GridLength.Star));
+            Place(Stage, row: 0, column: 0);
+            Place(OutputRow, row: 1, column: 0);
+            Place(CodeArea, row: 2, column: 0);
+            Place(OptionsPanel, row: 0, column: 1, rowSpan: 3);
+            Place(OptionsDivider, row: 0, column: 1, rowSpan: 3);
             OptionsDivider.WidthRequest = 1;
             OptionsDivider.HeightRequest = -1;
             OptionsDivider.HorizontalOptions = LayoutOptions.Start;
@@ -245,16 +316,27 @@ public partial class ControlExample : ContentView
         else
         {
             Body.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
-            Body.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
-            Body.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
-            Body.SetRow(OptionsPanel, 1);
-            Body.SetColumn(OptionsPanel, 0);
-            Body.SetRow(OptionsDivider, 1);
-            Body.SetColumn(OptionsDivider, 0);
+            for (var i = 0; i < 4; i++)
+            {
+                Body.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
+            }
+
+            Place(Stage, row: 0, column: 0);
+            Place(OptionsPanel, row: 1, column: 0);
+            Place(OptionsDivider, row: 1, column: 0);
+            Place(OutputRow, row: 2, column: 0);
+            Place(CodeArea, row: 3, column: 0);
             OptionsDivider.WidthRequest = -1;
             OptionsDivider.HeightRequest = 1;
             OptionsDivider.HorizontalOptions = LayoutOptions.Fill;
             OptionsDivider.VerticalOptions = LayoutOptions.Start;
+        }
+
+        void Place(View view, int row, int column, int rowSpan = 1)
+        {
+            Body.SetRow(view, row);
+            Body.SetColumn(view, column);
+            Body.SetRowSpan(view, rowSpan);
         }
     }
 
