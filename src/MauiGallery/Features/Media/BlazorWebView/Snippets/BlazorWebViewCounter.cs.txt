@@ -1,0 +1,30 @@
+// MyApp.csproj: <Project Sdk="Microsoft.NET.Sdk.Razor">, and a PackageReference to
+// Microsoft.AspNetCore.Components.WebView.Maui with the same version as Microsoft.Maui.Controls
+
+// MauiProgram.cs
+builder.Services.AddMauiBlazorWebView();
+#if DEBUG
+builder.Services.AddBlazorWebViewDeveloperTools();
+#endif
+
+// In a page
+var blazorWebView = new BlazorWebView { HostPage = "wwwroot/index.html", HeightRequest = 200 };
+blazorWebView.RootComponents.Add(new RootComponent { Selector = "#app", ComponentType = typeof(Counter) });
+
+/* Components/Counter.razor:
+<h1>Hello from Razor</h1>
+<button @onclick="IncrementCount">Clicked @count times</button>
+
+@code {
+    private int count;
+
+    private void IncrementCount() => count++;
+}
+
+wwwroot/index.html:
+<base href="/" />
+<link rel="stylesheet" href="css/app.css" />
+...
+<div id="app">Loading...</div>
+<script src="_framework/blazor.webview.js" autostart="false"></script>
+*/

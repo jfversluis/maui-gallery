@@ -46,7 +46,7 @@ public sealed partial class GalleryCatalog
                 new(GalleryPlatforms.MacCatalyst, "WKWebView"),
                 new(GalleryPlatforms.Windows, "WebView2"),
             ],
-            RelatedIds = ["hybrid-web-view", "launcher-and-browser", "image"],
+            RelatedIds = ["hybrid-web-view", "blazor-web-view", "launcher-and-browser", "image"],
             DocsUrl = new(DocsRoot + "user-interface/controls/webview"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.webview"),
             SourceUrl = new(SourceRoot + "Media/WebView"),
@@ -67,11 +67,33 @@ public sealed partial class GalleryCatalog
                 new(GalleryPlatforms.MacCatalyst, "WKWebView"),
                 new(GalleryPlatforms.Windows, "WebView2"),
             ],
-            RelatedIds = ["web-view", "app-and-device-info"],
+            RelatedIds = ["web-view", "blazor-web-view", "app-and-device-info"],
             DocsUrl = new(DocsRoot + "user-interface/controls/hybridwebview"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.hybridwebview"),
             SourceUrl = new(SourceRoot + "Media/HybridWebView"),
             IsUpdated = true,
+        },
+        new()
+        {
+            Id = "blazor-web-view",
+            Title = "BlazorWebView",
+            Description = "Renders Razor components in a native app and shares services and state with .NET MAUI through dependency injection.",
+            CategoryId = CategoryIds.Media,
+            IconGlyph = FluentIconsRegular.CodeBlock24,
+            PageType = typeof(BlazorWebViewPage),
+            Keywords = ["Blazor", "Blazor Hybrid", "Razor", "component", "web", "html", "css", "RootComponent", "HostPage", "wwwroot", "AddMauiBlazorWebView", "@inject", "dependency injection", "StateHasChanged", "InvokeAsync", "Microsoft.AspNetCore.Components.WebView.Maui"],
+            NativeMappings =
+            [
+                new(GalleryPlatforms.iOS, "WKWebView"),
+                new(GalleryPlatforms.Android, "android.webkit.WebView"),
+                new(GalleryPlatforms.MacCatalyst, "WKWebView"),
+                new(GalleryPlatforms.Windows, "WebView2"),
+            ],
+            RelatedIds = ["hybrid-web-view", "web-view", "mvvm-commands", "bindable-layout"],
+            DocsUrl = new(DocsRoot + "user-interface/controls/blazorwebview"),
+            ApiUrl = new(ApiRoot + "microsoft.aspnetcore.components.webview.maui.blazorwebview"),
+            SourceUrl = new(SourceRoot + "Media/BlazorWebView"),
+            IsFeatured = true,
         },
     ];
 }

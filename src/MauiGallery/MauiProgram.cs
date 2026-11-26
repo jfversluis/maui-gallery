@@ -3,6 +3,7 @@ using IconFont.Maui.FluentIcons;
 using MauiGallery.DesignSystem.Components;
 using MauiGallery.Features.Catalog;
 using MauiGallery.Features.Home;
+using MauiGallery.Features.Media;
 using MauiGallery.Features.NativePower;
 using MauiGallery.Features.PlatformApis;
 using MauiGallery.Features.Samples;
@@ -13,6 +14,7 @@ using MauiGallery.Services;
 #if DEBUG
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.DevFlow.Agent;
+using Microsoft.Maui.DevFlow.Blazor;
 #endif
 
 namespace MauiGallery;
@@ -38,7 +40,8 @@ public static class MauiProgram
             .ConfigureWindowChrome()
             .UseNativePowerSamples()
             .UsePlatformApisCoreSamples()
-            .UsePlatformApisDeviceSamples();
+            .UsePlatformApisDeviceSamples()
+            .UseMediaSamples();
 
         var catalog = new GalleryCatalog();
         builder.Services
@@ -50,6 +53,7 @@ public static class MauiProgram
 #if DEBUG
         builder.Logging.AddDebug();
         builder.AddMauiDevFlowAgent();
+        builder.AddMauiBlazorDevFlowTools();
 #endif
 
         return builder.Build();

@@ -1,0 +1,6 @@
+<!-- xmlns:components="clr-namespace:MyApp.Components" -->
+<BlazorWebView HostPage="wwwroot/index.html" HeightRequest="200">
+    <BlazorWebView.RootComponents>
+        <RootComponent Selector="#app" ComponentType="{x:Type components:Counter}" />
+    </BlazorWebView.RootComponents>
+</BlazorWebView>

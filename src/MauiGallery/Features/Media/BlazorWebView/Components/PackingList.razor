@@ -1,0 +1,39 @@
+@implements IDisposable
+@inject PackingListViewModel ViewModel
+
+<h1>Packing list <small>@ViewModel.Summary</small></h1>
+
+<ul class="checklist">
+    @foreach (var item in ViewModel.Items)
+    {
+        <li>
+            <label>
+                <input type="checkbox" checked="@item.IsPacked" @onchange="e => item.IsPacked = (bool)e.Value!" />
+                @item.Title
+            </label>
+        </li>
+    }
+</ul>
+
+<form class="row" @onsubmit="Add">
+    <input placeholder="Add an item" aria-label="New item" @bind="newItem" @bind:event="oninput" />
+    <button class="primary" type="submit" disabled="@string.IsNullOrWhiteSpace(newItem)">Add</button>
+</form>
+
+@code {
+    private string newItem = string.Empty;
+
+    protected override void OnInitialized() => ViewModel.Changed += OnChanged;
+
+    // The view model can change from the .NET MAUI side: re-render on the renderer's dispatcher.
+    private void OnChanged(object? sender, EventArgs e) => _ = InvokeAsync(StateHasChanged);
+
+    private void Add()
+    {
+        ViewModel.NewItem = newItem;
+        ViewModel.AddCommand.Execute(null);
+        newItem = string.Empty;
+    }
+
+    public void Dispose() => ViewModel.Changed -= OnChanged;
+}

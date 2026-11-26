@@ -1,0 +1,84 @@
+/* Styles for the BlazorWebView sample. Follows the app's light or dark theme. */
+:root {
+    color-scheme: light dark;
+    --background: #FFFFFF;
+    --surface: #F3F1FA;
+    --text: #1F1F1F;
+    --muted: #5F5B6E;
+    --accent: #512BD4;
+    --on-accent: #FFFFFF;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 15px;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #1C1B22;
+        --surface: #2A2833;
+        --text: #F2F1F7;
+        --muted: #B4B0C2;
+        --accent: #B3A3FF;
+        --on-accent: #1C1B22;
+    }
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 16px;
+    background: var(--background);
+    color: var(--text);
+}
+
+h1 { font-size: 17px; margin: 0 0 12px; }
+
+h1 small { font-size: 13px; font-weight: normal; color: var(--muted); margin-left: 6px; }
+
+p { margin: 0 0 12px; color: var(--muted); }
+
+button.primary {
+    font: inherit;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 8px;
+    background: var(--accent);
+    color: var(--on-accent);
+    cursor: pointer;
+}
+
+button.primary:disabled { opacity: 0.5; cursor: default; }
+
+input:not([type]) {
+    font: inherit;
+    padding: 7px 10px;
+    border: 1px solid var(--muted);
+    border-radius: 8px;
+    background: var(--background);
+    color: var(--text);
+    min-width: 0;
+    flex: 1;
+}
+
+input[type=checkbox] { accent-color: var(--accent); width: 16px; height: 16px; margin: 0 8px 0 0; }
+
+.row { display: flex; gap: 8px; }
+
+.checklist { list-style: none; margin: 0 0 12px; padding: 0; }
+
+.checklist li { padding: 4px 0; }
+
+.checklist label { display: flex; align-items: center; }
+
+#blazor-error-ui {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 8px 16px;
+    background: #FDE68A;
+    color: #1F1F1F;
+}
+
+#blazor-error-ui .dismiss { cursor: pointer; float: right; }

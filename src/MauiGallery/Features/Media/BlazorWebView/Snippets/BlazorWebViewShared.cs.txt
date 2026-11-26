@@ -1,0 +1,91 @@
+// MauiProgram.cs: one instance for the whole app, shared by Razor and .NET MAUI
+builder.Services.AddSingleton<PackingListViewModel>();
+
+public partial class PackingListViewModel : ObservableObject
+{
+    public PackingListViewModel() => Items.CollectionChanged += OnItemsChanged;
+
+    // For UI that doesn't data-bind, such as a Razor component
+    public event EventHandler? Changed;
+
+    public ObservableCollection<PackingItem> Items { get; } = [];
+
+    public string Summary => $"{Items.Count(i => i.IsPacked)} of {Items.Count} packed";
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(AddCommand))]
+    public partial string NewItem { get; set; } = "";
+
+    [RelayCommand(CanExecute = nameof(CanAdd))]
+    private void Add()
+    {
+        Items.Add(new PackingItem(NewItem.Trim()));
+        NewItem = "";
+    }
+
+    private bool CanAdd => !string.IsNullOrWhiteSpace(NewItem);
+
+    private void OnItemsChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        foreach (PackingItem item in e.NewItems ?? Array.Empty<PackingItem>())
+        {
+            item.PropertyChanged += (_, _) => NotifyChanged();
+        }
+
+        NotifyChanged();
+    }
+
+    private void NotifyChanged()
+    {
+        OnPropertyChanged(nameof(Summary));
+        Changed?.Invoke(this, EventArgs.Empty);
+    }
+}
+
+public partial class PackingItem(string title) : ObservableObject
+{
+    public string Title { get; } = title;
+
+    [ObservableProperty]
+    public partial bool IsPacked { get; set; }
+}
+
+/* Components/PackingList.razor:
+@implements IDisposable
+@inject PackingListViewModel ViewModel
+
+<h1>Packing list <small>@ViewModel.Summary</small></h1>
+<ul>
+    @foreach (var item in ViewModel.Items)
+    {
+        <li>
+            <label>
+                <input type="checkbox" checked="@item.IsPacked" @onchange="e => item.IsPacked = (bool)e.Value!" />
+                @item.Title
+            </label>
+        </li>
+    }
+</ul>
+<form @onsubmit="Add">
+    <input @bind="newItem" @bind:event="oninput" />
+    <button type="submit">Add</button>
+</form>
+
+@code {
+    private string newItem = "";
+
+    protected override void OnInitialized() => ViewModel.Changed += OnChanged;
+
+    // The view model can change from .NET MAUI: re-render on the renderer's dispatcher
+    private void OnChanged(object? sender, EventArgs e) => _ = InvokeAsync(StateHasChanged);
+
+    private void Add()
+    {
+        ViewModel.NewItem = newItem;
+        ViewModel.AddCommand.Execute(null);
+        newItem = "";
+    }
+
+    public void Dispose() => ViewModel.Changed -= OnChanged;
+}
+*/

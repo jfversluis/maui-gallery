@@ -1,0 +1,73 @@
+<SamplePage x:Class="MauiGallery.Features.Media.BlazorWebViewPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Media"
+            xmlns:components="clr-namespace:MauiGallery.Features.Media.Components"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. A Razor component -->
+            <ControlExample x:Name="CounterExample"
+                            Title="Host a Razor component"
+                            Description="BlazorWebView renders Razor components, the same ones you write for Blazor on the web, inside a native app. They run on .NET in the app's process, not in WebAssembly or on a server, and use the app's styles from wwwroot. HostPage is the HTML page that hosts them, and each RootComponent names a component and the CSS selector of the element it renders into."
+                            ShowStyleToggle="False"
+                            XamlSource="BlazorWebViewCounter.xaml.txt"
+                            CSharpSource="BlazorWebViewCounter.cs.txt">
+                <BlazorWebView x:Name="CounterWebView"
+                               HostPage="wwwroot/index.html"
+                               WidthRequest="{OnIdiom Phone=300, Default=480}"
+                               HeightRequest="200"
+                               AutomationId="sample-blazor-counter">
+                    <BlazorWebView.RootComponents>
+                        <RootComponent Selector="#app" ComponentType="{x:Type components:Counter}" />
+                    </BlazorWebView.RootComponents>
+                </BlazorWebView>
+            </ControlExample>
+
+            <!-- 2. Shared state -->
+            <ControlExample x:Name="SharedExample"
+                            Title="Share state with .NET MAUI"
+                            Description="Razor components get services from the app's dependency injection container with @inject. Register a view model as a singleton and a Razor component and .NET MAUI controls work on the same data: check an item or add one on either side and the other follows. The component re-renders when the view model raises an event."
+                            ShowStyleToggle="False"
+                            XamlSource="BlazorWebViewShared.xaml.txt"
+                            CSharpSource="BlazorWebViewShared.cs.txt">
+                <VerticalStackLayout x:Name="SharedSample"
+                                     x:DataType="local:PackingListViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=300, Default=480}">
+                    <BlazorWebView x:Name="SharedWebView"
+                                   HostPage="wwwroot/index.html"
+                                   HeightRequest="260"
+                                   AutomationId="sample-blazor-shared">
+                        <BlazorWebView.RootComponents>
+                            <RootComponent Selector="#app" ComponentType="{x:Type components:PackingList}" />
+                        </BlazorWebView.RootComponents>
+                    </BlazorWebView>
+                    <Label Text="{Binding Summary, StringFormat='.NET MAUI controls: {0}'}"
+                           FontAttributes="Bold"
+                           AutomationId="sample-blazor-summary" />
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Items}" AutomationId="sample-blazor-items">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="local:PackingItem">
+                                <HorizontalStackLayout Spacing="4">
+                                    <CheckBox IsChecked="{Binding IsPacked}" SemanticProperties.Description="{Binding Title}" />
+                                    <Label Text="{Binding Title}" VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <Entry Text="{Binding NewItem}"
+                               Placeholder="Add an item"
+                               ReturnCommand="{Binding AddCommand}"
+                               SemanticProperties.Description="New item"
+                               AutomationId="sample-blazor-new-item" />
+                        <Button Grid.Column="1" Text="Add" Command="{Binding AddCommand}" AutomationId="sample-blazor-add" />
+                    </Grid>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>
