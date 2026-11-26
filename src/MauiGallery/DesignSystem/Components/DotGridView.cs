@@ -21,6 +21,10 @@ public sealed class DotGridView : GraphicsView
         set => SetValue(DotColorProperty, value);
     }
 
+    // A background fills whatever space it is given and never asks for any. Without this, iOS measures the native
+    // view at its current frame, so the stage could grow with its sample but never shrink back.
+    protected override Size MeasureOverride(double widthConstraint, double heightConstraint) => Size.Zero;
+
     private sealed class DotGridDrawable(DotGridView owner) : IDrawable
     {
         private const float Spacing = 16;
