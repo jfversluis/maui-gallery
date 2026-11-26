@@ -1,0 +1,4 @@
+<VerticalStackLayout Spacing="12">
+    <Button Text="Take a screenshot" Clicked="OnCaptureClicked" />
+    <Image x:Name="preview" HeightRequest="220" Aspect="AspectFit" />
+</VerticalStackLayout>

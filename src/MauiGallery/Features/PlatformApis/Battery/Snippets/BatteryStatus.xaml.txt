@@ -1,0 +1,7 @@
+<VerticalStackLayout x:DataType="local:BatteryViewModel" Spacing="8">
+    <ProgressBar Progress="{Binding ChargeLevel}" />
+    <Label Text="{Binding ChargeLevel, StringFormat='Charge level: {0:P0}'}" />
+    <Label Text="{Binding State, StringFormat='State: {0}'}" />
+    <Label Text="{Binding PowerSource, StringFormat='Power source: {0}'}" />
+    <Label Text="{Binding EnergySaver, StringFormat='Energy saver: {0}'}" />
+</VerticalStackLayout>

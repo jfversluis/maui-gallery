@@ -1,0 +1,93 @@
+<SamplePage x:Class="MauiGallery.Features.PlatformApis.ScreenshotPage"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The window -->
+            <ControlExample x:Name="WindowExample"
+                            Title="Capture the window"
+                            Description="Screenshot.CaptureAsync captures what your app's window shows right now, for a bug report or a share sheet. It only sees your own app, never other apps or the rest of the screen. OpenReadAsync gives you the image as a PNG or JPEG stream."
+                            ShowStyleToggle="False"
+                            XamlSource="ScreenshotWindow.xaml.txt"
+                            CSharpSource="ScreenshotWindow.cs.txt">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Button x:Name="WindowButton"
+                            Text="Take a screenshot"
+                            Clicked="OnCaptureWindowClicked"
+                            HorizontalOptions="Start"
+                            AutomationId="sample-screenshot-window" />
+                    <Image x:Name="WindowPreview"
+                           HeightRequest="220"
+                           Aspect="AspectFit"
+                           HorizontalOptions="Start"
+                           IsVisible="False"
+                           SemanticProperties.Description="Screenshot of the window"
+                           AutomationId="sample-screenshot-window-preview" />
+                    <Label x:Name="WindowInfo" AutomationId="sample-screenshot-window-info" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 2. One view -->
+            <ControlExample x:Name="ViewExample"
+                            Title="Capture a single view"
+                            Description="Every view has CaptureAsync, which renders just that view and its children, at the device's pixel density. Use it to save or share a card, a chart or a boarding pass without the rest of the page. Choose JPEG and a lower quality for smaller files, or PNG for exact pixels and transparency."
+                            ShowStyleToggle="False"
+                            XamlSource="ScreenshotView.xaml.txt"
+                            CSharpSource="ScreenshotView.cs.txt">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Border x:Name="Card"
+                            Padding="20"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 16"
+                            AutomationId="sample-screenshot-card">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="1,1">
+                                <GradientStop Color="#512BD4" Offset="0" />
+                                <GradientStop Color="#2563EB" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="BOARDING PASS" TextColor="#CCFFFFFF" FontSize="12" CharacterSpacing="2" />
+                            <Label Text="AMS → SEA" TextColor="White" FontSize="28" FontAttributes="Bold" />
+                            <Label Text="Gate D7 · Seat 12A · 09:40" TextColor="White" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Button x:Name="ViewButton"
+                            Text="Capture the card"
+                            Clicked="OnCaptureViewClicked"
+                            HorizontalOptions="Start"
+                            AutomationId="sample-screenshot-view" />
+                    <Image x:Name="ViewPreview"
+                           HeightRequest="120"
+                           Aspect="AspectFit"
+                           HorizontalOptions="Start"
+                           IsVisible="False"
+                           SemanticProperties.Description="Captured card"
+                           AutomationId="sample-screenshot-view-preview" />
+                    <Label x:Name="ViewInfo" AutomationId="sample-screenshot-view-info" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Format" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ViewFormat" SelectedIndexChanged="OnViewFormatChanged" AutomationId="option-screenshot-format" />
+                        <Label Text="{Binding Value, Source={x:Reference ViewQuality}, StringFormat='Quality: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="ViewQuality"
+                                Minimum="10"
+                                Maximum="100"
+                                Value="100"
+                                IsEnabled="False"
+                                AutomationId="option-screenshot-quality" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="FormatSubstitution" Key="Format" Value="ScreenshotFormat.Png" IsExpression="True" />
+                    <Substitution Key="Quality" Value="{Binding Value, Source={x:Reference ViewQuality}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

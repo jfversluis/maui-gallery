@@ -1,0 +1,4 @@
+<VerticalStackLayout x:DataType="local:ConnectivityViewModel" Spacing="8">
+    <Label Text="{Binding Access, StringFormat='Network access: {0}'}" />
+    <Label Text="{Binding Profiles, StringFormat='Profiles: {0}'}" />
+</VerticalStackLayout>

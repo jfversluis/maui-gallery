@@ -1,0 +1,31 @@
+// MauiProgram.cs: builder.Services.AddSingleton(Map.Default);
+// Without dependency injection, use Map.Default directly.
+public partial class MapViewModel(IMap map) : ObservableObject
+{
+    private readonly Location location = new(52.3600, 4.8852);
+
+    private readonly Placemark address = new()
+    {
+        Thoroughfare = "Museumstraat 1",
+        PostalCode = "1071 XX",
+        Locality = "Amsterdam",
+        CountryName = "Netherlands",
+    };
+
+    [ObservableProperty]
+    public partial string? Result { get; set; }
+
+    [RelayCommand]
+    private async Task OpenMapAsync()
+    {
+        var options = new MapLaunchOptions
+        {
+            Name = $(Name),
+            NavigationMode = $(NavigationMode),
+        };
+
+        // TryOpenAsync returns false when there's no map app, instead of throwing
+        var opened = await map.TryOpenAsync($(Target), options);
+        Result = opened ? "Opened the map app" : "No map app is available";
+    }
+}

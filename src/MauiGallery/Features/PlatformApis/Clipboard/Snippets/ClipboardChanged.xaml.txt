@@ -1,0 +1,5 @@
+<VerticalStackLayout x:DataType="local:ClipboardViewModel" Spacing="12">
+    <Label Text="{Binding HasText, StringFormat='Has text: {0}'}" />
+    <Label Text="{Binding ChangeCount, StringFormat='Changes: {0}'}" />
+    <Button Text="Clear the clipboard" Command="{Binding ClearCommand}" />
+</VerticalStackLayout>

@@ -1,0 +1,13 @@
+private async void OnShareFileClicked(object? sender, EventArgs e)
+{
+    // The cache is the place for files you only need until they're shared
+    var path = Path.Combine(FileSystem.Current.CacheDirectory, $(FileName));
+    await File.WriteAllTextAsync(path, contents.Text);
+
+    await _share.RequestAsync(new ShareFileRequest
+    {
+        Title = $(Title),
+        File = new ShareFile(path),
+        PresentationSourceBounds = ((View)sender!).GetBoundsInWindow(),
+    });
+}

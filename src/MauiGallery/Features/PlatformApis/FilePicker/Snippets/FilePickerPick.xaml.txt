@@ -1,0 +1,6 @@
+<VerticalStackLayout x:DataType="local:FilePickerViewModel" Spacing="12">
+    <Button Text="Choose a file" Command="{Binding PickCommand}" />
+    <Label Text="{Binding FileName}" />
+    <Image Source="{Binding ImagePreview}" HeightRequest="160" />
+    <Label Text="{Binding TextPreview}" />
+</VerticalStackLayout>

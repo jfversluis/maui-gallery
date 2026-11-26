@@ -1,0 +1,1 @@
+<Button Text="Open the docs" Clicked="OnOpenClicked" />

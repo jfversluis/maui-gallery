@@ -1,0 +1,12 @@
+public partial class BatteryViewModel
+{
+    private const double LowBattery = $(Threshold);
+
+    // Raise PropertyChanged for SyncPlan whenever the battery values change:
+    // [NotifyPropertyChangedFor(nameof(SyncPlan))]
+    public string SyncPlan =>
+        EnergySaver == EnergySaverStatus.On ? "Paused: energy saver is on"
+        : PowerSource is BatteryPowerSource.AC or BatteryPowerSource.Usb or BatteryPowerSource.Wireless ? "Every 5 minutes, plugged in"
+        : ChargeLevel >= 0 && ChargeLevel < LowBattery ? "Paused: the battery is low"
+        : "Every 30 minutes, on battery";
+}

@@ -1,0 +1,76 @@
+<SamplePage x:Class="MauiGallery.Features.PlatformApis.PreferencesAndSecureStoragePage"
+            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Preferences -->
+            <ControlExample x:Name="PreferencesExample"
+                            Title="Remember settings with Preferences"
+                            Description="Preferences stores small values by key (strings, numbers, bools and dates) in the platform's settings store, and they survive app restarts. Get takes a default for keys that aren't set yet. A sharedName keeps a group of keys in a container of its own, so Clear only removes that group. Preferences aren't encrypted: never put passwords or tokens there."
+                            ShowStyleToggle="False"
+                            XamlSource="PreferencesSettings.xaml.txt"
+                            CSharpSource="PreferencesSettings.cs.txt">
+                <VerticalStackLayout x:Name="PreferencesSample"
+                                     x:DataType="local:SettingsStoreViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Entry Text="{Binding UserName}" Placeholder="Your name" SemanticProperties.Description="Your name" AutomationId="sample-preferences-name" />
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Notifications" VerticalOptions="Center" />
+                        <Switch Grid.Column="1" IsToggled="{Binding Notifications}" AutomationId="sample-preferences-notifications" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="{Binding TextSize, StringFormat='Text size: {0}'}" VerticalOptions="Center" />
+                        <Stepper Grid.Column="1"
+                                 Minimum="10"
+                                 Maximum="30"
+                                 Value="{Binding TextSize}"
+                                 SemanticProperties.Description="Text size"
+                                 AutomationId="sample-preferences-text-size" />
+                    </Grid>
+                    <Label Text="Stored values" Opacity="0.7" Margin="0,8,0,0" />
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Stored}" Spacing="2" AutomationId="sample-preferences-stored">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Label Text="{Binding .}" FontSize="13" />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                    <HorizontalStackLayout Spacing="8">
+                        <Button x:Name="PreferencesRemove" Text="Remove name" Command="{Binding RemoveNameCommand}" AutomationId="sample-preferences-remove" />
+                        <Button Text="Clear all" Command="{Binding ClearAllCommand}" AutomationId="sample-preferences-clear" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 2. SecureStorage -->
+            <ControlExample x:Name="SecureExample"
+                            Title="Keep secrets in SecureStorage"
+                            Description="SecureStorage encrypts values with the platform's keychain or keystore: the Keychain on iOS and Mac, the Android Keystore, and DPAPI on Windows. Use it for tokens and other secrets. It's async and can fail, for example when a device has no lock screen or the app lacks the keychain entitlement, so handle errors. Values can survive reinstalls on iOS."
+                            ShowStyleToggle="False"
+                            XamlSource="SecureStorageToken.xaml.txt"
+                            CSharpSource="SecureStorageToken.cs.txt">
+                <VerticalStackLayout x:Name="SecureSample"
+                                     x:DataType="local:SecretsViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Entry Text="{Binding Token}" IsPassword="True" Placeholder="API token" SemanticProperties.Description="API token" AutomationId="sample-secure-token" />
+                    <HorizontalStackLayout Spacing="8">
+                        <Button x:Name="SecureSave" Text="Save" Command="{Binding SaveCommand}" AutomationId="sample-secure-save" />
+                        <Button Text="Read" Command="{Binding ReadCommand}" AutomationId="sample-secure-read" />
+                        <Button Text="Remove" Command="{Binding RemoveCommand}" AutomationId="sample-secure-remove" />
+                    </HorizontalStackLayout>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+                        <Label Text="Stored" Opacity="0.7" />
+                        <Label Grid.Column="1" Text="{Binding Stored}" AutomationId="sample-secure-stored" />
+                    </Grid>
+                    <Label Text="{Binding Result}" IsVisible="{Binding Result, Converter={StaticResource IsNotNullOrEmpty}}" AutomationId="sample-secure-result" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

@@ -1,0 +1,14 @@
+public class VersionTrackingViewModel(IVersionTracking versionTracking)
+{
+    // null on the first launch, or when no other version has run
+    public string PreviousVersion => versionTracking.PreviousVersion ?? "None";
+    public string PreviousBuild => versionTracking.PreviousBuild ?? "None";
+    public string FirstInstalledVersion => versionTracking.FirstInstalledVersion ?? "None";
+
+    public string VersionHistory => string.Join(", ", versionTracking.VersionHistory);
+    public string BuildHistory => string.Join(", ", versionTracking.BuildHistory);
+
+    public string VersionCheck => versionTracking.VersionHistory.Contains($(Version))
+        ? "This version has run on this device"
+        : "This version has never run here";
+}

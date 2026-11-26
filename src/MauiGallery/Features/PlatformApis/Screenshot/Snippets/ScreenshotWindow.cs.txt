@@ -1,0 +1,19 @@
+// _screenshot is an IScreenshot from dependency injection: builder.Services.AddSingleton(Screenshot.Default);
+// Without dependency injection, call Screenshot.Default.CaptureAsync().
+private async void OnCaptureClicked(object? sender, EventArgs e)
+{
+    if (!_screenshot.IsCaptureSupported)
+    {
+        return;
+    }
+
+    IScreenshotResult result = await _screenshot.CaptureAsync();
+
+    // Copy the image, because the stream can only be read once
+    await using var stream = await result.OpenReadAsync(ScreenshotFormat.Png);
+    using var memory = new MemoryStream();
+    await stream.CopyToAsync(memory);
+    var bytes = memory.ToArray();
+
+    preview.Source = ImageSource.FromStream(() => new MemoryStream(bytes));
+}

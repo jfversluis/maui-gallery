@@ -1,0 +1,4 @@
+<VerticalStackLayout x:DataType="local:MapViewModel" Spacing="12">
+    <Button Text="Show the Rijksmuseum" Command="{Binding OpenMapCommand}" />
+    <Label Text="{Binding Result}" />
+</VerticalStackLayout>

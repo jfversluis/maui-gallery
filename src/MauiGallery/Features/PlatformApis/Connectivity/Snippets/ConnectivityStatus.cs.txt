@@ -1,0 +1,12 @@
+// MauiProgram.cs: builder.Services.AddSingleton(Connectivity.Current);
+// Without dependency injection, use Connectivity.Current directly.
+// Android: AndroidManifest.xml needs the ACCESS_NETWORK_STATE permission.
+public partial class ConnectivityViewModel(IConnectivity connectivity) : ObservableObject
+{
+    [ObservableProperty]
+    public partial NetworkAccess Access { get; set; } = connectivity.NetworkAccess;
+
+    // For example "WiFi" or "Cellular, WiFi"
+    [ObservableProperty]
+    public partial string Profiles { get; set; } = string.Join(", ", connectivity.ConnectionProfiles);
+}

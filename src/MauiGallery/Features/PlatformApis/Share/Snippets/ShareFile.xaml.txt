@@ -1,0 +1,4 @@
+<VerticalStackLayout Spacing="12">
+    <Editor x:Name="contents" HeightRequest="100" />
+    <Button Text="Share as a file" Clicked="OnShareFileClicked" />
+</VerticalStackLayout>

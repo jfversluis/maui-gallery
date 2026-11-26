@@ -1,0 +1,123 @@
+<SamplePage x:Class="MauiGallery.Features.PlatformApis.LauncherAndBrowserPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Browser -->
+            <ControlExample x:Name="BrowserExample"
+                            Title="Open a web page"
+                            Description="Browser.OpenAsync shows a web page. SystemPreferred keeps people in your app with an in-app browser (Safari View Controller on iOS, Custom Tabs on Android), with toolbar colors that match your brand; External hands the link to the default browser app. Mac Catalyst always opens the default browser."
+                            XamlSource="BrowserOpen.xaml.txt"
+                            CSharpSource="BrowserOpen.cs.txt">
+                <Button x:Name="BrowserButton"
+                        Text="Open the docs"
+                        Clicked="OnOpenBrowserClicked"
+                        AutomationId="sample-browser-open" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Uri" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="BrowserUri" Text="https://learn.microsoft.com/dotnet/maui" Keyboard="Url" AutomationId="option-browser-uri" />
+                        <Label Text="LaunchMode" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="BrowserMode" SelectedIndexChanged="OnBrowserModeChanged" AutomationId="option-browser-mode" />
+                        <Label Text="PreferredToolbarColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="BrowserToolbar" AutomationId="option-browser-toolbar" />
+                        <Label Text="PreferredControlColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="BrowserControl" AutomationId="option-browser-control" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Uri" Value="{Binding Text, Source={x:Reference BrowserUri}, x:DataType=Entry}" />
+                    <Substitution x:Name="BrowserModeSubstitution" Key="LaunchMode" Value="BrowserLaunchMode.SystemPreferred" Default="BrowserLaunchMode.SystemPreferred" IsExpression="True" />
+                    <Substitution Key="ToolbarColor" Value="{Binding SelectedColor, Source={x:Reference BrowserToolbar}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="ControlColor" Value="{Binding SelectedColor, Source={x:Reference BrowserControl}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Launcher -->
+            <ControlExample x:Name="LauncherExample"
+                            Title="Open another app"
+                            Description="Launcher opens a URI with whichever app handles its scheme: mailto: and tel: links, another app's custom scheme, or this app's own mauigallery: deep links. CanOpenAsync checks first; on iOS and Mac it only knows schemes you list under LSApplicationQueriesSchemes, and Android 11 and later needs a matching queries entry. TryOpenAsync checks and opens in one call."
+                            ShowStyleToggle="False"
+                            XamlSource="LauncherOpen.xaml.txt"
+                            CSharpSource="LauncherOpen.cs.txt">
+                <VerticalStackLayout x:Name="LauncherSample"
+                                     x:DataType="local:LauncherViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Entry Text="{Binding Uri}"
+                           Keyboard="Url"
+                           Placeholder="URI"
+                           SemanticProperties.Description="URI to open"
+                           AutomationId="sample-launcher-uri" />
+                    <HorizontalStackLayout Spacing="8">
+                        <Button Text="Can open?" Command="{Binding CheckCommand}" AutomationId="sample-launcher-check" />
+                        <Button x:Name="LauncherOpenButton" Text="Open" Command="{Binding OpenCommand}" AutomationId="sample-launcher-open" />
+                        <Button Text="Try open" Command="{Binding TryOpenCommand}" AutomationId="sample-launcher-try" />
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding Result}" AutomationId="sample-launcher-result" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Try a URI" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="LauncherPreset" SelectedIndexChanged="OnLauncherPresetChanged" AutomationId="option-launcher-preset">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>mauigallery://item/button</x:String>
+                                    <x:String>mailto:hello@example.com</x:String>
+                                    <x:String>tel:+15555550123</x:String>
+                                    <x:String>sms:+15555550123</x:String>
+                                    <x:String>https://dot.net</x:String>
+                                    <x:String>no-such-app://open</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+            </ControlExample>
+
+            <!-- 3. Map -->
+            <ControlExample x:Name="MapExample"
+                            Title="Open the map app"
+                            Description="Map.OpenAsync shows a place in the platform's map app (Apple Maps, Google Maps or Windows Maps), by coordinates or by a Placemark address. Name labels the pin, and a NavigationMode other than None asks for directions there."
+                            ShowStyleToggle="False"
+                            XamlSource="MapOpen.xaml.txt"
+                            CSharpSource="MapOpen.cs.txt">
+                <VerticalStackLayout x:Name="MapSample"
+                                     x:DataType="local:MapViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Button x:Name="MapButton"
+                            Text="Show the Rijksmuseum"
+                            Command="{Binding OpenMapCommand}"
+                            HorizontalOptions="Start"
+                            AutomationId="sample-map-open" />
+                    <Label Text="{Binding Result}" IsVisible="{Binding Result, Converter={StaticResource IsNotNullOrEmpty}}" AutomationId="sample-map-result" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout x:Name="MapOptions" x:DataType="local:MapViewModel" Spacing="8">
+                        <Label Text="Name" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="MapName" Text="{Binding Name}" AutomationId="option-map-name" />
+                        <Label Text="NavigationMode" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="MapMode"
+                                ItemsSource="{x:Static local:MapViewModel.NavigationModes}"
+                                SelectedItem="{Binding NavigationMode}"
+                                AutomationId="option-map-mode" />
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
+                            <Label Text="Use the address" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="MapAddress" Grid.Column="1" IsToggled="{Binding UseAddress}" AutomationId="option-map-address" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Name" Value="{Binding Text, Source={x:Reference MapName}, x:DataType=Entry}" />
+                    <Substitution x:Name="MapModeSubstitution" Key="NavigationMode" Value="NavigationMode.None" Default="NavigationMode.None" IsExpression="True" />
+                    <Substitution x:Name="MapTargetSubstitution" Key="Target" Value="location" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

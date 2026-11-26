@@ -1,0 +1,35 @@
+// MauiProgram.cs: builder.Services.AddSingleton(Launcher.Default);
+// Without dependency injection, use Launcher.Default directly.
+public partial class LauncherViewModel(ILauncher launcher) : ObservableObject
+{
+    [ObservableProperty]
+    public partial string Uri { get; set; } = "mauigallery://item/button";
+
+    [ObservableProperty]
+    public partial string? Result { get; set; }
+
+    // iOS and Mac: list the scheme under LSApplicationQueriesSchemes in Info.plist
+    // Android 11+: add a matching <intent> to <queries> in AndroidManifest.xml
+    [RelayCommand]
+    private async Task CheckAsync() =>
+        Result = await launcher.CanOpenAsync(Uri) ? "An app can open it" : "No app is known to open it";
+
+    // Throws when no app handles the scheme
+    [RelayCommand]
+    private async Task OpenAsync()
+    {
+        try
+        {
+            Result = await launcher.OpenAsync(Uri) ? "Opened" : "Not opened";
+        }
+        catch (Exception ex) when (ex is FeatureNotSupportedException or InvalidOperationException)
+        {
+            Result = "No app opens it";
+        }
+    }
+
+    // Checks and opens in one call, and returns false instead of throwing
+    [RelayCommand]
+    private async Task TryOpenAsync() =>
+        Result = await launcher.TryOpenAsync(Uri) ? "Opened" : "No app opens it";
+}

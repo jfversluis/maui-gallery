@@ -1,0 +1,32 @@
+// MauiProgram.cs: builder.Services.AddSingleton(SecureStorage.Default);
+// Without dependency injection, use SecureStorage.Default directly.
+// Mac Catalyst: add a keychain-access-groups entitlement; Android: exclude it from backups.
+public partial class SecretsViewModel(ISecureStorage secureStorage) : ObservableObject
+{
+    [ObservableProperty]
+    public partial string Token { get; set; } = "";
+
+    [ObservableProperty]
+    public partial string? Stored { get; set; }
+
+    [RelayCommand]
+    private async Task SaveAsync()
+    {
+        try
+        {
+            await secureStorage.SetAsync("api_token", Token);
+        }
+        catch (Exception ex)
+        {
+            // The keychain or keystore isn't available
+            Stored = $"Couldn't save: {ex.Message}";
+        }
+    }
+
+    // GetAsync returns null when the key doesn't exist
+    [RelayCommand]
+    private async Task ReadAsync() => Stored = await secureStorage.GetAsync("api_token");
+
+    [RelayCommand]
+    private void Remove() => secureStorage.Remove("api_token");
+}

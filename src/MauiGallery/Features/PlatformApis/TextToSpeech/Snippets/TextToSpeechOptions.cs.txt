@@ -1,0 +1,29 @@
+public partial class SpeechViewModel
+{
+    [ObservableProperty]
+    public partial IReadOnlyList<Locale> Locales { get; set; } = [];
+
+    [ObservableProperty]
+    public partial Locale? Locale { get; set; }
+
+    // Call from the page's OnAppearing
+    [RelayCommand]
+    private async Task LoadLocalesAsync()
+    {
+        Locales = [.. await textToSpeech.GetLocalesAsync()];
+        Locale = Locales.FirstOrDefault(l => $"{l.Language}-{l.Country}" == $(Locale));
+    }
+
+    [RelayCommand(IncludeCancelCommand = true)]
+    private async Task SpeakAsync(CancellationToken cancellationToken)
+    {
+        var options = new SpeechOptions
+        {
+            Locale = Locale,
+            Pitch = $(Pitch),   // 0 to 2
+            Volume = $(Volume), // 0 to 1
+            Rate = $(Rate),     // 0.1 to 2
+        };
+        await textToSpeech.SpeakAsync(Text, options, cancellationToken);
+    }
+}

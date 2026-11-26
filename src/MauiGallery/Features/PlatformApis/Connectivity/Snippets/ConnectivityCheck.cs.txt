@@ -1,0 +1,20 @@
+public partial class ConnectivityViewModel(IConnectivity connectivity, INewsService news) : ObservableObject
+{
+    [ObservableProperty]
+    public partial string Headlines { get; set; } = "Tap Load to fetch headlines";
+
+    [RelayCommand]
+    private async Task LoadHeadlinesAsync()
+    {
+        // Check first: a request without a network fails slowly, after a timeout
+        if (connectivity.NetworkAccess != NetworkAccess.Internet)
+        {
+            Headlines = "You're offline. Showing the headlines you saved earlier.";
+            return;
+        }
+
+        Headlines = "Loading…";
+        var headlines = await news.GetHeadlinesAsync();
+        Headlines = $"{headlines.Count} new headlines at {DateTime.Now:t}";
+    }
+}

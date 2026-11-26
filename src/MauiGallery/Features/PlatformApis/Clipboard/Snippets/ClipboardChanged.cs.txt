@@ -1,0 +1,25 @@
+public partial class ClipboardViewModel
+{
+    // HasText doesn't read the text, so it never shows the iOS paste prompt
+    [ObservableProperty]
+    public partial bool HasText { get; set; } = clipboard.HasText;
+
+    [ObservableProperty]
+    public partial int ChangeCount { get; set; }
+
+    // Call from the page's OnAppearing
+    public void Start() => clipboard.ClipboardContentChanged += OnClipboardContentChanged;
+
+    // Call from the page's OnDisappearing
+    public void Stop() => clipboard.ClipboardContentChanged -= OnClipboardContentChanged;
+
+    // Setting null clears the clipboard
+    [RelayCommand]
+    private Task ClearAsync() => clipboard.SetTextAsync(null);
+
+    private void OnClipboardContentChanged(object? sender, EventArgs e)
+    {
+        HasText = clipboard.HasText;
+        ChangeCount++;
+    }
+}

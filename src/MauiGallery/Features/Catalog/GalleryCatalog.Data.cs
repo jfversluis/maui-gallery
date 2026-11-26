@@ -49,6 +49,7 @@ public sealed partial class GalleryCatalog
         .. FundamentalsBindingItems(),
         .. NavigationItems(),
         .. PlatformApisItems(),
+        .. PlatformApisCoreItems(),
         .. NativePowerItems(),
     ];
 }

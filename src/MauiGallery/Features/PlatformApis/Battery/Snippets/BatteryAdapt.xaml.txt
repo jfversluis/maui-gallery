@@ -1,0 +1,4 @@
+<VerticalStackLayout x:DataType="local:BatteryViewModel" Spacing="4">
+    <Label Text="Background sync" />
+    <Label Text="{Binding SyncPlan}" FontSize="20" FontAttributes="Bold" />
+</VerticalStackLayout>

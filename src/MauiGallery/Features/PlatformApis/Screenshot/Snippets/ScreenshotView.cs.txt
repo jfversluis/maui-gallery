@@ -1,0 +1,17 @@
+private async void OnCaptureCardClicked(object? sender, EventArgs e)
+{
+    // Renders only the card and its children; null when it isn't on screen
+    IScreenshotResult? result = await card.CaptureAsync();
+    if (result is null)
+    {
+        return;
+    }
+
+    // Quality (0 to 100) only applies to JPEG
+    await using var stream = await result.OpenReadAsync($(Format), $(Quality));
+    using var memory = new MemoryStream();
+    await stream.CopyToAsync(memory);
+    var bytes = memory.ToArray();
+
+    preview.Source = ImageSource.FromStream(() => new MemoryStream(bytes));
+}

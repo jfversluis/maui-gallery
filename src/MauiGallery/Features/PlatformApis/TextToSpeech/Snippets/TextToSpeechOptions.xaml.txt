@@ -1,0 +1,7 @@
+<VerticalStackLayout x:DataType="local:SpeechViewModel" Spacing="12">
+    <Picker
+        ItemsSource="{Binding Locales}"
+        ItemDisplayBinding="{Binding Name, x:DataType=Locale}"
+        SelectedItem="{Binding Locale}" />
+    <Button Text="Speak" Command="{Binding SpeakCommand}" />
+</VerticalStackLayout>

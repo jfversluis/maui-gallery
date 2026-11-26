@@ -1,0 +1,6 @@
+<VerticalStackLayout x:DataType="local:VersionTrackingViewModel" Spacing="8">
+    <Label Text="{Binding PreviousVersion, StringFormat='Previous version: {0}'}" />
+    <Label Text="{Binding FirstInstalledVersion, StringFormat='First installed: {0}'}" />
+    <Label Text="{Binding VersionHistory, StringFormat='Versions: {0}'}" />
+    <Label Text="{Binding VersionCheck}" />
+</VerticalStackLayout>

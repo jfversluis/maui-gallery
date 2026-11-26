@@ -1,0 +1,45 @@
+// MauiProgram.cs: builder.Services.AddSingleton(Battery.Default);
+// Android: AndroidManifest.xml needs <uses-permission android:name="android.permission.BATTERY_STATS" />
+public partial class BatteryViewModel(IBattery battery) : ObservableObject
+{
+    [ObservableProperty]
+    public partial double ChargeLevel { get; set; } // 0 to 1, or -1 when unknown
+
+    [ObservableProperty]
+    public partial BatteryState State { get; set; }
+
+    [ObservableProperty]
+    public partial BatteryPowerSource PowerSource { get; set; }
+
+    [ObservableProperty]
+    public partial EnergySaverStatus EnergySaver { get; set; }
+
+    // Call from the page's OnAppearing
+    public void Start()
+    {
+        ChargeLevel = battery.ChargeLevel;
+        State = battery.State;
+        PowerSource = battery.PowerSource;
+        EnergySaver = battery.EnergySaverStatus;
+
+        battery.BatteryInfoChanged += OnBatteryInfoChanged;
+        battery.EnergySaverStatusChanged += OnEnergySaverStatusChanged;
+    }
+
+    // Call from the page's OnDisappearing
+    public void Stop()
+    {
+        battery.BatteryInfoChanged -= OnBatteryInfoChanged;
+        battery.EnergySaverStatusChanged -= OnEnergySaverStatusChanged;
+    }
+
+    private void OnBatteryInfoChanged(object? sender, BatteryInfoChangedEventArgs e)
+    {
+        ChargeLevel = e.ChargeLevel;
+        State = e.State;
+        PowerSource = e.PowerSource;
+    }
+
+    private void OnEnergySaverStatusChanged(object? sender, EnergySaverStatusChangedEventArgs e) =>
+        EnergySaver = e.EnergySaverStatus;
+}

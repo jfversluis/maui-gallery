@@ -4,6 +4,7 @@ using MauiGallery.DesignSystem.Components;
 using MauiGallery.Features.Catalog;
 using MauiGallery.Features.Home;
 using MauiGallery.Features.NativePower;
+using MauiGallery.Features.PlatformApis;
 using MauiGallery.Features.Samples;
 using MauiGallery.Features.Search;
 using MauiGallery.Features.Settings;
@@ -35,7 +36,8 @@ public static class MauiProgram
             .ConfigureMauiHandlers(_ => BorderlessEntry.Register())
             .ConfigureDeepLinks()
             .ConfigureWindowChrome()
-            .UseNativePowerSamples();
+            .UseNativePowerSamples()
+            .UsePlatformApisCoreSamples();
 
         var catalog = new GalleryCatalog();
         builder.Services

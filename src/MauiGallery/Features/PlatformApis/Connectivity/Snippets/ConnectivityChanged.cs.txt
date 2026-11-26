@@ -1,0 +1,22 @@
+public partial class ConnectivityViewModel
+{
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsOnline))]
+    public partial NetworkAccess Access { get; set; }
+
+    public bool IsOnline => Access == NetworkAccess.Internet;
+
+    public ObservableCollection<string> Changes { get; } = [];
+
+    // Call from the page's OnAppearing
+    public void Start() => connectivity.ConnectivityChanged += OnConnectivityChanged;
+
+    // Call from the page's OnDisappearing
+    public void Stop() => connectivity.ConnectivityChanged -= OnConnectivityChanged;
+
+    private void OnConnectivityChanged(object? sender, ConnectivityChangedEventArgs e)
+    {
+        Access = e.NetworkAccess;
+        Changes.Insert(0, $"{DateTime.Now:T}  {e.NetworkAccess} over {string.Join(", ", e.ConnectionProfiles)}");
+    }
+}

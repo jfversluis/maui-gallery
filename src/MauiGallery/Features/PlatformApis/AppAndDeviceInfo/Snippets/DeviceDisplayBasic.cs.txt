@@ -1,0 +1,29 @@
+// MauiProgram.cs: builder.Services.AddSingleton(DeviceDisplay.Current);
+// Without dependency injection, use DeviceDisplay.Current directly.
+public partial class DisplayInfoViewModel(IDeviceDisplay deviceDisplay) : ObservableObject
+{
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SizeInUnits))]
+    public partial DisplayInfo Info { get; set; } = deviceDisplay.MainDisplayInfo;
+
+    [ObservableProperty]
+    public partial bool KeepScreenOn { get; set; }
+
+    // Width and Height are in pixels; divide by Density for layout units
+    public string SizeInUnits => $"{Info.Width / Info.Density:0} × {Info.Height / Info.Density:0}";
+
+    partial void OnKeepScreenOnChanged(bool value) => deviceDisplay.KeepScreenOn = value;
+
+    // Call from the page's OnAppearing
+    public void Start() => deviceDisplay.MainDisplayInfoChanged += OnMainDisplayInfoChanged;
+
+    // Call from the page's OnDisappearing, and let the screen sleep again
+    public void Stop()
+    {
+        deviceDisplay.MainDisplayInfoChanged -= OnMainDisplayInfoChanged;
+        KeepScreenOn = false;
+    }
+
+    private void OnMainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e) =>
+        Info = e.DisplayInfo;
+}

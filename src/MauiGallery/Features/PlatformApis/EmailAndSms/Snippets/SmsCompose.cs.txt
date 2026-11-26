@@ -1,0 +1,28 @@
+// MauiProgram.cs: builder.Services.AddSingleton(Sms.Default);
+// Without dependency injection, use Sms.Default directly.
+public partial class SmsViewModel(ISms sms) : ObservableObject
+{
+    [ObservableProperty]
+    public partial string Recipient { get; set; } = "+15555550123";
+
+    [ObservableProperty]
+    public partial string Message { get; set; } = "Running late, see you in 10 minutes!";
+
+    [ObservableProperty]
+    public partial string? Result { get; set; }
+
+    [RelayCommand]
+    private async Task ComposeAsync()
+    {
+        try
+        {
+            // SmsMessage takes the text and one or more recipients
+            await sms.ComposeAsync(new SmsMessage(Message, Recipient));
+        }
+        catch (FeatureNotSupportedException)
+        {
+            // Simulators, Macs and most tablets can't send text messages
+            Result = "This device can't send text messages";
+        }
+    }
+}

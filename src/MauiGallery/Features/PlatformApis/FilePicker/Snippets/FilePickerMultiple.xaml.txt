@@ -1,0 +1,10 @@
+<VerticalStackLayout x:DataType="local:FilePickerViewModel" Spacing="12">
+    <Button Text="Choose images" Command="{Binding PickImagesCommand}" />
+    <VerticalStackLayout BindableLayout.ItemsSource="{Binding PickedFiles}">
+        <BindableLayout.ItemTemplate>
+            <DataTemplate x:DataType="x:String">
+                <Label Text="{Binding .}" />
+            </DataTemplate>
+        </BindableLayout.ItemTemplate>
+    </VerticalStackLayout>
+</VerticalStackLayout>

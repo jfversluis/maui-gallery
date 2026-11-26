@@ -1,0 +1,11 @@
+// _browser is an IBrowser from dependency injection: builder.Services.AddSingleton(Browser.Default);
+// Without dependency injection, call Browser.Default.OpenAsync(...).
+private async void OnOpenClicked(object? sender, EventArgs e)
+{
+    await _browser.OpenAsync($(Uri), new BrowserLaunchOptions
+    {
+        LaunchMode = $(LaunchMode),
+        PreferredToolbarColor = $(ToolbarColor),
+        PreferredControlColor = $(ControlColor),
+    });
+}

@@ -1,0 +1,66 @@
+<SamplePage x:Class="MauiGallery.Features.PlatformApis.ClipboardPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Copy and paste -->
+            <ControlExample x:Name="CopyExample"
+                            Title="Copy and paste text"
+                            Description="SetTextAsync puts text on the system clipboard, where any app can paste it, and GetTextAsync reads it back. Offer a copy button for things people often copy, like an order number or a share code. On iOS, reading text another app copied asks the person for permission first."
+                            ShowStyleToggle="False"
+                            XamlSource="ClipboardCopy.xaml.txt"
+                            CSharpSource="ClipboardCopy.cs.txt">
+                <VerticalStackLayout x:Name="CopySample"
+                                     x:DataType="local:ClipboardViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Entry Text="{Binding Text}"
+                           Placeholder="Text to copy"
+                           SemanticProperties.Description="Text to copy"
+                           AutomationId="sample-clipboard-text" />
+                    <HorizontalStackLayout Spacing="12">
+                        <Button x:Name="CopyButton"
+                                Text="Copy"
+                                Command="{Binding CopyCommand}"
+                                Clicked="OnCopyClicked"
+                                AutomationId="sample-clipboard-copy" />
+                        <Button Text="Paste"
+                                Command="{Binding PasteCommand}"
+                                Clicked="OnPasteClicked"
+                                AutomationId="sample-clipboard-paste" />
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding Pasted}" AutomationId="sample-clipboard-pasted" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 2. Changes -->
+            <ControlExample x:Name="ChangesExample"
+                            Title="Know when the clipboard changes"
+                            Description="HasText checks for text without reading it, so it never triggers a paste prompt: use it to enable a Paste button. ClipboardContentChanged fires when this app or another one copies something; on iOS and Android you hear about other apps' changes when your app is in the foreground again."
+                            ShowStyleToggle="False"
+                            XamlSource="ClipboardChanged.xaml.txt"
+                            CSharpSource="ClipboardChanged.cs.txt">
+                <VerticalStackLayout x:Name="ChangesSample"
+                                     x:DataType="local:ClipboardViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" ColumnSpacing="16" RowSpacing="8">
+                        <Label Text="Has text" Opacity="0.7" />
+                        <Label Grid.Column="1" Text="{Binding HasText}" AutomationId="sample-clipboard-hastext" />
+                        <Label Grid.Row="1" Text="Changes" Opacity="0.7" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding ChangeCount}" AutomationId="sample-clipboard-changes" />
+                    </Grid>
+                    <Button x:Name="ClearButton"
+                            Text="Clear the clipboard"
+                            Command="{Binding ClearCommand}"
+                            HorizontalOptions="Start"
+                            AutomationId="sample-clipboard-clear" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

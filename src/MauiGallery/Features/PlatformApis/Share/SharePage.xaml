@@ -1,0 +1,69 @@
+<SamplePage x:Class="MauiGallery.Features.PlatformApis.SharePage"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Text and links -->
+            <ControlExample x:Name="TextExample"
+                            Title="Share text and a link"
+                            Description="RequestAsync with a ShareTextRequest opens the system share sheet, so people can send text or a link with any app they have: messages, mail, notes or AirDrop. On iPad and Mac the sheet is a popover; set PresentationSourceBounds so it points at the button that opened it."
+                            XamlSource="ShareText.xaml.txt"
+                            CSharpSource="ShareText.cs.txt">
+                <Button x:Name="TextButton"
+                        Text="Share"
+                        Clicked="OnShareTextClicked"
+                        AutomationId="sample-share-text" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Text" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="TextText" Text="Every control in one app" AutomationId="option-share-text" />
+                        <Label Text="Uri" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="TextUri" Text="https://dotnet.microsoft.com/apps/maui" Keyboard="Url" AutomationId="option-share-uri" />
+                        <Label Text="Title (Android)" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="TextTitle" Text="Share this page" AutomationId="option-share-title" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Text" Value="{Binding Text, Source={x:Reference TextText}, x:DataType=Entry}" Default="" />
+                    <Substitution Key="Uri" Value="{Binding Text, Source={x:Reference TextUri}, x:DataType=Entry}" Default="" />
+                    <Substitution Key="Title" Value="{Binding Text, Source={x:Reference TextTitle}, x:DataType=Entry}" Default="" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Files -->
+            <ControlExample x:Name="FileExample"
+                            Title="Share a file"
+                            Description="ShareFileRequest shares a file by its path. Write it to FileSystem.CacheDirectory first: the system can delete the cache when space runs low, which is fine for a file you only need until it's shared. ShareMultipleFilesRequest shares several files at once."
+                            XamlSource="ShareFile.xaml.txt"
+                            CSharpSource="ShareFile.cs.txt">
+                <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Editor x:Name="FileContents"
+                            Text="Milk&#10;Eggs&#10;Coffee"
+                            HeightRequest="100"
+                            SemanticProperties.Description="File contents"
+                            AutomationId="sample-share-file-contents" />
+                    <Button x:Name="FileButton"
+                            Text="Share as a file"
+                            Clicked="OnShareFileClicked"
+                            HorizontalOptions="Start"
+                            AutomationId="sample-share-file" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="File name" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="FileName" Text="shopping-list.txt" AutomationId="option-share-file-name" />
+                        <Label Text="Title (Android)" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="FileTitle" Text="Share the list" AutomationId="option-share-file-title" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="FileName" Value="{Binding Text, Source={x:Reference FileName}, x:DataType=Entry}" />
+                    <Substitution Key="Title" Value="{Binding Text, Source={x:Reference FileTitle}, x:DataType=Entry}" Default="" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

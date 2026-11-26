@@ -1,0 +1,18 @@
+// MauiProgram.cs: record this launch at startup, and register the service
+builder.ConfigureEssentials(essentials => essentials.UseVersionTracking());
+builder.Services.AddSingleton(VersionTracking.Default);
+
+// Without dependency injection, use VersionTracking.Default directly.
+public class VersionTrackingViewModel(IVersionTracking versionTracking)
+{
+    public bool IsFirstLaunchEver => versionTracking.IsFirstLaunchEver;
+    public bool IsFirstLaunchForCurrentVersion => versionTracking.IsFirstLaunchForCurrentVersion;
+    public bool IsFirstLaunchForCurrentBuild => versionTracking.IsFirstLaunchForCurrentBuild;
+    public string CurrentVersion => versionTracking.CurrentVersion;
+    public string CurrentBuild => versionTracking.CurrentBuild;
+
+    public string Welcome =>
+        IsFirstLaunchEver ? "Welcome! Here's a quick tour."
+        : IsFirstLaunchForCurrentVersion ? $"What's new in {CurrentVersion}"
+        : "Welcome back";
+}

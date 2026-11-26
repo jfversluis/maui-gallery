@@ -1,0 +1,7 @@
+<VerticalStackLayout Spacing="12">
+    <Border x:Name="card" Padding="20" StrokeShape="RoundRectangle 16" Background="#512BD4">
+        <Label Text="AMS → SEA" TextColor="White" FontSize="28" />
+    </Border>
+    <Button Text="Capture the card" Clicked="OnCaptureCardClicked" />
+    <Image x:Name="preview" HeightRequest="120" Aspect="AspectFit" />
+</VerticalStackLayout>

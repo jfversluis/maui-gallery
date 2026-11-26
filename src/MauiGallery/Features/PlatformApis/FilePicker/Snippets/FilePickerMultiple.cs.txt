@@ -1,0 +1,21 @@
+public partial class FilePickerViewModel
+{
+    public ObservableCollection<string> PickedFiles { get; } = [];
+
+    [RelayCommand]
+    private async Task PickImagesAsync()
+    {
+        // An empty list when the person cancels
+        IEnumerable<FileResult?> files = await filePicker.PickMultipleAsync(new PickOptions
+        {
+            PickerTitle = "Choose images",
+            FileTypes = FilePickerFileType.Images,
+        });
+
+        PickedFiles.Clear();
+        foreach (var file in files.OfType<FileResult>())
+        {
+            PickedFiles.Add(file.FileName);
+        }
+    }
+}

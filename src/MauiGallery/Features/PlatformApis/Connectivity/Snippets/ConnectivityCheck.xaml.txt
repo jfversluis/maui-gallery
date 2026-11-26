@@ -1,0 +1,4 @@
+<VerticalStackLayout x:DataType="local:ConnectivityViewModel" Spacing="12">
+    <Button Text="Load headlines" Command="{Binding LoadHeadlinesCommand}" />
+    <Label Text="{Binding Headlines}" />
+</VerticalStackLayout>

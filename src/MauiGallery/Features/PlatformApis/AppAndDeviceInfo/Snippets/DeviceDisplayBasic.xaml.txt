@@ -1,0 +1,11 @@
+<VerticalStackLayout x:DataType="local:DisplayInfoViewModel" Spacing="8">
+    <Label Text="{Binding SizeInUnits}" />
+    <Label Text="{Binding Info.Density, StringFormat='Density: {0:0.##}x'}" />
+    <Label Text="{Binding Info.Orientation, StringFormat='Orientation: {0}'}" />
+    <Label Text="{Binding Info.Rotation, StringFormat='Rotation: {0}'}" />
+    <Label Text="{Binding Info.RefreshRate, StringFormat='Refresh rate: {0:0} Hz'}" />
+    <HorizontalStackLayout Spacing="8">
+        <Label Text="Keep the screen on" VerticalOptions="Center" />
+        <Switch IsToggled="{Binding KeepScreenOn}" />
+    </HorizontalStackLayout>
+</VerticalStackLayout>

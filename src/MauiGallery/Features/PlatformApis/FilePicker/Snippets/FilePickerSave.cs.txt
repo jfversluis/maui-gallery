@@ -1,0 +1,18 @@
+// Private to the app, and backed up
+private readonly string path = Path.Combine(FileSystem.Current.AppDataDirectory, $(FileName));
+
+private async void OnSaveClicked(object? sender, EventArgs e) =>
+    await File.WriteAllTextAsync(path, contents.Text);
+
+// Hands the file to an app that can open it; ILauncher comes from dependency injection,
+// or use Launcher.Default
+private async void OnOpenClicked(object? sender, EventArgs e)
+{
+    await _launcher.OpenAsync(new OpenFileRequest
+    {
+        Title = "Open the notes",
+        File = new ReadOnlyFile(path, "text/plain"),
+        // Where the popover points on iPad and Mac (see the Share sample)
+        PresentationSourceBounds = ((View)sender!).GetBoundsInWindow(),
+    });
+}

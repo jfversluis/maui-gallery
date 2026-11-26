@@ -1,0 +1,8 @@
+<VerticalStackLayout x:DataType="local:ClipboardViewModel" Spacing="12">
+    <Entry Text="{Binding Text}" Placeholder="Text to copy" />
+    <HorizontalStackLayout Spacing="12">
+        <Button Text="Copy" Command="{Binding CopyCommand}" />
+        <Button Text="Paste" Command="{Binding PasteCommand}" />
+    </HorizontalStackLayout>
+    <Label Text="{Binding Pasted}" />
+</VerticalStackLayout>

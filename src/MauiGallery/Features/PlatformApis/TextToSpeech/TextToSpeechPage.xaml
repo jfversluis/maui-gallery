@@ -1,0 +1,80 @@
+<SamplePage x:Class="MauiGallery.Features.PlatformApis.TextToSpeechPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Speak -->
+            <ControlExample x:Name="SpeakExample"
+                            Title="Read text aloud"
+                            Description="TextToSpeech.SpeakAsync reads text with the device's built-in voices, with no network or service account: good for accessibility, hands-free instructions or language practice. The task completes when the speech ends, and cancelling its token stops it mid-sentence."
+                            ShowStyleToggle="False"
+                            XamlSource="TextToSpeechSpeak.xaml.txt"
+                            CSharpSource="TextToSpeechSpeak.cs.txt">
+                <VerticalStackLayout x:Name="SpeakSample"
+                                     x:DataType="local:TextToSpeechViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Editor Text="{Binding Text}"
+                            HeightRequest="90"
+                            SemanticProperties.Description="Text to speak"
+                            AutomationId="sample-tts-text" />
+                    <HorizontalStackLayout Spacing="8">
+                        <Button x:Name="SpeakButton" Text="Speak" Command="{Binding SpeakCommand}" AutomationId="sample-tts-speak" />
+                        <Button Text="Stop" Command="{Binding StopCommand}" AutomationId="sample-tts-stop" />
+                        <ActivityIndicator IsRunning="{Binding SpeakCommand.IsRunning}"
+                                           IsVisible="{Binding SpeakCommand.IsRunning}"
+                                           HeightRequest="20"
+                                           WidthRequest="20"
+                                           VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding Status}" AutomationId="sample-tts-status" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 2. Voice options -->
+            <ControlExample x:Name="VoiceExample"
+                            Title="Choose the voice"
+                            Description="GetLocalesAsync lists the voices installed on the device, and SpeechOptions picks one, along with the pitch (0 to 2), volume (0 to 1) and rate (0.1 to 2). Leave an option out to use the person's system setting."
+                            ShowStyleToggle="False"
+                            XamlSource="TextToSpeechOptions.xaml.txt"
+                            CSharpSource="TextToSpeechOptions.cs.txt">
+                <VerticalStackLayout x:Name="VoiceSample"
+                                     x:DataType="local:TextToSpeechViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Label Text="{Binding Voice.DisplayName, StringFormat='Voice: {0}', FallbackValue='Voice: system default'}" AutomationId="sample-tts-voice" />
+                    <Button x:Name="VoiceButton"
+                            Text="Speak with these options"
+                            Command="{Binding SpeakCommand}"
+                            HorizontalOptions="Start"
+                            AutomationId="sample-tts-speak-options" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout x:Name="VoiceOptions" x:DataType="local:TextToSpeechViewModel" Spacing="8">
+                        <Label Text="Locale" Style="{StaticResource OptionLabel}" />
+                        <Picker ItemsSource="{Binding Voices}"
+                                ItemDisplayBinding="{Binding DisplayName, x:DataType=local:VoiceOption}"
+                                SelectedItem="{Binding Voice}"
+                                AutomationId="option-tts-locale" />
+                        <Label Text="{Binding Pitch, StringFormat='Pitch: {0:0.0}'}" Style="{StaticResource OptionLabel}" />
+                        <Slider Minimum="0" Maximum="2" Value="{Binding Pitch}" AutomationId="option-tts-pitch" />
+                        <Label Text="{Binding Volume, StringFormat='Volume: {0:0.0}'}" Style="{StaticResource OptionLabel}" />
+                        <Slider Minimum="0" Maximum="1" Value="{Binding Volume}" AutomationId="option-tts-volume" />
+                        <Label Text="{Binding Rate, StringFormat='Rate: {0:0.0}'}" Style="{StaticResource OptionLabel}" />
+                        <Slider Minimum="0.1" Maximum="2" Value="{Binding Rate}" AutomationId="option-tts-rate" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="LocaleSubstitution" Key="Locale" />
+                    <Substitution x:Name="PitchSubstitution" Key="Pitch" Value="1.0f" Default="1.0f" IsExpression="True" />
+                    <Substitution x:Name="VolumeSubstitution" Key="Volume" Value="1.0f" Default="1.0f" IsExpression="True" />
+                    <Substitution x:Name="RateSubstitution" Key="Rate" Value="1.0f" Default="1.0f" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

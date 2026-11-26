@@ -1,0 +1,7 @@
+<VerticalStackLayout x:DataType="local:SettingsViewModel" Spacing="12">
+    <Entry Text="{Binding UserName}" Placeholder="Your name" />
+    <Switch IsToggled="{Binding Notifications}" />
+    <Stepper Minimum="10" Maximum="30" Value="{Binding TextSize}" />
+    <Button Text="Remove name" Command="{Binding RemoveNameCommand}" />
+    <Button Text="Clear all" Command="{Binding ClearAllCommand}" />
+</VerticalStackLayout>

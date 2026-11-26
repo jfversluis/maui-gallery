@@ -1,0 +1,72 @@
+<SamplePage x:Class="MauiGallery.Features.PlatformApis.EmailAndSmsPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Email -->
+            <ControlExample x:Name="EmailExample"
+                            Title="Compose an email"
+                            Description="Email.ComposeAsync opens the mail app with a draft filled in: recipients, subject, a plain text or HTML body and attachments. The person reviews and sends it, so your app needs no mail account or server. Check IsComposeSupported first, because simulators and many computers have no mail account set up."
+                            ShowStyleToggle="False"
+                            XamlSource="EmailCompose.xaml.txt"
+                            CSharpSource="EmailCompose.cs.txt">
+                <VerticalStackLayout x:Name="EmailSample"
+                                     x:DataType="local:EmailViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Entry Text="{Binding To}" Keyboard="Email" Placeholder="To" SemanticProperties.Description="To" AutomationId="sample-email-to" />
+                    <Entry Text="{Binding Subject}" Placeholder="Subject" SemanticProperties.Description="Subject" AutomationId="sample-email-subject" />
+                    <Editor Text="{Binding Body}" HeightRequest="80" Placeholder="Message" SemanticProperties.Description="Message" AutomationId="sample-email-body" />
+                    <Button x:Name="EmailButton"
+                            Text="Compose email"
+                            Command="{Binding ComposeCommand}"
+                            HorizontalOptions="Start"
+                            AutomationId="sample-email-compose" />
+                    <Label Text="{Binding Result}" IsVisible="{Binding Result, Converter={StaticResource IsNotNullOrEmpty}}" AutomationId="sample-email-result" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout x:Name="EmailOptions" x:DataType="local:EmailViewModel" Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="HTML body" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="EmailHtml" Grid.Column="1" IsToggled="{Binding IsHtml}" AutomationId="option-email-html" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Attach a file" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="EmailAttach" Grid.Column="1" IsToggled="{Binding AttachLog}" AutomationId="option-email-attach" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="EmailFormatSubstitution" Key="BodyFormat" Value="EmailBodyFormat.PlainText" Default="EmailBodyFormat.PlainText" IsExpression="True" />
+                    <Substitution x:Name="EmailAttachSubstitution" Key="Attachment" Value="" Default="" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. SMS -->
+            <ControlExample x:Name="SmsExample"
+                            Title="Compose a text message"
+                            Description="Sms.ComposeAsync opens the messages app with the recipients and text filled in, ready to send. Only phones can send text messages: Mac, simulators and most tablets throw FeatureNotSupportedException, so catch it and offer another way, such as Share."
+                            ShowStyleToggle="False"
+                            XamlSource="SmsCompose.xaml.txt"
+                            CSharpSource="SmsCompose.cs.txt">
+                <VerticalStackLayout x:Name="SmsSample"
+                                     x:DataType="local:SmsViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Entry Text="{Binding Recipient}" Keyboard="Telephone" Placeholder="Phone number" SemanticProperties.Description="Phone number" AutomationId="sample-sms-recipient" />
+                    <Editor Text="{Binding Message}" HeightRequest="80" Placeholder="Message" SemanticProperties.Description="Message" AutomationId="sample-sms-message" />
+                    <Button x:Name="SmsButton"
+                            Text="Compose message"
+                            Command="{Binding ComposeCommand}"
+                            HorizontalOptions="Start"
+                            AutomationId="sample-sms-compose" />
+                    <Label Text="{Binding Result}" IsVisible="{Binding Result, Converter={StaticResource IsNotNullOrEmpty}}" AutomationId="sample-sms-result" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

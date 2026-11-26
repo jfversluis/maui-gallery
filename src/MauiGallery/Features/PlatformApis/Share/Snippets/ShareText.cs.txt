@@ -1,0 +1,28 @@
+// _share is an IShare from dependency injection: builder.Services.AddSingleton(Share.Default);
+// Without dependency injection, call Share.Default.RequestAsync(...).
+private async void OnShareClicked(object? sender, EventArgs e)
+{
+    await _share.RequestAsync(new ShareTextRequest
+    {
+        Text = $(Text),
+        Uri = $(Uri),
+        Title = $(Title),
+        // Where the popover points on iPad and Mac
+        PresentationSourceBounds = ((View)sender!).GetBoundsInWindow(),
+    });
+}
+
+public static class ViewBoundsExtensions
+{
+    public static Rect GetBoundsInWindow(this View view)
+    {
+#if IOS || MACCATALYST
+        if (view.Handler?.PlatformView is UIKit.UIView platformView)
+        {
+            var bounds = platformView.ConvertRectToView(platformView.Bounds, null);
+            return new Rect(bounds.X, bounds.Y, bounds.Width, bounds.Height);
+        }
+#endif
+        return Rect.Zero;
+    }
+}

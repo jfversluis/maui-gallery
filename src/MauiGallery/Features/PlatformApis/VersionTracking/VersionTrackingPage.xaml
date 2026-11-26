@@ -1,0 +1,76 @@
+<SamplePage x:Class="MauiGallery.Features.PlatformApis.VersionTrackingPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. This launch -->
+            <ControlExample x:Name="LaunchExample"
+                            Title="Is this the first launch?"
+                            Description="VersionTracking remembers every version and build of your app that has run on the device. Call UseVersionTracking at startup so the current launch is recorded before anything reads it. The first-launch flags drive onboarding the first time someone opens the app, and a what's-new screen after an update."
+                            ShowStyleToggle="False"
+                            XamlSource="VersionTrackingLaunch.xaml.txt"
+                            CSharpSource="VersionTrackingLaunch.cs.txt">
+                <VerticalStackLayout x:Name="LaunchSample"
+                                     x:DataType="local:VersionTrackingViewModel"
+                                     Spacing="16"
+                                     WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Label Text="{Binding Welcome}" FontSize="20" FontAttributes="Bold" AutomationId="sample-version-welcome" />
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="8">
+                        <Label Text="First launch ever" Opacity="0.7" />
+                        <Label Grid.Column="1" Text="{Binding IsFirstLaunchEver}" AutomationId="sample-version-first-ever" />
+                        <Label Grid.Row="1" Text="First for version" Opacity="0.7" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding IsFirstLaunchForCurrentVersion}" AutomationId="sample-version-first-version" />
+                        <Label Grid.Row="2" Text="First for build" Opacity="0.7" />
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding IsFirstLaunchForCurrentBuild}" />
+                        <Label Grid.Row="3" Text="Current version" Opacity="0.7" />
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding CurrentVersion}" AutomationId="sample-version-current" />
+                        <Label Grid.Row="4" Text="Current build" Opacity="0.7" />
+                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding CurrentBuild}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 2. History -->
+            <ControlExample x:Name="HistoryExample"
+                            Title="Version history"
+                            Description="PreviousVersion is the version that ran before this one, which tells you which data to migrate after an update. FirstInstalledVersion and VersionHistory show how long someone has used the app, without your own bookkeeping. The history lives in the app's preferences, so it starts over after a reinstall."
+                            ShowStyleToggle="False"
+                            XamlSource="VersionTrackingHistory.xaml.txt"
+                            CSharpSource="VersionTrackingHistory.cs.txt">
+                <VerticalStackLayout x:Name="HistorySample"
+                                     x:DataType="local:VersionTrackingViewModel"
+                                     Spacing="16"
+                                     WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="8">
+                        <Label Text="Previous version" Opacity="0.7" />
+                        <Label Grid.Column="1" Text="{Binding PreviousVersion}" AutomationId="sample-version-previous" />
+                        <Label Grid.Row="1" Text="Previous build" Opacity="0.7" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding PreviousBuild}" />
+                        <Label Grid.Row="2" Text="First installed" Opacity="0.7" />
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding FirstInstalledVersion}" AutomationId="sample-version-first-installed" />
+                        <Label Grid.Row="3" Text="First build" Opacity="0.7" />
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding FirstInstalledBuild}" />
+                        <Label Grid.Row="4" Text="Versions" Opacity="0.7" />
+                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding VersionHistory}" AutomationId="sample-version-history" />
+                        <Label Grid.Row="5" Text="Builds" Opacity="0.7" />
+                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding BuildHistory}" />
+                    </Grid>
+                    <Label Text="{Binding VersionCheck}" FontAttributes="Bold" AutomationId="sample-version-check" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout x:Name="HistoryOptions" x:DataType="local:VersionTrackingViewModel" Spacing="8">
+                        <Label Text="Look up a version" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="HistoryVersion" Text="{Binding VersionToCheck}" AutomationId="option-version-check" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Version" Value="{Binding Text, Source={x:Reference HistoryVersion}, x:DataType=Entry}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

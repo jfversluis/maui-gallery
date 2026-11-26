@@ -1,0 +1,16 @@
+// MauiProgram.cs: builder.Services.AddSingleton(Clipboard.Default);
+// Without dependency injection, use Clipboard.Default directly.
+public partial class ClipboardViewModel(IClipboard clipboard) : ObservableObject
+{
+    [ObservableProperty]
+    public partial string Text { get; set; } = "Hello from .NET MAUI";
+
+    [ObservableProperty]
+    public partial string? Pasted { get; set; }
+
+    [RelayCommand]
+    private Task CopyAsync() => clipboard.SetTextAsync(Text);
+
+    [RelayCommand]
+    private async Task PasteAsync() => Pasted = await clipboard.GetTextAsync();
+}

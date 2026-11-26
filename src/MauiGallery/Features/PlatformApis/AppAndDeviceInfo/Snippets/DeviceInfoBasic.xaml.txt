@@ -1,0 +1,19 @@
+<Grid
+    x:DataType="local:DeviceInfoViewModel"
+    ColumnDefinitions="Auto,*"
+    RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+    ColumnSpacing="16"
+    RowSpacing="8">
+    <Label Text="Model" />
+    <Label Grid.Column="1" Text="{Binding Model}" />
+    <Label Grid.Row="1" Text="Manufacturer" />
+    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Manufacturer}" />
+    <Label Grid.Row="2" Text="Platform" />
+    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Platform}" />
+    <Label Grid.Row="3" Text="Version" />
+    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Version}" />
+    <Label Grid.Row="4" Text="Idiom" />
+    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Idiom}" />
+    <Label Grid.Row="5" Text="Device type" />
+    <Label Grid.Row="5" Grid.Column="1" Text="{Binding DeviceType}" />
+</Grid>

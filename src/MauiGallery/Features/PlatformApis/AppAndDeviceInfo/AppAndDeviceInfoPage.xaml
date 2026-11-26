@@ -1,0 +1,113 @@
+<SamplePage x:Class="MauiGallery.Features.PlatformApis.AppAndDeviceInfoPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. AppInfo -->
+            <ControlExample x:Name="AppExample"
+                            Title="App information"
+                            Description="AppInfo reads your app's name, package id, version and build from the platform's metadata, so an About screen never goes out of date. RequestedTheme is the system's light or dark setting, and ShowSettingsUI opens your app's page in the system settings, which is where people grant permissions they denied earlier."
+                            ShowStyleToggle="False"
+                            XamlSource="AppInfoBasic.xaml.txt"
+                            CSharpSource="AppInfoBasic.cs.txt">
+                <VerticalStackLayout x:Name="AppSample"
+                                     x:DataType="local:AppInfoViewModel"
+                                     Spacing="16"
+                                     WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="8">
+                        <Label Text="Name" Opacity="0.7" />
+                        <Label Grid.Column="1" Text="{Binding Name}" AutomationId="sample-appinfo-name" />
+                        <Label Grid.Row="1" Text="Package" Opacity="0.7" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding PackageName}" AutomationId="sample-appinfo-package" />
+                        <Label Grid.Row="2" Text="Version" Opacity="0.7" />
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Version}" AutomationId="sample-appinfo-version" />
+                        <Label Grid.Row="3" Text="Build" Opacity="0.7" />
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding Build}" AutomationId="sample-appinfo-build" />
+                        <Label Grid.Row="4" Text="System theme" Opacity="0.7" />
+                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding Theme}" AutomationId="sample-appinfo-theme" />
+                        <Label Grid.Row="5" Text="Layout" Opacity="0.7" />
+                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding LayoutDirection}" />
+                    </Grid>
+                    <Button x:Name="AppSettingsButton"
+                            Text="Open app settings"
+                            Command="{Binding ShowSettingsCommand}"
+                            Clicked="OnShowSettingsClicked"
+                            HorizontalOptions="Start"
+                            AutomationId="sample-appinfo-settings" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 2. DeviceInfo -->
+            <ControlExample x:Name="DeviceExample"
+                            Title="Device information"
+                            Description="DeviceInfo describes the hardware and operating system: the model and manufacturer, the platform and its version, and the idiom (phone, tablet, desktop). DeviceType tells a physical device from a simulator or emulator, handy for turning off features a simulator can't do."
+                            ShowStyleToggle="False"
+                            XamlSource="DeviceInfoBasic.xaml.txt"
+                            CSharpSource="DeviceInfoBasic.cs.txt">
+                <Grid x:Name="DeviceSample"
+                      x:DataType="local:DeviceInfoViewModel"
+                      ColumnDefinitions="Auto,*"
+                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                      ColumnSpacing="16"
+                      RowSpacing="8"
+                      WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Label Text="Model" Opacity="0.7" />
+                    <Label Grid.Column="1" Text="{Binding Model}" AutomationId="sample-deviceinfo-model" />
+                    <Label Grid.Row="1" Text="Manufacturer" Opacity="0.7" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Manufacturer}" />
+                    <Label Grid.Row="2" Text="Name" Opacity="0.7" />
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Name}" />
+                    <Label Grid.Row="3" Text="Platform" Opacity="0.7" />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Platform}" AutomationId="sample-deviceinfo-platform" />
+                    <Label Grid.Row="4" Text="Version" Opacity="0.7" />
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Version}" />
+                    <Label Grid.Row="5" Text="Idiom" Opacity="0.7" />
+                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding Idiom}" AutomationId="sample-deviceinfo-idiom" />
+                    <Label Grid.Row="6" Text="Device type" Opacity="0.7" />
+                    <Label Grid.Row="6" Grid.Column="1" Text="{Binding DeviceType}" AutomationId="sample-deviceinfo-type" />
+                </Grid>
+            </ControlExample>
+
+            <!-- 3. DeviceDisplay -->
+            <ControlExample x:Name="DisplayExample"
+                            Title="Display information"
+                            Description="DeviceDisplay.MainDisplayInfo reports the screen's size in pixels, its density, orientation, rotation and refresh rate; divide by the density for the units your layouts use. MainDisplayInfoChanged fires when the device rotates, and KeepScreenOn stops the screen from sleeping, for a recipe or a boarding pass. Turn it off again when the page goes away."
+                            ShowStyleToggle="False"
+                            XamlSource="DeviceDisplayBasic.xaml.txt"
+                            CSharpSource="DeviceDisplayBasic.cs.txt">
+                <Grid x:Name="DisplaySample"
+                      x:DataType="local:DisplayInfoViewModel"
+                      ColumnDefinitions="Auto,*"
+                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                      ColumnSpacing="16"
+                      RowSpacing="8"
+                      WidthRequest="{OnIdiom Phone=280, Default=380}">
+                    <Label Text="Size" Opacity="0.7" />
+                    <Label Grid.Column="1" Text="{Binding SizeInPixels}" AutomationId="sample-display-size" />
+                    <Label Grid.Row="1" Text="In units" Opacity="0.7" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding SizeInUnits}" />
+                    <Label Grid.Row="2" Text="Density" Opacity="0.7" />
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Info.Density, StringFormat='{0:0.##}x'}" AutomationId="sample-display-density" />
+                    <Label Grid.Row="3" Text="Orientation" Opacity="0.7" />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Info.Orientation}" AutomationId="sample-display-orientation" />
+                    <Label Grid.Row="4" Text="Rotation" Opacity="0.7" />
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Info.Rotation}" />
+                    <Label Grid.Row="5" Text="Refresh rate" Opacity="0.7" />
+                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding Info.RefreshRate, StringFormat='{0:0} Hz'}" />
+                    <Label Grid.Row="6" Text="Screen on" Opacity="0.7" />
+                    <Label Grid.Row="6" Grid.Column="1" Text="{Binding KeepScreenOn, StringFormat='KeepScreenOn = {0}'}" AutomationId="sample-display-keep-on" />
+                </Grid>
+                <ControlExample.Options>
+                    <Grid x:Name="DisplayOptions" x:DataType="local:DisplayInfoViewModel" ColumnDefinitions="*,Auto">
+                        <Label Text="KeepScreenOn" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                        <Switch Grid.Column="1" IsToggled="{Binding KeepScreenOn}" AutomationId="option-display-keep-on" />
+                    </Grid>
+                </ControlExample.Options>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

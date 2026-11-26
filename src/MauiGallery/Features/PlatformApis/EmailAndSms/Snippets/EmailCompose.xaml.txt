@@ -1,0 +1,7 @@
+<VerticalStackLayout x:DataType="local:EmailViewModel" Spacing="12">
+    <Entry Text="{Binding To}" Keyboard="Email" Placeholder="To" />
+    <Entry Text="{Binding Subject}" Placeholder="Subject" />
+    <Editor Text="{Binding Body}" HeightRequest="80" Placeholder="Message" />
+    <Button Text="Compose email" Command="{Binding ComposeCommand}" />
+    <Label Text="{Binding Result}" />
+</VerticalStackLayout>

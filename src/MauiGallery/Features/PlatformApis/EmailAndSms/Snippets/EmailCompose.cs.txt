@@ -1,0 +1,44 @@
+// MauiProgram.cs: builder.Services.AddSingleton(Email.Default);
+// Without dependency injection, use Email.Default directly.
+public partial class EmailViewModel(IEmail email) : ObservableObject
+{
+    [ObservableProperty]
+    public partial string To { get; set; } = "support@example.com";
+
+    [ObservableProperty]
+    public partial string Subject { get; set; } = "Feedback";
+
+    [ObservableProperty]
+    public partial string Body { get; set; } = "";
+
+    [ObservableProperty]
+    public partial string? Result { get; set; }
+
+    [RelayCommand]
+    private async Task ComposeAsync()
+    {
+        if (!email.IsComposeSupported)
+        {
+            Result = "No mail app is set up on this device";
+            return;
+        }
+
+        var message = new EmailMessage
+        {
+            Subject = Subject,
+            Body = Body,
+            BodyFormat = $(BodyFormat),
+            To = [To],
+        };
+        message.Attachments?.Add($(Attachment));
+
+        try
+        {
+            await email.ComposeAsync(message);
+        }
+        catch (FeatureNotSupportedException)
+        {
+            Result = "This device can't compose email";
+        }
+    }
+}

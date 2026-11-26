@@ -1,0 +1,41 @@
+// MauiProgram.cs: builder.Services.AddSingleton(Preferences.Default);
+// Without dependency injection, use Preferences.Default directly.
+public partial class SettingsViewModel : ObservableObject
+{
+    // Optional: a container of its own, so Clear only removes these keys
+    private const string SharedName = "settings";
+
+    private readonly IPreferences preferences;
+
+    public SettingsViewModel(IPreferences preferences)
+    {
+        this.preferences = preferences;
+
+        // The second argument is the default for keys that aren't set yet
+        UserName = preferences.Get("user_name", "", SharedName);
+        Notifications = preferences.Get("notifications", true, SharedName);
+        TextSize = preferences.Get("text_size", 16, SharedName);
+    }
+
+    [ObservableProperty]
+    public partial string UserName { get; set; }
+
+    [ObservableProperty]
+    public partial bool Notifications { get; set; }
+
+    [ObservableProperty]
+    public partial double TextSize { get; set; }
+
+    // Save each change straight away
+    partial void OnUserNameChanged(string value) => preferences.Set("user_name", value, SharedName);
+
+    partial void OnNotificationsChanged(bool value) => preferences.Set("notifications", value, SharedName);
+
+    partial void OnTextSizeChanged(double value) => preferences.Set("text_size", (int)value, SharedName);
+
+    [RelayCommand]
+    private void RemoveName() => preferences.Remove("user_name", SharedName);
+
+    [RelayCommand]
+    private void ClearAll() => preferences.Clear(SharedName);
+}

@@ -1,0 +1,13 @@
+// MauiProgram.cs: builder.Services.AddSingleton(AppInfo.Current);
+// Without dependency injection, use AppInfo.Current directly.
+public partial class AppInfoViewModel(IAppInfo appInfo)
+{
+    public string Name => appInfo.Name;
+    public string PackageName => appInfo.PackageName;
+    public string Version => appInfo.VersionString;
+    public string Build => appInfo.BuildString;
+    public AppTheme Theme => appInfo.RequestedTheme;
+
+    [RelayCommand]
+    private void ShowSettings() => appInfo.ShowSettingsUI();
+}

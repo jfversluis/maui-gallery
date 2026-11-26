@@ -1,0 +1,25 @@
+// MauiProgram.cs: builder.Services.AddSingleton(TextToSpeech.Default);
+// Without dependency injection, use TextToSpeech.Default directly.
+public partial class SpeechViewModel(ITextToSpeech textToSpeech) : ObservableObject
+{
+    [ObservableProperty]
+    public partial string Text { get; set; } = "Hello!";
+
+    // Compiled bindings can't see the generated SpeakCancelCommand; expose it through a declared property
+    public ICommand StopCommand => SpeakCancelCommand;
+
+    // Generates SpeakCommand and SpeakCancelCommand
+    [RelayCommand(IncludeCancelCommand = true)]
+    private async Task SpeakAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            // Completes when the speech ends
+            await textToSpeech.SpeakAsync(Text, cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            // Stopped
+        }
+    }
+}
