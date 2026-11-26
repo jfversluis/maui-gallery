@@ -108,12 +108,15 @@ public sealed partial class WebViewPage : SamplePage
 
     // Bundled pages load from a long file:// path inside the app package; the file name is enough.
     private static string ShortUrl(string url) =>
-        Uri.TryCreate(url, UriKind.Absolute, out var uri) && uri.IsFile ? $"…/{Path.GetFileName(uri.LocalPath)}" : url;
+        Uri.TryCreate(url, UriKind.Absolute, out var uri) && IsAppFile(uri) ? $"…/{Path.GetFileName(uri.LocalPath)}" : url;
 
     private static string DisplayName(string url) =>
-        Uri.TryCreate(url, UriKind.Absolute, out var uri) && uri.Scheme.StartsWith("http", StringComparison.OrdinalIgnoreCase)
+        Uri.TryCreate(url, UriKind.Absolute, out var uri) && uri.Scheme.StartsWith("http", StringComparison.OrdinalIgnoreCase) && !IsAppFile(uri)
             ? uri.Host
-            : Path.GetFileName(url);
+            : Path.GetFileName(uri?.LocalPath ?? url);
+
+    // Bundled pages load from a file URL, except on Windows, where .NET MAUI serves them from https://appdir/.
+    private static bool IsAppFile(Uri uri) => uri.IsFile || uri.Host == "appdir";
 
     private void OnHtmlChanged(object? sender, TextChangedEventArgs e)
     {
