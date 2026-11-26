@@ -39,8 +39,8 @@ env:
   MAUI_CLI_VERSION: 0.1.0-preview.14.26555.2
   OUT_DIR: ${{ github.workspace }}/windows-ui
   # Defaults for push runs; manual runs set them in the run dialog.
-  CRAWL_PAGES: 'button,collection-view,graphics-view,date-picker,entry,slider,menu-bar,title-bar,permissions,geolocation,map,web-view,hybrid-web-view,blazor-web-view'
-  CRAWL_CONFIGS: light-expanded,dark-expanded,light-medium,dark-medium,light-compact,dark-compact
+  CRAWL_PAGES: 'web-view,hybrid-web-view,blazor-web-view,color,multi-window,title-bar,permissions,button'
+  CRAWL_CONFIGS: light-expanded,dark-compact
 
 jobs:
   crawl:

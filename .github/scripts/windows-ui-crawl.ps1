@@ -47,6 +47,8 @@ $reviewRoutes = [ordered]@{
     'slider'          = '//main/controls/slider'
     'menu-bar'        = '//main/controls/menu-bar'
     'web-view'        = '//main/controls/web-view'
+    'hybrid-web-view' = '//main/controls/hybrid-web-view'
+    'blazor-web-view' = '//main/controls/blazor-web-view'
 }
 
 foreach ($dir in 'pages', 'review', 'logs', 'diagnostics', 'desktop') {
@@ -275,7 +277,18 @@ foreach ($config in ($Configs -split ',' | ForEach-Object { $_.Trim() })) {
     foreach ($name in $windowShots.Keys) {
         Invoke-DevFlow ui navigate $windowShots[$name] | Out-Null
         Start-Sleep -Seconds $PageDelay
+        if (-not (Test-AppAlive)) {
+            Add-Failure "CRASH on $config/$name (window capture; exit code $($script:proc.ExitCode)); relaunching"
+            if (-not (Start-App)) { break }
+            Set-Configuration $theme $size
+            continue
+        }
         Save-WindowCapture (Join-Path $OutDir "review/$name-$theme-$($sizes[$size][0]).png") | Out-Null
+        if ($name -eq 'settings') {
+            # Native button sizes, to compare with what the window capture shows.
+            (Invoke-DevFlow ui query --type Button --fields 'id,type,text,bounds').Output |
+                Set-Content (Join-Path $OutDir "logs/settings-buttons-$config.txt")
+        }
     }
 
     $methods = @{}
