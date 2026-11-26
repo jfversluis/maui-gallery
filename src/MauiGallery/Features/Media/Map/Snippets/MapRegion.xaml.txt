@@ -1,0 +1,6 @@
+<!-- Bind Region to a MapSpan in your view model, or call MoveToRegion from code -->
+<maps:Map
+    xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+    x:Name="map"
+    HeightRequest="360"
+    Region="{Binding Region}" />

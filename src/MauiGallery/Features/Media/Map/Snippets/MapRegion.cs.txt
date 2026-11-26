@@ -1,0 +1,13 @@
+// $(City)
+var center = new Location($(Center));
+var region = MapSpan.FromCenterAndRadius(center, Distance.FromKilometers($(Radius)));
+map.MoveToRegion(region, animated: $(Animated));
+
+// VisibleRegion follows the user as they pan and zoom
+map.PropertyChanged += (s, e) =>
+{
+    if (e.PropertyName == nameof(Map.VisibleRegion) && map.VisibleRegion is { } visible)
+    {
+        Debug.WriteLine($"Showing {visible.Center} within {visible.Radius.Kilometers:N1} km");
+    }
+};

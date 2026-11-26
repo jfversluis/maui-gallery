@@ -1,0 +1,286 @@
+<SamplePage x:Class="MauiGallery.Features.Media.MapPage"
+            xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+            xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <OnIdiom x:Key="MapWidth" x:TypeArguments="x:Double" Phone="300" Default="520" />
+        <OnIdiom x:Key="MapHeight" x:TypeArguments="x:Double" Phone="300" Default="360" />
+        <x:Array x:Key="MapTypeOptions" Type="{x:Type maps:MapType}">
+            <x:Static Member="maps:MapType.Street" />
+            <x:Static Member="maps:MapType.Satellite" />
+            <x:Static Member="maps:MapType.Hybrid" />
+        </x:Array>
+        <x:Array x:Key="CityOptions" Type="{x:Type x:String}">
+            <x:String>Amsterdam</x:String>
+            <x:String>London</x:String>
+            <x:String>New York</x:String>
+            <x:String>São Paulo</x:String>
+            <x:String>Seattle</x:String>
+            <x:String>Sydney</x:String>
+            <x:String>Tokyo</x:String>
+        </x:Array>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Map type and gestures -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Show a map"
+                            Description="Map renders Apple Maps on iOS and Mac and Google Maps on Android. MapType switches between street, satellite and hybrid imagery, and the Is…Enabled properties decide what the user can do with it. Give it a size: a map has no natural height."
+                            ShowStyleToggle="False"
+                            XamlSource="MapBasic.xaml.txt"
+                            CSharpSource="MapBasic.cs.txt">
+                <Grid x:Name="BasicStage" WidthRequest="{StaticResource MapWidth}" HeightRequest="{StaticResource MapHeight}">
+                    <maps:Map x:Name="BasicMap"
+                              MapType="{Binding SelectedItem, Source={x:Reference BasicMapType}, x:DataType=Picker}"
+                              IsScrollEnabled="{Binding IsToggled, Source={x:Reference BasicScroll}, x:DataType=Switch}"
+                              IsZoomEnabled="{Binding IsToggled, Source={x:Reference BasicZoom}, x:DataType=Switch}"
+                              IsTrafficEnabled="{Binding IsToggled, Source={x:Reference BasicTraffic}, x:DataType=Switch}"
+                              AutomationId="sample-map-basic" />
+                </Grid>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="MapType" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="BasicMapType"
+                                ItemsSource="{StaticResource MapTypeOptions}"
+                                SelectedIndex="0"
+                                AutomationId="option-map-type" />
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="IsScrollEnabled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="BasicScroll" Grid.Column="1" IsToggled="True" AutomationId="option-map-scroll" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="IsZoomEnabled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="BasicZoom" Grid.Column="1" IsToggled="True" AutomationId="option-map-zoom" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="IsTrafficEnabled" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="BasicTraffic" Grid.Column="1" AutomationId="option-map-traffic" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="MapType" Value="{Binding SelectedItem, Source={x:Reference BasicMapType}, x:DataType=Picker}" Default="Street" IsExpression="True" />
+                    <Substitution Key="Scroll" Value="{Binding IsToggled, Source={x:Reference BasicScroll}, x:DataType=Switch}" Default="True" />
+                    <Substitution Key="Zoom" Value="{Binding IsToggled, Source={x:Reference BasicZoom}, x:DataType=Switch}" Default="True" />
+                    <Substitution Key="Traffic" Value="{Binding IsToggled, Source={x:Reference BasicTraffic}, x:DataType=Switch}" Default="False" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Regions -->
+            <ControlExample x:Name="RegionExample"
+                            Title="Move to a region"
+                            Description="A MapSpan is a center and how much of the world around it to show. MoveToRegion pans and zooms the map there, with or without animation, and VisibleRegion tells you where the user has moved it since."
+                            ShowStyleToggle="False"
+                            XamlSource="MapRegion.xaml.txt"
+                            CSharpSource="MapRegion.cs.txt">
+                <Grid x:Name="RegionStage" WidthRequest="{StaticResource MapWidth}" HeightRequest="{StaticResource MapHeight}">
+                    <maps:Map x:Name="RegionMap" AutomationId="sample-map-region" />
+                </Grid>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="City" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="RegionCity"
+                                ItemsSource="{StaticResource CityOptions}"
+                                SelectedIndex="0"
+                                AutomationId="option-map-city" />
+                        <Label Text="{Binding Value, Source={x:Reference RegionRadius}, x:DataType=Slider, StringFormat='Radius: {0:0} km'}" Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="RegionRadius"
+                                Minimum="1"
+                                Maximum="50"
+                                Value="5"
+                                AutomationId="option-map-radius" />
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Animated" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="RegionAnimated" Grid.Column="1" IsToggled="True" AutomationId="option-map-animated" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="RegionCityName" Key="City" IsExpression="True" />
+                    <Substitution x:Name="RegionCenter" Key="Center" IsExpression="True" />
+                    <Substitution Key="Radius" Value="{Binding Value, Source={x:Reference RegionRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                    <Substitution Key="Animated" Value="{Binding IsToggled, Source={x:Reference RegionAnimated}, x:DataType=Switch}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. User location -->
+            <ControlExample x:Name="UserExample"
+                            Title="Show the user's location"
+                            Description="IsShowingUser draws the blue dot. Ask for location permission first, and explain what happens when the user says no. UserLocationChanged reports every move, so the map can follow the user."
+                            ShowStyleToggle="False"
+                            XamlSource="MapUser.xaml.txt"
+                            CSharpSource="MapUser.cs.txt">
+                <Grid x:Name="UserStage" WidthRequest="{StaticResource MapWidth}" HeightRequest="{StaticResource MapHeight}">
+                    <maps:Map x:Name="UserMap"
+                              UserLocationChanged="OnUserLocationChanged"
+                              AutomationId="sample-map-user" />
+                </Grid>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="IsShowingUser" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="UserShowing" Grid.Column="1" Toggled="OnShowingUserToggled" AutomationId="option-map-showing-user" />
+                        </Grid>
+                        <Label x:Name="UserError"
+                               IsVisible="False"
+                               Style="{StaticResource TextCaption}"
+                               TextColor="{DynamicResource ColorError}"
+                               AutomationId="map-user-error" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="ShowingUser" Value="{Binding IsShowingUser, Source={x:Reference UserMap}, x:DataType=maps:Map}" Default="False" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 4. Pins -->
+            <ControlExample x:Name="PinsExample"
+                            Title="Pins and taps"
+                            Description="A Pin marks a Location with a Label and an optional Address. MarkerClicked fires when the user taps the pin and InfoWindowClicked when they tap its callout. MapClicked gives the location of any other tap: tap the map to drop a pin."
+                            ShowStyleToggle="False"
+                            XamlSource="MapPins.xaml.txt"
+                            CSharpSource="MapPins.cs.txt">
+                <Grid x:Name="PinsStage" WidthRequest="{StaticResource MapWidth}" HeightRequest="{StaticResource MapHeight}">
+                    <maps:Map x:Name="PinsMap"
+                              MapClicked="OnMapClicked"
+                              AutomationId="sample-map-pins">
+                        <maps:Map.Pins>
+                            <maps:Pin Label="Rijksmuseum"
+                                      Address="Museumstraat 1, Amsterdam"
+                                      Type="Place"
+                                      MarkerClicked="OnMarkerClicked"
+                                      InfoWindowClicked="OnInfoWindowClicked">
+                                <maps:Pin.Location>
+                                    <sensors:Location Latitude="52.3600" Longitude="4.8852" />
+                                </maps:Pin.Location>
+                            </maps:Pin>
+                            <maps:Pin Label="Anne Frank House"
+                                      Address="Westermarkt 20, Amsterdam"
+                                      Type="Place"
+                                      MarkerClicked="OnMarkerClicked"
+                                      InfoWindowClicked="OnInfoWindowClicked">
+                                <maps:Pin.Location>
+                                    <sensors:Location Latitude="52.3752" Longitude="4.8840" />
+                                </maps:Pin.Location>
+                            </maps:Pin>
+                            <maps:Pin Label="Amsterdam Centraal"
+                                      Address="Stationsplein, Amsterdam"
+                                      Type="Place"
+                                      MarkerClicked="OnMarkerClicked"
+                                      InfoWindowClicked="OnInfoWindowClicked">
+                                <maps:Pin.Location>
+                                    <sensors:Location Latitude="52.3791" Longitude="4.9003" />
+                                </maps:Pin.Location>
+                            </maps:Pin>
+                        </maps:Map.Pins>
+                    </maps:Map>
+                </Grid>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Hide the info window on tap" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="PinsHideInfo" Grid.Column="1" AutomationId="option-map-hide-info" />
+                        </Grid>
+                        <Button Text="Remove dropped pins"
+                                Style="{StaticResource SecondaryButton}"
+                                Clicked="OnClearPinsClicked"
+                                AutomationId="option-map-clear-pins" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="HideInfoWindow" Value="{Binding IsToggled, Source={x:Reference PinsHideInfo}, x:DataType=Switch}" Default="False" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 5. Shapes -->
+            <ControlExample x:Name="ShapesExample"
+                            Title="Lines, areas and circles"
+                            Description="MapElements draws on top of the map: a Polyline for a route, a Polygon for an area and a Circle for a radius around a point. Each has a stroke, the closed shapes have a fill, and tapping one raises its own Clicked event."
+                            ShowStyleToggle="False"
+                            XamlSource="MapShapes.xaml.txt"
+                            CSharpSource="MapShapes.cs.txt">
+                <Grid x:Name="ShapesStage" WidthRequest="{StaticResource MapWidth}" HeightRequest="{StaticResource MapHeight}">
+                    <maps:Map x:Name="ShapesMap" AutomationId="sample-map-shapes">
+                        <maps:Map.MapElements>
+                            <maps:Polyline x:Name="ShapesRoute"
+                                           StrokeColor="#1E6FD9"
+                                           StrokeWidth="{Binding Value, Source={x:Reference ShapesStrokeWidth}, x:DataType=Slider}"
+                                           IsVisible="{Binding IsToggled, Source={x:Reference ShapesShowRoute}, x:DataType=Switch}"
+                                           PolylineClicked="OnShapeClicked">
+                                <maps:Polyline.Geopath>
+                                    <sensors:Location Latitude="52.3791" Longitude="4.9003" />
+                                    <sensors:Location Latitude="52.3731" Longitude="4.8926" />
+                                    <sensors:Location Latitude="52.3672" Longitude="4.8935" />
+                                    <sensors:Location Latitude="52.3600" Longitude="4.8852" />
+                                </maps:Polyline.Geopath>
+                            </maps:Polyline>
+                            <maps:Polygon x:Name="ShapesPark"
+                                          StrokeColor="#2E7D32"
+                                          FillColor="#552E7D32"
+                                          StrokeWidth="{Binding Value, Source={x:Reference ShapesStrokeWidth}, x:DataType=Slider}"
+                                          IsVisible="{Binding IsToggled, Source={x:Reference ShapesShowPark}, x:DataType=Switch}"
+                                          PolygonClicked="OnShapeClicked">
+                                <maps:Polygon.Geopath>
+                                    <sensors:Location Latitude="52.3618" Longitude="4.8775" />
+                                    <sensors:Location Latitude="52.3567" Longitude="4.8566" />
+                                    <sensors:Location Latitude="52.3551" Longitude="4.8590" />
+                                    <sensors:Location Latitude="52.3604" Longitude="4.8790" />
+                                </maps:Polygon.Geopath>
+                            </maps:Polygon>
+                            <maps:Circle x:Name="ShapesCircle"
+                                         StrokeColor="#D9480F"
+                                         FillColor="#40D9480F"
+                                         StrokeWidth="{Binding Value, Source={x:Reference ShapesStrokeWidth}, x:DataType=Slider}"
+                                         IsVisible="{Binding IsToggled, Source={x:Reference ShapesShowCircle}, x:DataType=Switch}"
+                                         CircleClicked="OnShapeClicked">
+                                <maps:Circle.Center>
+                                    <sensors:Location Latitude="52.3731" Longitude="4.8926" />
+                                </maps:Circle.Center>
+                            </maps:Circle>
+                        </maps:Map.MapElements>
+                    </maps:Map>
+                </Grid>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Polyline (route)" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="ShapesShowRoute" Grid.Column="1" IsToggled="True" AutomationId="option-map-show-route" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Polygon (park)" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="ShapesShowPark" Grid.Column="1" IsToggled="True" AutomationId="option-map-show-park" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Circle (radius)" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="ShapesShowCircle" Grid.Column="1" IsToggled="True" AutomationId="option-map-show-circle" />
+                        </Grid>
+                        <Label Text="{Binding Value, Source={x:Reference ShapesRadius}, x:DataType=Slider, StringFormat='Circle radius: {0:0} m'}" Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="ShapesRadius"
+                                Minimum="100"
+                                Maximum="1000"
+                                Value="400"
+                                AutomationId="option-map-circle-radius" />
+                        <Label Text="{Binding Value, Source={x:Reference ShapesStrokeWidth}, x:DataType=Slider, StringFormat='StrokeWidth: {0:0}'}" Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="ShapesStrokeWidth"
+                                Minimum="1"
+                                Maximum="12"
+                                Value="5"
+                                AutomationId="option-map-stroke-width" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="StrokeWidth" Value="{Binding Value, Source={x:Reference ShapesStrokeWidth}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                    <Substitution Key="Radius" Value="{Binding Value, Source={x:Reference ShapesRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                    <Substitution Key="ShowRoute" Value="{Binding IsToggled, Source={x:Reference ShapesShowRoute}, x:DataType=Switch}" Default="True" />
+                    <Substitution Key="ShowPark" Value="{Binding IsToggled, Source={x:Reference ShapesShowPark}, x:DataType=Switch}" Default="True" />
+                    <Substitution Key="ShowCircle" Value="{Binding IsToggled, Source={x:Reference ShapesShowCircle}, x:DataType=Switch}" Default="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

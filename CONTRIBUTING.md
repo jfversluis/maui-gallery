@@ -14,6 +14,13 @@ dotnet test tests/MauiGallery.Core.Tests            # fast, no device needed
 dotnet build src/MauiGallery -f net11.0-maccatalyst  # or -ios, -android, -windows10.0.19041.0
 ```
 
+### Maps API key
+
+The Map sample uses Google Maps on Android, which needs an API key. Never commit it: pass your own key when you
+build, for example `dotnet build src/MauiGallery -f net11.0-android -p:MapsApiKey=<your key>` or a `MapsApiKey`
+environment variable. Without a key the Map page says so instead of showing a map. CI reads the `MAPS_API_KEY`
+repository secret. iOS and Mac use Apple Maps, which needs no key.
+
 ## Add a sample page
 
 Every page in the app is an entry in the catalog plus a page that derives from `SamplePage`. The `Button` page,

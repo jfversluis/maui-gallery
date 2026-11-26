@@ -43,7 +43,11 @@ jobs:
           distribution: microsoft
           java-version: '21'
       - run: dotnet workload install maui-android
+      # The Map sample's Google Maps key comes from a secret, never from the repo. MSBuild reads the MapsApiKey
+      # environment variable as a property; without the secret it's empty and the page explains what's missing.
       - run: dotnet build ${{ env.APP_PROJECT }} -f net11.0-android --configuration Release
+        env:
+          MapsApiKey: ${{ secrets.MAPS_API_KEY }}
 
   apple:
     name: ${{ matrix.tfm }}

@@ -70,7 +70,7 @@
 		<string>sms</string>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>The Geolocation and Geocoding samples show your location on screen. It stays on your device: the gallery doesn't store it, and only sends it to the system's address lookup when you ask for your address.</string>
+	<string>The Geolocation, Geocoding and Map samples show your location on screen. It stays on your device: the gallery doesn't store it, and only sends it to the system's address lookup when you ask for your address.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>The Media picker sample takes a photo or video when you ask it to, and shows it on screen. Nothing is stored or sent anywhere.</string>
 	<key>NSMicrophoneUsageDescription</key>

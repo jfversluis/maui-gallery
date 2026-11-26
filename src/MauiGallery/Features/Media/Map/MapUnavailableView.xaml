@@ -1,0 +1,21 @@
+<ContentView x:Class="MauiGallery.Features.Media.MapUnavailableView"
+             x:DataType="ContentView">
+    <!-- Gallery chrome, not a sample: explains why this build can't show the map. -->
+    <VerticalStackLayout Spacing="8"
+                         Padding="16"
+                         VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         MaximumWidthRequest="360">
+        <Label x:Name="IconLabel"
+               Style="{StaticResource TextIcon}"
+               FontSize="{StaticResource IconSizeHero}"
+               TextColor="{DynamicResource ColorTextSecondary}" />
+        <Label x:Name="TitleLabel"
+               Style="{StaticResource TextBodyStrong}"
+               HorizontalTextAlignment="Center"
+               AutomationId="map-unavailable-title" />
+        <Label x:Name="MessageLabel"
+               Style="{StaticResource TextBodySecondary}"
+               HorizontalTextAlignment="Center" />
+    </VerticalStackLayout>
+</ContentView>

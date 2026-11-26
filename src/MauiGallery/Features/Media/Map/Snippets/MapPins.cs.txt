@@ -1,0 +1,27 @@
+var pin = new Pin
+{
+    Label = "Rijksmuseum",
+    Address = "Museumstraat 1, Amsterdam",
+    Type = PinType.Place,
+    Location = new Location(52.3600, 4.8852),
+};
+pin.MarkerClicked += OnMarkerClicked;
+pin.InfoWindowClicked += OnInfoWindowClicked;
+map.Pins.Add(pin);
+
+map.MapClicked += (s, e) => map.Pins.Add(new Pin
+{
+    Label = "Dropped pin",
+    Location = e.Location,
+});
+
+void OnMarkerClicked(object? sender, PinClickedEventArgs e)
+{
+    // Keep the callout closed and handle the tap yourself
+    e.HideInfoWindow = $(HideInfoWindow);
+}
+
+void OnInfoWindowClicked(object? sender, PinClickedEventArgs e)
+{
+    // The user tapped the pin's callout: show details
+}

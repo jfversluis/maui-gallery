@@ -1,0 +1,6 @@
+<maps:Map
+    xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+    x:Name="map"
+    HeightRequest="360"
+    IsShowingUser="$(ShowingUser)"
+    UserLocationChanged="OnUserLocationChanged" />
