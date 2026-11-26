@@ -12,6 +12,8 @@
     <SingleProject>true</SingleProject>
 
     <ApplicationTitle>.NET MAUI Gallery</ApplicationTitle>
+    <!-- Phone home screens truncate the full name (".NET MAUI…"); the store listing keeps it. -->
+    <ApplicationTitle Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' or $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">MAUI Gallery</ApplicationTitle>
     <ApplicationId>com.jfversluis.mauigallery</ApplicationId>
     <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
@@ -52,11 +54,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
-    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+    <!-- The white foreground doubles as Android's monochrome (themed) icon. -->
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#4F46E5" />
+    <!-- The splash uses the app's background color (ColorBackground), so launch flows into the first page. -->
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#F6F5FA" BaseSize="128,128" />
     <MauiImage Include="Resources\Images\*" />
     <MauiFont Include="Resources\Fonts\*" />
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <!--
+    Dark launch screen on Android only: on iOS, MAUI 11's dark splash variant leaves the launch screen without its
+    image in both themes, so iOS keeps the light one.
+  -->
+  <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+    <MauiSplashScreen Update="Resources\Splash\splash.svg" DarkColor="#0E0C13" />
   </ItemGroup>
 
   <ItemGroup>
