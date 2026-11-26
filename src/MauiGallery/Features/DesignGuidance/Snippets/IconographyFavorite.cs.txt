@@ -1,0 +1,28 @@
+// MauiProgram.cs: registers the Regular, Filled, Light and Resizable fonts
+builder.UseFluentIcons();
+
+// using IconFont.Maui.FluentIcons;
+var isFavorite = false;
+var favorite = new ImageButton { Source = Star(isFavorite) };
+SemanticProperties.SetDescription(favorite, "Favorite");
+
+favorite.Clicked += (s, e) =>
+{
+    isFavorite = !isFavorite;
+    favorite.Source = Star(isFavorite);
+    SemanticProperties.SetDescription(favorite, isFavorite ? "Favorite, on" : "Favorite");
+};
+
+static FontImageSource Star(bool filled)
+{
+    var star = new FontImageSource
+    {
+        FontFamily = filled ? FluentIconsFilled.FontFamily : FluentIconsRegular.FontFamily,
+        Glyph = filled ? FluentIconsFilled.Star$(Size) : FluentIconsRegular.Star$(Size),
+        Size = $(Size),
+    };
+    star.SetAppThemeColor(FontImageSource.ColorProperty,
+        Color.FromArgb(filled ? "#512BD4" : "#6B677D"),
+        Color.FromArgb(filled ? "#B3A3FF" : "#B4AFC4"));
+    return star;
+}

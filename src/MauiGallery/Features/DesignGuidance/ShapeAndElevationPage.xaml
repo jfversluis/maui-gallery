@@ -1,0 +1,135 @@
+<SamplePage x:Class="MauiGallery.Features.DesignGuidance.ShapeAndElevationPage"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="ShadowOptions" Type="{x:Type x:String}">
+            <x:String>None</x:String>
+            <x:String>ShadowCard</x:String>
+            <x:String>ShadowRaised</x:String>
+        </x:Array>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <Border Style="{StaticResource SubtlePanel}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Soft corners, quiet depth" Style="{StaticResource TextBodyStrong}" />
+                    <Label Style="{StaticResource TextBodySecondary}"
+                           Text="Four corner radii and two elevations cover every surface in this app. Bigger things get rounder corners. Depth comes from a soft shadow in the light theme; in the dark theme shadows disappear against the background, so a one-pixel outline does the work instead." />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Radii -->
+            <VerticalStackLayout Spacing="12">
+                <SectionHeader Title="Corner radius" />
+                <AdaptiveGrid MinItemWidth="200" MaxColumns="4">
+                    <Border Style="{StaticResource Card}" StrokeShape="{StaticResource ShapeInput}">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="ShapeInput" Style="{StaticResource TextCode}" />
+                            <Label Text="6 · text boxes, small buttons, swatches" Style="{StaticResource TextCaption}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Style="{StaticResource Card}" StrokeShape="{StaticResource ShapeCard}">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="ShapeCard" Style="{StaticResource TextCode}" />
+                            <Label Text="12 · cards, panels, the sample stage" Style="{StaticResource TextCaption}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Style="{StaticResource Card}" StrokeShape="{StaticResource ShapeHero}">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="ShapeHero" Style="{StaticResource TextCode}" />
+                            <Label Text="20 · hero banners and large tiles" Style="{StaticResource TextCaption}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Style="{StaticResource Card}" StrokeShape="{StaticResource ShapePill}" Padding="24,20">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="ShapePill" Style="{StaticResource TextCode}" />
+                            <Label Text="999 · chips, badges, toggles" Style="{StaticResource TextCaption}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </AdaptiveGrid>
+            </VerticalStackLayout>
+
+            <!-- Elevation -->
+            <VerticalStackLayout Spacing="12">
+                <SectionHeader Title="Elevation" />
+                <Label Style="{StaticResource TextBodySecondary}"
+                       Text="ShadowCard lifts cards just off the page. ShadowRaised is for what floats above everything else, such as menus and popovers. Both are theme resources: in the dark theme ShadowCard has no opacity at all, so switch themes in Settings and compare." />
+                <AdaptiveGrid MinItemWidth="240" MaxColumns="3" ColumnSpacing="24" RowSpacing="24">
+                    <Border BackgroundColor="{DynamicResource ColorSurface}"
+                            StrokeThickness="0"
+                            StrokeShape="{StaticResource ShapeCard}"
+                            Padding="20"
+                            HeightRequest="120">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Flat" Style="{StaticResource TextBodyStrong}" />
+                            <Label Text="No outline, no shadow: blends into the page in light, barely shows in dark." Style="{StaticResource TextCaption}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Style="{StaticResource Card}" HeightRequest="120">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="ShadowCard + outline" Style="{StaticResource TextBodyStrong}" />
+                            <Label Text="The Card style. The outline keeps its edge in the dark theme." Style="{StaticResource TextCaption}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Style="{StaticResource Card}" Shadow="{DynamicResource ShadowRaised}" HeightRequest="120">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="ShadowRaised" Style="{StaticResource TextBodyStrong}" />
+                            <Label Text="Floating surfaces. Strong enough to show in both themes." Style="{StaticResource TextCaption}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </AdaptiveGrid>
+            </VerticalStackLayout>
+
+            <ControlExample x:Name="CardExample"
+                            Title="Build a card"
+                            Description="A card is a Border: StrokeShape rounds it, Stroke outlines it and Shadow lifts it. Keep the shadow in your light and dark theme dictionaries under the same key, then reference it with DynamicResource so it follows the theme."
+                            ShowStyleToggle="False"
+                            XamlSource="ShapeCard.xaml.txt"
+                            CSharpSource="ShapeCard.cs.txt">
+                <Border x:Name="CardSample"
+                        WidthRequest="{OnIdiom Phone=240, Default=300}"
+                        Padding="16"
+                        Stroke="{DynamicResource BrushOutline}"
+                        BackgroundColor="{DynamicResource ColorSurface}"
+                        AutomationId="sample-shape-card">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="{Binding Value, Source={x:Reference CardRadius}, x:DataType=Slider}" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Weekend in Amsterdam" FontSize="18" FontAttributes="Bold" />
+                        <Label Text="Two days of canals, museums and stroopwafels." />
+                    </VerticalStackLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference CardRadius}, x:DataType=Slider, StringFormat='CornerRadius: {0:0}'}" Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="CardRadius"
+                                Minimum="0"
+                                Maximum="32"
+                                Value="12"
+                                AutomationId="option-shape-radius" />
+                        <Label Text="Shadow" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="CardShadow"
+                                ItemsSource="{StaticResource ShadowOptions}"
+                                SelectedIndex="1"
+                                SelectedIndexChanged="OnShadowChanged"
+                                AutomationId="option-shape-shadow" />
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Outline" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="CardOutline" Grid.Column="1" IsToggled="True" Toggled="OnOutlineToggled" AutomationId="option-shape-outline" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Radius" Value="{Binding Value, Source={x:Reference CardRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                    <Substitution Key="Shadow" Value="{Binding SelectedItem, Source={x:Reference CardShadow}, x:DataType=Picker}" Default="None" IsExpression="True" />
+                    <Substitution x:Name="CardOutlineValue" Key="Outline" Value="1" Default="1" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

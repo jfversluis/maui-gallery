@@ -1,0 +1,20 @@
+var card = new Border
+{
+    Padding = 16,
+    StrokeShape = new RoundRectangle { CornerRadius = $(Radius) },
+    StrokeThickness = $(Outline),
+    Content = new VerticalStackLayout
+    {
+        Spacing = 4,
+        Children =
+        {
+            new Label { Text = "Weekend in Amsterdam", FontSize = 18, FontAttributes = FontAttributes.Bold },
+            new Label { Text = "Two days of canals, museums and stroopwafels." },
+        },
+    },
+};
+
+// Theme resources: swapped with the light and dark dictionaries
+card.SetDynamicResource(Border.StrokeProperty, "BrushOutline");
+card.SetDynamicResource(VisualElement.BackgroundColorProperty, "ColorSurface");
+card.SetDynamicResource(VisualElement.ShadowProperty, "$(Shadow)");

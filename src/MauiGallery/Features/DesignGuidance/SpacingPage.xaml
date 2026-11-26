@@ -1,0 +1,204 @@
+<SamplePage x:Class="MauiGallery.Features.DesignGuidance.SpacingPage"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <!-- Two blocks with the token as the gap between them. -->
+        <Style x:Key="SpacingBlock" TargetType="BoxView">
+            <Setter Property="WidthRequest" Value="20" />
+            <Setter Property="HeightRequest" Value="20" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="Color" Value="{DynamicResource ColorAccent}" />
+        </Style>
+        <x:Array x:Key="SpacingTokens" Type="{x:Type x:String}">
+            <x:String>Space4</x:String>
+            <x:String>Space8</x:String>
+            <x:String>Space12</x:String>
+            <x:String>Space16</x:String>
+            <x:String>Space24</x:String>
+        </x:Array>
+        <x:Array x:Key="PaddingTokens" Type="{x:Type x:String}">
+            <x:String>Space8</x:String>
+            <x:String>Space16</x:String>
+            <x:String>Space24</x:String>
+            <x:String>Space32</x:String>
+        </x:Array>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout x:Name="PageBody" Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <Border Style="{StaticResource SubtlePanel}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Everything on a 4-point grid" Style="{StaticResource TextBodyStrong}" />
+                    <Label Style="{StaticResource TextBodySecondary}"
+                           Text="Margins, padding and gaps in this app come from one short scale of multiples of four. A small scale keeps rhythm consistent without a decision per screen, and four divides cleanly at every display density. Small steps separate related things, big steps separate sections." />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Scale -->
+            <VerticalStackLayout Spacing="12">
+                <SectionHeader Title="The scale" />
+                <Border Style="{StaticResource Card}" Padding="0">
+                    <VerticalStackLayout>
+                        <Grid ColumnDefinitions="72,112,*" ColumnSpacing="16" Padding="20,12">
+                            <Label Text="Space2" Style="{StaticResource TextCode}" VerticalOptions="Center" />
+                            <HorizontalStackLayout Grid.Column="1" Spacing="{StaticResource Space2}" VerticalOptions="Center">
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                            </HorizontalStackLayout>
+                            <Label Grid.Column="2" Text="2 · hairline nudges, such as an icon against text" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                        </Grid>
+                        <BoxView Style="{StaticResource Divider}" />
+                        <Grid ColumnDefinitions="72,112,*" ColumnSpacing="16" Padding="20,12">
+                            <Label Text="Space4" Style="{StaticResource TextCode}" VerticalOptions="Center" />
+                            <HorizontalStackLayout Grid.Column="1" Spacing="{StaticResource Space4}" VerticalOptions="Center">
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                            </HorizontalStackLayout>
+                            <Label Grid.Column="2" Text="4 · a title and its caption" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                        </Grid>
+                        <BoxView Style="{StaticResource Divider}" />
+                        <Grid ColumnDefinitions="72,112,*" ColumnSpacing="16" Padding="20,12">
+                            <Label Text="Space8" Style="{StaticResource TextCode}" VerticalOptions="Center" />
+                            <HorizontalStackLayout Grid.Column="1" Spacing="{StaticResource Space8}" VerticalOptions="Center">
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                            </HorizontalStackLayout>
+                            <Label Grid.Column="2" Text="8 · items in a group: chips, buttons in a row" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                        </Grid>
+                        <BoxView Style="{StaticResource Divider}" />
+                        <Grid ColumnDefinitions="72,112,*" ColumnSpacing="16" Padding="20,12">
+                            <Label Text="Space12" Style="{StaticResource TextCode}" VerticalOptions="Center" />
+                            <HorizontalStackLayout Grid.Column="1" Spacing="{StaticResource Space12}" VerticalOptions="Center">
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                            </HorizontalStackLayout>
+                            <Label Grid.Column="2" Text="12 · a section title and its content, icon and label" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                        </Grid>
+                        <BoxView Style="{StaticResource Divider}" />
+                        <Grid ColumnDefinitions="72,112,*" ColumnSpacing="16" Padding="20,12">
+                            <Label Text="Space16" Style="{StaticResource TextCode}" VerticalOptions="Center" />
+                            <HorizontalStackLayout Grid.Column="1" Spacing="{StaticResource Space16}" VerticalOptions="Center">
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                            </HorizontalStackLayout>
+                            <Label Grid.Column="2" Text="16 · grid gutters, panel padding, phone page margins" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                        </Grid>
+                        <BoxView Style="{StaticResource Divider}" />
+                        <Grid ColumnDefinitions="72,112,*" ColumnSpacing="16" Padding="20,12">
+                            <Label Text="Space24" Style="{StaticResource TextCode}" VerticalOptions="Center" />
+                            <HorizontalStackLayout Grid.Column="1" Spacing="{StaticResource Space24}" VerticalOptions="Center">
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                            </HorizontalStackLayout>
+                            <Label Grid.Column="2" Text="24 · between the sections of a page" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                        </Grid>
+                        <BoxView Style="{StaticResource Divider}" />
+                        <Grid ColumnDefinitions="72,112,*" ColumnSpacing="16" Padding="20,12">
+                            <Label Text="Space32" Style="{StaticResource TextCode}" VerticalOptions="Center" />
+                            <HorizontalStackLayout Grid.Column="1" Spacing="{StaticResource Space32}" VerticalOptions="Center">
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                            </HorizontalStackLayout>
+                            <Label Grid.Column="2" Text="32 · page margins in medium windows" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                        </Grid>
+                        <BoxView Style="{StaticResource Divider}" />
+                        <Grid ColumnDefinitions="72,112,*" ColumnSpacing="16" Padding="20,12">
+                            <Label Text="Space48" Style="{StaticResource TextCode}" VerticalOptions="Center" />
+                            <HorizontalStackLayout Grid.Column="1" Spacing="{StaticResource Space48}" VerticalOptions="Center">
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                            </HorizontalStackLayout>
+                            <Label Grid.Column="2" Text="48 · page margins in expanded windows" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                        </Grid>
+                        <BoxView Style="{StaticResource Divider}" />
+                        <Grid ColumnDefinitions="72,112,*" ColumnSpacing="16" Padding="20,12">
+                            <Label Text="Space64" Style="{StaticResource TextCode}" VerticalOptions="Center" />
+                            <HorizontalStackLayout Grid.Column="1" Spacing="{StaticResource Space64}" VerticalOptions="Center">
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                                <BoxView Style="{StaticResource SpacingBlock}" />
+                            </HorizontalStackLayout>
+                            <Label Grid.Column="2" Text="64 · breathing room around heroes and empty states" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Page padding -->
+            <VerticalStackLayout Spacing="12">
+                <SectionHeader Title="Page margins grow with the window" />
+                <Label Style="{StaticResource TextBodySecondary}"
+                       Text="Every page body uses the PageContent style. Its padding steps up with the window's size class, so text never crowds the edge of a big window and a phone doesn't waste its width. The compact bottom margin keeps the last control clear of a floating tab bar." />
+                <Border Style="{StaticResource Card}" Padding="0">
+                    <VerticalStackLayout>
+                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12" Padding="20,12">
+                            <Label Text="SIZE CLASS" Style="{StaticResource TextOverline}" />
+                            <Label Grid.Column="1" Text="WIDTH" Style="{StaticResource TextOverline}" />
+                            <Label Grid.Column="2" Text="PADDING" Style="{StaticResource TextOverline}" />
+                        </Grid>
+                        <BoxView Style="{StaticResource Divider}" />
+                        <Grid x:Name="CompactRow" ColumnDefinitions="*,*,*" ColumnSpacing="12" Padding="20,12">
+                            <Label Text="Compact" Style="{StaticResource TextBodyStrong}" />
+                            <Label Grid.Column="1" Text="&lt; 640" Style="{StaticResource TextBody}" />
+                            <Label Grid.Column="2" Text="16, 12, 16, 112" Style="{StaticResource TextCode}" />
+                        </Grid>
+                        <BoxView Style="{StaticResource Divider}" />
+                        <Grid x:Name="MediumRow" ColumnDefinitions="*,*,*" ColumnSpacing="12" Padding="20,12">
+                            <Label Text="Medium" Style="{StaticResource TextBodyStrong}" />
+                            <Label Grid.Column="1" Text="640 to 1099" Style="{StaticResource TextBody}" />
+                            <Label Grid.Column="2" Text="32, 24, 32, 48" Style="{StaticResource TextCode}" />
+                        </Grid>
+                        <BoxView Style="{StaticResource Divider}" />
+                        <Grid x:Name="ExpandedRow" ColumnDefinitions="*,*,*" ColumnSpacing="12" Padding="20,12">
+                            <Label Text="Expanded" Style="{StaticResource TextBodyStrong}" />
+                            <Label Grid.Column="1" Text="1100 and up" Style="{StaticResource TextBody}" />
+                            <Label Grid.Column="2" Text="48, 32, 48, 64" Style="{StaticResource TextCode}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+                <Label x:Name="PaddingReadout" Style="{StaticResource TextCaption}" AutomationId="spacing-readout" />
+            </VerticalStackLayout>
+
+            <ControlExample x:Name="TokensExample"
+                            Title="Spacing tokens in your own app"
+                            Description="Put the scale in a ResourceDictionary of x:Double values and use them with StaticResource, for Spacing and for Padding alike: a double converts to an even Thickness. Change the tokens below and watch the rhythm of the card change."
+                            ShowStyleToggle="False"
+                            XamlSource="SpacingTokens.xaml.txt"
+                            CSharpSource="SpacingTokens.cs.txt">
+                <Border x:Name="TokensSample"
+                        WidthRequest="{OnIdiom Phone=260, Default=320}"
+                        StrokeShape="RoundRectangle 12"
+                        Stroke="{AppThemeBinding Light=#E4E1EC, Dark=#3D384B}"
+                        AutomationId="sample-spacing-card">
+                    <VerticalStackLayout x:Name="TokensStack">
+                        <Label Text="Weekend in Amsterdam" FontSize="18" FontAttributes="Bold" />
+                        <Label Text="Two days of canals, museums and stroopwafels." />
+                        <Button Text="Book now" HorizontalOptions="Start" />
+                    </VerticalStackLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Spacing" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="TokensSpacing"
+                                ItemsSource="{StaticResource SpacingTokens}"
+                                SelectedIndex="2"
+                                SelectedIndexChanged="OnTokensChanged"
+                                AutomationId="option-spacing-spacing" />
+                        <Label Text="Padding" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="TokensPadding"
+                                ItemsSource="{StaticResource PaddingTokens}"
+                                SelectedIndex="2"
+                                SelectedIndexChanged="OnTokensChanged"
+                                AutomationId="option-spacing-padding" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Spacing" Value="{Binding SelectedItem, Source={x:Reference TokensSpacing}, x:DataType=Picker}" IsExpression="True" />
+                    <Substitution Key="Padding" Value="{Binding SelectedItem, Source={x:Reference TokensPadding}, x:DataType=Picker}" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

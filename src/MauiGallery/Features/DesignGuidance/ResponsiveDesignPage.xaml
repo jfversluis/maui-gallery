@@ -1,0 +1,143 @@
+<SamplePage x:Class="MauiGallery.Features.DesignGuidance.ResponsiveDesignPage"
+            xmlns:behaviors="clr-namespace:MauiGallery.DesignSystem.Behaviors"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <SolidColorBrush x:Key="OutlineLight" Color="#E4E1EC" />
+        <SolidColorBrush x:Key="OutlineDark" Color="#3D384B" />
+        <!-- The sample's style: keyed, and shared safely because WindowSizeStates subscribes per element. -->
+        <Style x:Key="SizeClassCard" TargetType="Border">
+            <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+            <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource OutlineLight}, Dark={StaticResource OutlineDark}}" />
+            <Setter Property="behaviors:WindowSizeStates.IsEnabled" Value="True" />
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="WindowWidth">
+                        <VisualState x:Name="Compact">
+                            <VisualState.Setters>
+                                <Setter Property="Padding" Value="16" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Medium">
+                            <VisualState.Setters>
+                                <Setter Property="Padding" Value="32" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Expanded">
+                            <VisualState.Setters>
+                                <Setter Property="Padding" Value="48" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <Border Style="{StaticResource SubtlePanel}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Design for the window, not the device" Style="{StaticResource TextBodyStrong}" />
+                    <Label Style="{StaticResource TextBodySecondary}"
+                           Text="A tablet in split view is as narrow as a phone, and a desktop window can be any size. So the gallery sorts the window's width into three size classes and lays out for those. The device idiom only decides the navigation style: phones always get tabs." />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Live readout -->
+            <Border Style="{StaticResource Card}" Padding="0">
+                <VerticalStackLayout>
+                    <Grid ColumnDefinitions="*,Auto" Padding="20,16" ColumnSpacing="16">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="THIS WINDOW" Style="{StaticResource TextOverline}" />
+                            <Label x:Name="WindowReadout" Style="{StaticResource TextTitle2}" SemanticProperties.HeadingLevel="None" AutomationId="responsive-window" />
+                            <Label x:Name="ChromeReadout" Style="{StaticResource TextCaption}" AutomationId="responsive-chrome" />
+                        </VerticalStackLayout>
+                        <Border Grid.Column="1"
+                                VerticalOptions="Center"
+                                Padding="14,6"
+                                StrokeThickness="0"
+                                StrokeShape="{StaticResource ShapePill}"
+                                BackgroundColor="{DynamicResource ColorAccentSubtle}">
+                            <Label x:Name="SizeClassReadout"
+                                   Style="{StaticResource TextCaptionStrong}"
+                                   TextColor="{DynamicResource ColorAccentText}"
+                                   AutomationId="responsive-size-class" />
+                        </Border>
+                    </Grid>
+                    <BoxView Style="{StaticResource Divider}" />
+                    <Grid ColumnDefinitions="*,*,2*" ColumnSpacing="12" Padding="20,12">
+                        <Label Text="SIZE CLASS" Style="{StaticResource TextOverline}" />
+                        <Label Grid.Column="1" Text="WIDTH" Style="{StaticResource TextOverline}" />
+                        <Label Grid.Column="2" Text="LAYOUT" Style="{StaticResource TextOverline}" />
+                    </Grid>
+                    <BoxView Style="{StaticResource Divider}" />
+                    <Grid x:Name="CompactRow" ColumnDefinitions="*,*,2*" ColumnSpacing="12" Padding="20,12">
+                        <Label Text="Compact" Style="{StaticResource TextBodyStrong}" />
+                        <Label Grid.Column="1" Text="&lt; 640" Style="{StaticResource TextBody}" />
+                        <Label Grid.Column="2" Text="One column, options under the stage. Phones: bottom tabs. Elsewhere: a sidebar that slides in." Style="{StaticResource TextBodySecondary}" />
+                    </Grid>
+                    <BoxView Style="{StaticResource Divider}" />
+                    <Grid x:Name="MediumRow" ColumnDefinitions="*,*,2*" ColumnSpacing="12" Padding="20,12">
+                        <Label Text="Medium" Style="{StaticResource TextBodyStrong}" />
+                        <Label Grid.Column="1" Text="640 to 1099" Style="{StaticResource TextBody}" />
+                        <Label Grid.Column="2" Text="Two or three columns, a sidebar that slides in." Style="{StaticResource TextBodySecondary}" />
+                    </Grid>
+                    <BoxView Style="{StaticResource Divider}" />
+                    <Grid x:Name="ExpandedRow" ColumnDefinitions="*,*,2*" ColumnSpacing="12" Padding="20,12">
+                        <Label Text="Expanded" Style="{StaticResource TextBodyStrong}" />
+                        <Label Grid.Column="1" Text="1100 and up" Style="{StaticResource TextBody}" />
+                        <Label Grid.Column="2" Text="Up to four columns, options beside the stage, the sidebar always docked." Style="{StaticResource TextBodySecondary}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Shell -->
+            <VerticalStackLayout Spacing="12">
+                <SectionHeader Title="One Shell, three navigation styles" />
+                <Label Style="{StaticResource TextBodySecondary}"
+                       Text="The app has a single Shell. On phones it shows the bottom tab bar and turns the flyout off. Elsewhere it hides the tabs and switches FlyoutBehavior with the window: Flyout below 1100, so the sidebar slides in over the page, and Locked above it, so the sidebar docks beside the content. Shell itself never gets a size, so the window's SizeChanged event drives this." />
+                <Label Style="{StaticResource TextBodySecondary}"
+                       Text="Components don't need the window at all. AdaptiveGrid picks its column count from its own width and the sample cards move their options beside the stage when they're wide enough, so both work in a narrow window and next to a docked sidebar." />
+            </VerticalStackLayout>
+
+            <!-- WindowSizeStates -->
+            <ControlExample x:Name="StatesExample"
+                            Title="Size classes as visual states"
+                            Description="An attached property moves an element between Compact, Medium and Expanded visual states as its window resizes, so a Style can change padding or layout per size class. AdaptiveTrigger can't do this in a shared Style: MAUI shares the trigger between every element using the style, and only the last one follows the window (dotnet/maui#14259). Resize the window and this card's padding steps between 16, 32 and 48."
+                            ShowStyleToggle="False"
+                            XamlSource="ResponsiveStates.xaml.txt"
+                            CSharpSource="ResponsiveStates.cs.txt">
+                <Border x:Name="StatesSample"
+                        Style="{StaticResource SizeClassCard}"
+                        AutomationId="sample-responsive-states">
+                    <Label Text="My padding follows the window" FontSize="18" FontAttributes="Bold" />
+                </Border>
+            </ControlExample>
+
+            <!-- OnIdiom / OnPlatform -->
+            <ControlExample x:Name="IdiomExample"
+                            Title="OnIdiom and OnPlatform"
+                            Description="For values that depend on the kind of device or its operating system rather than the window, OnIdiom and OnPlatform pick a value once, at load. Use them for touch target sizes or platform conventions, and size classes for layout."
+                            ShowStyleToggle="False"
+                            XamlSource="ResponsiveIdiom.xaml.txt"
+                            CSharpSource="ResponsiveIdiom.cs.txt">
+                <VerticalStackLayout Spacing="8" WidthRequest="{OnIdiom Phone=260, Default=320}">
+                    <Label x:Name="IdiomLabel"
+                           Text="{OnIdiom Phone='Hello, phone', Tablet='Hello, tablet', Desktop='Hello, desktop', Default='Hello'}"
+                           FontSize="{OnIdiom Phone=20, Default=24}"
+                           FontAttributes="Bold"
+                           AutomationId="sample-responsive-idiom" />
+                    <Label Text="{OnPlatform Android='Running on Android', iOS='Running on iOS', MacCatalyst='Running on Mac Catalyst', WinUI='Running on Windows'}"
+                           AutomationId="sample-responsive-platform" />
+                    <Button Text="A comfortable target"
+                            HorizontalOptions="Start"
+                            MinimumHeightRequest="{OnIdiom Phone=48, Default=36}" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

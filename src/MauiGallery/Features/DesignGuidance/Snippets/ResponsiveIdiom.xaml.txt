@@ -1,0 +1,11 @@
+<VerticalStackLayout Spacing="8">
+    <Label
+        Text="{OnIdiom Phone='Hello, phone', Tablet='Hello, tablet', Desktop='Hello, desktop', Default='Hello'}"
+        FontSize="{OnIdiom Phone=20, Default=24}"
+        FontAttributes="Bold" />
+    <Label Text="{OnPlatform Android='Running on Android', iOS='Running on iOS', MacCatalyst='Running on Mac Catalyst', WinUI='Running on Windows'}" />
+    <Button
+        Text="A comfortable target"
+        HorizontalOptions="Start"
+        MinimumHeightRequest="{OnIdiom Phone=48, Default=36}" />
+</VerticalStackLayout>

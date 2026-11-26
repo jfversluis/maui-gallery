@@ -1,0 +1,216 @@
+<SamplePage x:Class="MauiGallery.Features.DesignGuidance.IconographyPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            xmlns:local="clr-namespace:MauiGallery.Features.DesignGuidance"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="IconSizes" Type="{x:Type x:Int32}">
+            <x:Int32>16</x:Int32>
+            <x:Int32>20</x:Int32>
+            <x:Int32>24</x:Int32>
+            <x:Int32>32</x:Int32>
+        </x:Array>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <Border Style="{StaticResource SubtlePanel}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="One icon family, two styles" Style="{StaticResource TextBodyStrong}" />
+                    <Label Style="{StaticResource TextBodySecondary}"
+                           Text="The gallery uses Fluent UI System Icons from the IconFont.Maui.FluentIcons package: each style is a font, and every glyph is a typed constant, so a typo fails the build instead of showing a box. Regular icons mark actions and navigation; Filled icons mark what's selected or on." />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Sizes -->
+            <VerticalStackLayout Spacing="12">
+                <SectionHeader Title="Sizes" />
+                <Label Style="{StaticResource TextBodySecondary}"
+                       Text="Each glyph is drawn for its size, with strokes that land on whole pixels. Pick the constant that matches the size you show it at: Home20 at 20, not Home24 scaled down." />
+                <Border Style="{StaticResource Card}">
+                    <AdaptiveGrid MinItemWidth="120" MaxColumns="4">
+                        <VerticalStackLayout Spacing="8">
+                            <Grid HeightRequest="{StaticResource IconSizeHero}">
+                                <Label Style="{StaticResource TextIcon}" Text="{x:Static icons:FluentIconsRegular.Home16}" FontSize="{StaticResource IconSizeSmall}" />
+                            </Grid>
+                            <Label Text="Home16 · 16" Style="{StaticResource TextCode}" HorizontalTextAlignment="Center" />
+                            <Label Text="IconSizeSmall: dense lists, badges" Style="{StaticResource TextCaption}" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Spacing="8">
+                            <Grid HeightRequest="{StaticResource IconSizeHero}">
+                                <Label Style="{StaticResource TextIcon}" Text="{x:Static icons:FluentIconsRegular.Home20}" FontSize="{StaticResource IconSize}" />
+                            </Grid>
+                            <Label Text="Home20 · 20" Style="{StaticResource TextCode}" HorizontalTextAlignment="Center" />
+                            <Label Text="IconSize: buttons, inline with text" Style="{StaticResource TextCaption}" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Spacing="8">
+                            <Grid HeightRequest="{StaticResource IconSizeHero}">
+                                <Label Style="{StaticResource TextIcon}" Text="{x:Static icons:FluentIconsRegular.Home24}" FontSize="{StaticResource IconSizeLarge}" />
+                            </Grid>
+                            <Label Text="Home24 · 24" Style="{StaticResource TextCode}" HorizontalTextAlignment="Center" />
+                            <Label Text="IconSizeLarge: tabs, toolbars, tiles" Style="{StaticResource TextCaption}" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Spacing="8">
+                            <Grid HeightRequest="{StaticResource IconSizeHero}">
+                                <Label Style="{StaticResource TextIcon}" Text="{x:Static icons:FluentIconsRegular.Home32}" FontSize="{StaticResource IconSizeHero}" />
+                            </Grid>
+                            <Label Text="Home32 · 32" Style="{StaticResource TextCode}" HorizontalTextAlignment="Center" />
+                            <Label Text="IconSizeHero: empty states, heroes" Style="{StaticResource TextCaption}" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </AdaptiveGrid>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Regular and Filled -->
+            <VerticalStackLayout Spacing="12">
+                <SectionHeader Title="Regular and Filled" />
+                <Label Style="{StaticResource TextBodySecondary}"
+                       Text="Swap the same icon from Regular to Filled to show a state: the selected tab, a favorite, an active filter. The shape stays put, so the change reads instantly; pair it with the accent color, never color alone." />
+                <Border Style="{StaticResource Card}">
+                    <AdaptiveGrid MinItemWidth="120" MaxColumns="4">
+                        <VerticalStackLayout Spacing="8">
+                            <HorizontalStackLayout Spacing="16" HorizontalOptions="Center">
+                                <Label Style="{StaticResource TextIcon}" Text="{x:Static icons:FluentIconsRegular.Star24}" FontSize="{StaticResource IconSizeLarge}" />
+                                <Label Style="{StaticResource TextIcon}" Text="{x:Static icons:FluentIconsFilled.Star24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" FontSize="{StaticResource IconSizeLarge}" TextColor="{DynamicResource ColorAccentText}" />
+                            </HorizontalStackLayout>
+                            <Label Text="Favorite" Style="{StaticResource TextCaption}" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Spacing="8">
+                            <HorizontalStackLayout Spacing="16" HorizontalOptions="Center">
+                                <Label Style="{StaticResource TextIcon}" Text="{x:Static icons:FluentIconsRegular.Home24}" FontSize="{StaticResource IconSizeLarge}" />
+                                <Label Style="{StaticResource TextIcon}" Text="{x:Static icons:FluentIconsFilled.Home24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" FontSize="{StaticResource IconSizeLarge}" TextColor="{DynamicResource ColorAccentText}" />
+                            </HorizontalStackLayout>
+                            <Label Text="Selected tab" Style="{StaticResource TextCaption}" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Spacing="8">
+                            <HorizontalStackLayout Spacing="16" HorizontalOptions="Center">
+                                <Label Style="{StaticResource TextIcon}" Text="{x:Static icons:FluentIconsRegular.Bookmark24}" FontSize="{StaticResource IconSizeLarge}" />
+                                <Label Style="{StaticResource TextIcon}" Text="{x:Static icons:FluentIconsFilled.Bookmark24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" FontSize="{StaticResource IconSizeLarge}" TextColor="{DynamicResource ColorAccentText}" />
+                            </HorizontalStackLayout>
+                            <Label Text="Saved" Style="{StaticResource TextCaption}" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Spacing="8">
+                            <HorizontalStackLayout Spacing="16" HorizontalOptions="Center">
+                                <Label Style="{StaticResource TextIcon}" Text="{x:Static icons:FluentIconsRegular.Filter24}" FontSize="{StaticResource IconSizeLarge}" />
+                                <Label Style="{StaticResource TextIcon}" Text="{x:Static icons:FluentIconsFilled.Filter24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" FontSize="{StaticResource IconSizeLarge}" TextColor="{DynamicResource ColorAccentText}" />
+                            </HorizontalStackLayout>
+                            <Label Text="Active filter" Style="{StaticResource TextCaption}" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </AdaptiveGrid>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Favorite button -->
+            <ControlExample x:Name="FavoriteExample"
+                            Title="Show a selected state"
+                            Description="Register the fonts once with UseFluentIcons, then use a glyph wherever an ImageSource goes through FontImageSource. Here a favorite button swaps the Regular star for the Filled one, exactly like the star at the top of this page."
+                            ShowStyleToggle="False"
+                            XamlSource="IconographyFavorite.xaml.txt"
+                            CSharpSource="IconographyFavorite.cs.txt">
+                <ImageButton x:Name="FavoriteButton"
+                             Clicked="OnFavoriteClicked"
+                             Padding="8"
+                             SemanticProperties.Description="Favorite"
+                             AutomationId="sample-icon-favorite" />
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="IsFavorite" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="FavoriteSwitch" Grid.Column="1" Toggled="OnFavoriteOptionChanged" AutomationId="option-icon-favorite" />
+                        </Grid>
+                        <Label Text="Size" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="FavoriteSize"
+                                ItemsSource="{StaticResource IconSizes}"
+                                SelectedIndex="2"
+                                SelectedIndexChanged="OnFavoriteOptionChanged"
+                                AutomationId="option-icon-size" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Size" Value="{Binding SelectedItem, Source={x:Reference FavoriteSize}, x:DataType=Picker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- Browser -->
+            <VerticalStackLayout x:Name="Browser" x:DataType="local:IconBrowserViewModel" Spacing="12">
+                <SectionHeader Title="Browse common icons" />
+                <Border Style="{StaticResource Card}" Padding="16">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16" RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Padding="10,0"
+                                HeightRequest="40"
+                                StrokeShape="{StaticResource ShapeInput}"
+                                Stroke="{DynamicResource BrushOutline}"
+                                BackgroundColor="{DynamicResource ColorSurface}">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Label Text="{x:Static icons:FluentIconsRegular.Search24}"
+                                       Style="{StaticResource TextIcon}"
+                                       FontSize="{StaticResource IconSizeSmall}"
+                                       TextColor="{DynamicResource ColorTextTertiary}" />
+                                <BorderlessEntry Grid.Column="1"
+                                                 Text="{Binding SearchText}"
+                                                 Placeholder="Search, for example arrow"
+                                                 FontFamily="{StaticResource FontRegular}"
+                                                 FontSize="14"
+                                                 TextColor="{DynamicResource ColorTextPrimary}"
+                                                 PlaceholderColor="{DynamicResource ColorTextTertiary}"
+                                                 ClearButtonVisibility="WhileEditing"
+                                                 VerticalOptions="Center"
+                                                 AutomationId="icon-search"
+                                                 SemanticProperties.Description="Search icons" />
+                            </Grid>
+                        </Border>
+                        <HorizontalStackLayout Grid.Column="1" Spacing="8">
+                            <Label Text="Filled" Style="{StaticResource TextCaptionStrong}" VerticalOptions="Center" />
+                            <Switch IsToggled="{Binding IsFilled}"
+                                    VerticalOptions="Center"
+                                    SemanticProperties.Description="Show the Filled style"
+                                    AutomationId="icon-filled" />
+                        </HorizontalStackLayout>
+                        <Label Grid.Row="1"
+                               Grid.ColumnSpan="2"
+                               Text="{Binding Summary}"
+                               Style="{StaticResource TextCaption}"
+                               AutomationId="icon-summary" />
+                        <Label Grid.Row="2"
+                               Grid.ColumnSpan="2"
+                               Text="{Binding Status}"
+                               IsVisible="{Binding Status, Converter={StaticResource IsNotNullOrEmpty}}"
+                               Style="{StaticResource TextCode}"
+                               TextColor="{DynamicResource ColorSuccess}"
+                               AutomationId="icon-status" />
+                    </Grid>
+                </Border>
+
+                <AdaptiveGrid MinItemWidth="112" MaxColumns="8" ColumnSpacing="12" RowSpacing="12" BindableLayout.ItemsSource="{Binding Icons}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="local:IconTile">
+                            <Border Style="{StaticResource InteractiveCard}"
+                                    Padding="8,16"
+                                    SemanticProperties.Description="{Binding Constant}"
+                                    SemanticProperties.Hint="Copies the icon's name"
+                                    ToolTipProperties.Text="{Binding Constant}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding CopyCommand, Source={RelativeSource AncestorType={x:Type local:IconBrowserViewModel}}, x:DataType=local:IconBrowserViewModel}" CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <VerticalStackLayout Spacing="8">
+                                    <Label Style="{StaticResource TextIcon}"
+                                           Text="{Binding Glyph}"
+                                           FontFamily="{Binding FontFamily}"
+                                           FontSize="{StaticResource IconSizeLarge}" />
+                                    <Label Text="{Binding Name}"
+                                           Style="{StaticResource TextCaption}"
+                                           HorizontalTextAlignment="Center"
+                                           LineBreakMode="TailTruncation" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </AdaptiveGrid>
+
+            </VerticalStackLayout>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

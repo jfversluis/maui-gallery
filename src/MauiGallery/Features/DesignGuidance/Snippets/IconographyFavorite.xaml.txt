@@ -1,0 +1,25 @@
+<!-- xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons" -->
+<ImageButton
+    Command="{Binding ToggleFavoriteCommand}"
+    SemanticProperties.Description="Favorite">
+    <ImageButton.Source>
+        <FontImageSource
+            FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+            Glyph="{x:Static icons:FluentIconsRegular.Star$(Size)}"
+            Color="{AppThemeBinding Light=#6B677D, Dark=#B4AFC4}"
+            Size="$(Size)" />
+    </ImageButton.Source>
+    <ImageButton.Triggers>
+        <!-- Selected: the same star, Filled -->
+        <DataTrigger TargetType="ImageButton" Binding="{Binding IsFavorite}" Value="True">
+            <Setter Property="SemanticProperties.Description" Value="Favorite, on" />
+            <Setter Property="Source">
+                <FontImageSource
+                    FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}"
+                    Glyph="{x:Static icons:FluentIconsFilled.Star$(Size)}"
+                    Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}"
+                    Size="$(Size)" />
+            </Setter>
+        </DataTrigger>
+    </ImageButton.Triggers>
+</ImageButton>
