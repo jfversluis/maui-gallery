@@ -1,0 +1,161 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Layouts.ScrollViewPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <local:LayoutSampleResources />
+            </ResourceDictionary.MergedDictionaries>
+            <x:Array x:Key="ScrollBarVisibilityOptions" Type="{x:Type ScrollBarVisibility}">
+                <x:Static Member="ScrollBarVisibility.Default" />
+                <x:Static Member="ScrollBarVisibility.Always" />
+                <x:Static Member="ScrollBarVisibility.Never" />
+            </x:Array>
+            <x:Array x:Key="OrientationOptions" Type="{x:Type ScrollOrientation}">
+                <x:Static Member="ScrollOrientation.Vertical" />
+                <x:Static Member="ScrollOrientation.Horizontal" />
+                <x:Static Member="ScrollOrientation.Both" />
+                <x:Static Member="ScrollOrientation.Neither" />
+            </x:Array>
+            <x:Array x:Key="PositionOptions" Type="{x:Type ScrollToPosition}">
+                <x:Static Member="ScrollToPosition.MakeVisible" />
+                <x:Static Member="ScrollToPosition.Start" />
+                <x:Static Member="ScrollToPosition.Center" />
+                <x:Static Member="ScrollToPosition.End" />
+            </x:Array>
+            <DataTemplate x:Key="ListItemTemplate" x:DataType="x:Int32">
+                <Border Style="{StaticResource Tile}">
+                    <Label Text="{Binding ., StringFormat='Item {0}'}" Style="{StaticResource TileText}" HorizontalOptions="Start" />
+                </Border>
+            </DataTemplate>
+        </ResourceDictionary>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Vertical scrolling -->
+            <ControlExample x:Name="VerticalExample"
+                            Title="Scroll content that doesn't fit"
+                            Description="A ScrollView has one child and scrolls it when it's taller than the ScrollView. Give the ScrollView a bounded height, and handle Scrolled to follow the position."
+                            ShowStyleToggle="False"
+                            XamlSource="ScrollViewVertical.xaml.txt"
+                            CSharpSource="ScrollViewVertical.cs.txt">
+                <Border Style="{StaticResource LayoutFrame}" WidthRequest="280">
+                    <ScrollView x:Name="VerticalSample"
+                                HeightRequest="220"
+                                VerticalScrollBarVisibility="{Binding SelectedItem, Source={x:Reference VerticalScrollBar}, x:DataType=Picker}"
+                                Scrolled="OnVerticalScrolled"
+                                AutomationId="sample-vertical-scroll">
+                        <VerticalStackLayout x:Name="VerticalItems"
+                                             Padding="8"
+                                             Spacing="8"
+                                             BindableLayout.ItemTemplate="{StaticResource ListItemTemplate}" />
+                    </ScrollView>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="VerticalScrollBarVisibility" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="VerticalScrollBar"
+                                ItemsSource="{StaticResource ScrollBarVisibilityOptions}"
+                                SelectedIndex="0"
+                                AutomationId="option-vertical-scroll-bar" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="VerticalScrollBarVisibility" Value="{Binding SelectedItem, Source={x:Reference VerticalScrollBar}, x:DataType=Picker}" Default="Default" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Orientation -->
+            <ControlExample x:Name="OrientationExample"
+                            Title="Scroll in both directions"
+                            Description="Orientation decides which ways the content can move. Both pans a large canvas, like a map or a spreadsheet; Neither turns scrolling off without changing the layout."
+                            ShowStyleToggle="False"
+                            XamlSource="ScrollViewOrientation.xaml.txt"
+                            CSharpSource="ScrollViewOrientation.cs.txt">
+                <Border Style="{StaticResource LayoutFrame}" WidthRequest="280">
+                    <ScrollView x:Name="OrientationSample"
+                                HeightRequest="220"
+                                Orientation="{Binding SelectedItem, Source={x:Reference OrientationPicker}, x:DataType=Picker}"
+                                Scrolled="OnOrientationScrolled"
+                                AutomationId="sample-orientation-scroll">
+                        <FlexLayout x:Name="OrientationCells" WidthRequest="640" Wrap="Wrap">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <Border Style="{StaticResource TileGreen}" WidthRequest="60" HeightRequest="60" Margin="2" Padding="0">
+                                        <Label Text="{Binding .}" Style="{StaticResource TileText}" />
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                    </ScrollView>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Orientation" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="OrientationPicker"
+                                ItemsSource="{StaticResource OrientationOptions}"
+                                SelectedIndex="2"
+                                AutomationId="option-orientation" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Orientation" Value="{Binding SelectedItem, Source={x:Reference OrientationPicker}, x:DataType=Picker}" Default="Vertical" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Scrolling from code -->
+            <ControlExample x:Name="ScrollToExample"
+                            Title="Scroll from code"
+                            Description="ScrollToAsync scrolls to an element, with ScrollToPosition deciding where it ends up, or to an exact position. Pass animated: false to jump instead of gliding."
+                            XamlSource="ScrollViewScrollTo.xaml.txt"
+                            CSharpSource="ScrollViewScrollTo.cs.txt">
+                <VerticalStackLayout x:Name="ScrollToSample" Spacing="12" WidthRequest="280">
+                    <HorizontalStackLayout Spacing="8">
+                        <Button Text="{Binding Value, Source={x:Reference ScrollToItem}, StringFormat='Scroll to item {0:0}', x:DataType=Stepper}"
+                                Clicked="OnScrollToItemClicked"
+                                AutomationId="sample-scroll-to-item" />
+                        <Button Text="Back to top" Clicked="OnBackToTopClicked" AutomationId="sample-scroll-to-top" />
+                    </HorizontalStackLayout>
+                    <Border Style="{StaticResource LayoutFrame}">
+                        <ScrollView x:Name="ScrollToScroller" HeightRequest="220" AutomationId="sample-scroll-to-scroll">
+                            <VerticalStackLayout x:Name="ScrollToItems"
+                                                 Padding="8"
+                                                 Spacing="8"
+                                                 BindableLayout.ItemTemplate="{StaticResource ListItemTemplate}" />
+                        </ScrollView>
+                    </Border>
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="{Binding Value, Source={x:Reference ScrollToItem}, StringFormat='Item: {0:0}', x:DataType=Stepper}"
+                                   Style="{StaticResource OptionLabel}"
+                                   VerticalOptions="Center" />
+                            <Stepper x:Name="ScrollToItem" Grid.Column="1" Minimum="1" Maximum="30" Increment="1" Value="15" ValueChanged="OnScrollToItemChanged" AutomationId="option-scroll-to-item" />
+                        </Grid>
+                        <Label Text="ScrollToPosition" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="ScrollToPositionPicker"
+                                ItemsSource="{StaticResource PositionOptions}"
+                                SelectedIndex="2"
+                                AutomationId="option-scroll-to-position" />
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Animated" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="ScrollToAnimated" Grid.Column="1" IsToggled="True" AutomationId="option-scroll-to-animated" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Item" Value="{Binding Value, Source={x:Reference ScrollToItem}, x:DataType=Stepper}" />
+                    <Substitution x:Name="ScrollToIndex" Key="Index" />
+                    <Substitution Key="Position" Value="{Binding SelectedItem, Source={x:Reference ScrollToPositionPicker}, x:DataType=Picker}" IsExpression="True" />
+                    <Substitution Key="Animated" Value="{Binding IsToggled, Source={x:Reference ScrollToAnimated}, x:DataType=Switch}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

@@ -1,0 +1,11 @@
+<VerticalStackLayout Spacing="12">
+    <HorizontalStackLayout Spacing="8">
+        <Button Text="Scroll to item $(Item)" Clicked="OnScrollToItemClicked" />
+        <Button Text="Back to top" Clicked="OnBackToTopClicked" />
+    </HorizontalStackLayout>
+    <ScrollView x:Name="Scroller" HeightRequest="220">
+        <VerticalStackLayout x:Name="Items" Padding="8" Spacing="8">
+            <!-- 30 items -->
+        </VerticalStackLayout>
+    </ScrollView>
+</VerticalStackLayout>

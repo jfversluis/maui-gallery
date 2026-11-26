@@ -1,0 +1,23 @@
+<VerticalStackLayout Spacing="16">
+    <HorizontalStackLayout Spacing="12">
+        <Border
+            WidthRequest="44"
+            HeightRequest="44"
+            StrokeThickness="0"
+            StrokeShape="Ellipse"
+            BackgroundColor="#0D9488">
+            <Label
+                Text="AL"
+                TextColor="White"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
+        </Border>
+        <VerticalStackLayout VerticalOptions="Center">
+            <Label Text="Ada Lovelace" FontAttributes="Bold" />
+            <Label Text="Mathematician" FontSize="13" Opacity="0.7" />
+        </VerticalStackLayout>
+    </HorizontalStackLayout>
+
+    <!-- More rows like the one above -->
+</VerticalStackLayout>

@@ -1,0 +1,92 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Layouts.ContentViewPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
+            x:DataType="SamplePageViewModel">
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Bindable properties -->
+            <ControlExample x:Name="CardExample"
+                            Title="Build a reusable control"
+                            Description="Subclass ContentView, lay out its content in XAML and expose BindableProperty values. Every instance shows its own data, and changes to a property update the UI immediately."
+                            XamlSource="ContentViewCard.xaml.txt"
+                            CSharpSource="ContentViewCard.cs.txt">
+                <VerticalStackLayout Spacing="8" WidthRequest="280">
+                    <local:ProfileCardView x:Name="FirstCard"
+                                           Name="{Binding Text, Source={x:Reference CardName}, x:DataType=Entry}"
+                                           Role="Mathematician"
+                                           AccentColor="{Binding SelectedColor, Source={x:Reference CardColor}, x:DataType=SwatchPicker}"
+                                           AutomationId="sample-card-first" />
+                    <local:ProfileCardView Name="Grace Hopper" Role="Computer scientist" AccentColor="#7C3AED" AutomationId="sample-card-second" />
+                    <local:ProfileCardView Name="Alan Turing" Role="Logician" AccentColor="#EA580C" AutomationId="sample-card-third" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="First card: Name" Style="{StaticResource OptionLabel}" />
+                        <Entry x:Name="CardName" Text="Ada Lovelace" AutomationId="option-card-name" />
+                        <Label Text="First card: AccentColor" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="CardColor" SelectedColor="#0D9488" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Name" Value="{Binding Text, Source={x:Reference CardName}, x:DataType=Entry}" />
+                    <Substitution Key="AccentColor" Value="{Binding SelectedColor, Source={x:Reference CardColor}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Two-way binding -->
+            <ControlExample x:Name="RatingExample"
+                            Title="Bind a value both ways"
+                            Description="A control that edits a value registers it with BindingMode.TwoWay, so the user's input flows back to the view model. Coerce and validate callbacks keep the value in range."
+                            XamlSource="ContentViewRating.xaml.txt"
+                            CSharpSource="ContentViewRating.cs.txt">
+                <VerticalStackLayout Spacing="8">
+                    <local:RatingView x:Name="Rating"
+                                      Value="3"
+                                      Maximum="{Binding Value, Source={x:Reference RatingMaximum}, x:DataType=Stepper}"
+                                      Color="{Binding SelectedColor, Source={x:Reference RatingColor}, x:DataType=SwatchPicker}"
+                                      AutomationId="sample-rating" />
+                    <Label x:Name="RatingSummary" AutomationId="sample-rating-summary" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="{Binding Value, Source={x:Reference RatingMaximum}, StringFormat='Maximum: {0:0}', x:DataType=Stepper}"
+                                   Style="{StaticResource OptionLabel}"
+                                   VerticalOptions="Center" />
+                            <Stepper x:Name="RatingMaximum" Grid.Column="1" Minimum="3" Maximum="7" Value="5" AutomationId="option-rating-maximum" />
+                        </Grid>
+                        <Label Text="Color" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="RatingColor" SelectedColor="#EA580C" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Maximum" Value="{Binding Value, Source={x:Reference RatingMaximum}, x:DataType=Stepper}" Default="5" />
+                    <Substitution Key="Color" Value="{Binding SelectedColor, Source={x:Reference RatingColor}, x:DataType=SwatchPicker}" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Wrapping content -->
+            <ControlExample x:Name="SectionExample"
+                            Title="Wrap any content"
+                            Description="Give a ContentView a ControlTemplate with a ContentPresenter to build a container: the template draws the chrome and the content you put inside appears where the presenter is."
+                            XamlSource="ContentViewSection.xaml.txt"
+                            CSharpSource="ContentViewSection.cs.txt">
+                <local:SectionView x:Name="Section" Title="Notifications" WidthRequest="280" AutomationId="sample-section">
+                    <VerticalStackLayout>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Messages" VerticalOptions="Center" />
+                            <Switch Grid.Column="1" IsToggled="True" AutomationId="sample-section-messages" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Reminders" VerticalOptions="Center" />
+                            <Switch Grid.Column="1" AutomationId="sample-section-reminders" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </local:SectionView>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

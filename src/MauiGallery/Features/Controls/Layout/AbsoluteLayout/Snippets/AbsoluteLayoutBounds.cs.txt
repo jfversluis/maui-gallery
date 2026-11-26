@@ -1,0 +1,5 @@
+var tile = new Label { Text = "80 × 50" };
+
+var layout = new AbsoluteLayout { WidthRequest = 300, HeightRequest = 180 };
+layout.Add(tile);
+AbsoluteLayout.SetLayoutBounds(tile, new Rect($(BoundsCode)));

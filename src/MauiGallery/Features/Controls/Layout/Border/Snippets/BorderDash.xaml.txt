@@ -1,0 +1,13 @@
+<Border
+    HeightRequest="120"
+    StrokeShape="RoundRectangle 12"
+    StrokeThickness="2"
+    Stroke="#2563EB"
+    StrokeDashArray="$(StrokeDashArray)"
+    StrokeDashOffset="$(StrokeDashOffset)"
+    StrokeLineCap="$(StrokeLineCap)">
+    <Label
+        Text="Drop files here"
+        HorizontalOptions="Center"
+        VerticalOptions="Center" />
+</Border>

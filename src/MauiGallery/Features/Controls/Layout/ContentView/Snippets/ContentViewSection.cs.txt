@@ -1,0 +1,33 @@
+// SectionView.xaml.cs
+public partial class SectionView : ContentView
+{
+    public static readonly BindableProperty TitleProperty =
+        BindableProperty.Create(nameof(Title), typeof(string), typeof(SectionView), string.Empty);
+
+    public SectionView() => InitializeComponent();
+
+    public string Title
+    {
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+}
+
+// Using it: Content goes into the template's ContentPresenter
+var section = new SectionView
+{
+    Title = "Notifications",
+    Content = new VerticalStackLayout
+    {
+        CreateToggleRow("Messages", isToggled: true),
+        CreateToggleRow("Reminders", isToggled: false),
+    },
+};
+
+static Grid CreateToggleRow(string text, bool isToggled)
+{
+    var row = new Grid { ColumnDefinitions = [new(GridLength.Star), new(GridLength.Auto)] };
+    row.Add(new Label { Text = text, VerticalOptions = LayoutOptions.Center });
+    row.Add(new Switch { IsToggled = isToggled }, 1);
+    return row;
+}

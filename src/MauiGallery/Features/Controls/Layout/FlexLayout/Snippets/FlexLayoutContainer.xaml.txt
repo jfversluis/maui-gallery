@@ -1,0 +1,15 @@
+<FlexLayout
+    Direction="$(Direction)"
+    Wrap="$(Wrap)"
+    JustifyContent="$(JustifyContent)"
+    AlignItems="$(AlignItems)"
+    AlignContent="$(AlignContent)"
+    WidthRequest="300"
+    HeightRequest="220">
+    <Label Text="1" WidthRequest="64" />
+    <Label Text="2&#10;two lines" WidthRequest="88" />
+    <Label Text="3" WidthRequest="56" />
+    <Label Text="4" WidthRequest="96" />
+    <Label Text="5&#10;two lines" WidthRequest="72" />
+    <Label Text="6" WidthRequest="60" />
+</FlexLayout>

@@ -1,0 +1,8 @@
+private async void OnScrollToItemClicked(object? sender, EventArgs e)
+{
+    var item = (Element)Items.Children[$(Index)];
+    await Scroller.ScrollToAsync(item, ScrollToPosition.$(Position), animated: $(Animated));
+}
+
+private async void OnBackToTopClicked(object? sender, EventArgs e) =>
+    await Scroller.ScrollToAsync(0, 0, animated: $(Animated));

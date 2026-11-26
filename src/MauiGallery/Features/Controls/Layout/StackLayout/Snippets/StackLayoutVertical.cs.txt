@@ -1,0 +1,14 @@
+var stack = new VerticalStackLayout
+{
+    Spacing = $(Spacing),
+    WidthRequest = 260,
+};
+
+foreach (var text in new[] { "First", "Second item", "Third" })
+{
+    stack.Add(new Label
+    {
+        Text = text,
+        HorizontalOptions = LayoutOptions.$(HorizontalOptions),
+    });
+}

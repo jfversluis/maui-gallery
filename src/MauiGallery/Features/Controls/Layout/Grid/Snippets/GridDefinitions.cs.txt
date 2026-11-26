@@ -1,0 +1,16 @@
+var grid = new Grid
+{
+    ColumnDefinitions = $(ColumnDefinitionsCode),
+    RowDefinitions = $(RowDefinitionsCode),
+    ColumnSpacing = $(ColumnSpacing),
+    RowSpacing = $(RowSpacing),
+    HeightRequest = 180,
+};
+
+// Add(view, column, row)
+grid.Add(new Label { Text = "A" });
+grid.Add(new Label { Text = "B" }, 1);
+grid.Add(new Label { Text = "C" }, 2);
+grid.Add(new Label { Text = "Wider D" }, 0, 1);
+grid.Add(new Label { Text = "E" }, 1, 1);
+grid.Add(new Label { Text = "F" }, 2, 1);

@@ -1,0 +1,10 @@
+<!-- xmlns:local="clr-namespace:MyApp.Layouts" -->
+<local:CircularLayout
+    WidthRequest="240"
+    HeightRequest="240"
+    StartAngle="$(StartAngle)">
+    <Label Text="1" />
+    <Label Text="2" />
+    <!-- ... -->
+    <Label Text="12" />
+</local:CircularLayout>

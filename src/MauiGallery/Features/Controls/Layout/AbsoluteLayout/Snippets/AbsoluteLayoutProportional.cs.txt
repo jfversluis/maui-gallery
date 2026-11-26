@@ -1,0 +1,6 @@
+var tile = new Label { Text = "Tile" };
+
+var layout = new AbsoluteLayout { HeightRequest = 180 };
+layout.Add(tile);
+AbsoluteLayout.SetLayoutBounds(tile, new Rect($(BoundsCode)));
+AbsoluteLayout.SetLayoutFlags(tile, AbsoluteLayoutFlags.$(Flags));

@@ -1,0 +1,142 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Layouts.AbsoluteLayoutPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <local:LayoutSampleResources />
+            </ResourceDictionary.MergedDictionaries>
+            <!-- Rings that separate the overlays from the avatar, in the color of the background behind them. -->
+            <SolidColorBrush x:Key="BadgeRing" Color="{AppThemeBinding Light=White, Dark=#121118}" />
+        </ResourceDictionary>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Absolute values -->
+            <ControlExample x:Name="AbsoluteExample"
+                            Title="Place views at exact positions"
+                            Description="AbsoluteLayout.LayoutBounds sets a child's X, Y, width and height in device-independent units, measured from the layout's top-left corner. Children can overlap; later ones draw on top."
+                            ShowStyleToggle="False"
+                            XamlSource="AbsoluteLayoutBounds.xaml.txt"
+                            CSharpSource="AbsoluteLayoutBounds.cs.txt">
+                <Border Style="{StaticResource LayoutFrame}">
+                    <AbsoluteLayout x:Name="AbsoluteSample" WidthRequest="300" HeightRequest="180" AutomationId="sample-absolute-layout">
+                        <Border x:Name="AbsoluteTile" Style="{StaticResource TileViolet}" AutomationId="sample-absolute-tile">
+                            <Label Text="80 × 50" Style="{StaticResource TileText}" />
+                        </Border>
+                    </AbsoluteLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference AbsoluteX}, StringFormat='X: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="AbsoluteX" Minimum="0" Maximum="220" Value="40" ValueChanged="OnAbsoluteChanged" AutomationId="option-absolute-x" />
+                        <Label Text="{Binding Value, Source={x:Reference AbsoluteY}, StringFormat='Y: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="AbsoluteY" Minimum="0" Maximum="130" Value="30" ValueChanged="OnAbsoluteChanged" AutomationId="option-absolute-y" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="AbsoluteBounds" Key="Bounds" />
+                    <Substitution x:Name="AbsoluteBoundsCode" Key="BoundsCode" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Proportional values -->
+            <ControlExample x:Name="ProportionalExample"
+                            Title="Position and size proportionally"
+                            Description="LayoutFlags makes some bounds values proportional, from 0 to 1 of the layout's size. A proportional X of 0.5 centers the child and 1 aligns it to the right edge, whatever the layout's size."
+                            ShowStyleToggle="False"
+                            XamlSource="AbsoluteLayoutProportional.xaml.txt"
+                            CSharpSource="AbsoluteLayoutProportional.cs.txt">
+                <Border Style="{StaticResource LayoutFrame}">
+                    <AbsoluteLayout x:Name="ProportionalSample" WidthRequest="300" HeightRequest="180" AutomationId="sample-proportional-layout">
+                        <Border x:Name="ProportionalTile" Style="{StaticResource TileGreen}" AutomationId="sample-proportional-tile">
+                            <Label x:Name="ProportionalTileText" Style="{StaticResource TileText}" />
+                        </Border>
+                    </AbsoluteLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference ProportionalX}, StringFormat='X: {0:0.0#}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="ProportionalX" Minimum="0" Maximum="1" Value="0.5" ValueChanged="OnProportionalChanged" AutomationId="option-proportional-x" />
+                        <Label Text="{Binding Value, Source={x:Reference ProportionalY}, StringFormat='Y: {0:0.0#}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="ProportionalY" Minimum="0" Maximum="1" Value="0.5" ValueChanged="OnProportionalChanged" AutomationId="option-proportional-y" />
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Proportional size too (All)" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="ProportionalSize" Grid.Column="1" Toggled="OnProportionalChanged" AutomationId="option-proportional-size" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="ProportionalBounds" Key="Bounds" />
+                    <Substitution x:Name="ProportionalBoundsCode" Key="BoundsCode" IsExpression="True" />
+                    <Substitution x:Name="ProportionalFlags" Key="Flags" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Badge overlay -->
+            <ControlExample x:Name="BadgeExample"
+                            Title="Overlay a badge"
+                            Description="Proportional positions with AutoSize pin small overlays to a corner, such as a notification count on an avatar and a presence dot, no matter how big the overlay grows."
+                            ShowStyleToggle="False"
+                            XamlSource="AbsoluteLayoutBadge.xaml.txt"
+                            CSharpSource="AbsoluteLayoutBadge.cs.txt">
+                <AbsoluteLayout x:Name="BadgeSample" WidthRequest="96" HeightRequest="96" AutomationId="sample-badge-layout">
+                    <Border AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            StrokeThickness="0"
+                            StrokeShape="Ellipse"
+                            BackgroundColor="#0D9488">
+                        <Label Text="AL" TextColor="White" FontSize="28" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                    <Border x:Name="CountBadge"
+                            AbsoluteLayout.LayoutBounds="1,0,AutoSize,AutoSize"
+                            AbsoluteLayout.LayoutFlags="PositionProportional"
+                            MinimumWidthRequest="26"
+                            Padding="7,3"
+                            StrokeThickness="2"
+                            Stroke="{StaticResource BadgeRing}"
+                            StrokeShape="RoundRectangle 13"
+                            BackgroundColor="#DC2626"
+                            AutomationId="sample-badge-count">
+                        <Label x:Name="CountText" TextColor="White" FontSize="13" FontAttributes="Bold" HorizontalOptions="Center" />
+                    </Border>
+                    <Ellipse x:Name="PresenceDot"
+                             AbsoluteLayout.LayoutBounds="0.95,0.95,20,20"
+                             AbsoluteLayout.LayoutFlags="PositionProportional"
+                             Fill="#22C55E"
+                             Stroke="{StaticResource BadgeRing}"
+                             StrokeThickness="3"
+                             IsVisible="{Binding IsToggled, Source={x:Reference BadgeOnline}, x:DataType=Switch}" />
+                </AbsoluteLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="{Binding Value, Source={x:Reference BadgeCount}, StringFormat='Unread: {0:0}', x:DataType=Stepper}"
+                                   Style="{StaticResource OptionLabel}"
+                                   VerticalOptions="Center" />
+                            <Stepper x:Name="BadgeCount" Grid.Column="1" Minimum="0" Maximum="200" Increment="9" Value="3" ValueChanged="OnBadgeCountChanged" AutomationId="option-badge-count" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Online" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
+                            <Switch x:Name="BadgeOnline" Grid.Column="1" IsToggled="True" AutomationId="option-badge-online" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="BadgeCountText" Key="Count" />
+                    <Substitution x:Name="BadgeVisible" Key="BadgeVisible" Default="True" />
+                    <Substitution Key="IsOnline" Value="{Binding IsToggled, Source={x:Reference BadgeOnline}, x:DataType=Switch}" Default="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

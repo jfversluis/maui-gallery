@@ -1,0 +1,22 @@
+public partial class TagCloudViewModel : ObservableObject
+{
+    public ObservableCollection<string> Tags { get; } = ["MAUI", "C#", "XAML", "Android", "iOS"];
+
+    [ObservableProperty]
+    public partial string? NewTag { get; set; }
+
+    [RelayCommand]
+    private void Add()
+    {
+        var tag = NewTag?.Trim();
+        if (!string.IsNullOrEmpty(tag) && !Tags.Contains(tag))
+        {
+            Tags.Add(tag);
+        }
+
+        NewTag = string.Empty;
+    }
+
+    [RelayCommand]
+    private void Remove(string tag) => Tags.Remove(tag);
+}

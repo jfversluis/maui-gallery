@@ -1,0 +1,8 @@
+var border = new Border
+{
+    StrokeShape = $(StrokeShapeCode),
+    Stroke = $(Stroke),
+    StrokeThickness = $(StrokeThickness),
+    Padding = $(Padding),
+    Content = new Label { Text = "Content goes here" },
+};

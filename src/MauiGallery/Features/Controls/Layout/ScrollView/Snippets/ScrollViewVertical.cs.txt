@@ -1,0 +1,18 @@
+var items = new VerticalStackLayout { Padding = 8, Spacing = 8 };
+for (var i = 1; i <= 20; i++)
+{
+    items.Add(new Label { Text = $"Item {i}" });
+}
+
+var scrollView = new ScrollView
+{
+    HeightRequest = 220,
+    VerticalScrollBarVisibility = ScrollBarVisibility.$(VerticalScrollBarVisibility),
+    Content = items,
+};
+scrollView.Scrolled += OnScrolled;
+
+void OnScrolled(object? sender, ScrolledEventArgs e)
+{
+    // e.ScrollY is the vertical offset in device-independent units
+}

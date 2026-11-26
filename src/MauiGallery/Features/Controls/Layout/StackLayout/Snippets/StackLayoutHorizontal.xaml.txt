@@ -1,0 +1,13 @@
+<HorizontalStackLayout
+    Spacing="$(Spacing)">
+    <Label
+        Text="Short"
+        VerticalOptions="$(VerticalOptions)" />
+    <Label
+        Text="Tall"
+        HeightRequest="96" />
+    <Label
+        Text="Medium"
+        HeightRequest="60"
+        VerticalOptions="$(VerticalOptions)" />
+</HorizontalStackLayout>

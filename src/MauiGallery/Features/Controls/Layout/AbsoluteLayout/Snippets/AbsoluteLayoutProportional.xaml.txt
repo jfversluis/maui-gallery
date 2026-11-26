@@ -1,0 +1,6 @@
+<AbsoluteLayout HeightRequest="180">
+    <Label
+        Text="Tile"
+        AbsoluteLayout.LayoutBounds="$(Bounds)"
+        AbsoluteLayout.LayoutFlags="$(Flags)" />
+</AbsoluteLayout>

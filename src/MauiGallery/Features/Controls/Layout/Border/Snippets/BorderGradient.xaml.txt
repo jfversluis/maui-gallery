@@ -1,0 +1,16 @@
+<Border
+    Padding="20"
+    StrokeShape="RoundRectangle 16"
+    StrokeThickness="$(StrokeThickness)">
+    <Border.Stroke>
+        <LinearGradientBrush EndPoint="1,1">
+            <GradientStop Color="#7C3AED" Offset="0" />
+            <GradientStop Color="#DB2777" Offset="0.5" />
+            <GradientStop Color="#F97316" Offset="1" />
+        </LinearGradientBrush>
+    </Border.Stroke>
+    <VerticalStackLayout Spacing="4">
+        <Label Text="Pro plan" FontAttributes="Bold" FontSize="18" />
+        <Label Text="Everything in Free, plus unlimited projects." />
+    </VerticalStackLayout>
+</Border>

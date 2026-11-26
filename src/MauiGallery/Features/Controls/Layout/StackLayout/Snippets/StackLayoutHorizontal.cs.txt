@@ -1,0 +1,21 @@
+var stack = new HorizontalStackLayout
+{
+    Spacing = $(Spacing),
+};
+
+stack.Add(new Label
+{
+    Text = "Short",
+    VerticalOptions = LayoutOptions.$(VerticalOptions),
+});
+stack.Add(new Label
+{
+    Text = "Tall",
+    HeightRequest = 96,
+});
+stack.Add(new Label
+{
+    Text = "Medium",
+    HeightRequest = 60,
+    VerticalOptions = LayoutOptions.$(VerticalOptions),
+});

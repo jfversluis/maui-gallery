@@ -1,0 +1,35 @@
+<!-- SectionView.xaml -->
+<ContentView
+    x:Class="MyApp.Controls.SectionView"
+    x:DataType="local:SectionView">
+    <ContentView.ControlTemplate>
+        <ControlTemplate x:DataType="local:SectionView">
+            <VerticalStackLayout Spacing="8">
+                <Label
+                    Text="{Binding Title, Source={RelativeSource TemplatedParent}}"
+                    FontSize="12"
+                    FontAttributes="Bold"
+                    TextTransform="Uppercase"
+                    Opacity="0.7" />
+                <Border Padding="16,8" StrokeShape="RoundRectangle 12">
+                    <!-- The consumer's content appears here -->
+                    <ContentPresenter />
+                </Border>
+            </VerticalStackLayout>
+        </ControlTemplate>
+    </ContentView.ControlTemplate>
+</ContentView>
+
+<!-- Using it -->
+<local:SectionView Title="Notifications">
+    <VerticalStackLayout>
+        <Grid ColumnDefinitions="*,Auto">
+            <Label Text="Messages" VerticalOptions="Center" />
+            <Switch Grid.Column="1" IsToggled="True" />
+        </Grid>
+        <Grid ColumnDefinitions="*,Auto">
+            <Label Text="Reminders" VerticalOptions="Center" />
+            <Switch Grid.Column="1" />
+        </Grid>
+    </VerticalStackLayout>
+</local:SectionView>

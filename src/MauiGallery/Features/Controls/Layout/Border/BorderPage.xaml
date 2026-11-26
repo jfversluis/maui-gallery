@@ -1,0 +1,197 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Layouts.BorderPage"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="ShapeOptions" Type="{x:Type x:String}">
+            <x:String>Rectangle</x:String>
+            <x:String>RoundRectangle 12</x:String>
+            <x:String>RoundRectangle 28,4,4,28</x:String>
+            <x:String>Ellipse</x:String>
+        </x:Array>
+        <x:Array x:Key="DashOptions" Type="{x:Type x:String}">
+            <x:String>4,2</x:String>
+            <x:String>1,1</x:String>
+            <x:String>8,4</x:String>
+            <x:String>8,4,1,4</x:String>
+        </x:Array>
+        <x:Array x:Key="LineCapOptions" Type="{x:Type PenLineCap}">
+            <x:Static Member="PenLineCap.Flat" />
+            <x:Static Member="PenLineCap.Round" />
+            <x:Static Member="PenLineCap.Square" />
+        </x:Array>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. The basics -->
+            <ControlExample x:Name="BasicExample"
+                            Title="Draw a border around content"
+                            Description="Border draws a stroke around a single child, in the shape you choose, with Padding between the stroke and the content. It replaces the obsolete Frame."
+                            ShowStyleToggle="False"
+                            XamlSource="BorderBasic.xaml.txt"
+                            CSharpSource="BorderBasic.cs.txt">
+                <Border x:Name="BasicBorder"
+                        Stroke="{Binding SelectedColor, Source={x:Reference BasicStroke}, x:DataType=SwatchPicker}"
+                        StrokeThickness="{Binding Value, Source={x:Reference BasicThickness}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                        Padding="{Binding Value, Source={x:Reference BasicPadding}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                        AutomationId="sample-basic-border">
+                    <Label Text="Content goes here" />
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="StrokeShape" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="BasicShape"
+                                ItemsSource="{StaticResource ShapeOptions}"
+                                SelectedIndex="1"
+                                SelectedIndexChanged="OnBasicShapeChanged"
+                                AutomationId="option-basic-shape" />
+                        <Label Text="Stroke" Style="{StaticResource OptionLabel}" />
+                        <SwatchPicker x:Name="BasicStroke" SelectedColor="#512BD4" />
+                        <Label Text="{Binding Value, Source={x:Reference BasicThickness}, StringFormat='StrokeThickness: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="BasicThickness" Minimum="0" Maximum="12" Value="2" AutomationId="option-basic-thickness" />
+                        <Label Text="{Binding Value, Source={x:Reference BasicPadding}, StringFormat='Padding: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="BasicPadding" Minimum="0" Maximum="40" Value="16" AutomationId="option-basic-padding" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="StrokeShape" Value="{Binding SelectedItem, Source={x:Reference BasicShape}, x:DataType=Picker}" />
+                    <Substitution x:Name="BasicShapeCode" Key="StrokeShapeCode" IsExpression="True" />
+                    <Substitution Key="Stroke" Value="{Binding SelectedColor, Source={x:Reference BasicStroke}, x:DataType=SwatchPicker}" />
+                    <Substitution Key="StrokeThickness" Value="{Binding Value, Source={x:Reference BasicThickness}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="1" />
+                    <Substitution Key="Padding" Value="{Binding Value, Source={x:Reference BasicPadding}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Gradient stroke -->
+            <ControlExample x:Name="GradientExample"
+                            Title="Paint the stroke with a gradient"
+                            Description="Stroke and Background are brushes, so they take a gradient as easily as a solid color. Here a LinearGradientBrush outlines a card."
+                            XamlSource="BorderGradient.xaml.txt"
+                            CSharpSource="BorderGradient.cs.txt">
+                <Border x:Name="GradientBorder"
+                        WidthRequest="240"
+                        Padding="20"
+                        StrokeShape="RoundRectangle 16"
+                        StrokeThickness="{Binding Value, Source={x:Reference GradientThickness}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                        AutomationId="sample-gradient-border">
+                    <Border.Stroke>
+                        <LinearGradientBrush EndPoint="1,1">
+                            <GradientStop Color="#7C3AED" Offset="0" />
+                            <GradientStop Color="#DB2777" Offset="0.5" />
+                            <GradientStop Color="#F97316" Offset="1" />
+                        </LinearGradientBrush>
+                    </Border.Stroke>
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Pro plan" FontAttributes="Bold" FontSize="18" />
+                        <Label Text="Everything in Free, plus unlimited projects." />
+                    </VerticalStackLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference GradientThickness}, StringFormat='StrokeThickness: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="GradientThickness" Minimum="1" Maximum="12" Value="4" AutomationId="option-gradient-thickness" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="StrokeThickness" Value="{Binding Value, Source={x:Reference GradientThickness}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="1" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Dashes -->
+            <ControlExample x:Name="DashExample"
+                            Title="Dash the stroke"
+                            Description="StrokeDashArray alternates dash and gap lengths, in multiples of the stroke thickness. StrokeDashOffset shifts the pattern and StrokeLineCap shapes the end of each dash."
+                            ShowStyleToggle="False"
+                            XamlSource="BorderDash.xaml.txt"
+                            CSharpSource="BorderDash.cs.txt">
+                <Border x:Name="DashBorder"
+                        WidthRequest="260"
+                        HeightRequest="120"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="2"
+                        Stroke="#2563EB"
+                        StrokeDashOffset="{Binding Value, Source={x:Reference DashOffset}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                        StrokeLineCap="{Binding SelectedItem, Source={x:Reference DashLineCap}, x:DataType=Picker}"
+                        AutomationId="sample-dash-border">
+                    <Label Text="Drop files here" HorizontalOptions="Center" VerticalOptions="Center" />
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="StrokeDashArray" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="DashArray"
+                                ItemsSource="{StaticResource DashOptions}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnDashArrayChanged"
+                                AutomationId="option-dash-array" />
+                        <Label Text="{Binding Value, Source={x:Reference DashOffset}, StringFormat='StrokeDashOffset: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="DashOffset" Minimum="0" Maximum="12" Value="0" AutomationId="option-dash-offset" />
+                        <Label Text="StrokeLineCap" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="DashLineCap"
+                                ItemsSource="{StaticResource LineCapOptions}"
+                                SelectedIndex="0"
+                                AutomationId="option-dash-line-cap" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="StrokeDashArray" Value="{Binding SelectedItem, Source={x:Reference DashArray}, x:DataType=Picker}" />
+                    <Substitution x:Name="DashArrayCode" Key="StrokeDashArrayCode" IsExpression="True" />
+                    <Substitution Key="StrokeDashOffset" Value="{Binding Value, Source={x:Reference DashOffset}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                    <Substitution Key="StrokeLineCap" Value="{Binding SelectedItem, Source={x:Reference DashLineCap}, x:DataType=Picker}" Default="Flat" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 4. Shadow -->
+            <ControlExample x:Name="ShadowExample"
+                            Title="Lift it with a shadow"
+                            Description="Shadow adds depth below the border's shape. Radius blurs it, Offset moves it, and Opacity sets its strength; subtle values look most natural."
+                            ShowStyleToggle="False"
+                            XamlSource="BorderShadow.xaml.txt"
+                            CSharpSource="BorderShadow.cs.txt">
+                <Border x:Name="ShadowBorder"
+                        WidthRequest="240"
+                        Margin="0,0,0,16"
+                        Padding="20"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 16"
+                        BackgroundColor="{AppThemeBinding Light=White, Dark=#2C2C2E}"
+                        AutomationId="sample-shadow-border">
+                    <Border.Shadow>
+                        <Shadow x:Name="CardShadow"
+                                Brush="Black"
+                                Radius="{Binding Value, Source={x:Reference ShadowRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                Opacity="{Binding Value, Source={x:Reference ShadowOpacity}, x:DataType=Slider}" />
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Daily summary" FontAttributes="Bold" FontSize="18" />
+                        <Label Text="8,412 steps, 3 workouts" />
+                    </VerticalStackLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference ShadowRadius}, StringFormat='Radius: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="ShadowRadius" Minimum="0" Maximum="40" Value="16" AutomationId="option-shadow-radius" />
+                        <Label Text="{Binding Value, Source={x:Reference ShadowOffsetY}, StringFormat='Offset: 0,{0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="ShadowOffsetY" Minimum="0" Maximum="20" Value="6" ValueChanged="OnShadowOffsetChanged" AutomationId="option-shadow-offset" />
+                        <Label Text="{Binding Value, Source={x:Reference ShadowOpacity}, StringFormat='Opacity: {0:0.0#}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="ShadowOpacity" Minimum="0" Maximum="1" Value="0.25" AutomationId="option-shadow-opacity" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Radius" Value="{Binding Value, Source={x:Reference ShadowRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                    <Substitution Key="OffsetY" Value="{Binding Value, Source={x:Reference ShadowOffsetY}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                    <Substitution x:Name="ShadowOpacityText" Key="Opacity" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

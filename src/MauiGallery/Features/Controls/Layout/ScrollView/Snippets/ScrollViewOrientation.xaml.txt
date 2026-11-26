@@ -1,0 +1,12 @@
+<ScrollView
+    HeightRequest="220"
+    Orientation="$(Orientation)"
+    Scrolled="OnScrolled">
+    <!-- Content larger than the ScrollView in both directions: 10 × 10 cells of 64 units -->
+    <FlexLayout WidthRequest="640" Wrap="Wrap">
+        <Label Text="A1" WidthRequest="60" HeightRequest="60" Margin="2" />
+        <Label Text="B1" WidthRequest="60" HeightRequest="60" Margin="2" />
+        <!-- ... -->
+        <Label Text="J10" WidthRequest="60" HeightRequest="60" Margin="2" />
+    </FlexLayout>
+</ScrollView>

@@ -1,0 +1,13 @@
+<Grid
+    ColumnDefinitions="$(ColumnDefinitions)"
+    RowDefinitions="$(RowDefinitions)"
+    ColumnSpacing="$(ColumnSpacing)"
+    RowSpacing="$(RowSpacing)"
+    HeightRequest="180">
+    <Label Text="A" />
+    <Label Grid.Column="1" Text="B" />
+    <Label Grid.Column="2" Text="C" />
+    <Label Grid.Row="1" Text="Wider D" />
+    <Label Grid.Row="1" Grid.Column="1" Text="E" />
+    <Label Grid.Row="1" Grid.Column="2" Text="F" />
+</Grid>

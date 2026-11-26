@@ -1,0 +1,7 @@
+<Border
+    StrokeShape="$(StrokeShape)"
+    Stroke="$(Stroke)"
+    StrokeThickness="$(StrokeThickness)"
+    Padding="$(Padding)">
+    <Label Text="Content goes here" />
+</Border>

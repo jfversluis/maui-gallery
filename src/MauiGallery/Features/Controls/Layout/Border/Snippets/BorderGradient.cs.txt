@@ -1,0 +1,23 @@
+var border = new Border
+{
+    Padding = 20,
+    StrokeShape = new RoundRectangle { CornerRadius = 16 },
+    StrokeThickness = $(StrokeThickness),
+    Stroke = new LinearGradientBrush(
+        [
+            new GradientStop(Color.FromArgb("#7C3AED"), 0),
+            new GradientStop(Color.FromArgb("#DB2777"), 0.5f),
+            new GradientStop(Color.FromArgb("#F97316"), 1),
+        ],
+        new Point(0, 0),
+        new Point(1, 1)),
+    Content = new VerticalStackLayout
+    {
+        Spacing = 4,
+        Children =
+        {
+            new Label { Text = "Pro plan", FontAttributes = FontAttributes.Bold, FontSize = 18 },
+            new Label { Text = "Everything in Free, plus unlimited projects." },
+        },
+    },
+};

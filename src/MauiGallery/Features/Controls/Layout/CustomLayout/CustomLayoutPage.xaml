@@ -1,0 +1,109 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Layouts.CustomLayoutPage"
+            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <local:LayoutSampleResources />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Circular layout -->
+            <ControlExample x:Name="CircularExample"
+                            Title="Arrange children in a circle"
+                            Description="A custom layout derives from Layout and returns an ILayoutManager. The manager measures the children, then arranges each one at a point on a circle; a bindable property sets where the first child goes."
+                            ShowStyleToggle="False"
+                            XamlSource="CustomLayoutCircular.xaml.txt"
+                            CSharpSource="CustomLayoutCircular.cs.txt">
+                <Border Style="{StaticResource LayoutFrame}" StrokeShape="Ellipse">
+                    <local:CircularLayout x:Name="CircularSample"
+                                          WidthRequest="240"
+                                          HeightRequest="240"
+                                          StartAngle="{Binding Value, Source={x:Reference CircularStartAngle}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                          AutomationId="sample-circular-layout">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="x:Int32">
+                                <Border Style="{StaticResource TileViolet}" WidthRequest="40" HeightRequest="40" Padding="0" StrokeShape="Ellipse">
+                                    <Label Text="{Binding .}" Style="{StaticResource TileText}" />
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </local:CircularLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="{Binding Value, Source={x:Reference CircularCount}, StringFormat='Children: {0:0}', x:DataType=Stepper}"
+                                   Style="{StaticResource OptionLabel}"
+                                   VerticalOptions="Center" />
+                            <Stepper x:Name="CircularCount" Grid.Column="1" Minimum="3" Maximum="12" Value="12" ValueChanged="OnCircularCountChanged" AutomationId="option-circular-count" />
+                        </Grid>
+                        <Label Text="{Binding Value, Source={x:Reference CircularStartAngle}, StringFormat='StartAngle: {0:0}°', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="CircularStartAngle" Minimum="0" Maximum="360" Value="30" AutomationId="option-circular-start-angle" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="StartAngle" Value="{Binding Value, Source={x:Reference CircularStartAngle}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="0" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Uniform wrap layout -->
+            <ControlExample x:Name="WrapExample"
+                            Title="Wrap into equal-width columns"
+                            Description="This layout fits as many columns as it can at a minimum width, then stretches them to fill the row, so cards line up on both edges at any window size. Resize the window to see the columns change."
+                            XamlSource="CustomLayoutWrap.xaml.txt"
+                            CSharpSource="CustomLayoutWrap.cs.txt">
+                <Border Style="{StaticResource LayoutFrame}">
+                    <local:UniformWrapLayout x:Name="WrapSample"
+                                             MinItemWidth="{Binding Value, Source={x:Reference WrapMinItemWidth}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                             Spacing="{Binding Value, Source={x:Reference WrapSpacing}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                             AutomationId="sample-wrap-layout">
+                        <Border Style="{StaticResource Tile}">
+                            <Label Text="Coffee" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource TileGreen}">
+                            <Label Text="Matcha latte" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource TileAmber}">
+                            <Label Text="Croissant" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource TilePink}">
+                            <Label Text="Raspberry cheesecake" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource TileViolet}">
+                            <Label Text="Tea" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource Tile}">
+                            <Label Text="Orange juice" Style="{StaticResource TileText}" />
+                        </Border>
+                        <Border Style="{StaticResource TileGreen}">
+                            <Label Text="Bagel" Style="{StaticResource TileText}" />
+                        </Border>
+                    </local:UniformWrapLayout>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference WrapMinItemWidth}, StringFormat='MinItemWidth: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="WrapMinItemWidth" Minimum="60" Maximum="240" Value="120" AutomationId="option-wrap-min-item-width" />
+                        <Label Text="{Binding Value, Source={x:Reference WrapSpacing}, StringFormat='Spacing: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="WrapSpacing" Minimum="0" Maximum="24" Value="8" AutomationId="option-wrap-spacing" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="MinItemWidth" Value="{Binding Value, Source={x:Reference WrapMinItemWidth}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="120" />
+                    <Substitution Key="Spacing" Value="{Binding Value, Source={x:Reference WrapSpacing}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="8" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

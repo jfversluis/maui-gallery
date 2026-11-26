@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Sample-only look shared by the layout pages: children are drawn as small labeled tiles with a subtle outline, and
+    the layout itself gets a dashed frame, so the arrangement is visible. These are neutral sample colors, not
+    design-system tokens, and every style is keyed so other samples keep their platform defaults.
+-->
+<ResourceDictionary x:Class="MauiGallery.Features.Controls.Layouts.LayoutSampleResources">
+
+    <SolidColorBrush x:Key="TileBlueFill" Color="{AppThemeBinding Light=#DBEAFE, Dark=#172554}" />
+    <SolidColorBrush x:Key="TileBlueStroke" Color="{AppThemeBinding Light=#93C5FD, Dark=#3B82F6}" />
+    <SolidColorBrush x:Key="TileGreenFill" Color="{AppThemeBinding Light=#DCFCE7, Dark=#052E16}" />
+    <SolidColorBrush x:Key="TileGreenStroke" Color="{AppThemeBinding Light=#86EFAC, Dark=#22C55E}" />
+    <SolidColorBrush x:Key="TileAmberFill" Color="{AppThemeBinding Light=#FEF3C7, Dark=#451A03}" />
+    <SolidColorBrush x:Key="TileAmberStroke" Color="{AppThemeBinding Light=#FCD34D, Dark=#F59E0B}" />
+    <SolidColorBrush x:Key="TilePinkFill" Color="{AppThemeBinding Light=#FCE7F3, Dark=#500724}" />
+    <SolidColorBrush x:Key="TilePinkStroke" Color="{AppThemeBinding Light=#F9A8D4, Dark=#EC4899}" />
+    <SolidColorBrush x:Key="TileVioletFill" Color="{AppThemeBinding Light=#EDE9FE, Dark=#2E1065}" />
+    <SolidColorBrush x:Key="TileVioletStroke" Color="{AppThemeBinding Light=#C4B5FD, Dark=#8B5CF6}" />
+    <SolidColorBrush x:Key="LayoutFrameStroke" Color="{AppThemeBinding Light=#94A3B8, Dark=#64748B}" />
+
+    <Style x:Key="Tile" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 6" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Padding" Value="10,6" />
+        <Setter Property="MinimumHeightRequest" Value="36" />
+        <Setter Property="MinimumWidthRequest" Value="36" />
+        <Setter Property="Background" Value="{StaticResource TileBlueFill}" />
+        <Setter Property="Stroke" Value="{StaticResource TileBlueStroke}" />
+    </Style>
+    <Style x:Key="TileGreen" TargetType="Border" BasedOn="{StaticResource Tile}">
+        <Setter Property="Background" Value="{StaticResource TileGreenFill}" />
+        <Setter Property="Stroke" Value="{StaticResource TileGreenStroke}" />
+    </Style>
+    <Style x:Key="TileAmber" TargetType="Border" BasedOn="{StaticResource Tile}">
+        <Setter Property="Background" Value="{StaticResource TileAmberFill}" />
+        <Setter Property="Stroke" Value="{StaticResource TileAmberStroke}" />
+    </Style>
+    <Style x:Key="TilePink" TargetType="Border" BasedOn="{StaticResource Tile}">
+        <Setter Property="Background" Value="{StaticResource TilePinkFill}" />
+        <Setter Property="Stroke" Value="{StaticResource TilePinkStroke}" />
+    </Style>
+    <Style x:Key="TileViolet" TargetType="Border" BasedOn="{StaticResource Tile}">
+        <Setter Property="Background" Value="{StaticResource TileVioletFill}" />
+        <Setter Property="Stroke" Value="{StaticResource TileVioletStroke}" />
+    </Style>
+
+    <Style x:Key="TileText" TargetType="Label">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light=#1E293B, Dark=#F1F5F9}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
+    <!-- A dashed outline around a layout, so its own bounds are visible next to its children. -->
+    <Style x:Key="LayoutFrame" TargetType="Border">
+        <Setter Property="Stroke" Value="{StaticResource LayoutFrameStroke}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeDashArray" Value="4,3" />
+        <Setter Property="StrokeShape" Value="Rectangle" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+
+</ResourceDictionary>
