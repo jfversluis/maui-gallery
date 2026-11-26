@@ -22,7 +22,11 @@ public sealed partial class HybridWebViewPage : SamplePage
 
         GaugeExample.NativeTarget = GaugeWebView;
         MessagesExample.NativeTarget = MessagesWebView;
+        ConfigurePlatform();
     }
+
+    /// <summary>Platform workarounds, applied before the web views are created (see Platforms/Windows).</summary>
+    partial void ConfigurePlatform();
 
     private async void OnGaugeLevelChanged(object? sender, ValueChangedEventArgs e)
     {

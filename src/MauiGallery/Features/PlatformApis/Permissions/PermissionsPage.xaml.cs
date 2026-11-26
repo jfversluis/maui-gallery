@@ -30,7 +30,12 @@ public sealed partial class PermissionsPage : SamplePage
         }
 
         _permissions.VideoCapture.PropertyChanged += OnCustomStatusChanged;
-        Appearing += OnCheckAgainClicked;
+        Appearing += OnAppearing;
+        if (PermissionsViewModel.CheckingLocationPrompts)
+        {
+            CheckExample.Notice = "On Windows, CheckStatusAsync for location calls Geolocator.RequestAccessAsync, which can show the location prompt. This page only checks location when you tap Check again.";
+        }
+
         cameraAccess.PropertyChanged += (_, e) =>
         {
             if (e.PropertyName == nameof(CameraAccessViewModel.Status))
@@ -41,9 +46,13 @@ public sealed partial class PermissionsPage : SamplePage
     }
 
     // Statuses change outside the app, in Settings, so read them again every time the page appears.
-    private async void OnCheckAgainClicked(object? sender, EventArgs e)
+    private async void OnAppearing(object? sender, EventArgs e) => await CheckAllAsync(userInitiated: false);
+
+    private async void OnCheckAgainClicked(object? sender, EventArgs e) => await CheckAllAsync(userInitiated: true);
+
+    private async Task CheckAllAsync(bool userInitiated)
     {
-        await _permissions.CheckAllAsync();
+        await _permissions.CheckAllAsync(userInitiated);
         CheckExample.Output = $"Checked at {DateTime.Now:T}";
     }
 

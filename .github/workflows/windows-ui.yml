@@ -1,0 +1,146 @@
+name: Windows UI
+
+# Builds the Debug Windows app (unpackaged, with the DevFlow agent), crawls every catalog page with the maui CLI in
+# light and dark at compact, medium and expanded widths, and uploads the screenshots, logs and diagnostics.
+# Runs on GitHub-hosted windows-latest by default. To use a self-hosted machine (see docs/windows-validation.md),
+# pick its label in the run dialog or set the WINDOWS_UI_RUNNER repository variable to it, e.g. windows-ui.
+
+on:
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: Runner label (windows-latest, or windows-ui for a self-hosted machine)
+        default: ''
+      pages:
+        description: Comma-separated page ids (empty crawls the whole catalog)
+        default: ''
+      configs:
+        description: Comma-separated <theme>-<size> configurations
+        default: light-expanded,dark-expanded,light-medium,dark-medium,light-compact,dark-compact
+  push:
+    branches: [jfversluis-maui-gallery-build-windows]
+    paths:
+      - src/MauiGallery/**
+      - .github/workflows/windows-ui.yml
+      - .github/scripts/windows-ui-crawl.ps1
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-ui-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  APP_PROJECT: src/MauiGallery/MauiGallery.csproj
+  WINDOWS_TFM: net11.0-windows10.0.19041.0
+  MAUI_CLI_VERSION: 0.1.0-preview.14.26555.2
+  OUT_DIR: ${{ github.workspace }}/windows-ui
+  # Defaults for push runs; manual runs set them in the run dialog.
+  CRAWL_PAGES: ''
+  CRAWL_CONFIGS: light-expanded,dark-expanded,light-medium,dark-medium,light-compact,dark-compact
+
+jobs:
+  crawl:
+    name: Crawl (${{ inputs.runner || vars.WINDOWS_UI_RUNNER || 'windows-latest' }})
+    runs-on: ${{ inputs.runner || vars.WINDOWS_UI_RUNNER || 'windows-latest' }}
+    timeout-minutes: 150
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+
+      - run: dotnet workload install maui
+
+      - name: Install the maui CLI
+        run: |
+          dotnet tool update --global Microsoft.Maui.Cli --version $env:MAUI_CLI_VERSION
+          if ($LASTEXITCODE -ne 0) { dotnet tool update --global Microsoft.Maui.Cli --prerelease }
+          maui --version
+
+      - name: Build (Debug, unpackaged)
+        run: |
+          New-Item -ItemType Directory -Force -Path $env:OUT_DIR | Out-Null
+          dotnet build $env:APP_PROJECT -f $env:WINDOWS_TFM -c Debug -p:WindowsAppSDKSelfContained=true -bl:"$env:OUT_DIR/build.binlog"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $exe = Get-ChildItem "src/MauiGallery/bin/Debug/$env:WINDOWS_TFM" -Recurse -Filter MauiGallery.exe | Select-Object -First 1
+          if (-not $exe) { throw 'MauiGallery.exe not found' }
+          "APP_PATH=$($exe.FullName)" >> $env:GITHUB_ENV
+          Write-Host "App: $($exe.FullName)"
+
+      # Hosted runners start at 1024x768, too small for the expanded (1440) window. Fail-soft: a self-hosted desktop
+      # may not allow it, and the crawl still runs.
+      - name: Set the display resolution
+        continue-on-error: true
+        run: |
+          Add-Type -TypeDefinition @'
+          using System;
+          using System.Runtime.InteropServices;
+          public static class Display
+          {
+              [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+              public struct DEVMODE
+              {
+                  [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string dmDeviceName;
+                  public short dmSpecVersion, dmDriverVersion, dmSize, dmDriverExtra;
+                  public int dmFields, dmPositionX, dmPositionY, dmDisplayOrientation, dmDisplayFixedOutput;
+                  public short dmColor, dmDuplex, dmYResolution, dmTTOption, dmCollate;
+                  [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string dmFormName;
+                  public short dmLogPixels;
+                  public int dmBitsPerPel, dmPelsWidth, dmPelsHeight, dmDisplayFlags, dmDisplayFrequency;
+                  public int dmICMMethod, dmICMIntent, dmMediaType, dmDitherType, dmReserved1, dmReserved2;
+                  public int dmPanningWidth, dmPanningHeight;
+              }
+              [DllImport("user32.dll", CharSet = CharSet.Unicode)] static extern bool EnumDisplaySettings(string device, int mode, ref DEVMODE devMode);
+              [DllImport("user32.dll", CharSet = CharSet.Unicode)] static extern int ChangeDisplaySettings(ref DEVMODE devMode, int flags);
+              public static int Set(int width, int height)
+              {
+                  var mode = new DEVMODE();
+                  mode.dmSize = (short)Marshal.SizeOf(typeof(DEVMODE));
+                  EnumDisplaySettings(null, -1, ref mode);
+                  mode.dmPelsWidth = width;
+                  mode.dmPelsHeight = height;
+                  mode.dmFields = 0x80000 | 0x100000;
+                  return ChangeDisplaySettings(ref mode, 0);
+              }
+          }
+          '@
+          $result = [Display]::Set(1920, 1080)
+          Write-Host "ChangeDisplaySettings: $result (0 = changed)"
+          if ($result -ne 0 -and (Get-Command Set-DisplayResolution -ErrorAction SilentlyContinue)) {
+              Set-DisplayResolution -Width 1920 -Height 1080 -Force
+          }
+
+      # Mica needs transparency effects, which hosted runners have turned off; without them it falls back to a solid
+      # color.
+      - name: Turn on transparency effects
+        continue-on-error: true
+        run: |
+          Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name EnableTransparency -Value 1 -Type DWord
+
+      - name: Start the DevFlow broker
+        run: |
+          maui devflow broker start
+          maui devflow broker status
+
+      - name: Crawl the catalog
+        run: |
+          ./.github/scripts/windows-ui-crawl.ps1 -AppPath $env:APP_PATH -OutDir $env:OUT_DIR `
+            -Pages '${{ inputs.pages || env.CRAWL_PAGES }}' -Configs '${{ inputs.configs || env.CRAWL_CONFIGS }}'
+          Get-Content "$env:OUT_DIR/summary.md" >> $env:GITHUB_STEP_SUMMARY
+
+      - name: Upload the results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-ui-${{ github.run_number }}-${{ github.run_attempt }}
+          path: ${{ env.OUT_DIR }}
+          if-no-files-found: warn
+          retention-days: 14
