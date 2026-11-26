@@ -32,7 +32,8 @@ public sealed partial class DeepLinksPage : SamplePage
         var link = DeepLink.ForItem(CommandItemId);
         (ReceiveIntro.Text, ReceiveCommand.Text) = DeviceInfo.Platform switch
         {
-            var p when p == DevicePlatform.iOS => ("Send this simulator a link from a Mac terminal:", $"xcrun simctl openurl booted {link}"),
+            var p when p == DevicePlatform.iOS && DeviceInfo.DeviceType == DeviceType.Virtual => ("Send this simulator a link from a Mac terminal:", $"xcrun simctl openurl booted {link}"),
+            var p when p == DevicePlatform.iOS => ("Paste this link in Safari or tap it in Notes:", link.ToString()),
             var p when p == DevicePlatform.MacCatalyst => ("Open a link from Terminal:", $"open {link}"),
             var p when p == DevicePlatform.Android => ("Send the emulator a link from a terminal:", $"adb shell am start -a android.intent.action.VIEW -d \"{link}\""),
             _ => ("This gallery runs unpackaged on Windows, so it doesn't register the scheme there. A packaged app opens links from a command prompt with:", $"start {link}"),

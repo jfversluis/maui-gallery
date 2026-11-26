@@ -161,8 +161,19 @@ public sealed partial class ShellSamplePage : SamplePage, IQueryAttributable
         ChromeStatus.Text = $"Navigation bar: {(ChromeNavBar.IsToggled ? "visible" : "hidden")}\n" +
                             $"Tab bar: {(ChromeTabBar.IsToggled ? "visible" : "hidden")}\n" +
                             $"Flyout: {flyout}";
+        ChromeOpenFlyout.IsVisible = IsSet(Shell.FlyoutBehaviorProperty) && Shell.GetFlyoutBehavior(this) == FlyoutBehavior.Flyout;
         ChromeHint.Text = DeviceInfo.Idiom == DeviceIdiom.Phone
-            ? "With the navigation bar hidden, swipe from the left edge to go back. Flyout adds the app's sidebar as a flyout on this page."
+            ? "With the navigation bar hidden, use the back gesture to leave. Flyout turns the app's sidebar into a flyout on this page."
             : "This window shows no tab bar, so TabBarIsVisible matters on phones. Disabled hides the sidebar; Locked keeps it open.";
+    }
+
+    // The back button takes the place of the flyout button on a pushed page, so open the flyout from code.
+    private void OnOpenFlyoutClicked(object? sender, EventArgs e)
+    {
+        if (_shell is not null)
+        {
+            _shell.FlyoutIsPresented = true;
+            ChromeExample.Output = "FlyoutIsPresented = true";
+        }
     }
 }

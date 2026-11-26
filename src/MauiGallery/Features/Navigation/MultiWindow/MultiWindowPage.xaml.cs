@@ -71,14 +71,23 @@ public sealed partial class MultiWindowPage : SamplePage
         var window = new Window(page)
         {
             Title = string.IsNullOrWhiteSpace(CustomTitle.Text) ? "Notes" : CustomTitle.Text,
-            X = Math.Round(CustomX.Value),
-            Y = Math.Round(CustomY.Value),
-            Width = Math.Round(CustomWidth.Value),
-            Height = Math.Round(CustomHeight.Value),
             MinimumWidth = 360,
             MinimumHeight = 360,
         };
         page.BindingContext = window;
+
+        var frame = new Rect(Math.Round(CustomX.Value), Math.Round(CustomY.Value), Math.Round(CustomWidth.Value), Math.Round(CustomHeight.Value));
+        window.Activated += OnFirstActivated;
+
+        // Mac Catalyst ignores a frame that is set before the window is on screen, so apply it once it is.
+        void OnFirstActivated(object? sender, EventArgs e)
+        {
+            window.Activated -= OnFirstActivated;
+            window.X = frame.X;
+            window.Y = frame.Y;
+            window.Width = frame.Width;
+            window.Height = frame.Height;
+        }
 
         Subscribe(window, window.Title);
         window.Destroying += OnCustomWindowDestroying;

@@ -101,6 +101,12 @@
                     <Label x:Name="ChromeStatus"
                            HorizontalTextAlignment="Center"
                            AutomationId="sample-chrome-status" />
+                    <Button x:Name="ChromeOpenFlyout"
+                            Text="Open the flyout"
+                            Clicked="OnOpenFlyoutClicked"
+                            IsVisible="False"
+                            HorizontalOptions="Center"
+                            AutomationId="sample-chrome-open-flyout" />
                     <Label x:Name="ChromeHint"
                            FontSize="13"
                            Opacity="0.7"

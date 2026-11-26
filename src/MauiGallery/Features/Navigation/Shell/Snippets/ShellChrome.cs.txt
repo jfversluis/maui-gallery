@@ -2,3 +2,6 @@
 Shell.SetNavBarIsVisible(this, $(NavBar));
 Shell.SetTabBarIsVisible(this, $(TabBar));
 Shell.SetFlyoutBehavior(this, $(FlyoutCode));
+
+// Open the flyout from code, for example from a button
+Shell.Current.FlyoutIsPresented = true;

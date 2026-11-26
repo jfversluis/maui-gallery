@@ -59,10 +59,6 @@ public sealed partial class TitleBarPage : SamplePage
         _window = new Window(_windowPage)
         {
             TitleBar = _titleBar,
-            X = 160,
-            Y = 120,
-            Width = 900,
-            Height = 600,
         };
         _window.Destroying += OnWindowDestroying;
         Apply();

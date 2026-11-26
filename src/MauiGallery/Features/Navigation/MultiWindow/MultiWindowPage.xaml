@@ -15,7 +15,7 @@
                     <VerticalStackLayout Grid.Column="1" Spacing="4">
                         <Label Text="An iPad, Mac and PC feature" Style="{StaticResource TextBodyStrong}" />
                         <Label Style="{StaticResource TextBodySecondary}"
-                               Text="Phones run an app in a single window, so the buttons below are turned off here. On an iPad, a Mac or a Windows PC they open real windows; the code works unchanged." />
+                               Text="Phones run an app in a single window, so the buttons that open windows are turned off here. On an iPad, a Mac or a Windows PC they open real windows; the code works unchanged." />
                     </VerticalStackLayout>
                 </Grid>
             </Border>
@@ -44,7 +44,7 @@
             <!-- 2. A custom window -->
             <ControlExample x:Name="CustomExample"
                             Title="Open a window with a size and title"
-                            Description="Any page can be the root of a window. Set Title, a position and a size on the Window, and minimum sizes to keep it usable. On Mac, the size only applies when X and Y are set too. The properties follow the user as they move and resize the window, so the page in it binds to them. iPadOS decides window sizes itself."
+                            Description="Any page can be the root of a window. Set Title and minimum sizes on the Window, and X, Y, Width and Height to place it. Mac Catalyst ignores the frame until the window is on screen, so set it when the window is first activated. The properties follow the user as they move and resize the window, so the page in it binds to them. iPadOS decides window sizes itself."
                             XamlSource="MultiWindowCustom.xaml.txt"
                             CSharpSource="MultiWindowCustom.cs.txt">
                 <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=420}">

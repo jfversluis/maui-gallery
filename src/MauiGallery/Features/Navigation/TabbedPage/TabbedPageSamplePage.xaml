@@ -7,7 +7,7 @@
             <!-- 1. Tabs and colors -->
             <ControlExample x:Name="BasicExample"
                             Title="Show pages as tabs"
-                            Description="A TabbedPage shows one tab per child page, using each page's Title and IconImageSource. The bar colors are optional; leave them unset for the platform look. This app is a Shell, so the sample opens modally: close it from any tab."
+                            Description="A TabbedPage shows one tab per child page, using each page's Title and IconImageSource. The bar colors are optional; leave them unset for the platform look. The Liquid Glass tab bar of iOS and macOS 26 keeps its own background and unselected color. This app is a Shell, so the sample opens modally: close it from any tab."
                             XamlSource="TabbedPageBasic.xaml.txt"
                             CSharpSource="TabbedPageBasic.cs.txt">
                 <Button x:Name="BasicButton"
@@ -38,7 +38,7 @@
             <!-- 2. Badges -->
             <ControlExample x:Name="BadgeExample"
                             Title="Show a badge on a tab"
-                            Description="New in .NET 11: the TabbedPage.BadgeText attached property puts a badge on a child page's tab, such as an unread count. An empty string shows a dot, and null removes the badge. Open the sample and select Mark all as read to clear it."
+                            Description="New in .NET 11: the TabbedPage.BadgeText attached property puts a badge on a child page's tab, such as an unread count. An empty string shows a dot, and null removes the badge. BadgeColor sets its color, except on the newest iOS and Mac tab bars, which use the system color. Open the sample and select Mark all as read to clear it."
                             XamlSource="TabbedPageBadge.xaml.txt"
                             CSharpSource="TabbedPageBadge.cs.txt">
                 <Button x:Name="BadgeButton"
