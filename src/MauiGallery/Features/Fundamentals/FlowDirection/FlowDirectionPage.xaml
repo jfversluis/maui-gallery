@@ -1,0 +1,143 @@
+<SamplePage x:Class="MauiGallery.Features.Fundamentals.FlowDirectionPage"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="FlowDirectionOptions" Type="{x:Type FlowDirection}">
+            <x:Static Member="FlowDirection.MatchParent" />
+            <x:Static Member="FlowDirection.LeftToRight" />
+            <x:Static Member="FlowDirection.RightToLeft" />
+        </x:Array>
+        <x:Array x:Key="LanguageOptions" Type="{x:Type x:String}">
+            <x:String>English</x:String>
+            <x:String>Arabic (العربية)</x:String>
+            <x:String>Hebrew (עברית)</x:String>
+        </x:Array>
+        <SolidColorBrush x:Key="ChipFill" Color="{AppThemeBinding Light=#EDE9FE, Dark=#2E1065}" />
+        <SolidColorBrush x:Key="CardStroke" Color="{AppThemeBinding Light=#D1D1D6, Dark=#48484A}" />
+        <Color x:Key="MutedText">#8E8E93</Color>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Mirror a layout -->
+            <ControlExample x:Name="MirrorExample"
+                            Title="Mirror a layout"
+                            Description="FlowDirection RightToLeft mirrors a view and everything in it: Grid columns, stack layouts and FlexLayout run from the right. MatchParent, the default, inherits the direction of the parent, so the LTR/RTL button on every stage in this gallery flips its sample."
+                            ShowStyleToggle="False"
+                            XamlSource="FlowDirectionMirror.xaml.txt"
+                            CSharpSource="FlowDirectionMirror.cs.txt">
+                <Border x:Name="MirrorSample"
+                        Padding="12"
+                        StrokeShape="RoundRectangle 12"
+                        Stroke="{StaticResource CardStroke}"
+                        WidthRequest="{OnIdiom Phone=280, Default=360}"
+                        FlowDirection="{Binding SelectedItem, Source={x:Reference MirrorDirection}, x:DataType=Picker}"
+                        AutomationId="sample-mirror-card">
+                    <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="8">
+                        <Border Grid.RowSpan="2"
+                                WidthRequest="40"
+                                HeightRequest="40"
+                                StrokeThickness="0"
+                                StrokeShape="Ellipse"
+                                BackgroundColor="#512BD4"
+                                VerticalOptions="Start">
+                            <Label Text="AK" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="Amira Khalil" FontAttributes="Bold" />
+                            <Label Text="See you at the station!" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text="09:41" TextColor="{StaticResource MutedText}" />
+                        <HorizontalStackLayout Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Spacing="8">
+                            <Button Text="Reply" />
+                            <Button Text="Forward" />
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="FlowDirection" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="MirrorDirection"
+                                ItemsSource="{StaticResource FlowDirectionOptions}"
+                                SelectedIndex="0"
+                                AutomationId="option-mirror-direction" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="FlowDirection" Value="{Binding SelectedItem, Source={x:Reference MirrorDirection}, x:DataType=Picker}" Default="MatchParent" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Start and End -->
+            <ControlExample x:Name="AlignExample"
+                            Title="Align with Start and End"
+                            Description="There is no Left or Right alignment in .NET MAUI. Start and End, in HorizontalOptions and HorizontalTextAlignment, follow the flow direction, so one layout works in both directions. A FlexLayout row wraps from the right in right-to-left too."
+                            ShowStyleToggle="False"
+                            XamlSource="FlowDirectionAlign.xaml.txt"
+                            CSharpSource="FlowDirectionAlign.cs.txt">
+                <VerticalStackLayout x:Name="AlignSample"
+                                     Spacing="8"
+                                     WidthRequest="{OnIdiom Phone=280, Default=360}"
+                                     FlowDirection="{Binding SelectedItem, Source={x:Reference AlignDirection}, x:DataType=Picker}"
+                                     AutomationId="sample-align-stack">
+                    <Label Text="HorizontalTextAlignment Start" HorizontalTextAlignment="Start" />
+                    <Label Text="HorizontalTextAlignment End" HorizontalTextAlignment="End" />
+                    <Button Text="HorizontalOptions End" HorizontalOptions="End" />
+                    <FlexLayout Wrap="Wrap" Margin="0,8,0,0">
+                        <Label Text="1 Breakfast" Padding="12,6" Margin="0,0,8,8" FlexLayout.Shrink="0" Background="{StaticResource ChipFill}" />
+                        <Label Text="2 Lunch" Padding="12,6" Margin="0,0,8,8" FlexLayout.Shrink="0" Background="{StaticResource ChipFill}" />
+                        <Label Text="3 Dinner" Padding="12,6" Margin="0,0,8,8" FlexLayout.Shrink="0" Background="{StaticResource ChipFill}" />
+                        <Label Text="4 Dessert" Padding="12,6" Margin="0,0,8,8" FlexLayout.Shrink="0" Background="{StaticResource ChipFill}" />
+                        <Label Text="5 Snacks" Padding="12,6" Margin="0,0,8,8" FlexLayout.Shrink="0" Background="{StaticResource ChipFill}" />
+                    </FlexLayout>
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="FlowDirection" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="AlignDirection"
+                                ItemsSource="{StaticResource FlowDirectionOptions}"
+                                SelectedIndex="2"
+                                AutomationId="option-align-direction" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="FlowDirection" Value="{Binding SelectedItem, Source={x:Reference AlignDirection}, x:DataType=Picker}" Default="MatchParent" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. RTL text -->
+            <ControlExample x:Name="TextExample"
+                            Title="Right-to-left languages"
+                            Description="Arabic, Hebrew, Persian and Urdu read from right to left, but text alone doesn't change the layout: in a left-to-right view it lines up on the wrong side. Set FlowDirection from the culture, usually once for the whole page or window, and controls such as Entry follow."
+                            ShowStyleToggle="False"
+                            XamlSource="FlowDirectionText.xaml.txt"
+                            CSharpSource="FlowDirectionText.cs.txt">
+                <VerticalStackLayout x:Name="TextSample"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=280, Default=360}"
+                                     AutomationId="sample-rtl-text">
+                    <Label x:Name="GreetingLabel" FontSize="18" />
+                    <Entry x:Name="MessageEntry" AutomationId="sample-rtl-entry" />
+                </VerticalStackLayout>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Language" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="LanguagePicker"
+                                ItemsSource="{StaticResource LanguageOptions}"
+                                SelectedIndex="1"
+                                SelectedIndexChanged="OnLanguageChanged"
+                                AutomationId="option-rtl-language" />
+                        <Label Text="Set FlowDirection from the culture" Style="{StaticResource OptionLabel}" />
+                        <Switch x:Name="FollowCulture" IsToggled="True" Toggled="OnLanguageChanged" AutomationId="option-rtl-follow-culture" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution x:Name="CultureName" Key="Culture" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

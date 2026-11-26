@@ -1,0 +1,15 @@
+<VerticalStackLayout Spacing="12">
+    <HorizontalStackLayout Spacing="8">
+        <Label Text="Inbox" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
+        <!-- The badge has a fixed height, so its text keeps its size. -->
+        <Border HeightRequest="22" Padding="8,0" StrokeShape="RoundRectangle 11">
+            <Label
+                Text="12 new"
+                FontSize="12"
+                VerticalOptions="Center"
+                FontAutoScalingEnabled="$(FontAutoScalingEnabled)" />
+        </Border>
+    </HorizontalStackLayout>
+    <!-- Scales with the user's text size (the default). -->
+    <Label Text="Your order has shipped and arrives Tuesday. Track it any time from the Orders tab." FontSize="15" />
+</VerticalStackLayout>

@@ -1,0 +1,25 @@
+private void OnPointerEntered(object? sender, PointerEventArgs e) => Dot.IsVisible = true;
+
+private void OnPointerExited(object? sender, PointerEventArgs e) => Dot.IsVisible = false;
+
+private void OnPointerMoved(object? sender, PointerEventArgs e) => MoveDot(e);
+
+// Touch presses without entering first. Button tells which mouse button it was.
+private void OnPointerPressed(object? sender, PointerEventArgs e)
+{
+    Dot.IsVisible = true;
+    Dot.Scale = 1.5;
+    MoveDot(e);
+}
+
+private void OnPointerReleased(object? sender, PointerEventArgs e) => Dot.Scale = 1;
+
+private void MoveDot(PointerEventArgs e)
+{
+    if (e.GetPosition(Pad) is Point position)
+    {
+        Dot.TranslationX = position.X - 8;
+        Dot.TranslationY = position.Y - 8;
+        Position.Text = $"({position.X:0}, {position.Y:0})";
+    }
+}

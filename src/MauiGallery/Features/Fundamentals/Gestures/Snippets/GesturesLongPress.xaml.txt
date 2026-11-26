@@ -1,0 +1,14 @@
+<Border
+    x:Name="Tile"
+    WidthRequest="160"
+    HeightRequest="100"
+    StrokeShape="RoundRectangle 16"
+    BackgroundColor="#0D9488">
+    <Border.GestureRecognizers>
+        <LongPressGestureRecognizer
+            MinimumPressDuration="$(MinimumPressDuration)"
+            LongPressing="OnLongPressing"
+            LongPressed="OnLongPressed" />
+    </Border.GestureRecognizers>
+    <Label Text="Press and hold" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+</Border>

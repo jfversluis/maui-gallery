@@ -1,0 +1,25 @@
+<Border
+    WidthRequest="160"
+    HeightRequest="100"
+    StrokeShape="RoundRectangle 16"
+    BackgroundColor="#DB2777">
+    <Border.GestureRecognizers>
+        <SwipeGestureRecognizer
+            Direction="Left"
+            Threshold="$(Threshold)"
+            Swiped="OnSwiped" />
+        <SwipeGestureRecognizer
+            Direction="Right"
+            Threshold="$(Threshold)"
+            Swiped="OnSwiped" />
+        <SwipeGestureRecognizer
+            Direction="Up"
+            Threshold="$(Threshold)"
+            Swiped="OnSwiped" />
+        <SwipeGestureRecognizer
+            Direction="Down"
+            Threshold="$(Threshold)"
+            Swiped="OnSwiped" />
+    </Border.GestureRecognizers>
+    <Label Text="Swipe me" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+</Border>

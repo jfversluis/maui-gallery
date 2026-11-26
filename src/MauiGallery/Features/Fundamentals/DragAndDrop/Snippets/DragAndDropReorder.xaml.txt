@@ -1,0 +1,34 @@
+<VerticalStackLayout
+    x:DataType="local:ReorderViewModel"
+    Spacing="8"
+    BindableLayout.ItemsSource="{Binding Tiles}">
+    <BindableLayout.ItemTemplate>
+        <DataTemplate x:DataType="local:ReorderTile">
+            <Border
+                HeightRequest="52"
+                Padding="16,0"
+                StrokeShape="RoundRectangle 12"
+                Stroke="#FACC15"
+                StrokeThickness="0"
+                BackgroundColor="{Binding Color}">
+                <Border.Triggers>
+                    <DataTrigger TargetType="Border" Binding="{Binding IsDragOver}" Value="True">
+                        <Setter Property="StrokeThickness" Value="4" />
+                    </DataTrigger>
+                </Border.Triggers>
+                <Border.GestureRecognizers>
+                    <DragGestureRecognizer
+                        DragStartingCommand="{Binding DragStartingCommand, Source={RelativeSource AncestorType={x:Type local:ReorderViewModel}}, x:DataType=local:ReorderViewModel}"
+                        DragStartingCommandParameter="{Binding .}" />
+                    <DropGestureRecognizer
+                        DragOverCommand="{Binding DragOverCommand, Source={RelativeSource AncestorType={x:Type local:ReorderViewModel}}, x:DataType=local:ReorderViewModel}"
+                        DragOverCommandParameter="{Binding .}"
+                        DragLeaveCommand="{Binding DragLeaveCommand, Source={RelativeSource AncestorType={x:Type local:ReorderViewModel}}, x:DataType=local:ReorderViewModel}"
+                        DropCommand="{Binding DropCommand, Source={RelativeSource AncestorType={x:Type local:ReorderViewModel}}, x:DataType=local:ReorderViewModel}"
+                        DropCommandParameter="{Binding .}" />
+                </Border.GestureRecognizers>
+                <Label Text="{Binding Name}" TextColor="White" FontAttributes="Bold" VerticalOptions="Center" />
+            </Border>
+        </DataTemplate>
+    </BindableLayout.ItemTemplate>
+</VerticalStackLayout>

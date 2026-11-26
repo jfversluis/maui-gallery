@@ -1,0 +1,28 @@
+private CancellationTokenSource? _bounce;
+
+private async void OnBounceClicked(object? sender, EventArgs e)
+{
+    if (_bounce is not null)
+    {
+        return;
+    }
+
+    using var bounce = _bounce = new CancellationTokenSource();
+
+    // The animation methods return true when they were stopped, which ends the loop.
+    var stopped = false;
+    while (!stopped)
+    {
+        stopped = await Ball.TranslateToAsync(0, -80, 400, Easing.CubicOut, bounce.Token)
+            || await Ball.TranslateToAsync(0, 0, 400, Easing.CubicIn, bounce.Token);
+    }
+
+    _bounce = null;
+    await Ball.TranslateToAsync(0, 0, 250, Easing.BounceOut);
+}
+
+// Stops only the animations that were given this token.
+private void OnCancelTokenClicked(object? sender, EventArgs e) => _bounce?.Cancel();
+
+// Stops every animation running on the view.
+private void OnCancelAnimationsClicked(object? sender, EventArgs e) => Ball.CancelAnimations();

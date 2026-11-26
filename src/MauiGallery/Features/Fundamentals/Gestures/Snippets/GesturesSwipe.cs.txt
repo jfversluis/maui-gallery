@@ -1,0 +1,15 @@
+foreach (var direction in (SwipeDirection[])[SwipeDirection.Left, SwipeDirection.Right, SwipeDirection.Up, SwipeDirection.Down])
+{
+    var swipe = new SwipeGestureRecognizer
+    {
+        Direction = direction,
+        Threshold = $(Threshold),
+    };
+    swipe.Swiped += OnSwiped;
+    tile.GestureRecognizers.Add(swipe);
+}
+
+private void OnSwiped(object? sender, SwipedEventArgs e)
+{
+    status.Text = $"Swiped {e.Direction}";
+}

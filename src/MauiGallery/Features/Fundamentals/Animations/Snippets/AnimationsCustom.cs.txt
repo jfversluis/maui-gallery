@@ -1,0 +1,20 @@
+private void OnBeatClicked(object? sender, EventArgs e)
+{
+    // Each child runs from beginAt to finishAt, as fractions of the parent's length.
+    var heartbeat = new Animation
+    {
+        { 0, 0.15, new Animation(v => Heart.Scale = v, 1, 1.3, Easing.CubicOut) },
+        { 0.15, 0.3, new Animation(v => Heart.Scale = v, 1.3, 1, Easing.CubicIn) },
+        { 0.3, 0.45, new Animation(v => Heart.Scale = v, 1, 1.2, Easing.CubicOut) },
+        { 0.45, 0.7, new Animation(v => Heart.Scale = v, 1.2, 1, Easing.CubicIn) },
+    };
+
+    heartbeat.Commit(Heart, "Heartbeat",
+        length: $(Length),
+        repeat: () => $(Repeat),
+        // Runs after every repetition; cancelled is true when it was stopped.
+        finished: (_, cancelled) => Heart.Scale = 1);
+}
+
+private void OnStopClicked(object? sender, EventArgs e) =>
+    Heart.AbortAnimation("Heartbeat");

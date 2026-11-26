@@ -1,0 +1,6 @@
+var badge = new Label
+{
+    Text = "12 new",
+    FontSize = 12,
+    FontAutoScalingEnabled = $(FontAutoScalingEnabled),
+};

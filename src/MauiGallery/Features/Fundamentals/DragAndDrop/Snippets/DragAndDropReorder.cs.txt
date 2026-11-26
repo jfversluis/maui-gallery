@@ -1,0 +1,56 @@
+// Uses the CommunityToolkit.Mvvm source generators
+public partial class ReorderTile(string name, Color color) : ObservableObject
+{
+    public string Name { get; } = name;
+
+    public Color Color { get; } = color;
+
+    [ObservableProperty]
+    public partial bool IsDragOver { get; set; }
+}
+
+public partial class ReorderViewModel : ObservableObject
+{
+    private ReorderTile? _dragged;
+
+    public ObservableCollection<ReorderTile> Tiles { get; } =
+    [
+        new("Inbox", Color.FromArgb("#512BD4")),
+        new("Calendar", Color.FromArgb("#2563EB")),
+        new("Photos", Color.FromArgb("#0D9488")),
+    ];
+
+    [RelayCommand]
+    private void DragStarting(ReorderTile tile) => _dragged = tile;
+
+    // Highlights the tile under the pointer, unless it's the one being dragged.
+    [RelayCommand]
+    private void DragOver(ReorderTile tile)
+    {
+        foreach (var item in Tiles)
+        {
+            item.IsDragOver = item == tile && item != _dragged;
+        }
+    }
+
+    [RelayCommand]
+    private void DragLeave()
+    {
+        foreach (var item in Tiles)
+        {
+            item.IsDragOver = false;
+        }
+    }
+
+    [RelayCommand]
+    private void Drop(ReorderTile target)
+    {
+        target.IsDragOver = false;
+        if (_dragged is not null && _dragged != target)
+        {
+            Tiles.Move(Tiles.IndexOf(_dragged), Tiles.IndexOf(target));
+        }
+
+        _dragged = null;
+    }
+}

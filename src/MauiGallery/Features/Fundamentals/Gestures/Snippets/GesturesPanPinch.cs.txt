@@ -1,0 +1,34 @@
+private double _startX, _startY;
+
+private void OnPanUpdated(object? sender, PanUpdatedEventArgs e)
+{
+    switch (e.StatusType)
+    {
+        case GestureStatus.Started:
+            _startX = Card.TranslationX;
+            _startY = Card.TranslationY;
+            break;
+        case GestureStatus.Running:
+            // TotalX and TotalY are measured from where the drag started.
+            MoveCard(_startX + e.TotalX, _startY + e.TotalY);
+            break;
+    }
+}
+
+private void OnPinchUpdated(object? sender, PinchGestureUpdatedEventArgs e)
+{
+    if (e.Status == GestureStatus.Running)
+    {
+        // Scale is the change since the last update.
+        Card.Scale = Math.Clamp(Card.Scale * e.Scale, 0.5, 2.5);
+        MoveCard(Card.TranslationX, Card.TranslationY);
+    }
+}
+
+private void MoveCard(double x, double y)
+{
+    var maxX = Math.Max(0, (Area.Width - Card.Width * Card.Scale) / 2);
+    var maxY = Math.Max(0, (Area.Height - Card.Height * Card.Scale) / 2);
+    Card.TranslationX = Math.Clamp(x, -maxX, maxX);
+    Card.TranslationY = Math.Clamp(y, -maxY, maxY);
+}

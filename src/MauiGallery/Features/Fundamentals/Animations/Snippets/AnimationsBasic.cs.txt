@@ -1,0 +1,6 @@
+private async void OnPlayClicked(object? sender, EventArgs e)
+{
+    // Length in milliseconds, then the easing curve. Await to play the way back afterwards.
+    await Card.$(Forward);
+    await Card.$(Back);
+}

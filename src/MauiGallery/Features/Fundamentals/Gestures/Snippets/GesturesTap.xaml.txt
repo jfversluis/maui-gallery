@@ -1,0 +1,13 @@
+<Border
+    WidthRequest="160"
+    HeightRequest="100"
+    StrokeShape="RoundRectangle 16"
+    BackgroundColor="#512BD4">
+    <Border.GestureRecognizers>
+        <TapGestureRecognizer
+            NumberOfTapsRequired="$(NumberOfTapsRequired)"
+            Buttons="$(Buttons)"
+            Tapped="OnTileTapped" />
+    </Border.GestureRecognizers>
+    <Label Text="Tap me" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+</Border>

@@ -1,0 +1,230 @@
+<SamplePage x:Class="MauiGallery.Features.Fundamentals.GesturesPage"
+            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <x:Array x:Key="TapCountOptions" Type="{x:Type x:Int32}">
+            <x:Int32>1</x:Int32>
+            <x:Int32>2</x:Int32>
+            <x:Int32>3</x:Int32>
+        </x:Array>
+        <x:Array x:Key="ButtonsOptions" Type="{x:Type x:String}">
+            <x:String>Primary</x:String>
+            <x:String>Secondary</x:String>
+            <x:String>Primary, Secondary</x:String>
+        </x:Array>
+        <SolidColorBrush x:Key="PadStroke" Color="{AppThemeBinding Light=#AEAEB2, Dark=#636366}" />
+        <Style x:Key="GestureTile" TargetType="Border">
+            <Setter Property="WidthRequest" Value="160" />
+            <Setter Property="HeightRequest" Value="100" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        </Style>
+        <Style x:Key="TileText" TargetType="Label">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <Style x:Key="GesturePad" TargetType="Border">
+            <Setter Property="WidthRequest" Value="{OnIdiom Phone=280, Default=400}" />
+            <Setter Property="HeightRequest" Value="220" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+            <Setter Property="StrokeDashArray" Value="4,4" />
+            <Setter Property="Stroke" Value="{StaticResource PadStroke}" />
+            <Setter Property="StrokeThickness" Value="1" />
+        </Style>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Tap -->
+            <ControlExample x:Name="TapExample"
+                            Title="Tap, double-tap and right-click"
+                            Description="TapGestureRecognizer makes any view respond to taps and clicks. NumberOfTapsRequired turns it into a double or triple tap, and Buttons lets it answer the secondary (right) button of a mouse or trackpad on desktop, iPad and Android."
+                            ShowStyleToggle="False"
+                            XamlSource="GesturesTap.xaml.txt"
+                            CSharpSource="GesturesTap.cs.txt">
+                <Border x:Name="TapTile"
+                        Style="{StaticResource GestureTile}"
+                        BackgroundColor="#512BD4"
+                        SemanticProperties.Description="Tap target"
+                        AutomationId="sample-tap-tile">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer x:Name="TapRecognizer"
+                                              NumberOfTapsRequired="{Binding SelectedItem, Source={x:Reference TapCount}, x:DataType=Picker}"
+                                              Tapped="OnTileTapped" />
+                    </Border.GestureRecognizers>
+                    <Label x:Name="TapLabel" Text="Tap me" Style="{StaticResource TileText}" />
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="NumberOfTapsRequired" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="TapCount"
+                                ItemsSource="{StaticResource TapCountOptions}"
+                                SelectedIndex="0"
+                                AutomationId="option-tap-count" />
+                        <Label Text="Buttons" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="TapButtons"
+                                ItemsSource="{StaticResource ButtonsOptions}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnTapButtonsChanged"
+                                AutomationId="option-tap-buttons" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="NumberOfTapsRequired" Value="{Binding SelectedItem, Source={x:Reference TapCount}, x:DataType=Picker}" Default="1" />
+                    <Substitution x:Name="TapButtonsXaml" Key="Buttons" Default="Primary" />
+                    <Substitution x:Name="TapButtonsCode" Key="ButtonsCode" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Long press -->
+            <ControlExample x:Name="LongPressExample"
+                            Title="Long press"
+                            Description="LongPressGestureRecognizer, new in .NET MAUI 11, fires LongPressed when a finger or button stays down for MinimumPressDuration milliseconds without moving more than AllowableMovement, and LongPressing reports its stages. Android uses the system long-press timeout instead of MinimumPressDuration and reports only the Completed stage."
+                            ShowStyleToggle="False"
+                            XamlSource="GesturesLongPress.xaml.txt"
+                            CSharpSource="GesturesLongPress.cs.txt">
+                <Border x:Name="LongPressTile"
+                        Style="{StaticResource GestureTile}"
+                        BackgroundColor="#0D9488"
+                        SemanticProperties.Description="Long press target"
+                        AutomationId="sample-long-press-tile">
+                    <Border.GestureRecognizers>
+                        <LongPressGestureRecognizer MinimumPressDuration="{Binding Value, Source={x:Reference LongPressDuration}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                                    LongPressing="OnLongPressing"
+                                                    LongPressed="OnLongPressed" />
+                    </Border.GestureRecognizers>
+                    <Label x:Name="LongPressLabel" Text="Press and hold" Style="{StaticResource TileText}" />
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference LongPressDuration}, StringFormat='MinimumPressDuration: {0:0} ms', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="LongPressDuration"
+                                Minimum="300"
+                                Maximum="2000"
+                                Value="500"
+                                AutomationId="option-long-press-duration" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="MinimumPressDuration" Value="{Binding Value, Source={x:Reference LongPressDuration}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="500" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. Pan and pinch -->
+            <ControlExample x:Name="PanPinchExample"
+                            Title="Drag and zoom"
+                            Description="PanGestureRecognizer reports how far a finger or the mouse has moved since the drag started, and PinchGestureRecognizer how much two fingers or a trackpad pinch scale the view. Apply them to TranslationX, TranslationY and Scale, and keep the result in bounds."
+                            ShowStyleToggle="False"
+                            XamlSource="GesturesPanPinch.xaml.txt"
+                            CSharpSource="GesturesPanPinch.cs.txt">
+                <VerticalStackLayout Spacing="12">
+                    <Border x:Name="PanArea"
+                            Style="{StaticResource GesturePad}"
+                            AutomationId="sample-pan-area">
+                        <Border x:Name="PanCard"
+                                WidthRequest="120"
+                                HeightRequest="80"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 16"
+                                BackgroundColor="#2563EB"
+                                SemanticProperties.Description="Card you can drag and pinch to zoom"
+                                AutomationId="sample-pan-card">
+                            <Border.GestureRecognizers>
+                                <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+                                <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
+                            </Border.GestureRecognizers>
+                            <Label Text="{x:Static icons:FluentIconsRegular.HandDraw24}"
+                                   FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                   FontSize="32"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+                    </Border>
+                    <Button Text="Reset" HorizontalOptions="Center" Clicked="OnPanResetClicked" AutomationId="sample-pan-reset" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 4. Swipe -->
+            <ControlExample x:Name="SwipeExample"
+                            Title="Swipe"
+                            Description="SwipeGestureRecognizer fires once when a finger moves quickly in one Direction for at least Threshold device-independent units. Add one recognizer per direction you want to handle. To reveal actions behind an item, use SwipeView instead."
+                            ShowStyleToggle="False"
+                            XamlSource="GesturesSwipe.xaml.txt"
+                            CSharpSource="GesturesSwipe.cs.txt">
+                <Border Style="{StaticResource GesturePad}">
+                    <Border x:Name="SwipeTile"
+                            Style="{StaticResource GestureTile}"
+                            BackgroundColor="#DB2777"
+                            SemanticProperties.Description="Swipe target"
+                            AutomationId="sample-swipe-tile">
+                        <Border.GestureRecognizers>
+                            <SwipeGestureRecognizer Direction="Left" Threshold="{Binding Value, Source={x:Reference SwipeThreshold}, x:DataType=Slider, Converter={StaticResource Rounded}}" Swiped="OnSwiped" />
+                            <SwipeGestureRecognizer Direction="Right" Threshold="{Binding Value, Source={x:Reference SwipeThreshold}, x:DataType=Slider, Converter={StaticResource Rounded}}" Swiped="OnSwiped" />
+                            <SwipeGestureRecognizer Direction="Up" Threshold="{Binding Value, Source={x:Reference SwipeThreshold}, x:DataType=Slider, Converter={StaticResource Rounded}}" Swiped="OnSwiped" />
+                            <SwipeGestureRecognizer Direction="Down" Threshold="{Binding Value, Source={x:Reference SwipeThreshold}, x:DataType=Slider, Converter={StaticResource Rounded}}" Swiped="OnSwiped" />
+                        </Border.GestureRecognizers>
+                        <Label x:Name="SwipeLabel" Text="Swipe me" Style="{StaticResource TileText}" />
+                    </Border>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference SwipeThreshold}, StringFormat='Threshold: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="SwipeThreshold"
+                                Minimum="20"
+                                Maximum="200"
+                                Value="100"
+                                AutomationId="option-swipe-threshold" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="Threshold" Value="{Binding Value, Source={x:Reference SwipeThreshold}, x:DataType=Slider, Converter={StaticResource Rounded}}" Default="100" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 5. Pointer -->
+            <ControlExample x:Name="PointerExample"
+                            Title="Track the pointer"
+                            Description="PointerGestureRecognizer reports when a mouse, trackpad or pen enters, moves over, presses on and leaves a view, with its position, for hover effects and custom input. Touch raises pressed, moved and released. Hover needs a pointer: a mouse on desktop, a trackpad or Apple Pencil on iPad, a mouse or stylus on Android."
+                            ShowStyleToggle="False"
+                            XamlSource="GesturesPointer.xaml.txt"
+                            CSharpSource="GesturesPointer.cs.txt">
+                <Border x:Name="PointerPad"
+                        Style="{StaticResource GesturePad}"
+                        AutomationId="sample-pointer-pad">
+                    <Border.GestureRecognizers>
+                        <PointerGestureRecognizer PointerEntered="OnPointerEntered"
+                                                  PointerExited="OnPointerExited"
+                                                  PointerMoved="OnPointerMoved"
+                                                  PointerPressed="OnPointerPressed"
+                                                  PointerReleased="OnPointerReleased" />
+                    </Border.GestureRecognizers>
+                    <Grid>
+                        <Label x:Name="PointerLabel"
+                               Text="Move the pointer here"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                        <Ellipse x:Name="PointerDot"
+                                 WidthRequest="16"
+                                 HeightRequest="16"
+                                 Fill="#EA580C"
+                                 HorizontalOptions="Start"
+                                 VerticalOptions="Start"
+                                 InputTransparent="True"
+                                 IsVisible="False" />
+                    </Grid>
+                </Border>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

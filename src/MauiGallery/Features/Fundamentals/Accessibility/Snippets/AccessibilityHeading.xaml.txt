@@ -1,0 +1,14 @@
+<VerticalStackLayout Spacing="8">
+    <Label
+        Text="Pasta carbonara"
+        FontSize="24"
+        FontAttributes="Bold"
+        SemanticProperties.HeadingLevel="$(TitleLevel)" />
+    <Label Text="Ready in 20 minutes, serves 2." />
+    <Label
+        Text="Ingredients"
+        FontSize="18"
+        FontAttributes="Bold"
+        SemanticProperties.HeadingLevel="$(SectionLevel)" />
+    <Label Text="200 g spaghetti, 100 g guanciale, 2 eggs, 50 g pecorino, black pepper." />
+</VerticalStackLayout>

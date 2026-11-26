@@ -1,0 +1,13 @@
+private void OnDragOver(object? sender, DragEventArgs e)
+{
+    e.AcceptedOperation = DataPackageOperation.Copy;
+    Target.Stroke = Colors.Green;
+}
+
+private void OnDragLeave(object? sender, DragEventArgs e) => Target.Stroke = Colors.Gray;
+
+private async void OnDrop(object? sender, DropEventArgs e)
+{
+    Target.Stroke = Colors.Gray;
+    TargetLabel.Text = await e.Data.GetTextAsync();
+}

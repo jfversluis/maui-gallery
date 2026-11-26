@@ -1,0 +1,22 @@
+<Border x:Name="Pad" WidthRequest="400" HeightRequest="220">
+    <Border.GestureRecognizers>
+        <PointerGestureRecognizer
+            PointerEntered="OnPointerEntered"
+            PointerExited="OnPointerExited"
+            PointerMoved="OnPointerMoved"
+            PointerPressed="OnPointerPressed"
+            PointerReleased="OnPointerReleased" />
+    </Border.GestureRecognizers>
+    <Grid>
+        <Label x:Name="Position" Text="Move the pointer here" HorizontalOptions="Center" VerticalOptions="Center" />
+        <Ellipse
+            x:Name="Dot"
+            WidthRequest="16"
+            HeightRequest="16"
+            Fill="#EA580C"
+            HorizontalOptions="Start"
+            VerticalOptions="Start"
+            InputTransparent="True"
+            IsVisible="False" />
+    </Grid>
+</Border>

@@ -1,0 +1,5 @@
+var title = new Label { Text = "Pasta carbonara", FontSize = 24, FontAttributes = FontAttributes.Bold };
+SemanticProperties.SetHeadingLevel(title, SemanticHeadingLevel.$(TitleLevel));
+
+var section = new Label { Text = "Ingredients", FontSize = 18, FontAttributes = FontAttributes.Bold };
+SemanticProperties.SetHeadingLevel(section, SemanticHeadingLevel.$(SectionLevel));
