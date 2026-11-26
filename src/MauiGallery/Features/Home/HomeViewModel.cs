@@ -40,7 +40,8 @@ public sealed partial class HomeViewModel : ObservableObject,
         Categories = [.. catalog.PopulatedCategories.Select(c => new CategoryTile(c, catalog.InCategory(c.Id).Count()))];
         RefreshFavorites();
         RefreshRecents();
-        messenger.RegisterAll(this);
+        messenger.Register<FavoritesChangedMessage>(this);
+        messenger.Register<RecentsChangedMessage>(this);
     }
 
     public IReadOnlyList<GetStartedLink> GetStarted { get; } =

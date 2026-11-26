@@ -14,7 +14,7 @@
                 <HorizontalStackLayout Spacing="12">
                     <Label Text="Airplane mode" VerticalOptions="Center" />
                     <Switch x:Name="BasicSwitch"
-                            IsEnabled="{Binding IsToggled, Source={x:Reference BasicEnabled}, x:DataType=Switch}"
+                            IsEnabled="{Binding IsChecked, Source={x:Reference BasicEnabled}, x:DataType=CheckBox}"
                             SemanticProperties.Description="Airplane mode"
                             Toggled="OnBasicToggled"
                             AutomationId="sample-basic-switch" />

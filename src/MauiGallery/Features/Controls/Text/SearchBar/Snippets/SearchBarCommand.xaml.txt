@@ -1,8 +1,9 @@
 <VerticalStackLayout x:DataType="local:SearchViewModel" WidthRequest="300" Spacing="12">
     <SearchBar
+        x:Name="FruitSearchBar"
         Placeholder="Search fruit, then press Search"
         SearchCommand="{Binding SearchCommand}"
-        SearchCommandParameter="{Binding Text, Source={RelativeSource Self}, x:DataType=SearchBar}" />
+        SearchCommandParameter="{Binding Text, Source={x:Reference FruitSearchBar}, x:DataType=SearchBar}" />
     <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
         <ActivityIndicator
             IsRunning="{Binding SearchCommand.IsRunning}"
