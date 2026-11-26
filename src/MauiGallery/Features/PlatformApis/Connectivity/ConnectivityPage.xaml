@@ -8,8 +8,10 @@
             <!-- 1. Current network -->
             <ControlExample x:Name="StatusExample"
                             Title="The current network"
-                            Description="NetworkAccess says how much of the network the device can reach: Internet, ConstrainedInternet (behind a captive portal), Local, None or Unknown. ConnectionProfiles lists the connections in use, such as WiFi, Cellular, Ethernet or Bluetooth. NetworkAccess.Internet means a route exists, not that a particular server answers."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="NetworkAccess says how much of the network the device can reach: Internet, ConstrainedInternet (behind a captive portal), Local, None or Unknown. ConnectionProfiles lists the connections in use, such as WiFi, Cellular, Ethernet or Bluetooth. NetworkAccess.Internet means a route exists, not that a particular server answers."
                             XamlSource="ConnectivityStatus.xaml.txt"
                             CSharpSource="ConnectivityStatus.cs.txt">
                 <Grid x:Name="StatusSample"
@@ -29,8 +31,10 @@
             <!-- 2. Check before going online -->
             <ControlExample x:Name="LoadExample"
                             Title="Check before you go online"
-                            Description="Check NetworkAccess before a request, so people without a connection get an instant answer, such as cached content, instead of waiting for a timeout. Turn on airplane mode and tap Load to see the offline path."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Check NetworkAccess before a request, so people without a connection get an instant answer, such as cached content, instead of waiting for a timeout. Turn on airplane mode and tap Load to see the offline path."
                             XamlSource="ConnectivityCheck.xaml.txt"
                             CSharpSource="ConnectivityCheck.cs.txt">
                 <VerticalStackLayout x:Name="LoadSample"
@@ -49,8 +53,10 @@
             <!-- 3. React to changes -->
             <ControlExample x:Name="ChangesExample"
                             Title="React when the network changes"
-                            Description="ConnectivityChanged fires when the device connects, disconnects or switches networks, for example to retry failed uploads when the connection comes back. Subscribe while the page is visible and unsubscribe when it goes away. Toggle Wi-Fi or airplane mode to log a few changes."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="ConnectivityChanged fires when the device connects, disconnects or switches networks, for example to retry failed uploads when the connection comes back. Subscribe while the page is visible and unsubscribe when it goes away. Toggle Wi-Fi or airplane mode to log a few changes."
                             XamlSource="ConnectivityChanged.xaml.txt"
                             CSharpSource="ConnectivityChanged.cs.txt">
                 <VerticalStackLayout x:Name="ChangesSample"

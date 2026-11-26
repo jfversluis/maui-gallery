@@ -24,8 +24,10 @@
             <!-- 1. Check -->
             <ControlExample x:Name="CheckExample"
                             Title="Check a permission"
-                            Description="CheckStatusAsync reads a permission's status without asking the user, so you can call it any time: to decide what to show, or to refresh after a visit to Settings. This list refreshes whenever the page appears. Android can't tell a permission it never asked for from one the user denied: both read as Denied."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="CheckStatusAsync reads a permission's status without asking the user, so you can call it any time: to decide what to show, or to refresh after a visit to Settings. This list refreshes whenever the page appears. Android can't tell a permission it never asked for from one the user denied: both read as Denied."
                             CSharpSource="PermissionsCheck.cs.txt">
                 <VerticalStackLayout x:Name="CheckSample"
                                      x:DataType="local:PermissionsViewModel"
@@ -57,8 +59,10 @@
             <!-- 2. Request -->
             <ControlExample x:Name="RequestExample"
                             Title="Request a permission"
-                            Description="RequestAsync shows the system prompt, once. After a no, iOS and Mac never ask again, and Android asks one more time before it stops too; RequestAsync then returns Denied straight away. ShouldShowRationale is Android's hint that the user said no once, so explain why before the last chance. Declare each permission in AndroidManifest.xml and Info.plist first, or the call throws."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="RequestAsync shows the system prompt, once. After a no, iOS and Mac never ask again, and Android asks one more time before it stops too; RequestAsync then returns Denied straight away. ShouldShowRationale is Android's hint that the user said no once, so explain why before the last chance. Declare each permission in AndroidManifest.xml and Info.plist first, or the call throws."
                             CSharpSource="PermissionsRequest.cs.txt">
                 <VerticalStackLayout x:Name="RequestSample"
                                      x:DataType="local:PermissionsViewModel"
@@ -101,8 +105,10 @@
             <!-- 3. The complete flow -->
             <ControlExample x:Name="FlowExample"
                             Title="Explain, ask, then point to Settings"
-                            Description="Ask at the moment a feature needs access, not at launch. If the user said no before, explain the benefit first. Once they've said no for good, show what's off and offer AppInfo.ShowSettingsUI, which opens the app's own page in Settings. Don't ask in a loop."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Ask at the moment a feature needs access, not at launch. If the user said no before, explain the benefit first. Once they've said no for good, show what's off and offer AppInfo.ShowSettingsUI, which opens the app's own page in Settings. Don't ask in a loop."
                             XamlSource="PermissionsFlow.xaml.txt"
                             CSharpSource="PermissionsFlow.cs.txt">
                 <VerticalStackLayout x:Name="FlowSample"
@@ -134,8 +140,10 @@
             <!-- 4. A custom permission -->
             <ControlExample x:Name="CustomExample"
                             Title="Write your own permission"
-                            Description="Derive from Permissions.BasePermission to wrap permissions .NET MAUI doesn't have, or to combine several into one. This one stands for recording video, which needs the camera and the microphone. On Android you can instead derive from BasePlatformPermission and list the manifest permissions."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Derive from Permissions.BasePermission to wrap permissions .NET MAUI doesn't have, or to combine several into one. This one stands for recording video, which needs the camera and the microphone. On Android you can instead derive from BasePlatformPermission and list the manifest permissions."
                             CSharpSource="PermissionsCustom.cs.txt">
                 <VerticalStackLayout x:Name="CustomSample"
                                      x:DataType="local:PermissionItem"

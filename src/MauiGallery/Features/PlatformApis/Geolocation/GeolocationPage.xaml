@@ -31,8 +31,10 @@
             <!-- 1. Last known location -->
             <ControlExample x:Name="LastKnownExample"
                             Title="Last known location"
-                            Description="GetLastKnownLocationAsync returns the location the device cached last time anything asked. It's instant and costs no battery, but it can be old, or null. Check Timestamp and Accuracy before you rely on it."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="GetLastKnownLocationAsync returns the location the device cached last time anything asked. It's instant and costs no battery, but it can be old, or null. Check Timestamp and Accuracy before you rely on it."
                             CSharpSource="GeolocationLastKnown.cs.txt">
                 <VerticalStackLayout x:Name="LastKnownSample"
                                      x:DataType="local:GeolocationViewModel"
@@ -60,8 +62,10 @@
             <!-- 2. Current location -->
             <ControlExample x:Name="CurrentExample"
                             Title="Current location"
-                            Description="GetLocationAsync asks the hardware for a fresh fix. DesiredAccuracy trades precision for battery and time: Medium uses Wi-Fi and cell towers, Best waits for GPS. Timeout caps the wait, and a CancellationToken lets the user give up, or the page stop it when it disappears."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="GetLocationAsync asks the hardware for a fresh fix. DesiredAccuracy trades precision for battery and time: Medium uses Wi-Fi and cell towers, Best waits for GPS. Timeout caps the wait, and a CancellationToken lets the user give up, or the page stop it when it disappears."
                             CSharpSource="GeolocationCurrent.cs.txt">
                 <VerticalStackLayout x:Name="CurrentSample"
                                      x:DataType="local:GeolocationViewModel"
@@ -114,8 +118,10 @@
             <!-- 3. Listening -->
             <ControlExample x:Name="ListenExample"
                             Title="Follow the location"
-                            Description="StartListeningForegroundAsync raises LocationChanged as the device moves, while the app is in the foreground. MinimumTime spaces out the updates. Always call StopListeningForeground when you're done: this page stops when you leave it, because listening keeps the GPS awake."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="StartListeningForegroundAsync raises LocationChanged as the device moves, while the app is in the foreground. MinimumTime spaces out the updates. Always call StopListeningForeground when you're done: this page stops when you leave it, because listening keeps the GPS awake."
                             CSharpSource="GeolocationListen.cs.txt">
                 <VerticalStackLayout x:Name="ListenSample"
                                      x:DataType="local:GeolocationViewModel"
@@ -164,8 +170,10 @@
             <!-- 4. Distance -->
             <ControlExample x:Name="DistanceExample"
                             Title="Distance between two places"
-                            Description="Location.CalculateDistance gives the great-circle distance between two locations, in kilometers or miles. It's plain math, so it works offline and without any permission."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Location.CalculateDistance gives the great-circle distance between two locations, in kilometers or miles. It's plain math, so it works offline and without any permission."
                             CSharpSource="GeolocationDistance.cs.txt">
                 <VerticalStackLayout Spacing="4" WidthRequest="{OnIdiom Phone=280, Default=360}">
                     <Label x:Name="DistanceValue"

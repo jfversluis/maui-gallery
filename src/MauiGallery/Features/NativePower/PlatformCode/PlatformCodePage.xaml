@@ -7,8 +7,10 @@
             <!-- 1. Runtime checks -->
             <ControlExample x:Name="RuntimeExample"
                             Title="Check the platform at run time"
-                            Description="DeviceInfo tells you the platform, idiom and OS version while the app runs, and OperatingSystem.IsAndroidVersionAtLeast and its siblings check for newer APIs. In XAML, OnPlatform and OnIdiom pick a value per platform or device type. These checks compile everywhere, so they can't call native APIs themselves."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="DeviceInfo tells you the platform, idiom and OS version while the app runs, and OperatingSystem.IsAndroidVersionAtLeast and its siblings check for newer APIs. In XAML, OnPlatform and OnIdiom pick a value per platform or device type. These checks compile everywhere, so they can't call native APIs themselves."
                             XamlSource="PlatformCodeRuntime.xaml.txt"
                             CSharpSource="PlatformCodeRuntime.cs.txt">
                 <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=260, Default=340}">
@@ -33,8 +35,10 @@
             <!-- 2. Conditional compilation -->
             <ControlExample x:Name="AccentExample"
                             Title="Call native APIs with #if"
-                            Description="Each platform is a separate build with its own symbol: ANDROID, IOS, MACCATALYST and WINDOWS. Code inside #if ANDROID only exists in the Android build, so it can use Android types directly. Keep these blocks small and in one helper, like this one that reads the system accent color, rather than scattered through pages."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Each platform is a separate build with its own symbol: ANDROID, IOS, MACCATALYST and WINDOWS. Code inside #if ANDROID only exists in the Android build, so it can use Android types directly. Keep these blocks small and in one helper, like this one that reads the system accent color, rather than scattered through pages."
                             XamlSource="PlatformCodeConditional.xaml.txt"
                             CSharpSource="PlatformCodeConditional.cs.txt">
                 <HorizontalStackLayout Spacing="16">
@@ -58,8 +62,10 @@
             <!-- 3. Partial classes in platform folders -->
             <ControlExample x:Name="PartialExample"
                             Title="Implement a service per platform"
-                            Description="For more than a few lines, declare partial methods in shared code and implement them in Platforms/Android, Platforms/iOS, Platforms/MacCatalyst and Platforms/Windows. The .NET MAUI SDK compiles each folder for its own platform only. iOS and Mac Catalyst are separate folders, so code they share goes in both or behind #if IOS || MACCATALYST. Naming files NativeOsInfo.android.cs instead takes a few lines of MSBuild, which this app doesn't add. Register the class with dependency injection and inject it where you need it."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="For more than a few lines, declare partial methods in shared code and implement them in Platforms/Android, Platforms/iOS, Platforms/MacCatalyst and Platforms/Windows. The .NET MAUI SDK compiles each folder for its own platform only. iOS and Mac Catalyst are separate folders, so code they share goes in both or behind #if IOS || MACCATALYST. Naming files NativeOsInfo.android.cs instead takes a few lines of MSBuild, which this app doesn't add. Register the class with dependency injection and inject it where you need it."
                             XamlSource="PlatformCodePartial.xaml.txt"
                             CSharpSource="PlatformCodePartial.cs.txt">
                 <Grid ColumnDefinitions="Auto,*"

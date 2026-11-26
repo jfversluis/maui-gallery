@@ -28,8 +28,10 @@
             <!-- 1. On and off -->
             <ControlExample x:Name="ToggleExample"
                             Title="Turn the flashlight on and off"
-                            Description="Flashlight turns the camera's torch on and off. Check IsSupportedAsync first: tablets, computers and simulators often have none. On Android the torch belongs to the camera, so the first call asks for camera permission. Turn it off when the page disappears, as this one does."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Flashlight turns the camera's torch on and off. Check IsSupportedAsync first: tablets, computers and simulators often have none. On Android the torch belongs to the camera, so the first call asks for camera permission. Turn it off when the page disappears, as this one does."
                             CSharpSource="FlashlightToggle.cs.txt">
                 <VerticalStackLayout x:Name="ToggleSample"
                                      x:DataType="local:FlashlightViewModel"
@@ -49,7 +51,8 @@
                             HorizontalOptions="Center"
                             Command="{Binding ToggleCommand}"
                             AutomationId="sample-flashlight-toggle" />
-                    <Label Text="{Binding Message}"
+                    <Label x:Name="ToggleMessage"
+                           Text="{Binding Message}"
                            FontSize="13"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
@@ -60,8 +63,10 @@
             <!-- 2. A signal -->
             <ControlExample x:Name="SignalExample"
                             Title="Flash a signal"
-                            Description="Switch the light in a loop with delays between the calls, here SOS in Morse code. Pass a CancellationToken to the delays so the user can stop it, and turn the light off in a finally block so it never stays on by accident."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Switch the light in a loop with delays between the calls, here SOS in Morse code. Pass a CancellationToken to the delays so the user can stop it, and turn the light off in a finally block so it never stays on by accident."
                             CSharpSource="FlashlightSignal.cs.txt">
                 <VerticalStackLayout x:Name="SignalSample"
                                      x:DataType="local:FlashlightViewModel"

@@ -8,6 +8,9 @@
             <!-- 1. Browser -->
             <ControlExample x:Name="BrowserExample"
                             Title="Open a web page"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="Browser.OpenAsync shows a web page. SystemPreferred keeps people in your app with an in-app browser (Safari View Controller on iOS, Custom Tabs on Android), with toolbar colors that match your brand; External hands the link to the default browser app. Mac Catalyst always opens the default browser."
                             XamlSource="BrowserOpen.xaml.txt"
                             CSharpSource="BrowserOpen.cs.txt">
@@ -38,8 +41,10 @@
             <!-- 2. Launcher -->
             <ControlExample x:Name="LauncherExample"
                             Title="Open another app"
-                            Description="Launcher opens a URI with whichever app handles its scheme: mailto: and tel: links, another app's custom scheme, or this app's own mauigallery: deep links. CanOpenAsync checks first; on iOS and Mac it only knows schemes you list under LSApplicationQueriesSchemes, and Android 11 and later needs a matching queries entry. TryOpenAsync checks and opens in one call."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Launcher opens a URI with whichever app handles its scheme: mailto: and tel: links, another app's custom scheme, or this app's own mauigallery: deep links. CanOpenAsync checks first; on iOS and Mac it only knows schemes you list under LSApplicationQueriesSchemes, and Android 11 and later needs a matching queries entry. TryOpenAsync checks and opens in one call."
                             XamlSource="LauncherOpen.xaml.txt"
                             CSharpSource="LauncherOpen.cs.txt">
                 <VerticalStackLayout x:Name="LauncherSample"
@@ -80,8 +85,10 @@
             <!-- 3. Map -->
             <ControlExample x:Name="MapExample"
                             Title="Open the map app"
-                            Description="Map.OpenAsync shows a place in the platform's map app (Apple Maps, Google Maps or Windows Maps), by coordinates or by a Placemark address. Name labels the pin, and a NavigationMode other than None asks for directions there."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Map.OpenAsync shows a place in the platform's map app (Apple Maps, Google Maps or Windows Maps), by coordinates or by a Placemark address. Name labels the pin, and a NavigationMode other than None asks for directions there."
                             XamlSource="MapOpen.xaml.txt"
                             CSharpSource="MapOpen.cs.txt">
                 <VerticalStackLayout x:Name="MapSample"

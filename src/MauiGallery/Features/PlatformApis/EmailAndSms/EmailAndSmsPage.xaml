@@ -8,8 +8,10 @@
             <!-- 1. Email -->
             <ControlExample x:Name="EmailExample"
                             Title="Compose an email"
-                            Description="Email.ComposeAsync opens the mail app with a draft filled in: recipients, subject, a plain text or HTML body and attachments. The person reviews and sends it, so your app needs no mail account or server. Check IsComposeSupported first, because simulators and many computers have no mail account set up."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Email.ComposeAsync opens the mail app with a draft filled in: recipients, subject, a plain text or HTML body and attachments. The person reviews and sends it, so your app needs no mail account or server. Check IsComposeSupported first, because simulators and many computers have no mail account set up."
                             XamlSource="EmailCompose.xaml.txt"
                             CSharpSource="EmailCompose.cs.txt">
                 <VerticalStackLayout x:Name="EmailSample"
@@ -47,8 +49,10 @@
             <!-- 2. SMS -->
             <ControlExample x:Name="SmsExample"
                             Title="Compose a text message"
-                            Description="Sms.ComposeAsync opens the messages app with the recipients and text filled in, ready to send. Only phones can send text messages, so check IsComposeSupported first: on a Mac, a simulator or most tablets it's false, and ComposeAsync would throw FeatureNotSupportedException. Offer another way there, such as Share."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="Sms.ComposeAsync opens the messages app with the recipients and text filled in, ready to send. Only phones can send text messages, so check IsComposeSupported first: on a Mac, a simulator or most tablets it's false, and ComposeAsync would throw FeatureNotSupportedException. Offer another way there, such as Share."
                             XamlSource="SmsCompose.xaml.txt"
                             CSharpSource="SmsCompose.cs.txt">
                 <VerticalStackLayout x:Name="SmsSample"

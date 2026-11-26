@@ -8,10 +8,12 @@
             <!-- 1. Build a link -->
             <ControlExample x:Name="CopyExample"
                             Title="Link to a page"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="This gallery registers the mauigallery:// URI scheme, and every page has a link of the form mauigallery://item/{id}. The link button in each page header copies it. Build the link from a stable id, and escape it, so a link keeps working when titles change."
                             XamlSource="DeepLinksCopy.xaml.txt"
-                            CSharpSource="DeepLinksCopy.cs.txt"
-                            ShowStyleToggle="False">
+                            CSharpSource="DeepLinksCopy.cs.txt">
                 <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=420}">
                     <Label x:Name="CopyLink"
                            HorizontalTextAlignment="Center"
@@ -36,9 +38,11 @@
             <!-- 2. Open a link -->
             <ControlExample x:Name="OpenExample"
                             Title="Open a link"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="Launcher.OpenAsync hands a URI to the system, which opens the app that registered its scheme. Here that's this app: the link comes back in through the platform's lifecycle events and the gallery navigates to the page, exactly as if you had tapped the link in another app."
-                            CSharpSource="DeepLinksOpen.cs.txt"
-                            ShowStyleToggle="False">
+                            CSharpSource="DeepLinksOpen.cs.txt">
                 <Button x:Name="OpenButton"
                         Text="Open the link"
                         Clicked="OnOpenClicked"
@@ -57,10 +61,12 @@
             <!-- 3. Receive links -->
             <ControlExample x:Name="ReceiveExample"
                             Title="Receive links on every platform"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="Register the scheme per platform: CFBundleURLTypes in Info.plist on iOS and Mac, an intent filter on the Android activity, and, for packaged Windows apps, a protocol in Package.appxmanifest. Links then arrive in lifecycle events, at a cold start and while the app runs; route them all through one class. For https links that open your app instead of the browser, move up to Android App Links and Apple Universal Links, which prove that you own the web domain."
                             XamlSource="DeepLinksReceive.xaml.txt"
-                            CSharpSource="DeepLinksReceive.cs.txt"
-                            ShowStyleToggle="False">
+                            CSharpSource="DeepLinksReceive.cs.txt">
                 <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=420}">
                     <Label x:Name="ReceiveIntro" HorizontalTextAlignment="Center" AutomationId="sample-receive-intro" />
                     <Label x:Name="ReceiveCommand"

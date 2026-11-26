@@ -7,10 +7,12 @@
             <!-- 1. Routes -->
             <ControlExample x:Name="RoutesExample"
                             Title="Navigate with a route"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="This app is a Shell, so this page is a live sample. GoToAsync takes a URI. A relative route, such as a page's registered name, pushes onto the current stack. An absolute route starts with // and replaces the whole location. Shell.Current.CurrentState.Location always tells you where you are."
                             XamlSource="ShellRoutes.xaml.txt"
-                            CSharpSource="ShellRoutes.cs.txt"
-                            ShowStyleToggle="False">
+                            CSharpSource="ShellRoutes.cs.txt">
                 <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=420}">
                     <Label Text="CurrentState.Location" FontAttributes="Bold" HorizontalTextAlignment="Center" />
                     <Label x:Name="RoutesLocation"
@@ -52,10 +54,12 @@
             <!-- 2. Parameters -->
             <ControlExample x:Name="ParametersExample"
                             Title="Pass data to a page, and back"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="Register a route with a {color} path parameter (new in .NET 11) and add more values in the query string. The page receives both in IQueryAttributable.ApplyQueryAttributes, which is trim-safe. Going back with &quot;..&quot; can carry values too: the page you return to receives them the same way."
                             XamlSource="ShellParameters.xaml.txt"
-                            CSharpSource="ShellParameters.cs.txt"
-                            ShowStyleToggle="False">
+                            CSharpSource="ShellParameters.cs.txt">
                 <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=420}">
                     <Button x:Name="ParametersButton"
                             Text="Open the swatch page"
@@ -93,10 +97,12 @@
             <!-- 3. Chrome per page -->
             <ControlExample x:Name="ChromeExample"
                             Title="Hide Shell chrome on a page"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="Shell's attached properties change the navigation bar, tab bar and flyout for one page, and they win over values set higher up. They apply only while that page is showing: leave this page and the app's own navigation comes back."
                             XamlSource="ShellChrome.xaml.txt"
-                            CSharpSource="ShellChrome.cs.txt"
-                            ShowStyleToggle="False">
+                            CSharpSource="ShellChrome.cs.txt">
                 <VerticalStackLayout Spacing="8" WidthRequest="{OnIdiom Phone=280, Default=420}">
                     <Label x:Name="ChromeStatus"
                            HorizontalTextAlignment="Center"
@@ -157,9 +163,11 @@
             <!-- 4. Adaptive -->
             <ControlExample x:Name="AdaptiveExample"
                             Title="Adapt the navigation to the window"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="One Shell serves every form factor in this app. Phones get bottom tabs. Wider windows hide the tabs and use the flyout as a sidebar: an overlay at medium widths, and Locked (always visible) when the window is wide. Shell itself is never measured, so the window's SizeChanged event drives the switch."
-                            CSharpSource="ShellAdaptive.cs.txt"
-                            ShowStyleToggle="False">
+                            CSharpSource="ShellAdaptive.cs.txt">
                 <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=420}">
                     <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="6">
                         <Label Text="Window.Width" FontAttributes="Bold" />

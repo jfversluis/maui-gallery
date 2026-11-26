@@ -8,8 +8,10 @@
             <!-- 1. Copy and paste -->
             <ControlExample x:Name="CopyExample"
                             Title="Copy and paste text"
-                            Description="SetTextAsync puts text on the system clipboard, where any app can paste it, and GetTextAsync reads it back. Offer a copy button for things people often copy, like an order number or a share code. On iOS, reading text another app copied asks the person for permission first."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="SetTextAsync puts text on the system clipboard, where any app can paste it, and GetTextAsync reads it back. Offer a copy button for things people often copy, like an order number or a share code. On iOS, reading text another app copied asks the person for permission first."
                             XamlSource="ClipboardCopy.xaml.txt"
                             CSharpSource="ClipboardCopy.cs.txt">
                 <VerticalStackLayout x:Name="CopySample"
@@ -38,8 +40,10 @@
             <!-- 2. Changes -->
             <ControlExample x:Name="ChangesExample"
                             Title="Know when the clipboard changes"
-                            Description="HasText checks for text without reading it, so it never triggers a paste prompt: use it to enable a Paste button. ClipboardContentChanged fires when this app or another one copies something; on iOS and Android you hear about other apps' changes when your app is in the foreground again."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="HasText checks for text without reading it, so it never triggers a paste prompt: use it to enable a Paste button. ClipboardContentChanged fires when this app or another one copies something; on iOS and Android you hear about other apps' changes when your app is in the foreground again."
                             XamlSource="ClipboardChanged.xaml.txt"
                             CSharpSource="ClipboardChanged.cs.txt">
                 <VerticalStackLayout x:Name="ChangesSample"

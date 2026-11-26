@@ -8,8 +8,10 @@
             <!-- 1. Pick a file -->
             <ControlExample x:Name="PickExample"
                             Title="Pick a file"
-                            Description="FilePicker.PickAsync opens the system's file browser and returns the file the person chose, or null if they cancel. FileTypes limits the choice: use the built-in Images, Pdf and Videos types, or name the types per platform, such as UTIs on iOS and Mac, MIME types on Android and extensions on Windows. Read the file with OpenReadAsync."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="FilePicker.PickAsync opens the system's file browser and returns the file the person chose, or null if they cancel. FileTypes limits the choice: use the built-in Images, Pdf and Videos types, or name the types per platform, such as UTIs on iOS and Mac, MIME types on Android and extensions on Windows. Read the file with OpenReadAsync."
                             XamlSource="FilePickerPick.xaml.txt"
                             CSharpSource="FilePickerPick.cs.txt">
                 <VerticalStackLayout x:Name="PickSample"
@@ -63,8 +65,10 @@
             <!-- 2. Pick several -->
             <ControlExample x:Name="MultipleExample"
                             Title="Pick several files"
-                            Description="PickMultipleAsync lets people choose more than one file at a time, for example to attach photos. It returns an empty list when they cancel."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="PickMultipleAsync lets people choose more than one file at a time, for example to attach photos. It returns an empty list when they cancel."
                             XamlSource="FilePickerMultiple.xaml.txt"
                             CSharpSource="FilePickerMultiple.cs.txt">
                 <VerticalStackLayout x:Name="MultipleSample"
@@ -92,8 +96,10 @@
             <!-- 3. Save and open -->
             <ControlExample x:Name="SaveExample"
                             Title="Save a file and open it"
-                            Description=".NET MAUI has no save dialog. Save files your app owns in FileSystem.AppDataDirectory, which is private to the app and backed up, then hand one to another app with Launcher.OpenAsync and an OpenFileRequest. To let people choose where a file goes, the .NET MAUI Community Toolkit has a FileSaver."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description=".NET MAUI has no save dialog. Save files your app owns in FileSystem.AppDataDirectory, which is private to the app and backed up, then hand one to another app with Launcher.OpenAsync and an OpenFileRequest. To let people choose where a file goes, the .NET MAUI Community Toolkit has a FileSaver."
                             XamlSource="FilePickerSave.xaml.txt"
                             CSharpSource="FilePickerSave.cs.txt">
                 <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=380}">

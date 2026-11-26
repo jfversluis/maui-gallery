@@ -8,8 +8,10 @@
             <!-- 1. Speak -->
             <ControlExample x:Name="SpeakExample"
                             Title="Read text aloud"
-                            Description="TextToSpeech.SpeakAsync reads text with the device's built-in voices, with no network or service account: good for accessibility, hands-free instructions or language practice. The task completes when the speech ends, and cancelling its token stops it mid-sentence."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="TextToSpeech.SpeakAsync reads text with the device's built-in voices, with no network or service account: good for accessibility, hands-free instructions or language practice. The task completes when the speech ends, and cancelling its token stops it mid-sentence."
                             XamlSource="TextToSpeechSpeak.xaml.txt"
                             CSharpSource="TextToSpeechSpeak.cs.txt">
                 <VerticalStackLayout x:Name="SpeakSample"
@@ -36,8 +38,10 @@
             <!-- 2. Voice options -->
             <ControlExample x:Name="VoiceExample"
                             Title="Choose the voice"
-                            Description="GetLocalesAsync lists the voices installed on the device, and SpeechOptions picks one, along with the pitch (0 to 2), volume (0 to 1) and rate (0.1 to 2). Leave an option out to use the person's system setting."
+                            ShowNativeBadge="False"
                             ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            Description="GetLocalesAsync lists the voices installed on the device, and SpeechOptions picks one, along with the pitch (0 to 2), volume (0 to 1) and rate (0.1 to 2). Leave an option out to use the person's system setting."
                             XamlSource="TextToSpeechOptions.xaml.txt"
                             CSharpSource="TextToSpeechOptions.cs.txt">
                 <VerticalStackLayout x:Name="VoiceSample"

@@ -7,6 +7,9 @@
             <!-- 1. Push and pop -->
             <ControlExample x:Name="StackExample"
                             Title="Push and pop pages"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="A NavigationPage keeps a stack of pages with a navigation bar and a back button. PushAsync adds a page, PopAsync goes back one and PopToRootAsync returns to the first. Use it in apps that don't use Shell. This app is a Shell, so the sample opens modally."
                             XamlSource="NavigationPageStack.xaml.txt"
                             CSharpSource="NavigationPageStack.cs.txt">
@@ -43,6 +46,9 @@
             <!-- 2. The bar -->
             <ControlExample x:Name="BarExample"
                             Title="Customize the navigation bar"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="Attached properties on each page shape the bar. Here the first page uses TitleView to replace its title with a custom view. BackButtonTitle sets the text of the back button that returns to a page (iOS and Mac), HasBackButton hides that button, and HasNavigationBar hides the whole bar."
                             XamlSource="NavigationPageBar.xaml.txt"
                             CSharpSource="NavigationPageBar.cs.txt">

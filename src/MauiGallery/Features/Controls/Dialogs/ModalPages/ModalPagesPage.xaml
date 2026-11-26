@@ -7,6 +7,9 @@
             <!-- 1. Push and pop -->
             <ControlExample x:Name="BasicExample"
                             Title="Show a modal page"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="PushModalAsync shows a page on top of everything else, without the app's navigation around it. The page closes itself with PopModalAsync."
                             XamlSource="ModalBasic.xaml.txt"
                             CSharpSource="ModalBasic.cs.txt">
@@ -28,6 +31,9 @@
             <!-- 2. Presentation style -->
             <ControlExample x:Name="StyleExample"
                             Title="Choose how it's presented on iOS and Mac"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="On iOS and Mac Catalyst, the ModalPresentationStyle platform-specific picks a sheet that keeps the page behind it visible, or a full-screen cover. Sheets can be swiped down to close. Android and Windows always cover the window."
                             XamlSource="ModalStyle.xaml.txt"
                             CSharpSource="ModalStyle.cs.txt">
@@ -49,6 +55,9 @@
             <!-- 3. Results -->
             <ControlExample x:Name="ResultExample"
                             Title="Return a result"
+                            ShowNativeBadge="False"
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
                             Description="A modal page is a good fit for a form. Expose a Task that completes when the user saves or cancels, so the caller can await the answer like a dialog."
                             XamlSource="ModalResult.xaml.txt"
                             CSharpSource="ModalResult.cs.txt">

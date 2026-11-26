@@ -81,11 +81,16 @@ public sealed partial class SensorsPage : SamplePage
         options.BindingContext = sensor;
         example.NativeTarget = toggle;
         example.Output = sensor.IsSupported ? "IsSupported: true" : "IsSupported: false";
+        example.Notice = sensor.Message;
         sensor.PropertyChanged += (_, e) =>
         {
             if (e.PropertyName == nameof(SensorViewModel.IsMonitoring))
             {
                 example.Output = sensor.IsMonitoring ? $"Started at SensorSpeed.{(SensorSpeed)sensor.SpeedIndex}" : "Stopped";
+            }
+            else if (e.PropertyName == nameof(SensorViewModel.Message))
+            {
+                example.Notice = sensor.Message;
             }
         };
     }
