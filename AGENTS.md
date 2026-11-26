@@ -47,8 +47,12 @@ dotnet build src/MauiGallery -f net11.0-android -t:Run -p:AdbTarget="-s <serial>
 adb -s <serial> reverse tcp:19223 tcp:19223      # broker
 adb -s <serial> forward tcp:<port> tcp:<port>    # agent port from `maui devflow list`
 
-maui devflow wait --wait-platform <iOS|Android|MacCatalyst>
+maui devflow wait --wait-platform <iOS|Android|MacCatalyst|WinUI>
 ```
+
+Windows builds only on Windows. Without a Windows machine, push to `jfversluis-maui-gallery-build-windows` (or run
+the Windows UI workflow from the default branch) to have `.github/workflows/windows-ui.yml` crawl every page on a
+hosted runner and upload screenshots and logs; see [docs/windows-validation.md](docs/windows-validation.md).
 
 Use the DevFlow MCP tools (`maui_tree`, `maui_query`, `maui_tap`, `maui_navigate`, `maui_resize`,
 `maui_layout_diagnostics`, `maui_logs`) to verify UI changes on a running app. Pages are reachable by route:
