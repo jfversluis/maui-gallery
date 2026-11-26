@@ -14,15 +14,14 @@ public partial class SmsViewModel(ISms sms) : ObservableObject
     [RelayCommand]
     private async Task ComposeAsync()
     {
-        try
+        // Simulators, Macs and most tablets can't send text messages
+        if (!sms.IsComposeSupported)
         {
-            // SmsMessage takes the text and one or more recipients
-            await sms.ComposeAsync(new SmsMessage(Message, Recipient));
-        }
-        catch (FeatureNotSupportedException)
-        {
-            // Simulators, Macs and most tablets can't send text messages
             Result = "This device can't send text messages";
+            return;
         }
+
+        // SmsMessage takes the text and one or more recipients
+        await sms.ComposeAsync(new SmsMessage(Message, Recipient));
     }
 }

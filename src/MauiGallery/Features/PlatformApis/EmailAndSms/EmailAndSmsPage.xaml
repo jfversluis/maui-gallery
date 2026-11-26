@@ -47,7 +47,7 @@
             <!-- 2. SMS -->
             <ControlExample x:Name="SmsExample"
                             Title="Compose a text message"
-                            Description="Sms.ComposeAsync opens the messages app with the recipients and text filled in, ready to send. Only phones can send text messages: Mac, simulators and most tablets throw FeatureNotSupportedException, so catch it and offer another way, such as Share."
+                            Description="Sms.ComposeAsync opens the messages app with the recipients and text filled in, ready to send. Only phones can send text messages, so check IsComposeSupported first: on a Mac, a simulator or most tablets it's false, and ComposeAsync would throw FeatureNotSupportedException. Offer another way there, such as Share."
                             ShowStyleToggle="False"
                             XamlSource="SmsCompose.xaml.txt"
                             CSharpSource="SmsCompose.cs.txt">

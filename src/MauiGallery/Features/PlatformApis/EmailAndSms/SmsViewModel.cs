@@ -18,6 +18,13 @@ public sealed partial class SmsViewModel(ISms sms) : ObservableObject
     [RelayCommand]
     private async Task ComposeAsync()
     {
+        // Simulators, Macs and tablets without a phone plan can't send text messages.
+        if (!sms.IsComposeSupported)
+        {
+            Result = "This device can't send text messages";
+            return;
+        }
+
         try
         {
             await sms.ComposeAsync(new SmsMessage(Message, Recipient));
@@ -25,7 +32,6 @@ public sealed partial class SmsViewModel(ISms sms) : ObservableObject
         }
         catch (FeatureNotSupportedException)
         {
-            // Simulators, Macs and tablets without a phone plan can't send text messages.
             Result = "This device can't send text messages";
         }
     }

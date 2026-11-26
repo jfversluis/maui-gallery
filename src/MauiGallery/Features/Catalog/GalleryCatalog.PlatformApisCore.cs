@@ -20,9 +20,9 @@ public sealed partial class GalleryCatalog
             NativeMappings =
             [
                 new(GalleryPlatforms.iOS, "NSBundle, UIDevice, UIScreen"),
-                new(GalleryPlatforms.Android, "PackageManager, Build, DisplayMetrics"),
+                new(GalleryPlatforms.Android, "PackageManager, Build, Display"),
                 new(GalleryPlatforms.MacCatalyst, "NSBundle, UIDevice, UIScreen"),
-                new(GalleryPlatforms.Windows, "Package, EasClientDeviceInformation, DisplayInformation"),
+                new(GalleryPlatforms.Windows, "Package, EasClientDeviceInformation"),
             ],
             RelatedIds = ["battery", "version-tracking", "preferences-and-secure-storage", "platform-code"],
             DocsUrl = new(DocsRoot + "platform-integration/device/information"),
@@ -41,10 +41,10 @@ public sealed partial class GalleryCatalog
             Keywords = ["Battery", "IBattery", "ChargeLevel", "BatteryState", "charging", "PowerSource", "AC", "USB", "wireless", "EnergySaverStatus", "energy saver", "Low Power Mode", "battery saver", "BatteryInfoChanged", "EnergySaverStatusChanged", "BATTERY_STATS"],
             NativeMappings =
             [
-                new(GalleryPlatforms.iOS, "UIDevice.BatteryLevel, NSProcessInfo.LowPowerModeEnabled"),
-                new(GalleryPlatforms.Android, "BatteryManager, PowerManager.IsPowerSaveMode"),
-                new(GalleryPlatforms.MacCatalyst, "UIDevice.BatteryLevel, NSProcessInfo.LowPowerModeEnabled"),
-                new(GalleryPlatforms.Windows, "Battery.AggregateBattery, PowerManager.EnergySaverStatus"),
+                new(GalleryPlatforms.iOS, "UIDevice, NSProcessInfo"),
+                new(GalleryPlatforms.Android, "BatteryManager, PowerManager"),
+                new(GalleryPlatforms.MacCatalyst, "UIDevice, NSProcessInfo"),
+                new(GalleryPlatforms.Windows, "Battery, PowerManager"),
             ],
             RelatedIds = ["app-and-device-info", "connectivity"],
             DocsUrl = new(DocsRoot + "platform-integration/device/battery"),
@@ -86,7 +86,7 @@ public sealed partial class GalleryCatalog
                 new(GalleryPlatforms.iOS, "UIPasteboard"),
                 new(GalleryPlatforms.Android, "ClipboardManager"),
                 new(GalleryPlatforms.MacCatalyst, "UIPasteboard"),
-                new(GalleryPlatforms.Windows, "Clipboard (Windows.ApplicationModel.DataTransfer)"),
+                new(GalleryPlatforms.Windows, "DataTransfer.Clipboard"),
             ],
             RelatedIds = ["share", "entry"],
             DocsUrl = new(DocsRoot + "platform-integration/data/clipboard"),
@@ -125,7 +125,7 @@ public sealed partial class GalleryCatalog
             Keywords = ["Launcher", "ILauncher", "CanOpenAsync", "OpenAsync", "TryOpenAsync", "URI scheme", "custom scheme", "deep link", "mailto", "tel", "Browser", "IBrowser", "BrowserLaunchMode", "SystemPreferred", "External", "BrowserLaunchOptions", "PreferredToolbarColor", "SFSafariViewController", "Custom Tabs", "Map", "IMap", "MapLaunchOptions", "NavigationMode", "Placemark", "directions", "LSApplicationQueriesSchemes", "queries"],
             NativeMappings =
             [
-                new(GalleryPlatforms.iOS, "UIApplication.OpenUrl, SFSafariViewController"),
+                new(GalleryPlatforms.iOS, "UIApplication, SFSafariViewController"),
                 new(GalleryPlatforms.Android, "Intent.ActionView, Custom Tabs"),
                 new(GalleryPlatforms.MacCatalyst, "UIApplication.OpenUrl"),
                 new(GalleryPlatforms.Windows, "Windows.System.Launcher"),
@@ -146,8 +146,8 @@ public sealed partial class GalleryCatalog
             Keywords = ["Email", "IEmail", "EmailMessage", "ComposeAsync", "IsComposeSupported", "EmailAttachment", "EmailBodyFormat", "HTML", "mail", "MFMailComposeViewController", "Sms", "ISms", "SmsMessage", "text message", "MFMessageComposeViewController", "mailto"],
             NativeMappings =
             [
-                new(GalleryPlatforms.iOS, "MFMailComposeViewController, MFMessageComposeViewController"),
-                new(GalleryPlatforms.Android, "Intent.ActionSendto (mailto:, smsto:)"),
+                new(GalleryPlatforms.iOS, "MFMail/MFMessageComposeViewController"),
+                new(GalleryPlatforms.Android, "Intent.ActionSendto"),
                 new(GalleryPlatforms.MacCatalyst, "MFMailComposeViewController"),
                 new(GalleryPlatforms.Windows, "EmailManager, ChatMessageManager"),
             ],
@@ -168,9 +168,9 @@ public sealed partial class GalleryCatalog
             NativeMappings =
             [
                 new(GalleryPlatforms.iOS, "NSUserDefaults, Keychain"),
-                new(GalleryPlatforms.Android, "SharedPreferences, Android Keystore"),
+                new(GalleryPlatforms.Android, "SharedPreferences, Keystore"),
                 new(GalleryPlatforms.MacCatalyst, "NSUserDefaults, Keychain"),
-                new(GalleryPlatforms.Windows, "ApplicationData.LocalSettings, DPAPI"),
+                new(GalleryPlatforms.Windows, "LocalSettings, DPAPI"),
             ],
             RelatedIds = ["version-tracking", "file-picker", "app-and-device-info"],
             DocsUrl = new(DocsRoot + "platform-integration/storage/preferences"),
@@ -251,7 +251,7 @@ public sealed partial class GalleryCatalog
             Keywords = ["FilePicker", "IFilePicker", "PickAsync", "PickMultipleAsync", "PickOptions", "FilePickerFileType", "FileResult", "OpenReadAsync", "UTI", "MIME type", "document picker", "UIDocumentPickerViewController", "FileSystem", "AppDataDirectory", "CacheDirectory", "OpenFileRequest", "ReadOnlyFile", "FileSaver", "save file"],
             NativeMappings =
             [
-                new(GalleryPlatforms.iOS, "UIDocumentPickerViewController, PHPickerViewController"),
+                new(GalleryPlatforms.iOS, "UIDocumentPickerViewController"),
                 new(GalleryPlatforms.Android, "Intent.ActionOpenDocument"),
                 new(GalleryPlatforms.MacCatalyst, "UIDocumentPickerViewController"),
                 new(GalleryPlatforms.Windows, "FileOpenPicker"),

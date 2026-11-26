@@ -20,7 +20,7 @@
                         <Entry x:Name="TextText" Text="Every control in one app" AutomationId="option-share-text" />
                         <Label Text="Uri" Style="{StaticResource OptionLabel}" />
                         <Entry x:Name="TextUri" Text="https://dotnet.microsoft.com/apps/maui" Keyboard="Url" AutomationId="option-share-uri" />
-                        <Label Text="Title (Android)" Style="{StaticResource OptionLabel}" />
+                        <Label Text="Title" Style="{StaticResource OptionLabel}" />
                         <Entry x:Name="TextTitle" Text="Share this page" AutomationId="option-share-title" />
                     </VerticalStackLayout>
                 </ControlExample.Options>
@@ -53,7 +53,7 @@
                     <VerticalStackLayout Spacing="8">
                         <Label Text="File name" Style="{StaticResource OptionLabel}" />
                         <Entry x:Name="FileName" Text="shopping-list.txt" AutomationId="option-share-file-name" />
-                        <Label Text="Title (Android)" Style="{StaticResource OptionLabel}" />
+                        <Label Text="Title" Style="{StaticResource OptionLabel}" />
                         <Entry x:Name="FileTitle" Text="Share the list" AutomationId="option-share-file-title" />
                     </VerticalStackLayout>
                 </ControlExample.Options>

@@ -43,7 +43,7 @@ public sealed partial class BatteryViewModel(IBattery battery) : ObservableObjec
         EnergySaver == EnergySaverStatus.On ? "Paused: energy saver is on"
         : PowerSource is BatteryPowerSource.AC or BatteryPowerSource.Usb or BatteryPowerSource.Wireless ? "Every 5 minutes, plugged in"
         : HasChargeLevel && ChargeLevel < LowBatteryThreshold ? "Paused: the battery is low"
-        : "Every 30 minutes, on battery";
+        : "Every 30 minutes";
 
     /// <summary>Reads the battery and starts listening for changes. Call it when the page appears.</summary>
     public void Start()
