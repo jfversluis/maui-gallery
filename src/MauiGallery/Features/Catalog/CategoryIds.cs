@@ -10,6 +10,7 @@ public static class CategoryIds
     public const string Layout = "layout";
     public const string StatusAndInfo = "status-and-info";
     public const string Dialogs = "dialogs";
+    public const string MenusAndToolbars = "menus-and-toolbars";
     public const string Media = "media";
     public const string Graphics = "graphics";
     public const string Fundamentals = "fundamentals";
