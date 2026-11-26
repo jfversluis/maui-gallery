@@ -6,19 +6,21 @@ namespace MauiGallery;
 
 public partial class AppShell : Shell
 {
-    private readonly SidebarView _sidebar;
-    private readonly SidebarViewModel _sidebarViewModel;
+    private readonly Func<SidebarView> _createSidebar;
     private readonly AppShellViewModel _viewModel;
+    private SidebarView? _sidebar;
     private Page? _leavingPage;
 
-    public AppShell(SidebarView sidebar, AppShellViewModel viewModel)
+    /// <param name="createSidebar">
+    /// Creates the sidebar. Phones navigate with tabs and never show it, so it is only created once a window needs it.
+    /// </param>
+    /// <param name="viewModel">The menu bar's commands.</param>
+    public AppShell(Func<SidebarView> createSidebar, AppShellViewModel viewModel)
     {
         InitializeComponent();
         _viewModel = viewModel;
         BindingContext = viewModel;
-        _sidebar = sidebar;
-        _sidebarViewModel = sidebar.ViewModel;
-        FlyoutContent = sidebar;
+        _createSidebar = createSidebar;
     }
 
     /// <summary>Moves focus to the sidebar search box, if the sidebar is showing.</summary>
@@ -29,11 +31,11 @@ public partial class AppShell : Shell
             FlyoutIsPresented = true;
 
             // Focus once the flyout has been presented; focusing a hidden field is ignored.
-            Dispatcher.Dispatch(_sidebar.FocusSearch);
+            Dispatcher.Dispatch(() => _sidebar?.FocusSearch());
             return;
         }
 
-        _sidebar.FocusSearch();
+        _sidebar?.FocusSearch();
     }
 
     /// <summary>
@@ -70,6 +72,16 @@ public partial class AppShell : Shell
             : Breakpoints.Classify(windowWidth) == SizeClass.Expanded ? FlyoutBehavior.Locked
             : FlyoutBehavior.Flyout;
 
+        if (!useTabs && _sidebar is null)
+        {
+            _sidebar = _createSidebar();
+            FlyoutContent = _sidebar;
+            if (CurrentState is { } state)
+            {
+                _sidebar.ViewModel.UpdateSelection(state.Location.OriginalString);
+            }
+        }
+
         if (FlyoutBehavior != behavior)
         {
             FlyoutBehavior = behavior;
@@ -98,7 +110,7 @@ public partial class AppShell : Shell
         DisconnectLeavingPage();
         TraceFirstLayout(CurrentPage);
         UpdateNavBar();
-        _sidebarViewModel.UpdateSelection(CurrentState.Location.OriginalString);
+        _sidebar?.ViewModel.UpdateSelection(CurrentState.Location.OriginalString);
         if (FlyoutBehavior == FlyoutBehavior.Flyout)
         {
             FlyoutIsPresented = false;

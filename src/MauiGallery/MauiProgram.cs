@@ -89,6 +89,7 @@ public static class MauiProgram
         .AddTransient<AppShell>()
         .AddTransient<AppShellViewModel>()
         .AddTransient<SidebarView>()
+        .AddTransient<Func<SidebarView>>(services => services.GetRequiredService<SidebarView>)
         .AddTransient<SidebarViewModel>()
         .AddTransient<HomePage>()
         .AddTransient<HomeViewModel>()
