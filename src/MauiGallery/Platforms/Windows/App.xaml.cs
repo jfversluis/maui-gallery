@@ -29,6 +29,18 @@ public partial class App : MauiWinUIApplication
     private static void LogFirstChance(Exception exception)
     {
         var key = $"{exception.GetType().FullName}: {exception.Message}";
+        if (exception.Message.Contains("already the child", StringComparison.Ordinal))
+        {
+            try
+            {
+                File.AppendAllText(Path.Combine(Path.GetTempPath(), "MauiGallery-first-chance.log"), $"[{DateTime.Now:O}] ALREADY-CHILD last realized: {MauiGallery.DesignSystem.Components.ControlExample.LastRealized}{Environment.NewLine}{Environment.StackTrace}{Environment.NewLine}{Environment.NewLine}");
+            }
+            catch (IOException)
+            {
+                // Diagnostics only.
+            }
+        }
+
         lock (s_firstChance)
         {
             if (s_firstChance.Count > 200 || !s_firstChance.Add(key))

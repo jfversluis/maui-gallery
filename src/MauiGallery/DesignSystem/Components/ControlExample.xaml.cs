@@ -86,9 +86,23 @@ public partial class ControlExample : ContentView
 
         // The body (stage, options, output and code) holds most of the card's native views. It joins the page later,
         // in Realize, so the page can appear right away with a placeholder in its place.
-        CardLayout.Remove(Body);
         Substitutions.CollectionChanged += OnSubstitutionsChanged;
-        Loaded += (_, _) => QueueRealize();
+        if (Environment.GetEnvironmentVariable("MG_NO_DEFER_REALIZE") == "1")
+        {
+            _isRealized = true;
+            CardLayout.Remove(Placeholder);
+            Loaded += (_, _) =>
+            {
+                LastRealized = Title;
+                RenderCode();
+                NameOptionControls();
+            };
+        }
+        else
+        {
+            CardLayout.Remove(Body);
+            Loaded += (_, _) => QueueRealize();
+        }
         UpdateStageMode();
         UpdateLayout();
     }
@@ -189,6 +203,8 @@ public partial class ControlExample : ContentView
 
     public ObservableCollection<Substitution> Substitutions { get; } = [];
 
+    public static string? LastRealized { get; private set; }
+
     protected override void OnSizeAllocated(double width, double height)
     {
         base.OnSizeAllocated(width, height);
@@ -226,6 +242,12 @@ public partial class ControlExample : ContentView
     {
         using var trace = PageLoadTrace.Measure("realize");
         _isRealized = true;
+        LastRealized = Title;
+        if (Environment.GetEnvironmentVariable("MG_OLD_REALIZE") != "1" && Handler?.MauiContext is { } context)
+        {
+            Microsoft.Maui.Platform.ElementExtensions.ToPlatform(Body, context);
+        }
+
         CardLayout.Remove(Placeholder);
         CardLayout.Add(Body);
         RenderCode();

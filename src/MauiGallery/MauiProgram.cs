@@ -37,7 +37,16 @@ public static class MauiProgram
                 fonts.AddFont("Inter-Bold.ttf", "InterBold");
                 fonts.AddFont("CascadiaCode-Regular.ttf", "CascadiaCode");
             })
-            .ConfigureMauiHandlers(_ => BorderlessEntry.Register())
+            .ConfigureMauiHandlers(handlers =>
+            {
+                BorderlessEntry.Register();
+#if WINDOWS
+                if (Environment.GetEnvironmentVariable("MG_CV1") == "1")
+                {
+                    handlers.AddHandler<CollectionView, Microsoft.Maui.Controls.Handlers.Items.CollectionViewHandler>();
+                }
+#endif
+            })
             .ConfigureDeepLinks()
             .ConfigureWindowChrome()
             .UseNativePowerSamples()

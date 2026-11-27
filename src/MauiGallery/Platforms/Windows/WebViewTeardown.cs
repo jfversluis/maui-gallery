@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml.Controls;
+using WebView2 = Microsoft.UI.Xaml.Controls.WebView2;
 
 namespace MauiGallery.Services;
 
@@ -21,6 +21,10 @@ public static class WebViewTeardown
     {
         ArgumentNullException.ThrowIfNull(page);
         ArgumentNullException.ThrowIfNull(webViews);
+        if (Environment.GetEnvironmentVariable("MG_NO_WEBVIEW_FIX") == "1")
+        {
+            return;
+        }
 
         var states = webViews.Select(webView => (WebView: webView, State: new LoadState())).ToArray();
         foreach (var (webView, state) in states)

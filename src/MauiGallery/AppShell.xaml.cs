@@ -111,7 +111,10 @@ public partial class AppShell : Shell
     {
         base.OnNavigating(args);
         PageLoadTrace.Begin(args.Target.Location.OriginalString);
-        DeferDisconnect(CurrentPage);
+        if (Environment.GetEnvironmentVariable("MG_NO_DEFER_DISCONNECT") != "1")
+        {
+            DeferDisconnect(CurrentPage);
+        }
     }
 
     protected override void OnNavigated(ShellNavigatedEventArgs args)

@@ -159,6 +159,7 @@ jobs:
               if ($Matches[2]) { $options.Repeat = [int]$Matches[2] }
               if ($Matches[3]) { $options.Variants = $Matches[3] }
               if ($env:HEAD_MESSAGE -match '\[repeat-path:([^\]]+)\]') { $options.RepeatPath = $Matches[1] }
+              if ($env:HEAD_MESSAGE -match '\[repeat-relaunch:(\d+)\]') { $options.RelaunchEvery = [int]$Matches[1] }
           }
           ./.github/scripts/windows-ui-crawl.ps1 -AppPath $env:APP_PATH -OutDir $env:OUT_DIR -Mode $mode @options
           Get-Content "$env:OUT_DIR/summary.md" >> $env:GITHUB_STEP_SUMMARY
