@@ -32,6 +32,8 @@ the reference implementation. Read it before writing a new page.
 
 - Samples render at **platform defaults**. Do not apply design-system styles or colors to the sample itself.
 - Bind options straight to the sample: `{Binding Prop, Source={x:Reference Name}, x:DataType=Type}`.
+- Bind view-model properties with .NET 11 C# expressions (`{Name}`, `{$'{Price:C}'}`) in the page and its snippets;
+  `.github/instructions/xaml.instructions.md` lists where `{Binding}` is still needed.
 - Report events through `ControlExample.Output`.
 - Put prerequisites and unsupported states ("iOS only", "This device has no flashlight") in `ControlExample.Notice`,
   not in the stage. Longer explanations belong in the description.
