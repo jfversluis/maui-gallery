@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Graphics.ShadowsPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -82,8 +81,8 @@
                            VerticalOptions="Center"
                            AutomationId="sample-glow-image">
                         <Image.Source>
-                            <FontImageSource FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}"
-                                             Glyph="{x:Static icons:FluentIconsFilled.Heart24}"
+                            <FontImageSource FontFamily="{x:Static FluentIconsFilled.FontFamily}"
+                                             Glyph="{x:Static FluentIconsFilled.Heart24}"
                                              Color="#DB2777"
                                              Size="64" />
                         </Image.Source>

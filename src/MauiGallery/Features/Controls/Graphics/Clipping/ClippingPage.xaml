@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Graphics.ClippingPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Graphics"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <x:Array x:Key="ClipShapeOptions" Type="{x:Type x:String}">
@@ -20,13 +19,13 @@
                             ShowStyleToggle="False"
                             XamlSource="ClippingEllipse.xaml.txt"
                             CSharpSource="ClippingEllipse.cs.txt">
-                <local:LandscapeView WidthRequest="200" HeightRequest="200" AutomationId="sample-clip-ellipse">
-                    <local:LandscapeView.Clip>
+                <LandscapeView WidthRequest="200" HeightRequest="200" AutomationId="sample-clip-ellipse">
+                    <LandscapeView.Clip>
                         <EllipseGeometry Center="100,100"
                                          RadiusX="{Binding Value, Source={x:Reference CircleRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}"
                                          RadiusY="{Binding Value, Source={x:Reference CircleRadius}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
-                    </local:LandscapeView.Clip>
-                </local:LandscapeView>
+                    </LandscapeView.Clip>
+                </LandscapeView>
                 <ControlExample.Options>
                     <VerticalStackLayout Spacing="8">
                         <Label Text="{Binding Value, Source={x:Reference CircleRadius}, StringFormat='RadiusX, RadiusY: {0:0}', x:DataType=Slider}"
@@ -46,11 +45,11 @@
                             ShowStyleToggle="False"
                             XamlSource="ClippingRoundRectangle.xaml.txt"
                             CSharpSource="ClippingRoundRectangle.cs.txt">
-                <local:LandscapeView WidthRequest="240" HeightRequest="160" AutomationId="sample-clip-round">
-                    <local:LandscapeView.Clip>
+                <LandscapeView WidthRequest="240" HeightRequest="160" AutomationId="sample-clip-round">
+                    <LandscapeView.Clip>
                         <RoundRectangleGeometry x:Name="RoundClip" Rect="0,0,240,160" />
-                    </local:LandscapeView.Clip>
-                </local:LandscapeView>
+                    </LandscapeView.Clip>
+                </LandscapeView>
                 <ControlExample.Options>
                     <VerticalStackLayout Spacing="8">
                         <Label Text="{Binding Value, Source={x:Reference RoundRadius}, StringFormat='CornerRadius: {0:0}', x:DataType=Slider}"
@@ -75,7 +74,7 @@
                             ShowStyleToggle="False"
                             XamlSource="ClippingPath.xaml.txt"
                             CSharpSource="ClippingPath.cs.txt">
-                <local:LandscapeView x:Name="PathClipped" WidthRequest="200" HeightRequest="200" AutomationId="sample-clip-path" />
+                <LandscapeView x:Name="PathClipped" WidthRequest="200" HeightRequest="200" AutomationId="sample-clip-path" />
                 <ControlExample.Options>
                     <VerticalStackLayout Spacing="8">
                         <Label Text="Figures" Style="{StaticResource OptionLabel}" />
