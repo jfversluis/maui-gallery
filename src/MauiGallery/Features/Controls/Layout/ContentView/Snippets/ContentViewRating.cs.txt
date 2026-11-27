@@ -70,5 +70,9 @@ public class RatingView : ContentView
 }
 
 // Using it
-var rating = new RatingView { Maximum = $(Maximum), Color = $(Color) };
+var rating = new RatingView
+{
+    Maximum = $(Maximum),
+    Color = $(Color),
+};
 rating.SetBinding(RatingView.ValueProperty, static (ReviewViewModel vm) => vm.Rating);

@@ -1,10 +1,9 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Layouts.ScrollViewPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <local:LayoutSampleResources />
+                <LayoutSampleResources />
             </ResourceDictionary.MergedDictionaries>
             <x:Array x:Key="ScrollBarVisibilityOptions" Type="{x:Type ScrollBarVisibility}">
                 <x:Static Member="ScrollBarVisibility.Default" />

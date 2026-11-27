@@ -1,10 +1,9 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Layouts.AbsoluteLayoutPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <local:LayoutSampleResources />
+                <LayoutSampleResources />
             </ResourceDictionary.MergedDictionaries>
             <!-- Rings that separate the overlays from the avatar, in the color of the background behind them. -->
             <SolidColorBrush x:Key="BadgeRing" Color="{AppThemeBinding Light=White, Dark=#121118}" />

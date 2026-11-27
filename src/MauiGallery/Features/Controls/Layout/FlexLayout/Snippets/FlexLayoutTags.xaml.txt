@@ -1,5 +1,5 @@
 <VerticalStackLayout Spacing="12" x:DataType="local:TagCloudViewModel">
-    <FlexLayout Wrap="Wrap" BindableLayout.ItemsSource="{Binding Tags}">
+    <FlexLayout Wrap="Wrap" BindableLayout.ItemsSource="{Tags}">
         <BindableLayout.ItemTemplate>
             <DataTemplate x:DataType="x:String">
                 <Border

@@ -1,10 +1,9 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Layouts.GridPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <local:LayoutSampleResources />
+                <LayoutSampleResources />
             </ResourceDictionary.MergedDictionaries>
             <x:Array x:Key="ColumnPresets" Type="{x:Type x:String}">
                 <x:String>Auto,*,80</x:String>
