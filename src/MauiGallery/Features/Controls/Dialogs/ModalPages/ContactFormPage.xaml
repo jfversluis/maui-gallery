@@ -1,6 +1,5 @@
 <ContentPage x:Class="MauiGallery.Features.Controls.Dialogs.ContactFormPage"
-             xmlns:local="clr-namespace:MauiGallery.Features.Controls.Dialogs"
-             x:DataType="local:ContactFormPage"
+             x:DataType="ContactFormPage"
              Title="New contact">
     <ScrollView>
         <VerticalStackLayout Padding="24" Spacing="12" MaximumWidthRequest="520">

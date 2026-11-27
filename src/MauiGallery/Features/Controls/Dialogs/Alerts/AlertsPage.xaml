@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Dialogs.AlertsPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Dialogs"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -76,8 +75,8 @@
                             Description="View models don't know about pages. Put the dialog behind a small interface, register it with dependency injection and await it from a command."
                             XamlSource="AlertViewModel.xaml.txt"
                             CSharpSource="AlertViewModel.cs.txt">
-                <VerticalStackLayout x:Name="DraftsSample" Spacing="12" x:DataType="local:DraftsViewModel">
-                    <Label Text="{Binding Summary}" HorizontalOptions="Center" AutomationId="sample-drafts-summary" />
+                <VerticalStackLayout x:Name="DraftsSample" Spacing="12" x:DataType="DraftsViewModel">
+                    <Label Text="{Summary}" HorizontalOptions="Center" AutomationId="sample-drafts-summary" />
                     <Button x:Name="DraftsButton"
                             Text="Delete all drafts"
                             Command="{Binding DeleteAllCommand}"

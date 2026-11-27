@@ -30,7 +30,7 @@
                 <ControlExample.Substitutions>
                     <Substitution Key="Title" Value="{Binding Text, Source={x:Reference BasicTitle}, x:DataType=Entry}" />
                     <Substitution Key="Message" Value="{Binding Text, Source={x:Reference BasicMessage}, x:DataType=Entry}" />
-                    <Substitution Key="Accept" Value="{Binding Text, Source={x:Reference BasicAccept}, x:DataType=Entry}" Default="OK" />
+                    <Substitution Key="Accept" Value="{Binding Text, Source={x:Reference BasicAccept}, x:DataType=Entry}" />
                 </ControlExample.Substitutions>
             </ControlExample>
 
