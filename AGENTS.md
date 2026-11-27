@@ -87,6 +87,11 @@ Known quirks:
   for a Mac app, run `adb forward --remove-all` and relaunch.
 - Mac Catalyst draws an inactive window's controls dimmed (grey instead of the accent color), and a locked screen stops
   layout altogether. Capture screenshots only while the gallery is the active app on an unlocked Mac.
+- After a .NET MAUI version bump, incremental iOS and Mac Catalyst builds can fail to link with
+  `Undefined symbols: _OBJC_CLASS_$_MauiKeyValueObserver`. Delete `src/MauiGallery/obj/<Configuration>/net11.0-ios*`
+  (or `-maccatalyst*`) and build again. On Android, installing a Debug APK with `adb install` instead of `-t:Run` keeps
+  the assemblies fast deployment left on the device; after a version bump they crash Shell with "No view found for id
+  ... for fragment ShellItemWrapperFragment". Uninstall the app, or build with `-p:EmbedAssembliesIntoApk=true`.
 
 ## Architecture rules
 
