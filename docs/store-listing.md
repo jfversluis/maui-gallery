@@ -235,7 +235,7 @@ from:
 | App Store | iPad 13" | 2064×2752 |
 | Mac App Store | Mac | 2880×1800 |
 | Google Play | Phone (Pixel 10) | 1080×2424 |
-| Microsoft Store | Desktop | 1366×768 or larger: window captures from the Windows UI workflow at the expanded size (1426×893) |
+| Microsoft Store | Desktop (Windows 11 PC, Mica on) | 1922×1081 window captures in [`eng/release/microsoft-store/screenshots`](../eng/release/microsoft-store/screenshots) |
 
 The pages name each control's native type on every platform (for example "Android · RecyclerView"), and App Review
 guideline 2.3.10 discourages other platforms' names in App Store screenshots. The App Store shots therefore start at
