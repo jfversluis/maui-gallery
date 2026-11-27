@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.PlatformApis.LauncherAndBrowserPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -48,10 +47,10 @@
                             XamlSource="LauncherOpen.xaml.txt"
                             CSharpSource="LauncherOpen.cs.txt">
                 <VerticalStackLayout x:Name="LauncherSample"
-                                     x:DataType="local:LauncherViewModel"
+                                     x:DataType="LauncherViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=380}">
-                    <Entry Text="{Binding Uri}"
+                    <Entry Text="{.Uri}"
                            Keyboard="Url"
                            Placeholder="URI"
                            SemanticProperties.Description="URI to open"
@@ -92,7 +91,7 @@
                             XamlSource="MapOpen.xaml.txt"
                             CSharpSource="MapOpen.cs.txt">
                 <VerticalStackLayout x:Name="MapSample"
-                                     x:DataType="local:MapViewModel"
+                                     x:DataType="MapViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=380}">
                     <Button x:Name="MapButton"
@@ -100,20 +99,20 @@
                             Command="{Binding OpenMapCommand}"
                             HorizontalOptions="Start"
                             AutomationId="sample-map-open" />
-                    <Label Text="{Binding Result}" IsVisible="{Binding Result, Converter={StaticResource IsNotNullOrEmpty}}" AutomationId="sample-map-result" />
+                    <Label Text="{Binding Result}" IsVisible="{!string.IsNullOrEmpty(Result)}" AutomationId="sample-map-result" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
-                    <VerticalStackLayout x:Name="MapOptions" x:DataType="local:MapViewModel" Spacing="8">
+                    <VerticalStackLayout x:Name="MapOptions" x:DataType="MapViewModel" Spacing="8">
                         <Label Text="Name" Style="{StaticResource OptionLabel}" />
-                        <Entry x:Name="MapName" Text="{Binding Name}" AutomationId="option-map-name" />
+                        <Entry x:Name="MapName" Text="{Name}" AutomationId="option-map-name" />
                         <Label Text="NavigationMode" Style="{StaticResource OptionLabel}" />
                         <Picker x:Name="MapMode"
-                                ItemsSource="{x:Static local:MapViewModel.NavigationModes}"
-                                SelectedItem="{Binding NavigationMode}"
+                                ItemsSource="{x:Static MapViewModel.NavigationModes}"
+                                SelectedItem="{.NavigationMode}"
                                 AutomationId="option-map-mode" />
                         <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
                             <Label Text="Use the address" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
-                            <Switch x:Name="MapAddress" Grid.Column="1" IsToggled="{Binding UseAddress}" AutomationId="option-map-address" />
+                            <Switch x:Name="MapAddress" Grid.Column="1" IsToggled="{UseAddress}" AutomationId="option-map-address" />
                         </Grid>
                     </VerticalStackLayout>
                 </ControlExample.Options>

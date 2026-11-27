@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.PlatformApis.HapticsAndVibrationPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -14,7 +13,7 @@
                             Description="HapticFeedback.Perform plays the short tap the platform uses for its own controls: Click for a confirmation, LongPress for a press-and-hold. It respects the user's system settings. Phones support it; check IsSupported elsewhere."
                             CSharpSource="HapticsPerform.cs.txt">
                 <VerticalStackLayout x:Name="HapticSample"
-                                     x:DataType="local:HapticsViewModel"
+                                     x:DataType="HapticsViewModel"
                                      Spacing="12">
                     <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
                         <Button x:Name="HapticClick"
@@ -40,10 +39,10 @@
                             XamlSource="HapticsDial.xaml.txt"
                             CSharpSource="HapticsDial.cs.txt">
                 <VerticalStackLayout x:Name="DialSample"
-                                     x:DataType="local:HapticsViewModel"
+                                     x:DataType="HapticsViewModel"
                                      Spacing="8"
                                      WidthRequest="{OnIdiom Phone=260, Default=320}">
-                    <Label Text="{Binding Step, StringFormat='Level {0}'}"
+                    <Label Text="{$'Level {Step}'}"
                            FontSize="20"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
@@ -51,14 +50,14 @@
                     <Slider x:Name="DialSlider"
                             Minimum="0"
                             Maximum="10"
-                            Value="{Binding Level}"
+                            Value="{Level}"
                             SemanticProperties.Description="Level"
                             AutomationId="sample-haptics-slider" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
-                    <Grid x:Name="DialOptions" x:DataType="local:HapticsViewModel" ColumnDefinitions="*,Auto">
+                    <Grid x:Name="DialOptions" x:DataType="HapticsViewModel" ColumnDefinitions="*,Auto">
                         <Label Text="Haptics" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
-                        <Switch Grid.Column="1" IsToggled="{Binding UseHaptics}" AutomationId="option-haptics-enabled" />
+                        <Switch Grid.Column="1" IsToggled="{UseHaptics}" AutomationId="option-haptics-enabled" />
                     </Grid>
                 </ControlExample.Options>
             </ControlExample>
@@ -72,7 +71,7 @@
                             Description="Vibration.Vibrate runs the vibration motor for as long as you ask, and Cancel stops it early. Use it for alerts the user must notice, not as feedback on every touch. iOS always vibrates for about half a second, whatever the duration. Android needs the VIBRATE permission in AndroidManifest.xml."
                             CSharpSource="HapticsVibrate.cs.txt">
                 <VerticalStackLayout x:Name="VibrationSample"
-                                     x:DataType="local:HapticsViewModel"
+                                     x:DataType="HapticsViewModel"
                                      Spacing="12">
                     <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
                         <Button x:Name="VibrateButton"
@@ -85,12 +84,12 @@
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
                 <ControlExample.Options>
-                    <VerticalStackLayout x:Name="VibrationOptions" x:DataType="local:HapticsViewModel" Spacing="8">
-                        <Label Text="{Binding DurationMilliseconds, StringFormat='Duration: {0:0} ms'}" Style="{StaticResource OptionLabel}" />
+                    <VerticalStackLayout x:Name="VibrationOptions" x:DataType="HapticsViewModel" Spacing="8">
+                        <Label Text="{$'Duration: {DurationMilliseconds:0} ms'}" Style="{StaticResource OptionLabel}" />
                         <Slider x:Name="VibrationDuration"
                                 Minimum="100"
                                 Maximum="3000"
-                                Value="{Binding DurationMilliseconds}"
+                                Value="{DurationMilliseconds}"
                                 AutomationId="option-vibration-duration" />
                     </VerticalStackLayout>
                 </ControlExample.Options>

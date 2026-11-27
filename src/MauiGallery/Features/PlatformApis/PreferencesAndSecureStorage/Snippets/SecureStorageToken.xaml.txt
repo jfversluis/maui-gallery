@@ -1,9 +1,9 @@
 <VerticalStackLayout x:DataType="local:SecretsViewModel" Spacing="12">
-    <Entry Text="{Binding Token}" IsPassword="True" Placeholder="API token" />
+    <Entry Text="{Token}" IsPassword="True" Placeholder="API token" />
     <HorizontalStackLayout Spacing="8">
         <Button Text="Save" Command="{Binding SaveCommand}" />
         <Button Text="Read" Command="{Binding ReadCommand}" />
         <Button Text="Remove" Command="{Binding RemoveCommand}" />
     </HorizontalStackLayout>
-    <Label Text="{Binding Stored}" />
+    <Label Text="{Stored}" />
 </VerticalStackLayout>

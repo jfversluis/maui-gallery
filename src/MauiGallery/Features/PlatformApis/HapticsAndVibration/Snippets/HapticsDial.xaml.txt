@@ -1,4 +1,4 @@
 <VerticalStackLayout x:DataType="local:DialViewModel" Spacing="8">
-    <Label Text="{Binding Step, StringFormat='Level {0}'}" />
-    <Slider Minimum="0" Maximum="10" Value="{Binding Level}" />
+    <Label Text="{$'Level {Step}'}" />
+    <Slider Minimum="0" Maximum="10" Value="{Level}" />
 </VerticalStackLayout>

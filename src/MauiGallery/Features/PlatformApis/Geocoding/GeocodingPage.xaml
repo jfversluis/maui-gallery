@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.PlatformApis.GeocodingPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <x:Array x:Key="AddressOptions" Type="{x:Type x:String}">
@@ -31,11 +30,11 @@
                             Description="GetLocationsAsync turns an address or a place name into locations, best match first. It asks the platform's online geocoding service, so check for a connection and handle failures. Street addresses work best: Apple's geocoder often doesn't know landmarks by name, and reports that as an error rather than an empty list. On Windows, set a Bing Maps key with Geocoding.SetMapServiceToken first."
                             CSharpSource="GeocodingForward.cs.txt">
                 <VerticalStackLayout x:Name="ForwardSample"
-                                     x:DataType="local:GeocodingViewModel"
+                                     x:DataType="GeocodingViewModel"
                                      Spacing="8"
                                      WidthRequest="{OnIdiom Phone=280, Default=360}">
                     <Entry x:Name="ForwardAddress"
-                           Text="{Binding Address}"
+                           Text="{Address}"
                            Placeholder="Address or place"
                            ReturnCommand="{Binding FindCoordinatesCommand}"
                            SemanticProperties.Description="Address"
@@ -50,7 +49,7 @@
                                            HeightRequest="20"
                                            WidthRequest="20" />
                     </HorizontalStackLayout>
-                    <Label Text="{Binding ForwardResult}"
+                    <Label Text="{ForwardResult}"
                            FontSize="18"
                            FontAttributes="Bold"
                            Margin="0,4,0,0"
@@ -82,19 +81,19 @@
                             Description="GetPlacemarksAsync does the reverse: from coordinates to placemarks with the street, postal code, city, region and country. Which fields have a value depends on the place and on the platform's geocoder."
                             CSharpSource="GeocodingReverse.cs.txt">
                 <VerticalStackLayout x:Name="ReverseSample"
-                                     x:DataType="local:GeocodingViewModel"
+                                     x:DataType="GeocodingViewModel"
                                      Spacing="8"
                                      WidthRequest="{OnIdiom Phone=280, Default=360}">
                     <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                         <Entry x:Name="ReverseLatitude"
-                               Text="{Binding Latitude}"
+                               Text="{Latitude}"
                                Placeholder="Latitude"
                                Keyboard="Numeric"
                                SemanticProperties.Description="Latitude"
                                AutomationId="sample-geocoding-latitude" />
                         <Entry x:Name="ReverseLongitude"
                                Grid.Column="1"
-                               Text="{Binding Longitude}"
+                               Text="{Longitude}"
                                Placeholder="Longitude"
                                Keyboard="Numeric"
                                SemanticProperties.Description="Longitude"
@@ -110,7 +109,7 @@
                                            HeightRequest="20"
                                            WidthRequest="20" />
                     </HorizontalStackLayout>
-                    <Label Text="{Binding ReverseResult}"
+                    <Label Text="{ReverseResult}"
                            FontSize="18"
                            FontAttributes="Bold"
                            Margin="0,4,0,0"
@@ -143,10 +142,10 @@
                             Description="Combine Geolocation and Geocoding to name the place the device is in. A Medium accuracy fix is plenty for a city, and comes back faster than GPS."
                             CSharpSource="GeocodingWhereAmI.cs.txt">
                 <VerticalStackLayout x:Name="WhereSample"
-                                     x:DataType="local:GeocodingViewModel"
+                                     x:DataType="GeocodingViewModel"
                                      Spacing="8"
                                      WidthRequest="{OnIdiom Phone=280, Default=360}">
-                    <Label Text="{Binding WhereAmI}"
+                    <Label Text="{WhereAmI}"
                            FontSize="18"
                            FontAttributes="Bold"
                            AutomationId="sample-geocoding-where-result" />

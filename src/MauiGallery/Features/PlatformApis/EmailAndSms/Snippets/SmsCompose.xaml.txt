@@ -1,6 +1,6 @@
 <VerticalStackLayout x:DataType="local:SmsViewModel" Spacing="12">
-    <Entry Text="{Binding Recipient}" Keyboard="Telephone" Placeholder="Phone number" />
-    <Editor Text="{Binding Message}" HeightRequest="80" Placeholder="Message" />
+    <Entry Text="{Recipient}" Keyboard="Telephone" Placeholder="Phone number" />
+    <Editor Text="{Message}" HeightRequest="80" Placeholder="Message" />
     <Button Text="Compose message" Command="{Binding ComposeCommand}" />
     <Label Text="{Binding Result}" />
 </VerticalStackLayout>

@@ -3,6 +3,6 @@
     <Button Text="Scan a code" Command="{Binding EnableCameraCommand}" />
     <Button
         Text="Open Settings"
-        IsVisible="{Binding CanOpenSettings}"
+        IsVisible="{CanOpenSettings}"
         Command="{Binding OpenSettingsCommand}" />
 </VerticalStackLayout>

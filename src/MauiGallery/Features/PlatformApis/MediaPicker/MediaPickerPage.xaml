@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.PlatformApis.MediaPickerPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <x:Array x:Key="SizeOptions" Type="{x:Type x:String}">
@@ -33,7 +32,7 @@
                             Description="PickPhotosAsync opens the system photo picker, which needs no permission; a SelectionLimit of 1 picks one photo. (PickPhotoAsync, which did this before, is obsolete in .NET 11.) It returns an empty list if the user cancels. MediaPickerOptions can scale the photo down and compress it for you. Copy the file into your app's storage if you keep it: the picker's copy can be temporary."
                             CSharpSource="MediaPickerPhoto.cs.txt">
                 <VerticalStackLayout x:Name="PickSample"
-                                     x:DataType="local:MediaPickerViewModel"
+                                     x:DataType="MediaPickerViewModel"
                                      Spacing="12">
                     <Border Style="{StaticResource PhotoFrame}">
                         <Grid>
@@ -41,7 +40,7 @@
                                    TextColor="#8E8E93"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center"
-                                   IsVisible="{Binding HasNoPhoto}" />
+                                   IsVisible="{HasNoPhoto}" />
                             <Image Source="{Binding Photo}" Aspect="AspectFit" AutomationId="sample-media-photo" />
                         </Grid>
                     </Border>
@@ -50,25 +49,25 @@
                             HorizontalOptions="Center"
                             Command="{Binding PickPhotoCommand}"
                             AutomationId="sample-media-pick-photo" />
-                    <Label Text="{Binding PhotoInfo}"
+                    <Label Text="{PhotoInfo}"
                            FontSize="13"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
                            AutomationId="sample-media-photo-info" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
-                    <VerticalStackLayout x:Name="PickOptions" x:DataType="local:MediaPickerViewModel" Spacing="8">
+                    <VerticalStackLayout x:Name="PickOptions" x:DataType="MediaPickerViewModel" Spacing="8">
                         <Label Text="MaximumWidth and MaximumHeight" Style="{StaticResource OptionLabel}" />
                         <Picker x:Name="PickSize"
                                 ItemsSource="{StaticResource SizeOptions}"
                                 SelectedIndex="0"
                                 SelectedIndexChanged="OnPickSizeChanged"
                                 AutomationId="option-media-size" />
-                        <Label Text="{Binding CompressionQuality, StringFormat='CompressionQuality: {0:0}'}" Style="{StaticResource OptionLabel}" />
+                        <Label Text="{$'CompressionQuality: {CompressionQuality:0}'}" Style="{StaticResource OptionLabel}" />
                         <Slider x:Name="PickQuality"
                                 Minimum="10"
                                 Maximum="100"
-                                Value="{Binding CompressionQuality}"
+                                Value="{CompressionQuality}"
                                 AutomationId="option-media-quality" />
                     </VerticalStackLayout>
                 </ControlExample.Options>
@@ -87,13 +86,13 @@
                             Description="Raise SelectionLimit to let the user choose several photos at once, or set it to 0 for no limit. Each one comes back as a FileResult. Not every Android picker enforces the limit, so don't rely on it."
                             CSharpSource="MediaPickerPhotos.cs.txt">
                 <VerticalStackLayout x:Name="PickManySample"
-                                     x:DataType="local:MediaPickerViewModel"
+                                     x:DataType="MediaPickerViewModel"
                                      Spacing="12">
                     <ScrollView Orientation="Horizontal"
                                 HeightRequest="96"
                                 WidthRequest="{OnIdiom Phone=280, Default=360}"
                                 HorizontalScrollBarVisibility="Never">
-                        <HorizontalStackLayout BindableLayout.ItemsSource="{Binding Photos}" Spacing="8">
+                        <HorizontalStackLayout BindableLayout.ItemsSource="{Photos}" Spacing="8">
                             <BindableLayout.EmptyView>
                                 <Border Style="{StaticResource PhotoFrame}" HeightRequest="96">
                                     <Label Text="No photos yet" TextColor="#8E8E93" HorizontalOptions="Center" VerticalOptions="Center" />
@@ -113,18 +112,18 @@
                             HorizontalOptions="Center"
                             Command="{Binding PickPhotosCommand}"
                             AutomationId="sample-media-pick-photos" />
-                    <Label Text="{Binding PhotosInfo}"
+                    <Label Text="{PhotosInfo}"
                            FontSize="13"
                            HorizontalOptions="Center"
                            AutomationId="sample-media-photos-info" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
-                    <VerticalStackLayout x:Name="PickManyOptions" x:DataType="local:MediaPickerViewModel" Spacing="8">
-                        <Label Text="{Binding SelectionLimit, StringFormat='SelectionLimit: {0:0}'}" Style="{StaticResource OptionLabel}" />
+                    <VerticalStackLayout x:Name="PickManyOptions" x:DataType="MediaPickerViewModel" Spacing="8">
+                        <Label Text="{$'SelectionLimit: {SelectionLimit:0}'}" Style="{StaticResource OptionLabel}" />
                         <Stepper x:Name="PickManyLimit"
                                  Minimum="0"
                                  Maximum="10"
-                                 Value="{Binding SelectionLimit}"
+                                 Value="{SelectionLimit}"
                                  AutomationId="option-media-limit" />
                     </VerticalStackLayout>
                 </ControlExample.Options>
@@ -142,15 +141,15 @@
                             Description="CapturePhotoAsync opens the camera. Check IsCaptureSupported first: simulators and many computers have no camera. It needs camera permission, which .NET MAUI requests for you, and a usage description in Info.plist. On Android 11 and later, declare the IMAGE_CAPTURE intent in the manifest's queries."
                             CSharpSource="MediaPickerCapture.cs.txt">
                 <VerticalStackLayout x:Name="CaptureSample"
-                                     x:DataType="local:MediaPickerViewModel"
+                                     x:DataType="MediaPickerViewModel"
                                      Spacing="12">
                     <Border Style="{StaticResource PhotoFrame}">
                         <Grid>
-                            <Label Text="{Binding IsCaptureSupported, StringFormat='IsCaptureSupported: {0}'}"
+                            <Label Text="{$'IsCaptureSupported: {IsCaptureSupported}'}"
                                    TextColor="#8E8E93"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center"
-                                   IsVisible="{Binding HasNoCapture}" />
+                                   IsVisible="{HasNoCapture}" />
                             <Image Source="{Binding CapturedPhoto}" Aspect="AspectFit" AutomationId="sample-media-captured" />
                         </Grid>
                     </Border>
@@ -159,7 +158,7 @@
                             HorizontalOptions="Center"
                             Command="{Binding CapturePhotoCommand}"
                             AutomationId="sample-media-capture-photo" />
-                    <Label Text="{Binding CaptureInfo}"
+                    <Label Text="{CaptureInfo}"
                            FontSize="13"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
@@ -176,7 +175,7 @@
                             Description="PickVideosAsync and CaptureVideoAsync work like their photo siblings and return the video file. Recording also needs the microphone on iOS and Mac. Play the result with a media player control, such as MediaElement from the .NET MAUI Community Toolkit."
                             CSharpSource="MediaPickerVideo.cs.txt">
                 <VerticalStackLayout x:Name="VideoSample"
-                                     x:DataType="local:MediaPickerViewModel"
+                                     x:DataType="MediaPickerViewModel"
                                      Spacing="12">
                     <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
                         <Button x:Name="VideoButton"
@@ -187,7 +186,7 @@
                                 Command="{Binding CaptureVideoCommand}"
                                 AutomationId="sample-media-capture-video" />
                     </HorizontalStackLayout>
-                    <Label Text="{Binding VideoInfo}"
+                    <Label Text="{VideoInfo}"
                            FontSize="13"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"

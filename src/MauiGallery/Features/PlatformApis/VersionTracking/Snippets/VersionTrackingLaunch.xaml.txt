@@ -1,6 +1,6 @@
 <VerticalStackLayout x:DataType="local:VersionTrackingViewModel" Spacing="8">
-    <Label Text="{Binding Welcome}" FontSize="20" FontAttributes="Bold" />
-    <Label Text="{Binding IsFirstLaunchEver, StringFormat='First launch ever: {0}'}" />
-    <Label Text="{Binding IsFirstLaunchForCurrentVersion, StringFormat='First launch of this version: {0}'}" />
-    <Label Text="{Binding CurrentVersion, StringFormat='Version {0}'}" />
+    <Label Text="{Welcome}" FontSize="20" FontAttributes="Bold" />
+    <Label Text="{$'First launch ever: {IsFirstLaunchEver}'}" />
+    <Label Text="{$'First launch of this version: {IsFirstLaunchForCurrentVersion}'}" />
+    <Label Text="{$'Version {CurrentVersion}'}" />
 </VerticalStackLayout>

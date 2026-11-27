@@ -1,6 +1,6 @@
 <VerticalStackLayout x:DataType="local:ConnectivityViewModel" Spacing="6">
-    <Label Text="{Binding IsOnline, StringFormat='IsOnline = {0}'}" />
-    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Changes}" Spacing="4">
+    <Label Text="{$'IsOnline = {IsOnline}'}" />
+    <VerticalStackLayout BindableLayout.ItemsSource="{Changes}" Spacing="4">
         <BindableLayout.ItemTemplate>
             <DataTemplate x:DataType="x:String">
                 <Label Text="{Binding .}" />
