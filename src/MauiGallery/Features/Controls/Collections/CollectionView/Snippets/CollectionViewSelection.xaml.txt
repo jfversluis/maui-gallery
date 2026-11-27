@@ -4,7 +4,7 @@
 </ContentPage.Resources>
 
 <CollectionView
-    ItemsSource="{Binding Places}"
+    ItemsSource="{Places}"
     SelectionMode="$(SelectionMode)"
     SelectionChanged="OnSelectionChanged">
     <CollectionView.ItemTemplate>

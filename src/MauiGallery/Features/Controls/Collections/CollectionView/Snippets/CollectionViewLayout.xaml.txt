@@ -1,5 +1,5 @@
 <CollectionView
-    ItemsSource="{Binding Places}"
+    ItemsSource="{Places}"
     ItemsLayout="$(ItemsLayout)"
     HeightRequest="$(HeightRequest)">
     <CollectionView.ItemTemplate>
@@ -10,9 +10,9 @@
                     HeightRequest="40"
                     StrokeShape="RoundRectangle 10"
                     StrokeThickness="0"
-                    BackgroundColor="{Binding Color}">
+                    BackgroundColor="{.Color}">
                     <Label
-                        Text="{Binding Glyph}"
+                        Text="{Glyph}"
                         FontFamily="FluentIcons"
                         FontSize="22"
                         TextColor="White"
@@ -20,9 +20,9 @@
                         VerticalOptions="Center" />
                 </Border>
                 <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
-                    <Label Text="{Binding Name}" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                    <Label Text="{Name}" FontAttributes="Bold" LineBreakMode="TailTruncation" />
                     <Label
-                        Text="{Binding Country}"
+                        Text="{Country}"
                         FontSize="13"
                         TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
                         LineBreakMode="TailTruncation" />

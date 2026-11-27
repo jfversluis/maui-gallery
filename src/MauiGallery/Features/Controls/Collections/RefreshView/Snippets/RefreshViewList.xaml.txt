@@ -4,10 +4,10 @@
         Command="{Binding StartRefreshCommand}"
         HorizontalOptions="End" />
     <RefreshView
-        IsRefreshing="{Binding IsRefreshing}"
+        IsRefreshing="{IsRefreshing}"
         Command="{Binding RefreshCommand}"
         RefreshColor="$(RefreshColor)"
         IsRefreshEnabled="$(IsRefreshEnabled)">
-        <CollectionView ItemsSource="{Binding Cities}" ItemTemplate="{StaticResource CityTemplate}" />
+        <CollectionView ItemsSource="{Cities}" ItemTemplate="{StaticResource CityTemplate}" />
     </RefreshView>
 </VerticalStackLayout>

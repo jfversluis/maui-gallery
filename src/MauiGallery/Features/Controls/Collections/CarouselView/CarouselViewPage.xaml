@@ -1,26 +1,24 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Collections.CarouselViewPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Collections"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <!-- One card per trip, shared by the examples on this page. -->
-        <DataTemplate x:Key="TripTemplate" x:DataType="local:Trip">
+        <DataTemplate x:Key="TripTemplate" x:DataType="Trip">
             <Border StrokeShape="RoundRectangle 16"
                     StrokeThickness="0"
-                    BackgroundColor="{Binding Color}"
+                    BackgroundColor="{.Color}"
                     Padding="20">
                 <Grid RowDefinitions="*,Auto,Auto">
-                    <Label Text="{Binding Glyph}"
-                           FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                    <Label Text="{Glyph}"
+                           FontFamily="{x:Static FluentIconsRegular.FontFamily}"
                            FontSize="40"
                            TextColor="White" />
                     <Label Grid.Row="1"
-                           Text="{Binding Title}"
+                           Text="{.Title}"
                            FontSize="22"
                            FontAttributes="Bold"
                            TextColor="White" />
                     <Label Grid.Row="2"
-                           Text="{Binding Details}"
+                           Text="{Details}"
                            TextColor="#E6FFFFFF"
                            LineBreakMode="TailTruncation" />
                 </Grid>
@@ -41,7 +39,7 @@
                 <CarouselView x:Name="BasicCarousel"
                               WidthRequest="{OnIdiom Phone=280, Default=400}"
                               HeightRequest="200"
-                              ItemsSource="{x:Static local:TripData.All}"
+                              ItemsSource="{x:Static TripData.All}"
                               ItemTemplate="{StaticResource TripTemplate}"
                               PeekAreaInsets="40,0"
                               CurrentItemChanged="OnBasicCurrentItemChanged"
@@ -84,12 +82,12 @@
                 <VerticalStackLayout x:Name="PositionSample"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=400}"
-                                     x:DataType="local:TripCarouselViewModel">
+                                     x:DataType="TripCarouselViewModel">
                     <CarouselView x:Name="PositionCarousel"
                                   HeightRequest="200"
-                                  ItemsSource="{Binding Trips}"
+                                  ItemsSource="{Trips}"
                                   ItemTemplate="{StaticResource TripTemplate}"
-                                  Position="{Binding Position}"
+                                  Position="{Position}"
                                   CurrentItem="{Binding CurrentItem}"
                                   Loop="False"
                                   AutomationId="sample-position-carousel" />
@@ -102,7 +100,7 @@
                                    FontAttributes="Bold"
                                    HorizontalTextAlignment="Center"
                                    AutomationId="sample-position-title" />
-                            <Label Text="{Binding PositionText}"
+                            <Label Text="{PositionText}"
                                    FontSize="13"
                                    HorizontalTextAlignment="Center"
                                    AutomationId="sample-position-text" />
@@ -124,7 +122,7 @@
                 <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=400}">
                     <CarouselView x:Name="IndicatorCarousel"
                                   HeightRequest="200"
-                                  ItemsSource="{x:Static local:TripData.All}"
+                                  ItemsSource="{x:Static TripData.All}"
                                   ItemTemplate="{StaticResource TripTemplate}"
                                   IndicatorView="{x:Reference TripIndicator}"
                                   AutomationId="sample-indicator-carousel" />

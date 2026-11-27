@@ -9,7 +9,7 @@
                         Command="{Binding DecreaseCommand}"
                         SemanticProperties.Description="Decrease quantity" />
                     <Label
-                        Text="{Binding Quantity}"
+                        Text="{Quantity}"
                         MinimumWidthRequest="24"
                         FontAttributes="Bold"
                         HorizontalTextAlignment="Center"
@@ -25,8 +25,8 @@
     </SwipeView.RightItems>
     <Grid Padding="16,12" BackgroundColor="{AppThemeBinding Light=White, Dark=#1C1C1E}">
         <VerticalStackLayout>
-            <Label Text="{Binding Name}" FontAttributes="Bold" />
-            <Label Text="{Binding Summary}" FontSize="13" />
+            <Label Text="{Name}" FontAttributes="Bold" />
+            <Label Text="{Summary}" FontSize="13" />
         </VerticalStackLayout>
     </Grid>
 </SwipeView>
