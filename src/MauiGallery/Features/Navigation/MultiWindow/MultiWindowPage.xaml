@@ -1,6 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Navigation.MultiWindowPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-            xmlns:catalog="clr-namespace:MauiGallery.Core.Catalog;assembly=MauiGallery.Core"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -9,7 +7,7 @@
             <Border x:Name="UnsupportedNote" Style="{StaticResource SubtlePanel}" IsVisible="False" AutomationId="multi-window-note">
                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                     <Label Style="{StaticResource TextIcon}"
-                           Text="{x:Static icons:FluentIconsRegular.WindowMultiple24}"
+                           Text="{x:Static FluentIconsRegular.WindowMultiple24}"
                            TextColor="{DynamicResource ColorAccentText}"
                            VerticalOptions="Start" />
                     <VerticalStackLayout Grid.Column="1" Spacing="4">
@@ -36,7 +34,7 @@
                 <ControlExample.Options>
                     <VerticalStackLayout Spacing="8">
                         <Label Text="Page" Style="{StaticResource OptionLabel}" />
-                        <Picker x:Name="ItemPicker" ItemDisplayBinding="{Binding Title, x:DataType=catalog:GalleryItem}" AutomationId="option-item-page" />
+                        <Picker x:Name="ItemPicker" ItemDisplayBinding="{Binding Title, x:DataType=GalleryItem}" AutomationId="option-item-page" />
                     </VerticalStackLayout>
                 </ControlExample.Options>
                 <ControlExample.Substitutions>

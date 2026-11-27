@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Navigation.DeepLinksPage"
-            xmlns:catalog="clr-namespace:MauiGallery.Core.Catalog;assembly=MauiGallery.Core"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -27,7 +26,7 @@
                 <ControlExample.Options>
                     <VerticalStackLayout Spacing="8">
                         <Label Text="Page" Style="{StaticResource OptionLabel}" />
-                        <Picker x:Name="CopyPicker" ItemDisplayBinding="{Binding Title, x:DataType=catalog:GalleryItem}" AutomationId="option-copy-page" />
+                        <Picker x:Name="CopyPicker" ItemDisplayBinding="{Binding Title, x:DataType=GalleryItem}" AutomationId="option-copy-page" />
                     </VerticalStackLayout>
                 </ControlExample.Options>
                 <ControlExample.Substitutions>
@@ -50,7 +49,7 @@
                 <ControlExample.Options>
                     <VerticalStackLayout Spacing="8">
                         <Label Text="Page" Style="{StaticResource OptionLabel}" />
-                        <Picker x:Name="OpenPicker" ItemDisplayBinding="{Binding Title, x:DataType=catalog:GalleryItem}" AutomationId="option-open-page" />
+                        <Picker x:Name="OpenPicker" ItemDisplayBinding="{Binding Title, x:DataType=GalleryItem}" AutomationId="option-open-page" />
                     </VerticalStackLayout>
                 </ControlExample.Options>
                 <ControlExample.Substitutions>

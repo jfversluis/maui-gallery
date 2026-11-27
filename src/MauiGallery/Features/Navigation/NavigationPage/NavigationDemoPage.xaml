@@ -1,6 +1,5 @@
 <ContentPage x:Class="MauiGallery.Features.Navigation.NavigationDemoPage"
-             xmlns:local="clr-namespace:MauiGallery.Features.Navigation"
-             x:DataType="local:NavigationDemoPage">
+             x:DataType="NavigationDemoPage">
     <ScrollView>
         <VerticalStackLayout Padding="24" Spacing="16" MaximumWidthRequest="520">
             <Label x:Name="Heading" FontSize="28" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level1" />

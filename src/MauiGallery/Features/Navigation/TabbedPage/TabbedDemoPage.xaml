@@ -1,11 +1,9 @@
 <TabbedPage x:Class="MauiGallery.Features.Navigation.TabbedDemoPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-            xmlns:local="clr-namespace:MauiGallery.Features.Navigation"
-            x:DataType="local:TabbedDemoPage"
+            x:DataType="TabbedDemoPage"
             Title="Tabbed page">
     <ContentPage x:Name="InboxPage" Title="Inbox">
         <ContentPage.IconImageSource>
-            <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.MailInbox24}" />
+            <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.MailInbox24}" />
         </ContentPage.IconImageSource>
         <ScrollView>
             <VerticalStackLayout Padding="24" Spacing="16" MaximumWidthRequest="520">
@@ -22,7 +20,7 @@
     </ContentPage>
     <ContentPage x:Name="CalendarPage" Title="Calendar">
         <ContentPage.IconImageSource>
-            <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Calendar24}" />
+            <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.Calendar24}" />
         </ContentPage.IconImageSource>
         <ScrollView>
             <VerticalStackLayout Padding="24" Spacing="16" MaximumWidthRequest="520">
@@ -35,7 +33,7 @@
     </ContentPage>
     <ContentPage x:Name="SettingsPage" Title="Settings">
         <ContentPage.IconImageSource>
-            <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Settings24}" />
+            <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.Settings24}" />
         </ContentPage.IconImageSource>
         <ScrollView>
             <VerticalStackLayout Padding="24" Spacing="16" MaximumWidthRequest="520">

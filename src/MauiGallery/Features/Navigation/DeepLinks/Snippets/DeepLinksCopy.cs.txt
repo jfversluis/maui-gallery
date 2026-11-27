@@ -2,8 +2,8 @@ public partial class ItemViewModel(IClipboard clipboard) : ObservableObject
 {
     public string Id { get; set; } = $(Id);
 
-    // For example mauigallery://item/button
-    public Uri Link => new($"mauigallery://item/{Uri.EscapeDataString(Id)}");
+    // For example myapp://item/button
+    public Uri Link => new($"myapp://item/{Uri.EscapeDataString(Id)}");
 
     [RelayCommand]
     Task CopyLinkAsync() => clipboard.SetTextAsync(Link.ToString());
