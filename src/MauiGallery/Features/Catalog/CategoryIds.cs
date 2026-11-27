@@ -15,6 +15,12 @@ public static class CategoryIds
     public const string Graphics = "graphics";
     public const string Fundamentals = "fundamentals";
     public const string Navigation = "navigation";
-    public const string PlatformApis = "platform-apis";
+    public const string DeviceAndSensors = "device-and-sensors";
+    public const string SystemAndSharing = "system-and-sharing";
     public const string NativePower = "native-power";
+
+    /// <summary>Platform APIs was split into <see cref="DeviceAndSensors"/> and <see cref="SystemAndSharing"/>; old links open the first.</summary>
+    public const string LegacyPlatformApis = "platform-apis";
+
+    public static string Resolve(string id) => id == LegacyPlatformApis ? DeviceAndSensors : id;
 }

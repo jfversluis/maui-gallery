@@ -28,8 +28,9 @@ public sealed partial class GalleryCatalog
         new() { Id = CategoryIds.Graphics, Title = "Graphics", Description = "Shapes, brushes, shadows and custom drawing.", IconGlyph = FluentIconsRegular.Shapes24 },
         new() { Id = CategoryIds.Fundamentals, Title = "Fundamentals", Description = "Data binding, styles, triggers, gestures and more.", IconGlyph = FluentIconsRegular.BookOpen24 },
         new() { Id = CategoryIds.Navigation, Title = "Navigation", Description = "Shell, tabs, flyouts, windows and deep links.", IconGlyph = FluentIconsRegular.Navigation24 },
-        new() { Id = CategoryIds.PlatformApis, Title = "Platform APIs", Description = "Sensors, device info, storage and more, from one API.", IconGlyph = FluentIconsRegular.PhoneDesktop24 },
-        new() { Id = CategoryIds.NativePower, Title = "Native power", Description = "Reach the platform: handlers, platform-specifics and native views.", IconGlyph = FluentIconsRegular.DeveloperBoard24 },
+        new() { Id = CategoryIds.DeviceAndSensors, Title = "Device & sensors", Description = "Device info, battery, connectivity, sensors, location and permissions.", IconGlyph = FluentIconsRegular.Phone24 },
+        new() { Id = CategoryIds.SystemAndSharing, Title = "System & sharing", Description = "Clipboard, sharing, the browser, pickers, speech and storage.", IconGlyph = FluentIconsRegular.Share24 },
+        new() { Id = CategoryIds.NativePower, Title = "Handlers & native views", Description = "Reach the platform: handler customization, platform-specifics, native views and platform code.", IconGlyph = FluentIconsRegular.DeveloperBoard24 },
     ];
 
     private static GalleryItem[] CreateItems() =>
@@ -49,8 +50,8 @@ public sealed partial class GalleryCatalog
         .. FundamentalsItems(),
         .. FundamentalsBindingItems(),
         .. NavigationItems(),
-        .. PlatformApisItems(),
         .. PlatformApisCoreItems(),
+        .. PlatformApisItems(),
         .. NativePowerItems(),
     ];
 }

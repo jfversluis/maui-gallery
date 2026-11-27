@@ -68,9 +68,12 @@ both together.
 > • Fundamentals: data binding, converters, MVVM commands, styles, themes, visual states, triggers, behaviors,
 >   animations, gestures, drag and drop, and accessibility
 > • Navigation: Shell, tabs, flyouts, navigation pages, multiple windows and deep links
-> • Platform APIs: geolocation, sensors, haptics, the camera and media picker, battery, connectivity, clipboard,
->   sharing, text-to-speech, secure storage and more
-> • Web and native power: WebView, HybridWebView, BlazorWebView, handlers, platform-specifics and native views
+> • Device and sensors: device info, battery, connectivity, sensors, geolocation, geocoding, the flashlight, haptics
+>   and permissions
+> • System and sharing: clipboard, sharing, the browser, email, file and media pickers, screenshots, text-to-speech and
+>   secure storage
+> • Media and web: maps, images, WebView, HybridWebView and BlazorWebView
+> • Handlers and native views: handler customization, platform-specifics, native views and platform code
 > • Design guidance: color, typography, icons, spacing and responsive layouts
 >
 > Search everything, save favorites, and pick up where you left off. On iPad and Mac the gallery uses a sidebar and
@@ -112,7 +115,7 @@ file with each version.
 
 ## Microsoft Store
 
-**Description**: the App Store description, with "haptics, " removed from Platform APIs and "On iPad and Mac the
+**Description**: the App Store description, with "the flashlight, haptics" removed from Device and sensors and "On iPad and Mac the
 gallery uses a sidebar and multiple windows; on iPhone it fits in one hand." replaced with "On a PC the gallery uses
 a sidebar, a menu bar, keyboard shortcuts and multiple windows, and its layout adapts as you resize the window."
 
@@ -239,7 +242,7 @@ guideline 2.3.10 discourages other platforms' names in App Store screenshots. Th
 each page's first sample, below those chips; if review still objects, pick shots without platform names.
 
 Suggested order: Home, a control page with options and code (Button), the native view badge, CollectionView,
-Graphics, Platform APIs (Sensors), Blazor or HybridWebView, and dark mode or Settings. Caption ideas: "Every control,
+Graphics, Device & sensors (Sensors), Blazor or HybridWebView, and dark mode or Settings. Caption ideas: "Every control,
 live and native", "Change options, watch the code update", "See the native view behind every control", "Collections,
 carousels and swipe", "Draw with shapes, brushes and GraphicsView", "Sensors, location and more device APIs",
 "Mix in web UI with Blazor", "Light and dark, phone to desktop".

@@ -18,7 +18,7 @@ public sealed partial class CategoryViewModel(GalleryCatalog catalog, INavigatio
     {
         if (query.TryGetValue("id", out var value) && value is string id)
         {
-            id = Uri.UnescapeDataString(id);
+            id = CategoryIds.Resolve(Uri.UnescapeDataString(id));
             Category = catalog.Categories.FirstOrDefault(c => c.Id == id);
             Items = [.. catalog.InCategory(id)];
         }

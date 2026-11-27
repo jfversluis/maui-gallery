@@ -32,8 +32,8 @@ macOS, a `SwitchCompat` on Android and a `ToggleSwitch` on Windows, and the gall
   Selected control pages show the same sample captured on iOS, Android, macOS and Windows, side by side.
 - **Beyond controls.** Data binding, styles, triggers, animations, gestures, accessibility, Shell navigation,
   multiple windows, deep links, HybridWebView, Blazor Hybrid, handlers and platform code.
-- **Platform APIs.** Sensors, location, battery, connectivity, clipboard, sharing, text-to-speech, file and media
-  pickers and secure storage, with permission requests done right.
+- **Device and system APIs.** Sensors, location, battery, connectivity, clipboard, sharing, text-to-speech, file
+  and media pickers and secure storage, with permission requests done right.
 - **At home on every device.** Bottom tabs on phones. On macOS and Windows, a sidebar that adapts as you resize, a
   menu bar, keyboard shortcuts and multiple windows. Search with <kbd>⌘</kbd>+<kbd>K</kbd> on macOS or
   <kbd>Ctrl</kbd>+<kbd>K</kbd> on Windows, and keep favorites. Light and dark themes everywhere.

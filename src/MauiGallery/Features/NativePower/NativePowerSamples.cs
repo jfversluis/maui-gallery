@@ -1,6 +1,6 @@
 namespace MauiGallery.Features.NativePower;
 
-/// <summary>Registers the handlers, handler customizations and services that the Native power samples use.</summary>
+/// <summary>Registers the handlers, handler customizations and services that the "Handlers and native views" samples use.</summary>
 public static class NativePowerSamples
 {
     public static MauiAppBuilder UseNativePowerSamples(this MauiAppBuilder builder)
