@@ -311,6 +311,8 @@ jobs:
       WINDOWS_IDENTITY_NAME: ${{ vars.WINDOWS_IDENTITY_NAME }}
       WINDOWS_PUBLISHER: ${{ vars.WINDOWS_PUBLISHER }}
       WINDOWS_PUBLISHER_DISPLAY_NAME: ${{ vars.WINDOWS_PUBLISHER_DISPLAY_NAME }}
+      # MSBuild reads environment variables as properties: the Map sample's Azure Maps key.
+      AzureMapsKey: ${{ secrets.AZURE_MAPS_KEY }}
     strategy:
       matrix:
         rid: [win-x64, win-arm64]
@@ -339,6 +341,10 @@ jobs:
             Write-Output "::warning::The WINDOWS_IDENTITY_NAME, WINDOWS_PUBLISHER and WINDOWS_PUBLISHER_DISPLAY_NAME variables aren't set: the MSIX has a placeholder identity and can't be uploaded to the Microsoft Store."
           }
           $manifest.Save((Resolve-Path $path))
+
+      - name: Warn about a missing Azure Maps key
+        if: env.AzureMapsKey == ''
+        run: echo "::warning::AZURE_MAPS_KEY isn't set: the Map sample explains that this build has no Azure Maps key."
 
       - name: Publish the MSIX
         run: >

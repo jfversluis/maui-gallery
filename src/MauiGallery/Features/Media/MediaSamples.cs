@@ -1,7 +1,7 @@
 namespace MauiGallery.Features.Media;
 
 /// <summary>Registers the services that the Media and web samples use.</summary>
-public static class MediaSamples
+public static partial class MediaSamples
 {
     public static MauiAppBuilder UseMediaSamples(this MauiAppBuilder builder)
     {
@@ -13,6 +13,10 @@ public static class MediaSamples
 
         // Shared by the Razor component and the .NET MAUI controls of the BlazorWebView sample.
         builder.Services.AddSingleton<PackingListViewModel>();
+        ConfigureMaps(builder);
         return builder;
     }
+
+    // Implemented in Platforms/Windows only: the Map sample's Azure Maps key.
+    static partial void ConfigureMaps(MauiAppBuilder builder);
 }

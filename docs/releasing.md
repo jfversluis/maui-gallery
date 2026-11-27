@@ -38,7 +38,8 @@ You can also start the workflow by hand (Actions > Release > Run workflow) to bu
 
 When a job's secrets are missing it still builds, warns, and uploads a package that the store won't accept: the AAB
 is signed with a debug key, the IPA and PKG are unsigned. That keeps the workflow useful on forks and before the
-secrets exist. Without `MAPS_API_KEY` the Map sample on Android shows a message instead of a map.
+secrets exist. Without `MAPS_API_KEY` (Android) or `AZURE_MAPS_KEY` (Windows) the Map sample shows a message instead
+of a map.
 
 The Mac Catalyst job signs with a provisioning profile, which switches the app to
 `Platforms/MacCatalyst/Entitlements.AppStore.plist`: the sandbox entitlements plus the keychain access group that
@@ -72,7 +73,8 @@ base64 -i upload.keystore | pbcopy    # paste as ANDROID_KEYSTORE_BASE64
 
 For `MAPS_API_KEY`, create a key in the Google Cloud console with the Maps SDK for Android enabled, and restrict it to
 Android apps with the package name `com.jfversluis.mauigallery` and the SHA-1 of the **app signing** certificate
-(Play Console > Test and release > App integrity), plus your upload key's SHA-1 for testing.
+(Play Console > Test and release > App integrity), plus your upload key's SHA-1 for testing. Also restrict it to the
+**Maps SDK for Android** API only. See [Map keys and costs](#map-keys-and-costs).
 
 ### Apple (iOS and Mac Catalyst)
 
@@ -156,3 +158,21 @@ Certificates expire after a year and profiles when their certificate does: renew
    so bump `Version` for every Store submission.
 5. Store listing texts are in [store-listing.md](store-listing.md); the app collects no data
    ([privacy.md](privacy.md)). Declare the location, microphone and webcam capabilities the samples use.
+6. For the Map sample, add an `AZURE_MAPS_KEY` repository secret (see [Map keys and costs](#map-keys-and-costs)).
+   Without it the Windows map shows a message instead.
+
+## Map keys and costs
+
+Any key that ships inside an app can be read out of the package, so treat both map keys as public and limit what they
+can do rather than relying on keeping them secret.
+
+- **Google Maps (Android, `MAPS_API_KEY`).** The Maps SDK for Android has unlimited free map loads when no map ID is
+  used, which is how .NET MAUI's `Map` loads it. Google still requires a billing account on the project. Restrict the
+  key to the Android app (package name and certificate SHA-1s) **and** to the Maps SDK for Android API, so a copied key
+  can't call paid APIs. Add a budget alert in Cloud Billing as a safety net; budgets alert but don't stop spending.
+- **Azure Maps (Windows, `AZURE_MAPS_KEY`).** Create an Azure Maps account (Gen2 pricing) and copy its primary key
+  (Authentication). Base map tiles have a free monthly allowance (5,000 transactions of up to 15 tiles each), then
+  they're billed per 1,000 transactions; traffic has a smaller allowance. To rule out charges, put the account in a
+  subscription with a spending limit, such as a Visual Studio subscription's monthly Azure credit: Azure disables its
+  resources when the credit runs out instead of billing you. Otherwise, add a budget alert in Cost Management.
+

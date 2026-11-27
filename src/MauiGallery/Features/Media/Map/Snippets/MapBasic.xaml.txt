@@ -1,4 +1,4 @@
-<!-- MauiProgram.cs: builder.UseMauiApp<App>().UseMauiMaps(); -->
+<!-- MauiProgram.cs: builder.UseMauiApp<App>().UseMauiMaps(); keys: see the C# tab. -->
 <maps:Map
     xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
     x:Name="map"

@@ -35,15 +35,23 @@ public sealed partial class MapPage : SamplePage
         PinsExample.NativeTarget = PinsMap;
         ShapesExample.NativeTarget = ShapesMap;
 
-        var availability = MapAvailability.Check();
-        if (availability != MapAvailabilityState.Available)
+        if (DeviceInfo.Platform == DevicePlatform.WinUI)
         {
-            // Replace each map before it gets a handler: creating one would fail on Windows and show an empty grey
-            // map on Android without a key. The code stays, so the page still teaches the API.
+            // The Windows map (WinUI MapControl on Azure Maps) supports map types, traffic, regions and pins, but not
+            // everything these samples show.
+            UserExample.Notice = "On Windows, IsShowingUser does nothing: the map doesn't draw the user's location. Read it with Geolocation and add a Pin instead.";
+            PinsExample.Notice = "On Windows, pins have no labels or info windows, and MapClicked doesn't fire for taps on the map itself.";
+            ShapesExample.Notice = "On Windows, the map doesn't draw polylines, polygons or circles yet.";
+        }
+
+        if (MapAvailability.Check() != MapAvailabilityState.Available)
+        {
+            // Replace each map before it gets a handler: without a key, Android shows an empty grey map and Windows an
+            // empty one. The code stays, so the page still teaches the API.
             foreach (var (example, stage) in new[] { (BasicExample, BasicStage), (RegionExample, RegionStage), (UserExample, UserStage), (PinsExample, PinsStage), (ShapesExample, ShapesStage) })
             {
                 stage.Children.Clear();
-                stage.Children.Add(new MapUnavailableView(availability));
+                stage.Children.Add(new MapUnavailableView());
                 example.Options = null;
             }
 

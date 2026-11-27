@@ -28,7 +28,7 @@
             <!-- 1. Map type and gestures -->
             <ControlExample x:Name="BasicExample"
                             Title="Show a map"
-                            Description="Map renders Apple Maps on iOS and Mac and Google Maps on Android. MapType switches between street, satellite and hybrid imagery, and the Is…Enabled properties decide what the user can do with it. Give it a size: a map has no natural height."
+                            Description="Map renders Apple Maps on iOS and Mac, Google Maps on Android and Azure Maps on Windows. MapType switches between street, satellite and hybrid imagery, and the Is…Enabled properties decide what the user can do with it. Give it a size: a map has no natural height."
                             ShowStyleToggle="False"
                             XamlSource="MapBasic.xaml.txt"
                             CSharpSource="MapBasic.cs.txt">

@@ -1,16 +1,11 @@
 // MauiProgram.cs: builder.UseMauiApp<App>().UseMauiMaps();
 // Android: add your Google Maps API key to AndroidManifest.xml as
 // <meta-data android:name="com.google.android.geo.API_KEY" android:value="..." />
+// Windows: register your Azure Maps key in MauiProgram.cs with
+// builder.ConfigureEssentials(essentials => essentials.UseMapServiceToken("..."));
 using Microsoft.Maui.Controls.Maps;
 using Microsoft.Maui.Maps;
 using Map = Microsoft.Maui.Controls.Maps.Map;
-
-// .NET MAUI Maps has no Windows implementation: show something else there.
-if (DeviceInfo.Platform == DevicePlatform.WinUI)
-{
-    Content = new Label { Text = "Maps aren't available on Windows." };
-    return;
-}
 
 var map = new Map
 {

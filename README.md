@@ -92,9 +92,9 @@ to see them, or `--device <id>` to pick one. Running on a physical iPhone or iPa
 and a provisioning profile. In an IDE, open `MauiGallery.slnx`, pick a target and press <kbd>F5</kbd>.
 
 > [!NOTE]
-> The Map page uses Google Maps on Android, which needs your own API key: add `-p:MapsApiKey=<your key>` to the
-> Android command. Without a key, the page tells you so. iOS and macOS use Apple Maps and need no key. .NET MAUI has no
-> map control for Windows, so there the page explains that it isn't available.
+> The Map page needs a key on two platforms. Android uses Google Maps: add `-p:MapsApiKey=<your key>` to the Android
+> command. Windows uses Azure Maps: add `-p:AzureMapsKey=<your key>` to the Windows command. Without a key, the page
+> tells you what's missing. iOS and macOS use Apple Maps and need no key.
 
 ## Feedback and contributing
 

@@ -62,6 +62,18 @@
     <AndroidManifestPlaceholders>mapsApiKey=$(MapsApiKey)</AndroidManifestPlaceholders>
   </PropertyGroup>
 
+  <!--
+    Azure Maps key for the Map sample on Windows, where .NET MAUI Maps uses WinUI's MapControl. Same rules as above:
+    pass it with -p:AzureMapsKey=... or an AzureMapsKey environment variable (CI reads the AZURE_MAPS_KEY secret).
+    It's compiled into the app as assembly metadata, and MediaSamples registers it with UseMapServiceToken.
+  -->
+  <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' And '$(AzureMapsKey)' != ''">
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>AzureMapsKey</_Parameter1>
+      <_Parameter2>$(AzureMapsKey)</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
   <!-- Android edge-to-edge: let the Shell's app bar color fill the status bar area (opt-in in .NET 11). -->
   <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
     <RuntimeHostConfigurationOption Include="Microsoft.Maui.RuntimeFeature.UseMauiAndroidSystemBarBackgrounds" Value="true" Trim="true" />

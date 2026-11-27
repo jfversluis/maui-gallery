@@ -76,4 +76,7 @@ jobs:
         with:
           global-json-file: global.json
       - run: dotnet workload install maui
+      # The Map sample's Azure Maps key, like the Google Maps key above: from a secret, empty without it.
       - run: dotnet build ${{ env.APP_PROJECT }} -f net11.0-windows10.0.19041.0 --configuration Release
+        env:
+          AzureMapsKey: ${{ secrets.AZURE_MAPS_KEY }}

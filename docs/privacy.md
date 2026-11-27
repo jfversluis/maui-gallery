@@ -28,9 +28,9 @@ The app works offline. A few samples load content from the internet when you ope
 
 - The WebView sample shows public web pages, such as dotnet.microsoft.com and github.com.
 - The Image sample loads public pictures from raw.githubusercontent.com.
-- The Map sample shows map tiles from Apple Maps (iOS and Mac) or Google Maps (Android), and the Geocoding sample
-  uses the platform's address lookup. Those services receive the map area or the address you look up, as with any
-  maps app, under Apple's and Google's privacy policies.
+- The Map sample shows map tiles from Apple Maps (iOS and Mac), Google Maps (Android) or Azure Maps (Windows), and
+  the Geocoding sample uses the platform's address lookup. Those services receive the map area or the address you
+  look up, as with any maps app, under Apple's, Google's and Microsoft's privacy policies.
 
 These requests are ordinary web requests: the app doesn't add any information about you to them.
 

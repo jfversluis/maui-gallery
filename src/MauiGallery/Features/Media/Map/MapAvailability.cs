@@ -4,10 +4,9 @@ public enum MapAvailabilityState
 {
     Available,
 
-    /// <summary>.NET MAUI Maps has no Windows implementation.</summary>
-    NotSupported,
-
-    /// <summary>Android needs a Google Maps API key in the manifest, and this build has none.</summary>
+    /// <summary>
+    /// The platform's map service needs a key this build doesn't have: Google Maps on Android, Azure Maps on Windows.
+    /// </summary>
     MissingApiKey,
 }
 
@@ -16,16 +15,12 @@ public static partial class MapAvailability
 {
     public static MapAvailabilityState Check()
     {
-        if (DeviceInfo.Platform == DevicePlatform.WinUI)
-        {
-            return MapAvailabilityState.NotSupported;
-        }
-
         var hasApiKey = true;
         CheckApiKey(ref hasApiKey);
         return hasApiKey ? MapAvailabilityState.Available : MapAvailabilityState.MissingApiKey;
     }
 
-    // Implemented in Platforms/Android only: Apple Maps needs no key, so elsewhere the call compiles away.
+    // Implemented in Platforms/Android and Platforms/Windows only: Apple Maps needs no key, so on iOS and Mac the call
+    // compiles away.
     static partial void CheckApiKey(ref bool hasApiKey);
 }
