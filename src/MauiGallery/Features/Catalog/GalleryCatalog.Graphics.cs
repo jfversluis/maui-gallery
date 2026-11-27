@@ -117,7 +117,7 @@ public sealed partial class GalleryCatalog
                 new(GalleryPlatforms.Windows, "Composition geometric clip"),
             ],
             RelatedIds = ["paths", "transforms", "border"],
-            DocsUrl = new(DocsRoot + "user-interface/clip"),
+            DocsUrl = new(DocsRoot + "user-interface/controls/shapes/geometries#clip-with-a-geometry"),
             ApiUrl = new(ApiRoot + "microsoft.maui.controls.visualelement.clip"),
             SourceUrl = new(SourceRoot + "Controls/Graphics/Clipping"),
         },
