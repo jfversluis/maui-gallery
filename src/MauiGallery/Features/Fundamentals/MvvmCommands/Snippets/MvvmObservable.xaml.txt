@@ -1,6 +1,6 @@
 <Grid x:DataType="local:TipCalculatorViewModel" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
     <Label Text="Bill" />
-    <Entry Grid.Column="1" Text="{Binding BillText}" Keyboard="Numeric" />
+    <Entry Grid.Column="1" Text="{BillText}" Keyboard="Numeric" />
     <Label Grid.Row="1" Text="{$'Tip {TipPercent:0}%'}" />
     <Slider Grid.Row="1" Grid.Column="1" Maximum="30" Value="{TipPercent}" />
     <Label Grid.Row="2" Text="{$'{People:0} people'}" />

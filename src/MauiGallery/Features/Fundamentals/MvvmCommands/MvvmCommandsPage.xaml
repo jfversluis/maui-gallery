@@ -19,7 +19,7 @@
                       WidthRequest="{OnIdiom Phone=280, Default=340}">
                     <Label Text="Bill" VerticalOptions="Center" />
                     <Entry Grid.Column="1"
-                           Text="{Binding BillText}"
+                           Text="{BillText}"
                            Keyboard="Numeric"
                            SemanticProperties.Description="Bill amount"
                            AutomationId="sample-mvvm-bill" />
