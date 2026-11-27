@@ -104,7 +104,10 @@ public partial class AppShell : Shell
         if (FlyoutBehavior != behavior)
         {
             FlyoutBehavior = behavior;
-            FlyoutIsPresented = false;
+
+            // A flyout starts closed. A docked sidebar has to be presented: on Windows a closed pane in Locked mode
+            // shrinks to a strip of icons, which is what a window widened from Medium to Expanded showed.
+            FlyoutIsPresented = behavior == FlyoutBehavior.Locked;
         }
 
         // Shell copies the tab's TabBarIsVisible onto each page it shows and doesn't update that copy, so pages that are
