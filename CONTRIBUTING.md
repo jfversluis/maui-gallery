@@ -19,8 +19,10 @@ dotnet build src/MauiGallery -f net11.0-maccatalyst  # or -ios, -android, -windo
 The Map sample needs a key for Google Maps on Android and for Azure Maps on Windows. Never commit them: pass your own
 when you build, for example `dotnet build src/MauiGallery -f net11.0-android -p:MapsApiKey=<your key>` or
 `-f net11.0-windows10.0.19041.0 -p:AzureMapsKey=<your key>`, or set `MapsApiKey` / `AzureMapsKey` environment
-variables. Without a key the Map page says so instead of showing a map. CI reads the `MAPS_API_KEY` and
-`AZURE_MAPS_KEY` repository secrets. iOS and Mac use Apple Maps, which needs no key.
+variables. Without a key the Map page says so instead of showing a map; on Windows it also lets you paste a key while
+the app runs (Azure Maps reads it from `Platform.MapServiceToken`, so that works there; Google Maps only reads the
+manifest). CI reads the `MAPS_API_KEY` and `AZURE_MAPS_KEY` repository secrets. iOS and Mac use Apple Maps, which
+needs no key.
 
 ## Add a sample page
 

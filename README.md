@@ -93,8 +93,8 @@ and a provisioning profile. In an IDE, open `MauiGallery.slnx`, pick a target an
 
 > [!NOTE]
 > The Map page needs a key on two platforms. Android uses Google Maps: add `-p:MapsApiKey=<your key>` to the Android
-> command. Windows uses Azure Maps: add `-p:AzureMapsKey=<your key>` to the Windows command. Without a key, the page
-> tells you what's missing. iOS and macOS use Apple Maps and need no key.
+> command, or the page tells you it's missing. Windows uses Azure Maps: paste your own key on the Map page, or build
+> with `-p:AzureMapsKey=<your key>`. iOS and macOS use Apple Maps and need no key.
 
 ## Feedback and contributing
 

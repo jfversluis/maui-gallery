@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Globalization;
+using MauiGallery.DesignSystem.Components;
 using MauiGallery.Features.Samples;
 using Microsoft.Maui.Controls.Maps;
 using Microsoft.Maui.Maps;
@@ -46,18 +47,51 @@ public sealed partial class MapPage : SamplePage
 
         if (MapAvailability.Check() != MapAvailabilityState.Available)
         {
-            // Replace each map before it gets a handler: without a key, Android shows an empty grey map and Windows an
-            // empty one. The code stays, so the page still teaches the API.
-            foreach (var (example, stage) in new[] { (BasicExample, BasicStage), (RegionExample, RegionStage), (UserExample, UserStage), (PinsExample, PinsStage), (ShapesExample, ShapesStage) })
-            {
-                stage.Children.Clear();
-                stage.Children.Add(new MapUnavailableView());
-                example.Options = null;
-            }
-
+            HideMaps(services.Browser);
             return;
         }
 
+        InitializeMaps();
+    }
+
+    /// <summary>
+    /// Replaces each map before it gets a handler: without a key, Android shows an empty grey map and Windows an empty
+    /// one. The code stays, so the page still teaches the API. On Windows a pasted key brings the maps back.
+    /// </summary>
+    private void HideMaps(IBrowser browser)
+    {
+        (ControlExample Example, Grid Stage)[] examples =
+            [(BasicExample, BasicStage), (RegionExample, RegionStage), (UserExample, UserStage), (PinsExample, PinsStage), (ShapesExample, ShapesStage)];
+        var hidden = examples.Select(item => (item.Example, item.Stage, Maps: item.Stage.Children.ToArray(), item.Example.Options)).ToArray();
+        foreach (var (example, stage, _, _) in hidden)
+        {
+            var unavailable = new MapUnavailableView(browser);
+            unavailable.KeyApplied += OnKeyApplied;
+            stage.Children.Clear();
+            stage.Children.Add(unavailable);
+            example.Options = null;
+        }
+
+        void OnKeyApplied(object? sender, EventArgs e)
+        {
+            foreach (var (example, stage, maps, options) in hidden)
+            {
+                stage.Children.Clear();
+                foreach (var map in maps)
+                {
+                    stage.Children.Add(map);
+                }
+
+                example.Options = options;
+            }
+
+            InitializeMaps();
+            SemanticScreenReader.Announce("Maps are showing with your key.");
+        }
+    }
+
+    private void InitializeMaps()
+    {
         BasicMap.MoveToRegion(MapSpan.FromCenterAndRadius(Amsterdam, Distance.FromKilometers(3)), animated: false);
         UserMap.MoveToRegion(MapSpan.FromCenterAndRadius(Amsterdam, Distance.FromKilometers(3)), animated: false);
         PinsMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Location(52.3700, 4.8920), Distance.FromKilometers(1.6)), animated: false);

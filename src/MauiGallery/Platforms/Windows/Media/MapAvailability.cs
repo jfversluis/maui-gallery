@@ -11,5 +11,9 @@ public static partial class MapAvailability
         .GetCustomAttributes<AssemblyMetadataAttribute>()
         .FirstOrDefault(attribute => attribute.Key == "AzureMapsKey")?.Value;
 
-    static partial void CheckApiKey(ref bool hasApiKey) => hasApiKey = !string.IsNullOrWhiteSpace(AzureMapsKey);
+    // The build-time key (registered with UseMapServiceToken at startup) or one pasted on the Map page.
+    static partial void CheckApiKey(ref bool hasApiKey) =>
+        hasApiKey = !string.IsNullOrWhiteSpace(Microsoft.Maui.ApplicationModel.Platform.MapServiceToken);
+
+    static partial void SetRuntimeKey(string key) => Microsoft.Maui.ApplicationModel.Platform.MapServiceToken = key;
 }

@@ -1,6 +1,6 @@
 <ContentView x:Class="MauiGallery.Features.Media.MapUnavailableView"
              x:DataType="ContentView">
-    <!-- Gallery chrome, not a sample: explains why this build can't show the map. -->
+    <!-- Gallery chrome, not a sample: explains why this build can't show the map, and on Windows takes a key. -->
     <VerticalStackLayout Spacing="8"
                          Padding="16"
                          VerticalOptions="Center"
@@ -17,5 +17,34 @@
         <Label x:Name="MessageLabel"
                Style="{StaticResource TextBodySecondary}"
                HorizontalTextAlignment="Center" />
+
+        <VerticalStackLayout x:Name="KeyForm" Spacing="8" Margin="0,4,0,0" IsVisible="False">
+            <Border Padding="10,0"
+                    HeightRequest="38"
+                    StrokeShape="{StaticResource ShapeInput}"
+                    Stroke="{DynamicResource BrushOutline}"
+                    BackgroundColor="{DynamicResource ColorSurface}">
+                <BorderlessEntry x:Name="KeyEntry"
+                                 IsPassword="True"
+                                 Placeholder="Azure Maps key"
+                                 FontFamily="{StaticResource FontRegular}"
+                                 FontSize="14"
+                                 TextColor="{DynamicResource ColorTextPrimary}"
+                                 PlaceholderColor="{DynamicResource ColorTextTertiary}"
+                                 VerticalOptions="Center"
+                                 Completed="OnUseKey"
+                                 AutomationId="map-key-entry"
+                                 SemanticProperties.Description="Azure Maps key" />
+            </Border>
+            <Button Text="Show the map"
+                    Style="{StaticResource AccentButton}"
+                    Clicked="OnUseKey"
+                    AutomationId="map-key-apply" />
+            <Button Text="How to get a key"
+                    Style="{StaticResource LinkButton}"
+                    HorizontalOptions="Center"
+                    Clicked="OnHelpClicked"
+                    AutomationId="map-key-help" />
+        </VerticalStackLayout>
     </VerticalStackLayout>
 </ContentView>

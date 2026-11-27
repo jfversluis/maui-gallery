@@ -130,6 +130,9 @@ Certificates expire after a year and profiles when their certificate does: renew
 
 ### Google Play
 
+0. **Before building the release, set up the Google Maps key**: create it, restrict it as described under
+   [Map keys and costs](#map-keys-and-costs), and store it as the `MAPS_API_KEY` secret. Without it the Map sample on
+   Android shows a "needs an API key" message instead of a map.
 1. Create the app in the [Play Console](https://play.google.com/console) once: name ".NET MAUI Gallery", app, free.
    Opt in to Play App Signing (the default), and register your upload key when asked.
 2. Complete App content: privacy policy URL (above), ads (no ads), app access (no login needed), content rating
@@ -158,8 +161,8 @@ Certificates expire after a year and profiles when their certificate does: renew
    so bump `Version` for every Store submission.
 5. Store listing texts are in [store-listing.md](store-listing.md); the app collects no data
    ([privacy.md](privacy.md)). Declare the location, microphone and webcam capabilities the samples use.
-6. For the Map sample, add an `AZURE_MAPS_KEY` repository secret (see [Map keys and costs](#map-keys-and-costs)).
-   Without it the Windows map shows a message instead.
+6. The Map sample ships without an Azure Maps key: on Windows it asks people to paste their own, which it keeps in
+   memory only. To ship one anyway, add an `AZURE_MAPS_KEY` secret (see [Map keys and costs](#map-keys-and-costs)).
 
 ## Map keys and costs
 
@@ -170,7 +173,8 @@ can do rather than relying on keeping them secret.
   used, which is how .NET MAUI's `Map` loads it. Google still requires a billing account on the project. Restrict the
   key to the Android app (package name and certificate SHA-1s) **and** to the Maps SDK for Android API, so a copied key
   can't call paid APIs. Add a budget alert in Cloud Billing as a safety net; budgets alert but don't stop spending.
-- **Azure Maps (Windows, `AZURE_MAPS_KEY`).** Create an Azure Maps account (Gen2 pricing) and copy its primary key
+- **Azure Maps (Windows, `AZURE_MAPS_KEY`, optional).** Store builds leave it out: the Map page lets people paste their
+  own key. If you do ship one, create an Azure Maps account (Gen2 pricing) and copy its primary key
   (Authentication). Base map tiles have a free monthly allowance (5,000 transactions of up to 15 tiles each), then
   they're billed per 1,000 transactions; traffic has a smaller allowance. To rule out charges, put the account in a
   subscription with a spending limit, such as a Visual Studio subscription's monthly Azure credit: Azure disables its
