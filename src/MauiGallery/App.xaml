@@ -3,9 +3,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!-- ThemeService adds LightTheme or DarkTheme at startup. -->
-                <tokens:Metrics xmlns:tokens="clr-namespace:MauiGallery.DesignSystem.Tokens" />
-                <tokens:Typography xmlns:tokens="clr-namespace:MauiGallery.DesignSystem.Tokens" />
-                <styles:Chrome xmlns:styles="clr-namespace:MauiGallery.DesignSystem.Styles" />
+                <Metrics />
+                <Typography />
+                <Chrome />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

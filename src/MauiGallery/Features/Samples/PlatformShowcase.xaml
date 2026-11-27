@@ -1,7 +1,6 @@
 <ContentView x:Class="MauiGallery.Features.Samples.PlatformShowcase"
-             xmlns:behaviors="clr-namespace:MauiGallery.DesignSystem.Behaviors"
              x:DataType="SamplePageViewModel"
-             IsVisible="{Binding Item.HasPlatformShots}">
+             IsVisible="{Item.HasPlatformShots}">
     <ContentView.Resources>
         <!-- 2x2 on phones and medium windows, one row of four when expanded. -->
         <Style x:Key="PlatformTiles" TargetType="AdaptiveGrid">
@@ -29,7 +28,7 @@
                     </VisualStateGroup>
                 </VisualStateGroupList>
             </Setter>
-            <Setter Property="behaviors:WindowSizeStates.IsEnabled" Value="True" />
+            <Setter Property="WindowSizeStates.IsEnabled" Value="True" />
         </Style>
         <Style x:Key="PlatformTile" TargetType="Border">
             <Setter Property="BackgroundColor" Value="{DynamicResource ColorSurface}" />
@@ -55,8 +54,8 @@
                 <DataTemplate x:DataType="PlatformShotTile">
                     <!-- One accessible element per tile: the description names the platform and its native control. -->
                     <Border Style="{StaticResource PlatformTile}"
-                            SemanticProperties.Description="{Binding Description}"
-                            ToolTipProperties.Text="{Binding Description}">
+                            SemanticProperties.Description="{Description}"
+                            ToolTipProperties.Text="{Description}">
                         <Border.Triggers>
                             <DataTrigger TargetType="Border" Binding="{Binding IsCurrent}" Value="True">
                                 <Setter Property="Stroke" Value="{DynamicResource BrushAccent}" />
@@ -65,12 +64,12 @@
                         </Border.Triggers>
                         <Grid RowDefinitions="*,Auto" AutomationProperties.ExcludedWithChildren="True">
                             <!-- The screenshot: transparent, on the stage color, at the size the platform drew it. -->
-                            <Grid MinimumHeightRequest="{Binding WellHeight}"
+                            <Grid MinimumHeightRequest="{WellHeight}"
                                   Padding="{StaticResource Space12}"
                                   BackgroundColor="{DynamicResource ColorStage}">
                                 <Image Source="{Binding Image}"
-                                       WidthRequest="{Binding DisplayWidth}"
-                                       HeightRequest="{Binding DisplayHeight}"
+                                       WidthRequest="{DisplayWidth}"
+                                       HeightRequest="{DisplayHeight}"
                                        Aspect="AspectFit"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center" />
@@ -78,24 +77,24 @@
                                        Style="{StaticResource TextCaption}"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center"
-                                       IsVisible="{Binding IsMissing}" />
+                                       IsVisible="{IsMissing}" />
                             </Grid>
                             <BoxView Grid.Row="1" Style="{StaticResource Divider}" VerticalOptions="Start" />
                             <VerticalStackLayout Grid.Row="1" Padding="12,10" Spacing="2">
                                 <FlexLayout Wrap="Wrap" AlignItems="Center">
-                                    <Label Text="{Binding PlatformName}"
+                                    <Label Text="{PlatformName}"
                                            Style="{StaticResource TextBodyStrong}"
                                            Margin="0,0,6,0" />
-                                    <Border Style="{StaticResource ThisDevicePill}" IsVisible="{Binding IsCurrent}">
+                                    <Border Style="{StaticResource ThisDevicePill}" IsVisible="{IsCurrent}">
                                         <Label Text="This device"
                                                Style="{StaticResource TextCaptionStrong}"
                                                TextColor="{DynamicResource ColorAccentText}" />
                                     </Border>
                                 </FlexLayout>
-                                <Label Text="{Binding NativeType}"
+                                <Label Text="{NativeType}"
                                        Style="{StaticResource TextCaption}"
                                        FontFamily="{StaticResource FontCode}"
-                                       IsVisible="{Binding HasNativeType}" />
+                                       IsVisible="{HasNativeType}" />
                             </VerticalStackLayout>
                         </Grid>
                     </Border>

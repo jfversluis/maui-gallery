@@ -1,12 +1,11 @@
 <ContentView x:Class="MauiGallery.Features.Samples.RelatedItems"
-             xmlns:catalog="clr-namespace:MauiGallery.Core.Catalog;assembly=MauiGallery.Core"
              x:DataType="SamplePageViewModel"
-             IsVisible="{Binding HasRelated}">
+             IsVisible="{HasRelated}">
     <VerticalStackLayout Spacing="12" Padding="0,16,0,0">
         <SectionHeader Title="Related" />
-        <AdaptiveGrid MinItemWidth="280" BindableLayout.ItemsSource="{Binding Related}">
+        <AdaptiveGrid MinItemWidth="280" BindableLayout.ItemsSource="{Related}">
             <BindableLayout.ItemTemplate>
-                <DataTemplate x:DataType="catalog:GalleryItem">
+                <DataTemplate x:DataType="GalleryItem">
                     <ItemCard Command="{Binding OpenItemCommand, Source={RelativeSource AncestorType={x:Type SamplePageViewModel}}, x:DataType=SamplePageViewModel}" />
                 </DataTemplate>
             </BindableLayout.ItemTemplate>

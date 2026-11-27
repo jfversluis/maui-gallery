@@ -1,22 +1,19 @@
 <ContentView x:Class="MauiGallery.Features.Chrome.SidebarView"
-             xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-             xmlns:local="clr-namespace:MauiGallery.Features.Chrome"
-             xmlns:behaviors="clr-namespace:MauiGallery.DesignSystem.Behaviors"
-             x:DataType="local:SidebarViewModel"
+             x:DataType="SidebarViewModel"
              BackgroundColor="{DynamicResource ColorSidebar}">
     <ContentView.Resources>
-        <DataTemplate x:Key="EntryTemplate" x:DataType="local:SidebarEntry">
+        <DataTemplate x:Key="EntryTemplate" x:DataType="SidebarEntry">
             <Border x:Name="Row"
                     Padding="10,0"
                     HeightRequest="38"
                     StrokeThickness="0"
                     StrokeShape="{StaticResource ShapeInput}"
                     BackgroundColor="Transparent"
-                    AutomationId="{Binding AutomationId}"
-                    behaviors:Hover.Background="ColorSurfaceHover"
-                    SemanticProperties.Description="{Binding Title}">
+                    AutomationId="{.AutomationId}"
+                    Hover.Background="ColorSurfaceHover"
+                    SemanticProperties.Description="{Title}">
                 <Border.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding NavigateCommand, Source={RelativeSource AncestorType={x:Type local:SidebarViewModel}}, x:DataType=local:SidebarViewModel}"
+                    <TapGestureRecognizer Command="{Binding NavigateCommand, Source={RelativeSource AncestorType={x:Type SidebarViewModel}}, x:DataType=SidebarViewModel}"
                                           CommandParameter="{Binding .}" />
                 </Border.GestureRecognizers>
                 <Border.Triggers>
@@ -30,9 +27,9 @@
                              CornerRadius="2"
                              Color="{DynamicResource ColorAccent}"
                              VerticalOptions="Center"
-                             IsVisible="{Binding IsSelected}" />
+                             IsVisible="{IsSelected}" />
                     <Label Grid.Column="1"
-                           Text="{Binding Glyph}"
+                           Text="{Glyph}"
                            Style="{StaticResource TextIcon}"
                            TextColor="{DynamicResource ColorTextSecondary}">
                         <Label.Triggers>
@@ -42,7 +39,7 @@
                         </Label.Triggers>
                     </Label>
                     <Label Grid.Column="2"
-                           Text="{Binding Title}"
+                           Text="{Title}"
                            Style="{StaticResource TextBody}"
                            FontSize="14"
                            VerticalTextAlignment="Center"
@@ -88,7 +85,7 @@
                 Stroke="{DynamicResource BrushOutline}"
                 BackgroundColor="{DynamicResource ColorSurface}">
             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
-                <Label Text="{x:Static icons:FluentIconsRegular.Search24}"
+                <Label Text="{x:Static FluentIconsRegular.Search24}"
                        Style="{StaticResource TextIcon}"
                        FontSize="{StaticResource IconSizeSmall}"
                        TextColor="{DynamicResource ColorTextTertiary}" />
@@ -133,26 +130,26 @@
         <ScrollView x:Name="NavScroll" Grid.Row="2" Margin="0,4,0,0">
             <Grid>
                 <!-- Navigation -->
-                <VerticalStackLayout x:Name="NavItems" Spacing="2" IsVisible="{Binding IsSearching, Converter={StaticResource InvertedBool}}">
-                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding TopEntries}"
+                <VerticalStackLayout x:Name="NavItems" Spacing="2" IsVisible="{!IsSearching}">
+                    <VerticalStackLayout BindableLayout.ItemsSource="{TopEntries}"
                                          BindableLayout.ItemTemplate="{StaticResource EntryTemplate}"
                                          Spacing="2" />
-                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Groups}" Spacing="2" Margin="0,8,0,0">
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Groups}" Spacing="2" Margin="0,8,0,0">
                         <BindableLayout.ItemTemplate>
-                            <DataTemplate x:DataType="local:SidebarGroup">
+                            <DataTemplate x:DataType="SidebarGroup">
                                 <VerticalStackLayout Spacing="2">
                                     <Grid ColumnDefinitions="*,Auto"
                                           Padding="12,12,8,4"
-                                          AutomationId="{Binding Category.Id, StringFormat='nav-group-{0}'}"
-                                          SemanticProperties.Description="{Binding Category.Title}"
+                                          AutomationId="{$'nav-group-{Category.Id}'}"
+                                          SemanticProperties.Description="{Category.Title}"
                                           SemanticProperties.HeadingLevel="Level2">
                                         <Grid.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding ToggleGroupCommand, Source={RelativeSource AncestorType={x:Type local:SidebarViewModel}}, x:DataType=local:SidebarViewModel}"
+                                            <TapGestureRecognizer Command="{Binding ToggleGroupCommand, Source={RelativeSource AncestorType={x:Type SidebarViewModel}}, x:DataType=SidebarViewModel}"
                                                                   CommandParameter="{Binding .}" />
                                         </Grid.GestureRecognizers>
-                                        <Label Text="{Binding Category.Title}" Style="{StaticResource TextOverline}" />
+                                        <Label Text="{Category.Title}" Style="{StaticResource TextOverline}" />
                                         <Label Grid.Column="1"
-                                               Text="{x:Static icons:FluentIconsRegular.ChevronDown24}"
+                                               Text="{x:Static FluentIconsRegular.ChevronDown24}"
                                                Style="{StaticResource TextIcon}"
                                                FontSize="12"
                                                TextColor="{DynamicResource ColorTextTertiary}">
@@ -163,9 +160,9 @@
                                             </Label.Triggers>
                                         </Label>
                                     </Grid>
-                                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Entries}"
+                                    <VerticalStackLayout BindableLayout.ItemsSource="{Entries}"
                                                          BindableLayout.ItemTemplate="{StaticResource EntryTemplate}"
-                                                         IsVisible="{Binding IsExpanded}"
+                                                         IsVisible="{IsExpanded}"
                                                          Spacing="2" />
                                 </VerticalStackLayout>
                             </DataTemplate>
@@ -174,15 +171,15 @@
                 </VerticalStackLayout>
 
                 <!-- Search results -->
-                <VerticalStackLayout Spacing="2" IsVisible="{Binding IsSearching}">
+                <VerticalStackLayout Spacing="2" IsVisible="{IsSearching}">
                     <Label Text="Results" Style="{StaticResource TextOverline}" Padding="12,4,0,4" />
-                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding SearchResults}"
+                    <VerticalStackLayout BindableLayout.ItemsSource="{SearchResults}"
                                          BindableLayout.ItemTemplate="{StaticResource EntryTemplate}"
                                          Spacing="2" />
                     <Label Text="No matches. Try another word."
                            Style="{StaticResource TextCaption}"
                            Padding="12,4"
-                           IsVisible="{Binding HasNoResults}" />
+                           IsVisible="{HasNoResults}" />
                 </VerticalStackLayout>
             </Grid>
         </ScrollView>
@@ -190,7 +187,7 @@
         <!-- Footer -->
         <VerticalStackLayout Grid.Row="3" Spacing="8">
             <BoxView Style="{StaticResource Divider}" />
-            <VerticalStackLayout BindableLayout.ItemsSource="{Binding FooterEntries}"
+            <VerticalStackLayout BindableLayout.ItemsSource="{FooterEntries}"
                                  BindableLayout.ItemTemplate="{StaticResource EntryTemplate}" />
         </VerticalStackLayout>
     </Grid>

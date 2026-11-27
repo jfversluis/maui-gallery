@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- Keyed chrome styles. Never add implicit styles here: samples must render with platform defaults. -->
-<ResourceDictionary x:Class="MauiGallery.DesignSystem.Styles.Chrome"
-                    xmlns:behaviors="clr-namespace:MauiGallery.DesignSystem.Behaviors">
+<ResourceDictionary x:Class="MauiGallery.DesignSystem.Styles.Chrome">
 
     <IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmpty" />
     <RoundedConverter x:Key="Rounded" />
@@ -48,7 +47,7 @@
             </VisualStateGroupList>
         </Setter>
         <!-- States follow the window width; see WindowSizeStates for why this is not an AdaptiveTrigger. -->
-        <Setter Property="behaviors:WindowSizeStates.IsEnabled" Value="True" />
+        <Setter Property="WindowSizeStates.IsEnabled" Value="True" />
     </Style>
 
     <Style x:Key="OptionLabel" TargetType="Label" BasedOn="{StaticResource TextCaptionStrong}">
@@ -66,7 +65,7 @@
 
     <!-- A card that reacts to pointer hover and press, for navigation tiles. -->
     <Style x:Key="InteractiveCard" TargetType="Border" BasedOn="{StaticResource Card}">
-        <Setter Property="behaviors:Hover.Background" Value="ColorSurfaceAlt" />
+        <Setter Property="Hover.Background" Value="ColorSurfaceAlt" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -123,7 +122,7 @@
         <!-- Phones: 44 pt is Apple's minimum touch target, 48 dp is Android's. -->
         <Setter Property="WidthRequest" Value="{OnIdiom Phone={OnPlatform Android=48, Default=44}, Default=36}" />
         <Setter Property="HeightRequest" Value="{OnIdiom Phone={OnPlatform Android=48, Default=44}, Default=36}" />
-        <Setter Property="behaviors:Hover.Background" Value="ColorSurfaceHover" />
+        <Setter Property="Hover.Background" Value="ColorSurfaceHover" />
     </Style>
 
     <!-- Buttons placed on the brand gradient. -->
