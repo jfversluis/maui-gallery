@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.StatusAndInfo.ActivityIndicatorPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.StatusAndInfo"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -59,7 +58,7 @@
                             XamlSource="ActivityIndicatorLoading.xaml.txt"
                             CSharpSource="ActivityIndicatorLoading.cs.txt">
                 <VerticalStackLayout x:Name="LoadSample"
-                                     x:DataType="local:ActivityIndicatorForecastViewModel"
+                                     x:DataType="ActivityIndicatorForecastViewModel"
                                      Spacing="12"
                                      WidthRequest="240">
                     <Button Text="Refresh forecast"
@@ -70,7 +69,7 @@
                                        IsRunning="{Binding RefreshCommand.IsRunning}"
                                        SemanticProperties.Description="Loading the forecast"
                                        AutomationId="sample-load-indicator" />
-                    <Label Text="{Binding Status}"
+                    <Label Text="{Status}"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
                            AutomationId="sample-load-status" />

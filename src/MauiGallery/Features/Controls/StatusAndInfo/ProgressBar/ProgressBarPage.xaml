@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.StatusAndInfo.ProgressBarPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.StatusAndInfo"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -106,14 +105,14 @@
                             XamlSource="ProgressBarDownload.xaml.txt"
                             CSharpSource="ProgressBarDownload.cs.txt">
                 <VerticalStackLayout x:Name="DownloadSample"
-                                     x:DataType="local:ProgressBarDownloadViewModel"
+                                     x:DataType="ProgressBarDownloadViewModel"
                                      Spacing="12"
                                      WidthRequest="280">
                     <ProgressBar x:Name="DownloadBar"
-                                 Progress="{Binding Progress}"
+                                 Progress="{Progress}"
                                  SemanticProperties.Description="Download progress"
                                  AutomationId="sample-download-progress" />
-                    <Label Text="{Binding Status}" HorizontalOptions="Center" AutomationId="sample-download-status" />
+                    <Label Text="{Status}" HorizontalOptions="Center" AutomationId="sample-download-status" />
                     <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
                         <Button Text="Download" Command="{Binding DownloadCommand}" AutomationId="sample-download-start" />
                         <Button Text="Cancel" Command="{Binding CancelCommand}" AutomationId="sample-download-cancel" />

@@ -1,6 +1,6 @@
 <VerticalStackLayout x:DataType="local:DownloadViewModel" Spacing="12">
-    <ProgressBar Progress="{Binding Progress}" />
-    <Label Text="{Binding Status}" />
+    <ProgressBar Progress="{Progress}" />
+    <Label Text="{Status}" />
     <HorizontalStackLayout Spacing="12">
         <Button Text="Download" Command="{Binding DownloadCommand}" />
         <Button Text="Cancel" Command="{Binding CancelCommand}" />
