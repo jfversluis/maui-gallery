@@ -4,6 +4,7 @@ name: Windows UI
 # light and dark at compact, medium and expanded widths, and uploads the screenshots, logs and diagnostics.
 # With mode "platform-shots" (or a push whose commit message contains [platform-shots]) it captures the
 # "Same code, every platform" images instead (see eng/platform-shots) and uploads them normalized, ready to commit.
+# A second job publishes the Release MSIX like release.yml does and checks that the Release build starts.
 # Runs on GitHub-hosted windows-latest by default. To use a self-hosted machine (see docs/windows-validation.md),
 # pick its label in the run dialog or set the WINDOWS_UI_RUNNER repository variable to it, e.g. windows-ui.
 
@@ -165,5 +166,87 @@ jobs:
         with:
           name: windows-ui-${{ github.run_number }}-${{ github.run_attempt }}
           path: ${{ env.OUT_DIR }}
+          if-no-files-found: warn
+          retention-days: 14
+
+  # The store pipeline on Windows: publishes the Release build unpackaged and checks that it starts and keeps running,
+  # then publishes the Release MSIX with the same arguments as release.yml. Runs next to the Debug crawl.
+  release:
+    name: Release publish and smoke test
+    if: inputs.mode != 'platform-shots' && !contains(github.event.head_commit.message, '[platform-shots]')
+    runs-on: windows-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      RELEASE_DIR: ${{ github.workspace }}/windows-release
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+
+      - run: dotnet workload install maui
+
+      # An unsigned MSIX can't be installed here, so the smoke test runs the same Release build unpackaged.
+      - name: Publish unpackaged
+        run: |
+          dotnet publish $env:APP_PROJECT -f $env:WINDOWS_TFM -c Release -p:RuntimeIdentifier=win-x64 `
+            -p:WindowsPackageType=None -p:WindowsAppSDKSelfContained=true
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $exe = Get-ChildItem "src/MauiGallery/bin/Release/$env:WINDOWS_TFM/win-x64/publish" -Filter MauiGallery.exe | Select-Object -First 1
+          if (-not $exe) { throw 'MauiGallery.exe not found' }
+          "APP_PATH=$($exe.FullName)" >> $env:GITHUB_ENV
+
+      - name: Start the app and keep it running for 20 seconds
+        run: |
+          New-Item -ItemType Directory -Force -Path $env:RELEASE_DIR | Out-Null
+          $sw = [Diagnostics.Stopwatch]::StartNew()
+          $app = Start-Process -FilePath $env:APP_PATH -PassThru
+          while (-not $app.HasExited -and $app.MainWindowHandle -eq 0 -and $sw.Elapsed.TotalSeconds -lt 60) {
+              Start-Sleep -Milliseconds 100
+              $app.Refresh()
+          }
+          $window = [int]$sw.Elapsed.TotalMilliseconds
+          Start-Sleep -Seconds 20
+          $app.Refresh()
+          Add-Type -AssemblyName System.Windows.Forms, System.Drawing
+          $bounds = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+          $bitmap = New-Object System.Drawing.Bitmap $bounds.Width, $bounds.Height
+          [System.Drawing.Graphics]::FromImage($bitmap).CopyFromScreen($bounds.Location, [System.Drawing.Point]::Empty, $bounds.Size)
+          $bitmap.Save("$env:RELEASE_DIR/release-smoke.png")
+          if ($app.HasExited) {
+              "- :x: The Release app exited with code $($app.ExitCode)" >> $env:GITHUB_STEP_SUMMARY
+              Get-WinEvent -LogName Application -MaxEvents 30 -ErrorAction SilentlyContinue |
+                  Where-Object { $_.LevelDisplayName -eq 'Error' } |
+                  Format-List TimeCreated, ProviderName, Message | Out-File "$env:RELEASE_DIR/events.txt"
+              exit 1
+          }
+          "- Release app: main window after $window ms, still running after 20 s" >> $env:GITHUB_STEP_SUMMARY
+          Stop-Process -Id $app.Id
+
+      - name: Publish the MSIX (as release.yml)
+        run: |
+          # Packaged and unpackaged builds share bin/ and obj/; start from a clean tree.
+          Remove-Item -Recurse -Force src/MauiGallery/bin/Release, src/MauiGallery/obj/Release -ErrorAction SilentlyContinue
+          $sw = [Diagnostics.Stopwatch]::StartNew()
+          dotnet publish $env:APP_PROJECT -f $env:WINDOWS_TFM -c Release -p:RuntimeIdentifier=win-x64 `
+            -p:WindowsPackageType=MSIX -p:GenerateAppxPackageOnBuild=true -p:AppxPackageSigningEnabled=false `
+            -p:AppxPackageDir="$env:RELEASE_DIR/msix/"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $msix = Get-ChildItem "$env:RELEASE_DIR/msix" -Recurse -Filter 'MauiGallery_*.msix' | Select-Object -First 1
+          if (-not $msix) { throw 'No MSIX was produced' }
+          "### Release MSIX`n- $($msix.Name): $([math]::Round($msix.Length / 1MB, 1)) MB, built in $([int]$sw.Elapsed.TotalSeconds) s" >> $env:GITHUB_STEP_SUMMARY
+
+      - name: Upload the results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-release-${{ github.run_number }}-${{ github.run_attempt }}
+          path: |
+            ${{ env.RELEASE_DIR }}/*.png
+            ${{ env.RELEASE_DIR }}/*.txt
           if-no-files-found: warn
           retention-days: 14
