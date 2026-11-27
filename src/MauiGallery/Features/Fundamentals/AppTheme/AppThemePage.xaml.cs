@@ -23,21 +23,15 @@ public sealed partial class AppThemePage : SamplePage
     private void OnLoaded(object? sender, EventArgs e)
     {
         _application = Application.Current;
-        if (_application is not null)
-        {
-            _application.RequestedThemeChanged += OnRequestedThemeChanged;
-        }
+        _application?.RequestedThemeChanged += OnRequestedThemeChanged;
 
         ShowThemes();
     }
 
     private void OnUnloaded(object? sender, EventArgs e)
     {
-        if (_application is not null)
-        {
-            _application.RequestedThemeChanged -= OnRequestedThemeChanged;
-            _application = null;
-        }
+        _application?.RequestedThemeChanged -= OnRequestedThemeChanged;
+        _application = null;
     }
 
     private void OnRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
