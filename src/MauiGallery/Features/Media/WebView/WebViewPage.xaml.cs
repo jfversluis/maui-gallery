@@ -27,6 +27,7 @@ public sealed partial class WebViewPage : SamplePage
         UrlExample.NativeTarget = UrlWebView;
         HtmlExample.NativeTarget = HtmlWebView;
         ScriptExample.NativeTarget = ScriptWebView;
+        ConfigurePlatform();
 
         OnUrlAddressChanged(this, EventArgs.Empty);
         OnUrlExternalToggled(this, new ToggledEventArgs(UrlExternal.IsToggled));
@@ -150,4 +151,7 @@ public sealed partial class WebViewPage : SamplePage
         ScriptResult.Text = $"Result: {result}";
         ScriptExample.Output = $"EvaluateJavaScriptAsync(\"{script}\") returned \"{result}\"";
     }
+
+    /// <summary>Platform workarounds, applied before the web views are created (see Platforms/Windows).</summary>
+    partial void ConfigurePlatform();
 }
