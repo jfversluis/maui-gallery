@@ -440,7 +440,10 @@ public partial class ControlExample : ContentView
     private void OnRtlClicked(object? sender, EventArgs e)
     {
         var rtl = StageHost.FlowDirection != FlowDirection.RightToLeft;
-        StageHost.FlowDirection = rtl ? FlowDirection.RightToLeft : FlowDirection.MatchParent;
+
+        // Explicitly LeftToRight, not back to MatchParent: on iOS and Mac Catalyst, .NET MAUI only passes an explicit
+        // direction on to child views, so after MatchParent the sample would keep its inherited right-to-left layout.
+        StageHost.FlowDirection = rtl ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
         RtlButton.Text = rtl ? "RTL" : "LTR";
         RtlButton.Style = (Style)Resources[rtl ? "SegmentButtonSelected" : "SegmentButton"];
         SemanticProperties.SetDescription(RtlButton, rtl ? "Layout direction: right to left" : "Layout direction: left to right");
