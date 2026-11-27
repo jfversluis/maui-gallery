@@ -23,7 +23,8 @@ on:
         description: crawl, or platform-shots to capture the "Same code, every platform" images
         default: crawl
   push:
-    branches: [jfversluis-maui-gallery-build-windows]
+    # One branch per agent or person (jfversluis-maui-gallery-build-windows-<name>), so runs don't cancel each other.
+    branches: [jfversluis-maui-gallery-build-windows, 'jfversluis-maui-gallery-build-windows-*']
     paths:
       - src/MauiGallery/**
       - .github/workflows/windows-ui.yml
