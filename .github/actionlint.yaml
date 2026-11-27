@@ -1,0 +1,5 @@
+# Configuration for actionlint (https://github.com/rhysd/actionlint): `actionlint` from the repo root checks every workflow.
+self-hosted-runner:
+  labels:
+    # The GitHub-hosted runner with Xcode 27 that the iOS and Mac Catalyst jobs use; actionlint doesn't know it yet.
+    - xcode-27
