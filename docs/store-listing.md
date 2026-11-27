@@ -24,6 +24,10 @@ them; the Google Play texts don't mention Apple platforms either.
 
 ## App Store and Mac App Store
 
+The same texts are in [`eng/release/app-store/metadata/en-US`](../eng/release/app-store/metadata/en-US), one file per
+field, for the App Store listing workflow ([releasing.md](releasing.md#apple-screenshots-and-texts-optional)). Change
+both together.
+
 **Subtitle** (30 characters max)
 
 > Every control, live and native
@@ -98,7 +102,9 @@ Use the App Store description above, with these changes:
   on iPhone it fits in one hand." with "On tablets and foldables the gallery uses a sidebar; on phones it fits in one
   hand."
 
-**Release notes for 1.0**: the "What's new in 1.0" text above.
+**Release notes for 1.0**: the "What's new in 1.0" text above. The Release workflow uploads them from
+[`eng/release/whatsnew/whatsnew-en-US`](../eng/release/whatsnew/whatsnew-en-US) (500 characters max), so update that
+file with each version.
 
 **Graphics**: app icon 512×512 (render `src/MauiGallery/Resources/AppIcon` at 512 px), feature graphic 1024×500
 (the brand gradient with the icon mark and the app name), phone screenshots from the store screenshot set.
@@ -138,6 +144,10 @@ address lookups go to Apple's own services, like in any app that shows a map.
 - Do you provide a way for users to request that their data is deleted? Not applicable: nothing is stored off the
   device; uninstalling removes everything.
 
+Before submitting, check the Map sample: on Android it uses Google's Maps SDK, which
+[collects request metadata, an SDK identifier, the IP address and crash data](https://developers.google.com/maps/documentation/android-sdk/play-data-disclosure)
+on its own. Decide whether the form and the privacy policy must declare that.
+
 Google's guidance: data processed only on the device, and data sent to a service only to fulfil a request in real
 time without being stored, isn't "collected". Location in the Geolocation, Geocoding and Map samples is shown on
 screen only; geocoding goes to the platform's geocoder.
@@ -164,7 +174,9 @@ system picker).
 
 ## Screenshots
 
-Captured from the running app with DevFlow, without device frames:
+Captured from the running app with DevFlow, without device frames. The App Store and Mac sets are in
+[`eng/release/app-store/screenshots`](../eng/release/app-store/screenshots), where the listing workflow uploads them
+from:
 
 | Store | Device class | Size |
 | --- | --- | --- |
@@ -172,6 +184,7 @@ Captured from the running app with DevFlow, without device frames:
 | App Store | iPad 13" | 2064×2752 |
 | Mac App Store | Mac | 2880×1800 |
 | Google Play | Phone (Pixel 10) | 1080×2424 |
+| Microsoft Store | Desktop | 1366×768 or larger, 1920×1080 recommended (not captured yet) |
 
 The pages name each control's native type on every platform (for example "Android · RecyclerView"), and App Review
 guideline 2.3.10 discourages other platforms' names in App Store screenshots. The App Store shots therefore start at
