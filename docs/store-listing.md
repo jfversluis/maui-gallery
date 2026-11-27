@@ -1,8 +1,7 @@
 # Store listing
 
-Texts and answers for the App Store, Mac App Store and Google Play. The Microsoft Store listing can reuse the Google
-Play texts. See [releasing.md](releasing.md) for how to build and upload, and [privacy.md](privacy.md) for the
-privacy policy.
+Texts and answers for the App Store, Mac App Store, Google Play and the Microsoft Store. See
+[releasing.md](releasing.md) for how to build and upload, and [privacy.md](privacy.md) for the privacy policy.
 
 Apple doesn't allow other platforms' names (such as Android) in App Store metadata, so the App Store texts avoid
 them; the Google Play texts don't mention Apple platforms either.
@@ -111,6 +110,43 @@ file with each version.
 **Graphics**: app icon 512×512 (render `src/MauiGallery/Resources/AppIcon` at 512 px), feature graphic 1024×500
 (the brand gradient with the icon mark and the app name), phone screenshots from the store screenshot set.
 
+## Microsoft Store
+
+**Description**: the App Store description, with "haptics, " removed from Platform APIs and "On iPad and Mac the
+gallery uses a sidebar and multiple windows; on iPhone it fits in one hand." replaced with "On a PC the gallery uses
+a sidebar, a menu bar, keyboard shortcuts and multiple windows, and its layout adapts as you resize the window."
+
+**Short description**
+
+> Explore .NET MAUI controls, layouts and APIs running as real WinUI controls. Change their options live, watch the
+> XAML and C# update, and copy the code into your own app.
+
+**Product features**
+
+- Over 100 interactive samples of .NET MAUI controls, layouts, graphics, navigation and APIs
+- Every sample is a real WinUI control, with a badge that names the native view behind it
+- Change each sample's options live and watch its XAML and C# update to match
+- Copy the code straight into your own app
+- Compare the platform's default look with a styled one, and try right-to-left layouts
+- Light and dark themes, and a layout that adapts as you resize the window
+- Search, favorites, recent pages, a menu bar, keyboard shortcuts and multiple windows
+- Open source: browse the code and contribute on GitHub
+
+**Other fields**: short title "MAUI Gallery"; keywords ".NET MAUI", "XAML", "C#", "UI controls", "code samples",
+"cross-platform", "Blazor"; copyright "© 2026 Gerald Versluis"; developed by "Gerald Versluis". Properties: privacy
+question **Yes** (location samples) with the privacy policy URL; support info from the account. Submission options:
+publish manually after certification.
+
+**runFullTrust justification** (Submission options, restricted capabilities)
+
+> This is a .NET MAUI app. On Windows, .NET MAUI apps are WinUI 3 desktop apps built on the Windows App SDK that run
+> as packaged full-trust desktop processes, so the .NET MAUI project template declares runFullTrust. The app uses it
+> only as a normal desktop app: it shows samples of .NET MAUI controls and APIs.
+
+**Notes for certification** (Additional testing information): no sign-in; device samples report missing hardware;
+the Map sample needs an Azure Maps key and offers a field to paste one (kept in memory only); the WebView and Image
+samples load public pages and images.
+
 ## Age ratings
 
 The app has no user-generated content, no chat, no purchases, no gambling, no violence and no mature themes.
@@ -196,7 +232,7 @@ from:
 | App Store | iPad 13" | 2064×2752 |
 | Mac App Store | Mac | 2880×1800 |
 | Google Play | Phone (Pixel 10) | 1080×2424 |
-| Microsoft Store | Desktop | 1366×768 or larger, 1920×1080 recommended (not captured yet) |
+| Microsoft Store | Desktop | 1366×768 or larger: window captures from the Windows UI workflow at the expanded size (1426×893) |
 
 The pages name each control's native type on every platform (for example "Android · RecyclerView"), and App Review
 guideline 2.3.10 discourages other platforms' names in App Store screenshots. The App Store shots therefore start at
