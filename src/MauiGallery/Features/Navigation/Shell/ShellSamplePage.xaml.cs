@@ -107,7 +107,7 @@ public sealed partial class ShellSamplePage : SamplePage, IQueryAttributable
         AdaptiveFlyout.Text = _shell.FlyoutBehavior.ToString();
         AdaptiveTabs.Text = tab is null ? "-" : Shell.GetTabBarIsVisible(tab).ToString();
         AdaptiveDepth.Text = $"{Navigation.NavigationStack.Count} pages";
-        AdaptiveHint.Text = DeviceInfo.Idiom == DeviceIdiom.Desktop
+        AdaptiveHint.Text = DeviceInfo.Platform == DevicePlatform.WinUI || DeviceInfo.Platform == DevicePlatform.MacCatalyst
             ? $"Resize the window: the sidebar becomes a flyout below {Breakpoints.Expanded:0} wide."
             : $"Bottom tabs below {Breakpoints.Medium:0} wide or {Breakpoints.CompactHeight:0} high, a sidebar above that: rotate the device, open a foldable or use split view.";
     }

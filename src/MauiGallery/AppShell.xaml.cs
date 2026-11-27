@@ -14,8 +14,9 @@ public partial class AppShell : Shell
     // On Windows the menu bar (Shell.MenuBarItems) is part of the navigation bar, so that bar stays visible.
     private static readonly bool MenuBarInNavBar = OperatingSystem.IsWindows();
 
-    // A mouse and keyboard: narrow windows keep the sidebar (as a flyout) instead of switching to bottom tabs.
-    private static readonly bool IsDesktop = DeviceInfo.Idiom == DeviceIdiom.Desktop;
+    // Desktop windows keep the sidebar (as a flyout) when they are narrow instead of switching to bottom tabs. Decided by
+    // platform rather than idiom, because a Windows VM or server can report an Unknown idiom.
+    private static readonly bool IsDesktop = DeviceInfo.Platform == DevicePlatform.WinUI || DeviceInfo.Platform == DevicePlatform.MacCatalyst;
 
     /// <param name="createSidebar">
     /// Creates the sidebar. Phones navigate with tabs and never show it, so it is only created once a window needs it.

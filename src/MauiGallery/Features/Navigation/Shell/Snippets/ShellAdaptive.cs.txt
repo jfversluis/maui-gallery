@@ -13,7 +13,7 @@ protected override Window CreateWindow(IActivationState? activationState)
 // Follow the window, not the device: a foldable opens up, an iPad app shares the screen
 public void ApplyLayout(double windowWidth, double windowHeight)
 {
-    var isDesktop = DeviceInfo.Idiom == DeviceIdiom.Desktop;
+    var isDesktop = DeviceInfo.Platform == DevicePlatform.WinUI || DeviceInfo.Platform == DevicePlatform.MacCatalyst;
     var useTabs = !isDesktop && (windowWidth < 640 || windowHeight < 480);
     FlyoutBehavior = useTabs ? FlyoutBehavior.Disabled
         : windowWidth >= 1100 && windowHeight >= 480 ? FlyoutBehavior.Locked
