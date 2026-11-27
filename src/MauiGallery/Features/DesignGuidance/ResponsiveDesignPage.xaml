@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.DesignGuidance.ResponsiveDesignPage"
-            xmlns:behaviors="clr-namespace:MauiGallery.DesignSystem.Behaviors"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <SolidColorBrush x:Key="OutlineLight" Color="#E4E1EC" />
@@ -8,7 +7,7 @@
         <Style x:Key="SizeClassCard" TargetType="Border">
             <Setter Property="StrokeShape" Value="RoundRectangle 12" />
             <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource OutlineLight}, Dark={StaticResource OutlineDark}}" />
-            <Setter Property="behaviors:WindowSizeStates.IsEnabled" Value="True" />
+            <Setter Property="WindowSizeStates.IsEnabled" Value="True" />
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
                     <VisualStateGroup x:Name="WindowWidth">
