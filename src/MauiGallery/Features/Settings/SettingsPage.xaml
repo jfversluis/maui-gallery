@@ -53,10 +53,11 @@
                         </Grid>
                     </VerticalStackLayout>
                 </Border>
+                <!-- Shrink="0": FlexLayout shrinks items to fit a line before it wraps them, which clipped the button text. -->
                 <FlexLayout Wrap="Wrap">
-                    <Button Text="Source on GitHub" Style="{StaticResource SecondaryButton}" Command="{Binding OpenRepositoryCommand}" Margin="0,0,8,8" />
-                    <Button Text="Report an issue" Style="{StaticResource SecondaryButton}" Command="{Binding ReportIssueCommand}" Margin="0,0,8,8" />
-                    <Button Text="Privacy policy" Style="{StaticResource SecondaryButton}" Command="{Binding OpenPrivacyPolicyCommand}" Margin="0,0,8,8" />
+                    <Button Text="Source on GitHub" Style="{StaticResource SecondaryButton}" FlexLayout.Shrink="0" Command="{Binding OpenRepositoryCommand}" Margin="0,0,8,8" />
+                    <Button Text="Report an issue" Style="{StaticResource SecondaryButton}" FlexLayout.Shrink="0" Command="{Binding ReportIssueCommand}" Margin="0,0,8,8" />
+                    <Button Text="Privacy policy" Style="{StaticResource SecondaryButton}" FlexLayout.Shrink="0" Command="{Binding OpenPrivacyPolicyCommand}" Margin="0,0,8,8" />
                 </FlexLayout>
             </VerticalStackLayout>
 

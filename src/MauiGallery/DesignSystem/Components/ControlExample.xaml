@@ -89,39 +89,42 @@
                         <!-- Stage toolbar -->
                         <FlexLayout x:Name="Toolbar" Padding="12,12,12,0" Wrap="Wrap" JustifyContent="SpaceBetween" AlignItems="Center">
                             <NativeViewBadge x:Name="Badge" Margin="0,0,8,8" />
-                            <HorizontalStackLayout x:Name="ToolbarToggles" Spacing="8" Margin="0,0,0,8">
-                                <Border x:Name="StyleToggle"
-                                        Padding="2"
-                                        StrokeShape="{StaticResource ShapePill}"
-                                        StrokeThickness="0"
-                                        BackgroundColor="{DynamicResource ColorSurfaceAlt}">
-                                    <HorizontalStackLayout>
-                                        <Button x:Name="NativeModeButton"
-                                                Text="Default"
-                                                Clicked="OnNativeModeClicked"
-                                                AutomationId="stage-native"
-                                                ToolTipProperties.Text="The platform's default look. The control is native in both modes." />
-                                        <Button x:Name="StyledModeButton"
-                                                Text="Styled"
-                                                Clicked="OnStyledModeClicked"
-                                                AutomationId="stage-styled"
-                                                ToolTipProperties.Text="Apply an app-wide implicit style, as an app would to brand its native controls" />
-                                    </HorizontalStackLayout>
-                                </Border>
-                                <Border x:Name="RtlToggle"
-                                        Padding="2"
-                                        StrokeShape="{StaticResource ShapePill}"
-                                        StrokeThickness="0"
-                                        BackgroundColor="{DynamicResource ColorSurfaceAlt}">
-                                    <Button x:Name="RtlButton"
-                                            Text="LTR"
-                                            Style="{StaticResource SegmentButton}"
-                                            Clicked="OnRtlClicked"
-                                            AutomationId="stage-rtl"
-                                            SemanticProperties.Description="Layout direction: left to right"
-                                            ToolTipProperties.Text="Mirror the sample for right-to-left languages" />
-                                </Border>
-                            </HorizontalStackLayout>
+                            <!-- Grows to fill its line, so the toggles stay at the end even when they wrap below the badge. -->
+                            <Grid x:Name="ToolbarTogglesHost" FlexLayout.Grow="1" Margin="0,0,0,8">
+                                <HorizontalStackLayout x:Name="ToolbarToggles" Spacing="8" HorizontalOptions="End">
+                                    <Border x:Name="StyleToggle"
+                                            Padding="2"
+                                            StrokeShape="{StaticResource ShapePill}"
+                                            StrokeThickness="0"
+                                            BackgroundColor="{DynamicResource ColorSurfaceAlt}">
+                                        <HorizontalStackLayout>
+                                            <Button x:Name="NativeModeButton"
+                                                    Text="Default"
+                                                    Clicked="OnNativeModeClicked"
+                                                    AutomationId="stage-native"
+                                                    ToolTipProperties.Text="The platform's default look. The control is native in both modes." />
+                                            <Button x:Name="StyledModeButton"
+                                                    Text="Styled"
+                                                    Clicked="OnStyledModeClicked"
+                                                    AutomationId="stage-styled"
+                                                    ToolTipProperties.Text="Apply an app-wide implicit style, as an app would to brand its native controls" />
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                    <Border x:Name="RtlToggle"
+                                            Padding="2"
+                                            StrokeShape="{StaticResource ShapePill}"
+                                            StrokeThickness="0"
+                                            BackgroundColor="{DynamicResource ColorSurfaceAlt}">
+                                        <Button x:Name="RtlButton"
+                                                Text="LTR"
+                                                Style="{StaticResource SegmentButton}"
+                                                Clicked="OnRtlClicked"
+                                                AutomationId="stage-rtl"
+                                                SemanticProperties.Description="Layout direction: left to right"
+                                                ToolTipProperties.Text="Mirror the sample for right-to-left languages" />
+                                    </Border>
+                                </HorizontalStackLayout>
+                            </Grid>
                         </FlexLayout>
 
                         <!-- The sample itself, at platform defaults -->

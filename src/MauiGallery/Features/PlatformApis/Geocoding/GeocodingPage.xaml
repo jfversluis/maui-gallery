@@ -27,7 +27,7 @@
                             ShowNativeBadge="False"
                             ShowStyleToggle="False"
                             ShowRtlToggle="False"
-                            Description="GetLocationsAsync turns an address or a place name into locations, best match first. It asks the platform's online geocoding service, so check for a connection and handle failures. Street addresses work best: Apple's geocoder often doesn't know landmarks by name, and reports that as an error rather than an empty list. On Windows, set a Bing Maps key with Geocoding.SetMapServiceToken first."
+                            Description="GetLocationsAsync turns an address or a place name into locations, best match first. It asks the platform's online geocoding service, so check for a connection and handle failures. Street addresses work best: Apple's geocoder often doesn't know landmarks by name, and reports that as an error rather than an empty list. On Windows, .NET MAUI geocodes with the Windows map services, which need a Bing Maps key (Geocoding.Default.SetMapServiceToken). Bing Maps for Enterprise is being retired, and these services with it, so on Windows plan to call a geocoding service such as Azure Maps yourself."
                             CSharpSource="GeocodingForward.cs.txt">
                 <VerticalStackLayout x:Name="ForwardSample"
                                      x:DataType="GeocodingViewModel"

@@ -124,6 +124,11 @@ public sealed partial class GeocodingViewModel(IGeocoding geocoding, IGeolocatio
         {
             return "Location access is off. Turn it on in Settings to try this.";
         }
+        catch (ArgumentNullException ex) when (ex.ParamName == "MapServiceToken")
+        {
+            // Windows only: the geocoder uses the Windows map services, which need a Bing Maps key.
+            return "Geocoding on Windows needs a Bing Maps key, and Bing Maps is being retired.";
+        }
         catch (Exception ex)
         {
             // The platform geocoders throw their own exception types when the service fails or is unreachable,

@@ -354,8 +354,8 @@ public partial class ControlExample : ContentView
         Badge.IsVisible = ShowNativeBadge;
         StyleToggle.IsVisible = ShowStyleToggle;
         RtlToggle.IsVisible = ShowRtlToggle;
-        ToolbarToggles.IsVisible = ShowStyleToggle || ShowRtlToggle;
-        Toolbar.IsVisible = ShowNativeBadge || ToolbarToggles.IsVisible;
+        ToolbarTogglesHost.IsVisible = ShowStyleToggle || ShowRtlToggle;
+        Toolbar.IsVisible = ShowNativeBadge || ToolbarTogglesHost.IsVisible;
         Toolbar.JustifyContent = ShowNativeBadge ? FlexJustify.SpaceBetween : FlexJustify.End;
         StageHost.Padding = Toolbar.IsVisible ? new Thickness(24, 16, 24, 32) : new Thickness(24, 28);
     }
