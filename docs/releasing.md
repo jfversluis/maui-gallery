@@ -211,7 +211,8 @@ These repository secrets let the build jobs sign. Set them once, and again when 
 | `APPLE_PROVISIONING_PROFILE_MAC_BASE64` | A **Mac App Store Connect** distribution profile for Mac Catalyst, the same App ID, base64 encoded |
 
 1. In [Certificates, Identifiers & Profiles](https://developer.apple.com/account/resources), make sure the App ID
-   `com.jfversluis.mauigallery` exists with **Mac Catalyst** enabled (Mac Catalyst apps share the iOS App ID).
+   `com.jfversluis.mauigallery` exists. It's a universal App ID (iOS, macOS and more), so the Mac Catalyst app
+   shares it and no Mac Catalyst setting is needed.
 2. Create the two certificates in Xcode (Settings > Accounts > Manage Certificates > + > Apple Distribution, then
    Mac Installer Distribution) and export each from Keychain Access as `.p12` with a password.
 3. Create two distribution profiles for the App ID: **App Store Connect** (iOS) and **Mac App Store Connect**
@@ -225,6 +226,23 @@ These repository secrets let the build jobs sign. Set them once, and again when 
    base64 -i MauiGallery_iOS_AppStore.mobileprovision | gh secret set APPLE_PROVISIONING_PROFILE_IOS_BASE64
    base64 -i MauiGallery_Mac_AppStore.provisionprofile | gh secret set APPLE_PROVISIONING_PROFILE_MAC_BASE64
    ```
+
+All of these are set for this repository (November 2026). The maintainer keeps the originals, with their passwords
+and expiry dates, outside the repository.
+
+To sign on a Mac instead, with the certificates in the login keychain and the profiles installed (double-click
+them), pass the identity by its SHA-1 when the keychain has more than one Apple Distribution certificate:
+
+```bash
+dotnet publish src/MauiGallery -f net11.0-ios -c Release -p:RuntimeIdentifier=ios-arm64 -p:ApplicationVersion=<build> \
+  -p:CodesignKey=<SHA-1> -p:CodesignProvision="MAUI Gallery iOS App Store"
+dotnet publish src/MauiGallery -f net11.0-maccatalyst -c Release -p:ApplicationVersion=<build> -p:CreatePackage=true \
+  -p:EnableCodeSigning=true -p:EnablePackageSigning=true -p:CodesignKey=<SHA-1> \
+  -p:CodesignProvision="MAUI Gallery Mac Catalyst App Store" \
+  -p:PackageSigningKey="3rd Party Mac Developer Installer: Gerald Versluis (AY5KBJ6RN9)"
+```
+
+Use the build number of a Release workflow run (or higher), so later workflow builds still count up.
 
 The team ID defaults to `AY5KBJ6RN9`; set the `APPLE_TEAM_ID` variable to use another team. Signing with a profile
 switches the Mac app to `Platforms/MacCatalyst/Entitlements.AppStore.plist` (the sandbox plus the keychain access
