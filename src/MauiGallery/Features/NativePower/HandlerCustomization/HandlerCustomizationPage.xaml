@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.NativePower.HandlerCustomizationPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.NativePower"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -22,7 +21,7 @@
                         <Border Padding="14,6"
                                 StrokeShape="RoundRectangle 20"
                                 Stroke="{AppThemeBinding Light=#C7C7CC, Dark=#545458}">
-                            <local:PlainEntry x:Name="PlainSample"
+                            <PlainEntry x:Name="PlainSample"
                                               Placeholder="Search recipes"
                                               AutomationId="sample-handler-plain-entry" />
                         </Border>
@@ -72,8 +71,8 @@
                             XamlSource="HandlerHaptic.xaml.txt"
                             CSharpSource="HandlerHaptic.cs.txt">
                 <VerticalStackLayout Spacing="8" WidthRequest="{OnIdiom Phone=260, Default=320}">
-                    <Label Text="{Binding Value, Source={x:Reference HapticSample}, StringFormat='Volume: {0:0}', x:DataType=local:HapticSlider}" />
-                    <local:HapticSlider x:Name="HapticSample"
+                    <Label Text="{Binding Value, Source={x:Reference HapticSample}, StringFormat='Volume: {0:0}', x:DataType=HapticSlider}" />
+                    <HapticSlider x:Name="HapticSample"
                                         Maximum="100"
                                         Value="50"
                                         Step="{Binding Value, Source={x:Reference HapticStep}, x:DataType=Slider, Converter={StaticResource Rounded}}"
