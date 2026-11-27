@@ -82,6 +82,11 @@ Known quirks:
   `<ContentView.Content>`, or the content is assigned to the custom property (see `ControlExample.xaml`).
 - Snippet files are embedded with `WithCulture="false"`: MSBuild otherwise reads `Name.cs.txt` as the Czech culture.
 - Navigation failures are caught and logged by `ShellNavigationService`; check `maui_logs` when a page does not open.
+- Leftover `adb forward` entries keep their local ports. A Mac or iOS agent that falls back to one of them (often 9223)
+  still registers it, and DevFlow then talks to the Android app instead. If `maui devflow logs` shows Android output
+  for a Mac app, run `adb forward --remove-all` and relaunch.
+- Mac Catalyst draws an inactive window's controls dimmed (grey instead of the accent color), and a locked screen stops
+  layout altogether. Capture screenshots only while the gallery is the active app on an unlocked Mac.
 
 ## Architecture rules
 
