@@ -344,7 +344,8 @@ jobs:
 
       - name: Warn about a missing Azure Maps key
         if: env.AzureMapsKey == ''
-        run: echo "::warning::AZURE_MAPS_KEY isn't set: the Map sample explains that this build has no Azure Maps key."
+        run: |
+          echo "::warning::AZURE_MAPS_KEY isn't set: the Map sample explains that this build has no Azure Maps key."
 
       - name: Publish the MSIX
         run: >
