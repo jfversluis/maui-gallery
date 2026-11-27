@@ -19,6 +19,12 @@
     first example's sample on screen and the dot grid hidden, saved with the sample's bounds in the window to
       platform-shots/raw/windows/<id>-<theme>.png and .json
     Normalize them with eng/platform-shots/normalize.py.
+
+    With -Mode Repeat it hunts intermittent crashes instead: it opens each page in -Pages -Repeat times, coming from
+    -RepeatFrom each time and leaving again after a random delay of up to -RepeatDelay seconds (so some visits leave a
+    page while it is still loading), and relaunches the app every -RelaunchEvery visits so cold starts are covered too.
+    -Variants runs the whole set once per variant: a semicolon-separated list of comma-separated NAME=VALUE environment
+    variables for the app process ("default" for none), for A/B experiments with Debug-only switches.
 #>
 param(
     [Parameter(Mandatory)] [string] $AppPath,
@@ -30,7 +36,13 @@ param(
     [string] $Configs = 'light-expanded,dark-expanded,light-medium,dark-medium,light-compact,dark-compact',
     [double] $PageDelay = 2.0,
     # Crawl (screenshots of every page) or PlatformShots (the "Same code, every platform" captures).
-    [ValidateSet('Crawl', 'PlatformShots')] [string] $Mode = 'Crawl'
+    [ValidateSet('Crawl', 'PlatformShots', 'Repeat')] [string] $Mode = 'Crawl',
+    # Repeat mode: visits per page and variant, the page visited in between, the longest stay and the cold starts.
+    [int] $Repeat = 20,
+    [string] $RepeatFrom = 'button',
+    [double] $RepeatDelay = 3.0,
+    [int] $RelaunchEvery = 5,
+    [string] $Variants = 'default'
 )
 
 $ErrorActionPreference = 'Continue'
@@ -144,6 +156,7 @@ function Save-WindowRegion([IntPtr] $handle, [string] $path) {
 #region DevFlow helpers
 $script:port = $null
 $script:proc = $null
+$script:appEnvironment = @{}
 
 function Invoke-DevFlow {
     param([Parameter(ValueFromRemainingArguments)] [string[]] $Arguments)
@@ -158,7 +171,7 @@ function Invoke-DevFlow {
 
 function Start-App {
     Write-Host "Launching $AppPath"
-    $script:proc = Start-Process -FilePath $AppPath -WorkingDirectory (Split-Path $AppPath) -PassThru
+    $script:proc = Start-Process -FilePath $AppPath -WorkingDirectory (Split-Path $AppPath) -PassThru -Environment $script:appEnvironment
     $script:port = $null
     $deadline = (Get-Date).AddSeconds(180)
     while ((Get-Date) -lt $deadline) {
@@ -308,6 +321,68 @@ function Save-PlatformShots {
     }
 }
 
+function Stop-App {
+    if ($script:proc -and -not $script:proc.HasExited) {
+        Stop-Process -Id $script:proc.Id -Force -ErrorAction SilentlyContinue
+        $script:proc.WaitForExit(10000) | Out-Null
+    }
+}
+
+function Invoke-Repeat {
+    $crashLog = Join-Path ([System.IO.Path]::GetTempPath()) 'MauiGallery-crash.log'
+    $rows = [System.Collections.Generic.List[string]]::new()
+    foreach ($variant in ($Variants -split ';' | ForEach-Object { $_.Trim() } | Where-Object { $_ })) {
+        $script:appEnvironment = @{}
+        if ($variant -ne 'default') {
+            foreach ($pair in $variant -split ',') {
+                $name, $value = $pair.Trim() -split '=', 2
+                $script:appEnvironment[$name] = $value
+            }
+        }
+        foreach ($id in $ids) {
+            $visits = 0; $crashes = 0; $coldCrashes = 0
+            Write-Summary "`n## Repeat $id ($variant)`n"
+            for ($i = 0; $i -lt $Repeat; $i++) {
+                $cold = $i % [Math]::Max($RelaunchEvery, 1) -eq 0
+                if ($cold -or -not (Test-AppAlive)) {
+                    Stop-App
+                    if (-not (Start-App)) { Add-Failure "Could not launch the app ($variant)"; break }
+                    Set-Configuration 'light' 'expanded'
+                }
+                Invoke-DevFlow ui navigate "//main/controls/$RepeatFrom" | Out-Null
+                Start-Sleep -Milliseconds 1500
+                $before = if (Test-Path $crashLog) { (Get-Item $crashLog).Length } else { 0 }
+                Invoke-DevFlow ui navigate "//main/controls/$id" | Out-Null
+                $stay = [Math]::Round((Get-Random -Minimum 0.3 -Maximum $RepeatDelay), 1)
+                Start-Sleep -Seconds $stay
+                # Leave again, possibly while the page is still loading, and give late callbacks time to fail.
+                Invoke-DevFlow ui navigate "//main/controls/$RepeatFrom" | Out-Null
+                Start-Sleep -Seconds 2
+                $visits++
+                if (-not (Test-AppAlive)) {
+                    $crashes++
+                    if ($cold) { $coldCrashes++ }
+                    $what = ''
+                    if ((Test-Path $crashLog) -and (Get-Item $crashLog).Length -gt $before) {
+                        $stream = [System.IO.File]::OpenRead($crashLog)
+                        try {
+                            $stream.Seek($before, 'Begin') | Out-Null
+                            $what = ([System.IO.StreamReader]::new($stream).ReadToEnd() -split "`r?`n" | Where-Object { $_ } | Select-Object -First 3) -join ' | '
+                        } finally { $stream.Dispose() }
+                    }
+                    Add-Failure "CRASH on $id ($variant), visit $($i + 1)$(if ($cold) { ' (cold start)' }), stayed $stay s: $what"
+                } else {
+                    Save-LogError $id "repeat-$variant"
+                }
+            }
+            $rows.Add("| $id | $variant | $visits | $crashes | $coldCrashes |")
+        }
+    }
+    Stop-App
+    Write-Summary "`n## Repeat results`n`n| Page | Variant | Visits | Crashes | On a cold start |`n| --- | --- | --- | --- | --- |"
+    $rows | ForEach-Object { Write-Summary $_ }
+}
+
 # Page ids come from the catalog, so new pages are crawled without touching the workflow.
 $ids = @(if ($Pages) {
     $Pages -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ }
@@ -330,6 +405,10 @@ Save-Screen (Join-Path $OutDir 'desktop/after-launch.png')
 
 if ($Mode -eq 'PlatformShots') {
     Save-PlatformShots
+    $Configs = ''
+}
+if ($Mode -eq 'Repeat') {
+    Invoke-Repeat
     $Configs = ''
 }
 
