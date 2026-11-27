@@ -3,7 +3,7 @@
         <BindableLayout.ItemTemplate>
             <DataTemplate x:DataType="local:ChecklistTask">
                 <HorizontalStackLayout Spacing="4">
-                    <CheckBox IsChecked="{Binding IsDone}" />
+                    <CheckBox IsChecked="{IsDone}" />
                     <Label Text="{.Title}" VerticalOptions="Center">
                         <Label.Triggers>
                             <DataTrigger TargetType="Label" Binding="{Binding IsDone}" Value="True">
