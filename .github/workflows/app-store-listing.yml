@@ -1,0 +1,70 @@
+name: App Store listing
+
+# Uploads the App Store and Mac App Store screenshots (eng/release/app-store/screenshots) and, when asked, the listing
+# texts (eng/release/app-store/metadata) to the iOS and macOS versions being prepared in App Store Connect. It
+# replaces what's there, so it only runs by hand, after approval in the app-store environment. Pushes that change the
+# files only validate them. Without the App Store Connect variables the upload is skipped. See docs/releasing.md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      screenshots:
+        description: 'Upload the screenshots (replaces the ones in App Store Connect)'
+        type: boolean
+        default: true
+      metadata:
+        description: 'Upload the texts: name, subtitle, description, keywords, promotional text, URLs, copyright'
+        type: boolean
+        default: false
+  push:
+    paths:
+      - eng/release/app-store/**
+      - eng/release/app-store-listing.py
+      - .github/workflows/app-store-listing.yml
+
+permissions:
+  contents: read
+
+env:
+  # The app's Apple ID in App Store Connect (App Information > Apple ID). Override with the APP_STORE_APP_ID variable.
+  APP_STORE_APP_ID: ${{ vars.APP_STORE_APP_ID || '6839980440' }}
+
+jobs:
+  check:
+    name: Check the listing files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: python3 eng/release/app-store-listing.py --check --screenshots --metadata
+      - name: Explain a skipped upload
+        if: github.event_name == 'workflow_dispatch' && (vars.APP_STORE_CONNECT_KEY_ID == '' || vars.APP_STORE_CONNECT_ISSUER_ID == '')
+        run: echo "::notice title=App Store listing upload skipped::Not configured - set the APP_STORE_CONNECT_KEY_ID and APP_STORE_CONNECT_ISSUER_ID variables (see docs/releasing.md)."
+
+  upload:
+    name: Upload to App Store Connect
+    needs: check
+    if: >
+      github.event_name == 'workflow_dispatch' && (inputs.screenshots || inputs.metadata) &&
+      vars.APP_STORE_CONNECT_KEY_ID != '' && vars.APP_STORE_CONNECT_ISSUER_ID != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment:
+      name: app-store
+      url: https://appstoreconnect.apple.com/apps/${{ vars.APP_STORE_APP_ID || '6839980440' }}
+    concurrency:
+      group: upload-app-store-listing
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v5
+      - name: Upload the listing
+        env:
+          APP_STORE_CONNECT_KEY_ID: ${{ vars.APP_STORE_CONNECT_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ vars.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
+          SCREENSHOTS: ${{ inputs.screenshots }}
+          METADATA: ${{ inputs.metadata }}
+        run: |
+          args=()
+          [ "$SCREENSHOTS" == "true" ] && args+=(--screenshots)
+          [ "$METADATA" == "true" ] && args+=(--metadata)
+          python3 eng/release/app-store-listing.py "${args[@]}"
