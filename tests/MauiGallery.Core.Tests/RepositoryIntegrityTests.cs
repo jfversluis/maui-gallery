@@ -103,6 +103,37 @@ public sealed class RepositoryIntegrityTests
     }
 
     [Fact]
+    public void GlobalXamlNamespaceHasNoDuplicateTypeNames()
+    {
+        // GlobalXmlns.cs maps the app's namespaces into one XAML namespace. Two types with the same name there make
+        // element names and x:DataType ambiguous, and the XAML source generator then silently picks one of them.
+        var src = Path.Combine(Repository.Root, "src");
+        var mapped = Regex.Matches(File.ReadAllText(Path.Combine(src, "MauiGallery", "GlobalXmlns.cs")), @"XmlnsDefinition\(""[^""]+"", ""(MauiGallery[\w.]*)""")
+            .Select(m => m.Groups[1].Value)
+            .ToHashSet(StringComparer.Ordinal);
+
+        var duplicates = Directory.EnumerateFiles(src, "*.cs", SearchOption.AllDirectories)
+            .Where(p => !p.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}", StringComparison.Ordinal))
+            .SelectMany(TopLevelTypes)
+            .Where(t => mapped.Contains(t.Namespace))
+            .Distinct()
+            .GroupBy(t => t.Name, StringComparer.Ordinal)
+            .Where(g => g.Count() > 1)
+            .Select(g => $"{g.Key} ({string.Join(", ", g.Select(t => t.Namespace))})")
+            .ToList();
+
+        Assert.True(duplicates.Count == 0, $"Rename one of each, they share the global XAML namespace: {string.Join("; ", duplicates)}");
+
+        static IEnumerable<(string Name, string Namespace)> TopLevelTypes(string path)
+        {
+            var source = File.ReadAllText(path);
+            var ns = Regex.Match(source, @"^namespace ([\w.]+);", RegexOptions.Multiline).Groups[1].Value;
+            return Regex.Matches(source, @"^(?:public|internal)\s+(?:(?:sealed|static|abstract|partial|readonly)\s+)*(?:class|record|struct|enum|interface)(?:\s+(?:class|struct))?\s+(\w+)", RegexOptions.Multiline)
+                .Select(m => (m.Groups[1].Value, ns));
+        }
+    }
+
+    [Fact]
     public void EveryPlatformShotsPageHasItsImages()
     {
         var problems = new List<string>();
