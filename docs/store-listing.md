@@ -119,9 +119,11 @@ The app has no user-generated content, no chat, no purchases, no gambling, no vi
   **unrestricted web access**, answering Yes raises the rating to the highest age band. The recommended answer is
   No (the app isn't a browser; the sample demonstrates the API), and to mention the browser sample in the review
   notes. Expected rating: 4+.
-- **Google Play (IARC)**: category Reference, News, or Educational (or Utility, Productivity, Communication, or
-  Other); answer No to violence, sexuality, language, controlled substances, gambling, user interaction and sharing
-  of location with other users. Expected rating: Everyone / PEGI 3.
+- **Google Play (IARC)**: category "All other app types". Online content: **Yes** (the WebView, Image and Map
+  samples load content from the web). Everything else **No**: downloaded ratings-relevant content, user content
+  sharing, violence, sexuality, language, controlled substances, age-restricted products, location sharing, digital
+  purchases, cash rewards, web browser or search engine, news or educational product. Result: ESRB Everyone, PEGI 3,
+  USK all ages, 3+ elsewhere. Target audience: 13–15, 16–17 and 18+.
 
 ## Privacy answers
 
