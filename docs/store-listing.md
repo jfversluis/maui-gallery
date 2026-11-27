@@ -138,15 +138,22 @@ address lookups go to Apple's own services, like in any app that shows a map.
 
 ### Google Play data safety
 
-- Does your app collect or share any of the required user data types? **No.**
-- Is all of the user data collected by your app encrypted in transit? Not applicable (no data collected). The
-  network requests the samples make (web pages, images, map tiles) use HTTPS.
-- Do you provide a way for users to request that their data is deleted? Not applicable: nothing is stored off the
-  device; uninstalling removes everything.
+The gallery itself collects nothing, but Play counts data collected by an SDK as collected by the app. The Map
+sample uses Google's Maps SDK, which
+[collects request metadata, an SDK identifier, the IP address, crash data and map interactions](https://developers.google.com/maps/documentation/android-sdk/play-data-disclosure)
+on its own. The privacy policy describes this. Declare it:
 
-Before submitting, check the Map sample: on Android it uses Google's Maps SDK, which
-[collects request metadata, an SDK identifier, the IP address and crash data](https://developers.google.com/maps/documentation/android-sdk/play-data-disclosure)
-on its own. Decide whether the form and the privacy policy must declare that.
+- Does your app collect or share any of the required user data types? **Yes.**
+- Is all of the user data collected by your app encrypted in transit? **Yes** (the SDK uses HTTPS).
+- Account creation: **My app doesn't allow users to create an account.**
+- Do you provide a way for users to request that their data is deleted? **No** (the gallery holds no data; Google
+  handles the SDK data under its own policy).
+- Data types, each **Collected**, not shared, not ephemeral, **required**, purpose **Analytics**:
+  - App activity: **App interactions** (panning and zooming the map).
+  - App info and performance: **Crash logs** and **Diagnostics**.
+  - Device or other IDs: **Device or other IDs** (the Maps SDK's pseudonymous identifier).
+
+The IP address isn't a Play data type on its own, and the SDK doesn't use it to locate the user.
 
 Google's guidance: data processed only on the device, and data sent to a service only to fulfil a request in real
 time without being stored, isn't "collected". Location in the Geolocation, Geocoding and Map samples is shown on

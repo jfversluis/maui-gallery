@@ -130,4 +130,4 @@ Thanks to everyone who has contributed!
 ## License and privacy
 
 The .NET MAUI Gallery is licensed under the [MIT license](LICENSE). Third-party fonts and icons are listed in the app
-under Settings, Third-party notices. The app collects no data; see the [privacy policy](docs/privacy.md).
+under Settings, Third-party notices. The app itself collects no data; see the [privacy policy](docs/privacy.md).

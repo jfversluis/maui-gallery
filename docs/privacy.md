@@ -7,7 +7,8 @@ The .NET MAUI Gallery ("the app") is a sample app that demonstrates .NET MAUI co
 ## Data we collect
 
 **None.** The app does not collect, store on a server, sell or share any personal information. It has no accounts,
-no analytics and no advertising.
+no analytics and no advertising. The only exception is Google's Maps SDK on Android, described under
+[Network access](#network-access).
 
 ## Data stored on your device
 
@@ -31,6 +32,12 @@ The app works offline. A few samples load content from the internet when you ope
 - The Map sample shows map tiles from Apple Maps (iOS and Mac), Google Maps (Android) or Azure Maps (Windows), and
   the Geocoding sample uses the platform's address lookup. Those services receive the map area or the address you
   look up, as with any maps app, under Apple's, Google's and Microsoft's privacy policies.
+
+On Android, the map is drawn by Google's Maps SDK. When you open the Map sample, that SDK itself sends Google request
+metadata (such as the device model and OS version), a pseudonymous Maps SDK identifier, your IP address, crash data
+and how you pan and zoom the map, which Google uses to run and improve its services. See
+[Google's disclosure](https://developers.google.com/maps/documentation/android-sdk/play-data-disclosure) and
+[Google's privacy policy](https://policies.google.com/privacy). The gallery doesn't receive any of this data.
 
 These requests are ordinary web requests: the app doesn't add any information about you to them.
 
