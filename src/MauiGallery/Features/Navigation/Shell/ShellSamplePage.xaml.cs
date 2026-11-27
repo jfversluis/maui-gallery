@@ -28,6 +28,7 @@ public sealed partial class ShellSamplePage : SamplePage, IQueryAttributable
         ChromeFlyout.SelectedIndex = 0;
         RoutesExample.NativeTarget = RoutesButton;
         ParametersExample.NativeTarget = ParametersButton;
+        Loaded += (_, _) => Attach();
     }
 
     /// <summary>Receives the reply that <see cref="ShellSwatchPage"/> sends back when it navigates to "..".</summary>
@@ -43,20 +44,7 @@ public sealed partial class ShellSamplePage : SamplePage, IQueryAttributable
     protected override void OnAppearing()
     {
         base.OnAppearing();
-
-        _shell = Window?.Page as Shell;
-        if (_shell is not null)
-        {
-            _shell.Navigated += OnShellNavigated;
-        }
-
-        if (Window is { } window)
-        {
-            window.SizeChanged += OnWindowSizeChanged;
-        }
-
-        UpdateLiveValues();
-        UpdateChromeStatus();
+        Attach();
     }
 
     protected override void OnDisappearing()
@@ -66,12 +54,30 @@ public sealed partial class ShellSamplePage : SamplePage, IQueryAttributable
         if (_shell is not null)
         {
             _shell.Navigated -= OnShellNavigated;
+            _shell = null;
         }
 
         if (Window is { } window)
         {
             window.SizeChanged -= OnWindowSizeChanged;
         }
+    }
+
+    /// <summary>
+    /// Starts following the Shell and the window. A page pushed onto a Shell stack can appear before it's attached to
+    /// the window, so this runs again once the page has loaded.
+    /// </summary>
+    private void Attach()
+    {
+        if (_shell is null && Window?.Page is Shell shell)
+        {
+            _shell = shell;
+            _shell.Navigated += OnShellNavigated;
+            Window.SizeChanged += OnWindowSizeChanged;
+        }
+
+        UpdateLiveValues();
+        UpdateChromeStatus();
     }
 
     private void OnShellNavigated(object? sender, ShellNavigatedEventArgs e) => UpdateLiveValues();
