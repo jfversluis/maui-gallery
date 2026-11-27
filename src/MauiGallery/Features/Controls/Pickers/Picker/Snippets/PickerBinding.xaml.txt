@@ -1,9 +1,9 @@
 <VerticalStackLayout x:DataType="local:CitiesViewModel" WidthRequest="280" Spacing="12">
     <Picker
         Title="Choose a city"
-        ItemsSource="{Binding Cities}"
+        ItemsSource="{Cities}"
         ItemDisplayBinding="{Binding Name, x:DataType=local:City}"
         SelectedItem="{Binding SelectedCity}" />
-    <Label Text="{Binding Summary}" />
+    <Label Text="{Summary}" />
     <Button Text="Surprise me" Command="{Binding PickRandomCommand}" HorizontalOptions="Start" />
 </VerticalStackLayout>

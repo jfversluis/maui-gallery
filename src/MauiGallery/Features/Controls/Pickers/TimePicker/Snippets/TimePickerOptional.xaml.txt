@@ -3,8 +3,8 @@
         <Label Text="Reminder" VerticalOptions="Center" />
         <TimePicker
             Grid.Column="1"
-            Time="{Binding ReminderTime}"
-            IsOpen="{Binding IsPickerOpen}" />
+            Time="{ReminderTime}"
+            IsOpen="{IsPickerOpen}" />
     </Grid>
     <HorizontalStackLayout Spacing="8">
         <Button Text="Choose a time" Command="{Binding ChooseCommand}" />

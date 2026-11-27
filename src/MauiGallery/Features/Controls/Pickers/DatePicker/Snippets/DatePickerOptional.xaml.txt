@@ -3,8 +3,8 @@
         <Label Text="Due date" VerticalOptions="Center" />
         <DatePicker
             Grid.Column="1"
-            Date="{Binding DueDate}"
-            IsOpen="{Binding IsPickerOpen}"
+            Date="{DueDate}"
+            IsOpen="{IsPickerOpen}"
             Format="D" />
     </Grid>
     <HorizontalStackLayout Spacing="8">

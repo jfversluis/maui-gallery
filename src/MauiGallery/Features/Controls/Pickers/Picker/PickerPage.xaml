@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Pickers.PickerPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Pickers"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <x:Array x:Key="Sizes" Type="{x:Type x:String}">
@@ -53,14 +52,14 @@
                 <VerticalStackLayout x:Name="BindingSample"
                                      WidthRequest="280"
                                      Spacing="12"
-                                     x:DataType="local:PickerBindingViewModel">
+                                     x:DataType="PickerBindingViewModel">
                     <Picker x:Name="BindingPicker"
                             Title="Choose a city"
-                            ItemsSource="{Binding Cities}"
-                            ItemDisplayBinding="{Binding Name, x:DataType=local:City}"
+                            ItemsSource="{Cities}"
+                            ItemDisplayBinding="{Binding Name, x:DataType=City}"
                             SelectedItem="{Binding SelectedCity}"
                             AutomationId="sample-binding-picker" />
-                    <Label Text="{Binding Summary}" AutomationId="sample-binding-summary" />
+                    <Label Text="{Summary}" AutomationId="sample-binding-summary" />
                     <Button Text="Surprise me"
                             Command="{Binding PickRandomCommand}"
                             HorizontalOptions="Start"

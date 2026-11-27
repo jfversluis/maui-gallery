@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Pickers.DatePickerPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Pickers"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -48,14 +47,14 @@
                 <VerticalStackLayout x:Name="RangeSample"
                                      WidthRequest="280"
                                      Spacing="12"
-                                     x:DataType="local:DatePickerRangeViewModel">
+                                     x:DataType="DatePickerRangeViewModel">
                     <DatePicker x:Name="RangePicker"
-                                Date="{Binding CheckIn}"
-                                MinimumDate="{Binding Today}"
-                                MaximumDate="{Binding LastBookableDate}"
+                                Date="{CheckIn}"
+                                MinimumDate="{Today}"
+                                MaximumDate="{LastBookableDate}"
                                 HorizontalOptions="Center"
                                 AutomationId="sample-range-date-picker" />
-                    <Label Text="{Binding LastBookableDate, StringFormat='Bookable until {0:D}'}"
+                    <Label Text="{$'Bookable until {LastBookableDate:D}'}"
                            HorizontalTextAlignment="Center"
                            AutomationId="sample-range-summary" />
                 </VerticalStackLayout>
@@ -85,17 +84,17 @@
                 <VerticalStackLayout x:Name="OptionalSample"
                                      WidthRequest="280"
                                      Spacing="12"
-                                     x:DataType="local:DatePickerOptionalViewModel">
+                                     x:DataType="DatePickerOptionalViewModel">
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                         <Label Text="Due date" VerticalOptions="Center" />
                         <DatePicker x:Name="OptionalPicker"
                                     Grid.Column="1"
-                                    Date="{Binding DueDate}"
-                                    IsOpen="{Binding IsPickerOpen}"
+                                    Date="{DueDate}"
+                                    IsOpen="{IsPickerOpen}"
                                     Format="D"
                                     AutomationId="sample-optional-date-picker" />
                     </Grid>
-                    <Label Text="{Binding Summary}" AutomationId="sample-optional-summary" />
+                    <Label Text="{Summary}" AutomationId="sample-optional-summary" />
                     <HorizontalStackLayout Spacing="8">
                         <Button Text="Choose a date"
                                 Command="{Binding ChooseCommand}"
