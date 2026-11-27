@@ -48,7 +48,7 @@ failures=0
 for theme in ${themes//,/ }; do
     devflow ui navigate '//main/settings' > /dev/null 2>&1
     sleep 1
-    devflow ui tap "theme-$theme" > /dev/null 2>&1
+    devflow ui tap --automationId "theme-$theme" > /dev/null 2>&1
     sleep 1
     for id in $ids; do
         devflow ui navigate "//main/controls/$id" > /dev/null 2>&1
@@ -84,5 +84,5 @@ done
 
 # Leave the app in the system theme.
 devflow ui navigate '//main/settings' > /dev/null 2>&1
-devflow ui tap theme-system > /dev/null 2>&1 || true
+devflow ui tap --automationId theme-system > /dev/null 2>&1 || true
 echo "Captured into $out ($failures failures)"
