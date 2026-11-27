@@ -5,14 +5,14 @@
     ColumnSpacing="24"
     RowSpacing="8">
     <Label Text="Notifications" VerticalOptions="Center" />
-    <Switch Grid.Column="1" IsToggled="{Binding NotificationsEnabled}" />
+    <Switch Grid.Column="1" IsToggled="{NotificationsEnabled}" />
 
     <Label Grid.Row="1" Text="Play a sound" VerticalOptions="Center" />
     <Switch
         Grid.Row="1"
         Grid.Column="1"
-        IsToggled="{Binding SoundEnabled}"
-        IsEnabled="{Binding NotificationsEnabled}" />
+        IsToggled="{SoundEnabled}"
+        IsEnabled="{NotificationsEnabled}" />
 
-    <Label Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Summary}" />
+    <Label Grid.Row="2" Grid.ColumnSpan="2" Text="{Summary}" />
 </Grid>

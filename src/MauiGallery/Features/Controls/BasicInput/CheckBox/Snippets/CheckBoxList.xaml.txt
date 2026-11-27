@@ -1,10 +1,10 @@
 <VerticalStackLayout x:DataType="local:ChecklistViewModel" Spacing="12">
-    <VerticalStackLayout Spacing="8" BindableLayout.ItemsSource="{Binding Tasks}">
+    <VerticalStackLayout Spacing="8" BindableLayout.ItemsSource="{Tasks}">
         <BindableLayout.ItemTemplate>
             <DataTemplate x:DataType="local:ChecklistTask">
                 <HorizontalStackLayout Spacing="4">
                     <CheckBox IsChecked="{Binding IsDone}" />
-                    <Label Text="{Binding Title}" VerticalOptions="Center">
+                    <Label Text="{.Title}" VerticalOptions="Center">
                         <Label.Triggers>
                             <DataTrigger TargetType="Label" Binding="{Binding IsDone}" Value="True">
                                 <Setter Property="TextDecorations" Value="Strikethrough" />
@@ -15,5 +15,5 @@
             </DataTemplate>
         </BindableLayout.ItemTemplate>
     </VerticalStackLayout>
-    <Label Text="{Binding Summary}" />
+    <Label Text="{Summary}" />
 </VerticalStackLayout>

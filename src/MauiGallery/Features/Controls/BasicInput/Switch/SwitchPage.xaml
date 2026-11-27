@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.BasicInput.SwitchPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.BasicInput"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -84,7 +83,7 @@
                             XamlSource="SwitchSettings.xaml.txt"
                             CSharpSource="SwitchSettings.cs.txt">
                 <Grid x:Name="SettingsSample"
-                      x:DataType="local:SwitchSettingsViewModel"
+                      x:DataType="SwitchSettingsViewModel"
                       ColumnDefinitions="*,Auto"
                       RowDefinitions="Auto,Auto,Auto"
                       ColumnSpacing="24"
@@ -93,19 +92,19 @@
                     <Label Text="Notifications" VerticalOptions="Center" />
                     <Switch x:Name="NotificationsSwitch"
                             Grid.Column="1"
-                            IsToggled="{Binding NotificationsEnabled}"
+                            IsToggled="{NotificationsEnabled}"
                             SemanticProperties.Description="Notifications"
                             AutomationId="sample-settings-notifications" />
                     <Label Grid.Row="1" Text="Play a sound" VerticalOptions="Center" />
                     <Switch Grid.Row="1"
                             Grid.Column="1"
-                            IsToggled="{Binding SoundEnabled}"
-                            IsEnabled="{Binding NotificationsEnabled}"
+                            IsToggled="{SoundEnabled}"
+                            IsEnabled="{NotificationsEnabled}"
                             SemanticProperties.Description="Play a sound"
                             AutomationId="sample-settings-sound" />
                     <Label Grid.Row="2"
                            Grid.ColumnSpan="2"
-                           Text="{Binding Summary}"
+                           Text="{Summary}"
                            Margin="0,8,0,0"
                            AutomationId="sample-settings-summary" />
                 </Grid>

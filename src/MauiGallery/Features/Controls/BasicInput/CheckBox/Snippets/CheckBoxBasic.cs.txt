@@ -8,7 +8,13 @@ rememberMe.CheckedChanged += OnCheckedChanged;
 
 var label = new Label { Text = "Remember me", VerticalOptions = LayoutOptions.Center };
 var tap = new TapGestureRecognizer();
-tap.Tapped += (_, _) => rememberMe.IsChecked = !rememberMe.IsChecked;
+tap.Tapped += (_, _) =>
+{
+    if (rememberMe.IsEnabled)
+    {
+        rememberMe.IsChecked = !rememberMe.IsChecked;
+    }
+};
 label.GestureRecognizers.Add(tap);
 
 var row = new HorizontalStackLayout { Spacing = 4, Children = { rememberMe, label } };

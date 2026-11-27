@@ -2,5 +2,5 @@
     <Button
         Text="Add to cart"
         Command="{Binding AddToCartCommand}" />
-    <Label Text="{Binding CartSummary}" />
+    <Label Text="{CartSummary}" />
 </VerticalStackLayout>

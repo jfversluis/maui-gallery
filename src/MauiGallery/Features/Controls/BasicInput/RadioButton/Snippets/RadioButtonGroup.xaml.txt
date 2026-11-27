@@ -1,11 +1,11 @@
 <VerticalStackLayout x:DataType="local:SizeViewModel" Spacing="12">
     <VerticalStackLayout
         RadioButtonGroup.GroupName="size"
-        RadioButtonGroup.SelectedValue="{Binding Size}">
+        RadioButtonGroup.SelectedValue="{.Size}">
         <RadioButton Content="Small" Value="S" />
         <RadioButton Content="Medium" Value="M" />
         <RadioButton Content="Large" Value="L" />
     </VerticalStackLayout>
-    <Label Text="{Binding Size, StringFormat='Size: {0}'}" />
+    <Label Text="{$'Size: {Size}'}" />
     <Button Text="Reset to medium" Command="{Binding ResetCommand}" />
 </VerticalStackLayout>
