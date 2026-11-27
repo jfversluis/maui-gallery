@@ -73,11 +73,13 @@ labels and `FontImageSource` for buttons.
 
 | Width | Size class | Navigation | Content |
 | --- | --- | --- | --- |
-| < 640 | Compact | Phone: bottom tabs. Desktop: overlay sidebar | One column, options under the stage |
+| < 640 | Compact | Touch: bottom tabs. Desktop: overlay sidebar | One column, options under the stage |
 | 640–1099 | Medium | Overlay sidebar | Multi-column grids |
 | ≥ 1100 | Expanded | Docked sidebar | Options beside the stage, up to four columns |
 
-Phones always use tabs; tablets and desktops always use the sidebar. Window-level decisions use
+On touch screens the navigation follows the window, not the device: bottom tabs when the window is compact (narrower
+than 640 or lower than 480), the sidebar otherwise, so a foldable switches when it opens and an iPad in a narrow split
+view gets tabs. Desktop windows never get tabs (`Breakpoints.ChromeFor`). Window-level decisions use
 `Window.SizeChanged`; components such as `AdaptiveGrid` and `ControlExample` react to their own width, so they
 work in narrow windows and next to the sidebar.
 

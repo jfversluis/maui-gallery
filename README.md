@@ -34,8 +34,8 @@ macOS, a `SwitchCompat` on Android and a `ToggleSwitch` on Windows, and the gall
   multiple windows, deep links, HybridWebView, Blazor Hybrid, handlers and platform code.
 - **Device and system APIs.** Sensors, location, battery, connectivity, clipboard, sharing, text-to-speech, file
   and media pickers and secure storage, with permission requests done right.
-- **At home on every device.** Bottom tabs on phones. On macOS and Windows, a sidebar that adapts as you resize, a
-  menu bar, keyboard shortcuts and multiple windows. Search with <kbd>⌘</kbd>+<kbd>K</kbd> on macOS or
+- **At home on every device.** Bottom tabs on phones, a sidebar on tablets and unfolded foldables. On macOS and
+  Windows, a sidebar that adapts as you resize, a menu bar, keyboard shortcuts and multiple windows. Search with <kbd>⌘</kbd>+<kbd>K</kbd> on macOS or
   <kbd>Ctrl</kbd>+<kbd>K</kbd> on Windows, and keep favorites. Light and dark themes everywhere.
 - **Design guidance.** Pages on color, typography, iconography, spacing, shape and responsive design explain the
   design system behind the app.

@@ -14,6 +14,9 @@ public partial class AppShell : Shell
     // On Windows the menu bar (Shell.MenuBarItems) is part of the navigation bar, so that bar stays visible.
     private static readonly bool MenuBarInNavBar = OperatingSystem.IsWindows();
 
+    // A mouse and keyboard: narrow windows keep the sidebar (as a flyout) instead of switching to bottom tabs.
+    private static readonly bool IsDesktop = DeviceInfo.Idiom == DeviceIdiom.Desktop;
+
     /// <param name="createSidebar">
     /// Creates the sidebar. Phones navigate with tabs and never show it, so it is only created once a window needs it.
     /// </param>
@@ -72,15 +75,20 @@ public partial class AppShell : Shell
     }
 
     /// <summary>
-    /// Chooses the navigation chrome for the window width. Called by the window on every resize, because Shell
-    /// itself is never measured and so never raises <c>SizeChanged</c>.
+    /// Chooses the navigation chrome for the window size, so it follows a foldable opening or a split view resizing.
+    /// Called by the window on every resize, because Shell itself is never measured and so never raises
+    /// <c>SizeChanged</c>.
     /// </summary>
-    public void ApplyLayout(double windowWidth)
+    public void ApplyLayout(double windowWidth, double windowHeight)
     {
-        var useTabs = DeviceInfo.Idiom == DeviceIdiom.Phone;
-        var behavior = useTabs ? FlyoutBehavior.Disabled
-            : Breakpoints.Classify(windowWidth) == SizeClass.Expanded ? FlyoutBehavior.Locked
-            : FlyoutBehavior.Flyout;
+        var chrome = Breakpoints.ChromeFor(windowWidth, windowHeight, IsDesktop);
+        var useTabs = chrome == NavigationChrome.Tabs;
+        var behavior = chrome switch
+        {
+            NavigationChrome.Tabs => FlyoutBehavior.Disabled,
+            NavigationChrome.DockedSidebar => FlyoutBehavior.Locked,
+            _ => FlyoutBehavior.Flyout,
+        };
 
         if (!useTabs && _sidebar is null)
         {
@@ -98,9 +106,16 @@ public partial class AppShell : Shell
             FlyoutIsPresented = false;
         }
 
+        // Shell copies the tab's TabBarIsVisible onto each page it shows and doesn't update that copy, so pages that are
+        // already open get the new value as well. Android only refreshes the tab bar when the displayed page's value
+        // changes. A page that hides the tab bar itself re-applies that on resize, as the Shell sample does.
         foreach (var tab in Items.SelectMany(item => item.Items))
         {
             SetTabBarIsVisible(tab, useTabs);
+            foreach (var page in tab.Navigation.NavigationStack.OfType<Page>())
+            {
+                SetTabBarIsVisible(page, useTabs);
+            }
         }
 
         UpdateNavBar();

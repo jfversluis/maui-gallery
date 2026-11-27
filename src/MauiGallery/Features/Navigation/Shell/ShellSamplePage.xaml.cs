@@ -82,7 +82,16 @@ public sealed partial class ShellSamplePage : SamplePage, IQueryAttributable
 
     private void OnShellNavigated(object? sender, ShellNavigatedEventArgs e) => UpdateLiveValues();
 
-    private void OnWindowSizeChanged(object? sender, EventArgs e) => UpdateLiveValues();
+    private void OnWindowSizeChanged(object? sender, EventArgs e)
+    {
+        // The app shell resets the page's tab bar when the window crosses a breakpoint; keep this page's own choice.
+        if (!ChromeTabBar.IsToggled)
+        {
+            Shell.SetTabBarIsVisible(this, false);
+        }
+
+        UpdateLiveValues();
+    }
 
     private void UpdateLiveValues()
     {
@@ -98,9 +107,9 @@ public sealed partial class ShellSamplePage : SamplePage, IQueryAttributable
         AdaptiveFlyout.Text = _shell.FlyoutBehavior.ToString();
         AdaptiveTabs.Text = tab is null ? "-" : Shell.GetTabBarIsVisible(tab).ToString();
         AdaptiveDepth.Text = $"{Navigation.NavigationStack.Count} pages";
-        AdaptiveHint.Text = DeviceInfo.Idiom == DeviceIdiom.Phone
-            ? "Phones always use the bottom tabs."
-            : $"Resize the window: the sidebar becomes a flyout below {Breakpoints.Expanded:0} wide.";
+        AdaptiveHint.Text = DeviceInfo.Idiom == DeviceIdiom.Desktop
+            ? $"Resize the window: the sidebar becomes a flyout below {Breakpoints.Expanded:0} wide."
+            : $"Bottom tabs below {Breakpoints.Medium:0} wide or {Breakpoints.CompactHeight:0} high, a sidebar above that: rotate the device, open a foldable or use split view.";
     }
 
     private void OnRoutesPickerChanged(object? sender, EventArgs e) =>

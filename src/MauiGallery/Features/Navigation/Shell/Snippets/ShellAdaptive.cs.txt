@@ -5,16 +5,18 @@ protected override Window CreateWindow(IActivationState? activationState)
     var window = new Window(shell);
 
     // Shell is never measured, so follow the window's size instead
-    window.SizeChanged += (_, _) => shell.ApplyLayout(window.Width);
+    window.SizeChanged += (_, _) => shell.ApplyLayout(window.Width, window.Height);
     return window;
 }
 
 // AppShell.xaml.cs
-public void ApplyLayout(double windowWidth)
+// Follow the window, not the device: a foldable opens up, an iPad app shares the screen
+public void ApplyLayout(double windowWidth, double windowHeight)
 {
-    var useTabs = DeviceInfo.Idiom == DeviceIdiom.Phone;
+    var isDesktop = DeviceInfo.Idiom == DeviceIdiom.Desktop;
+    var useTabs = !isDesktop && (windowWidth < 640 || windowHeight < 480);
     FlyoutBehavior = useTabs ? FlyoutBehavior.Disabled
-        : windowWidth >= 1100 ? FlyoutBehavior.Locked
+        : windowWidth >= 1100 && windowHeight >= 480 ? FlyoutBehavior.Locked
         : FlyoutBehavior.Flyout;
 
     foreach (var tab in Items.SelectMany(item => item.Items))

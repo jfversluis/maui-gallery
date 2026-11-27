@@ -12,7 +12,7 @@ public sealed class GalleryWindowFactory(
         // Resolving per window is intentional: AppShell and its sidebar are window-scoped.
         var shell = services.GetRequiredService<AppShell>();
         var window = new Window(shell) { Title = ".NET MAUI Gallery" };
-        window.SizeChanged += (_, _) => shell.ApplyLayout(window.Width);
+        window.SizeChanged += (_, _) => shell.ApplyLayout(window.Width, window.Height);
         windows.Track(window);
 
         shell.Loaded += OnShellLoaded;

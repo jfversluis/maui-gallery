@@ -40,7 +40,7 @@
                 <VerticalStackLayout Spacing="8">
                     <Label Text="Design for the window, not the device" Style="{StaticResource TextBodyStrong}" />
                     <Label Style="{StaticResource TextBodySecondary}"
-                           Text="A tablet in split view is as narrow as a phone, and a desktop window can be any size. So the gallery sorts the window's width into three size classes and lays out for those. The device idiom only decides the navigation style: phones always get tabs." />
+                           Text="A tablet in split view is as narrow as a phone, and a desktop window can be any size. So the gallery sorts the window's width into three size classes and lays out for those. Navigation follows the window too: bottom tabs when a touch screen is compact, a sidebar when it isn't, so a foldable switches as it opens." />
                 </VerticalStackLayout>
             </Border>
 
@@ -75,7 +75,7 @@
                     <Grid x:Name="CompactRow" ColumnDefinitions="*,*,2*" ColumnSpacing="12" Padding="20,12">
                         <Label Text="Compact" Style="{StaticResource TextBodyStrong}" />
                         <Label Grid.Column="1" Text="&lt; 640" Style="{StaticResource TextBody}" />
-                        <Label Grid.Column="2" Text="One column, options under the stage. Phones: bottom tabs. Elsewhere: a sidebar that slides in." Style="{StaticResource TextBodySecondary}" />
+                        <Label Grid.Column="2" Text="One column, options under the stage. Touch screens: bottom tabs. Desktop: a sidebar that slides in." Style="{StaticResource TextBodySecondary}" />
                     </Grid>
                     <BoxView Style="{StaticResource Divider}" />
                     <Grid x:Name="MediumRow" ColumnDefinitions="*,*,2*" ColumnSpacing="12" Padding="20,12">
@@ -96,7 +96,7 @@
             <VerticalStackLayout Spacing="12">
                 <SectionHeader Title="One Shell, three navigation styles" />
                 <Label Style="{StaticResource TextBodySecondary}"
-                       Text="The app has a single Shell. On phones it shows the bottom tab bar and turns the flyout off. Elsewhere it hides the tabs and switches FlyoutBehavior with the window: Flyout below 1100, so the sidebar slides in over the page, and Locked above it, so the sidebar docks beside the content. Shell itself never gets a size, so the window's SizeChanged event drives this." />
+                       Text="The app has a single Shell. On a touch screen that is compact (narrower than 640 or lower than 480, like a phone or a folded foldable) it shows the bottom tab bar and turns the flyout off. Otherwise it hides the tabs and switches FlyoutBehavior with the window: Flyout below 1100, so the sidebar slides in over the page, and Locked above it, so the sidebar docks beside the content. Desktop windows never get tabs. Shell itself never gets a size, so the window's SizeChanged event drives this." />
                 <Label Style="{StaticResource TextBodySecondary}"
                        Text="Components don't need the window at all. AdaptiveGrid picks its column count from its own width and the sample cards move their options beside the stage when they're wide enough, so both work in a narrow window and next to a docked sidebar." />
             </VerticalStackLayout>
