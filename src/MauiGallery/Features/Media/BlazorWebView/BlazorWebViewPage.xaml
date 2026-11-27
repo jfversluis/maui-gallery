@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Media.BlazorWebViewPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Media"
             xmlns:components="clr-namespace:MauiGallery.Features.Media.Components"
             x:DataType="SamplePageViewModel">
     <ScrollView>
@@ -32,7 +31,7 @@
                             XamlSource="BlazorWebViewShared.xaml.txt"
                             CSharpSource="BlazorWebViewShared.cs.txt">
                 <VerticalStackLayout x:Name="SharedSample"
-                                     x:DataType="local:PackingListViewModel"
+                                     x:DataType="PackingListViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=300, Default=480}">
                     <BlazorWebView x:Name="SharedWebView"
@@ -43,21 +42,21 @@
                             <RootComponent Selector="#app" ComponentType="{x:Type components:PackingList}" />
                         </BlazorWebView.RootComponents>
                     </BlazorWebView>
-                    <Label Text="{Binding Summary, StringFormat='.NET MAUI controls: {0}'}"
+                    <Label Text="{$'.NET MAUI controls: {Summary}'}"
                            FontAttributes="Bold"
                            AutomationId="sample-blazor-summary" />
-                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Items}" AutomationId="sample-blazor-items">
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Items}" AutomationId="sample-blazor-items">
                         <BindableLayout.ItemTemplate>
-                            <DataTemplate x:DataType="local:PackingItem">
+                            <DataTemplate x:DataType="PackingItem">
                                 <HorizontalStackLayout Spacing="4">
-                                    <CheckBox IsChecked="{Binding IsPacked}" SemanticProperties.Description="{Binding Title}" />
-                                    <Label Text="{Binding Title}" VerticalOptions="Center" />
+                                    <CheckBox IsChecked="{IsPacked}" SemanticProperties.Description="{.Title}" />
+                                    <Label Text="{.Title}" VerticalOptions="Center" />
                                 </HorizontalStackLayout>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </VerticalStackLayout>
                     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                        <Entry Text="{Binding NewItem}"
+                        <Entry Text="{NewItem}"
                                Placeholder="Add an item"
                                ReturnCommand="{Binding AddCommand}"
                                SemanticProperties.Description="New item"

@@ -6,19 +6,19 @@
     </BlazorWebView>
 
     <!-- The same data in .NET MAUI controls -->
-    <Label Text="{Binding Summary}" FontAttributes="Bold" />
-    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Items}">
+    <Label Text="{Summary}" FontAttributes="Bold" />
+    <VerticalStackLayout BindableLayout.ItemsSource="{Items}">
         <BindableLayout.ItemTemplate>
             <DataTemplate x:DataType="local:PackingItem">
                 <HorizontalStackLayout Spacing="4">
-                    <CheckBox IsChecked="{Binding IsPacked}" />
-                    <Label Text="{Binding Title}" VerticalOptions="Center" />
+                    <CheckBox IsChecked="{IsPacked}" />
+                    <Label Text="{.Title}" VerticalOptions="Center" />
                 </HorizontalStackLayout>
             </DataTemplate>
         </BindableLayout.ItemTemplate>
     </VerticalStackLayout>
     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-        <Entry Text="{Binding NewItem}" Placeholder="Add an item" ReturnCommand="{Binding AddCommand}" />
+        <Entry Text="{NewItem}" Placeholder="Add an item" ReturnCommand="{Binding AddCommand}" />
         <Button Grid.Column="1" Text="Add" Command="{Binding AddCommand}" />
     </Grid>
 </VerticalStackLayout>
