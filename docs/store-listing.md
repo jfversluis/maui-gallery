@@ -15,8 +15,10 @@ them; the Google Play texts don't mention Apple platforms either.
 | Home screen name | MAUI Gallery (iPhone, iPad and Android; the full name doesn't fit under the icon) |
 | Bundle ID / package name | `com.jfversluis.mauigallery` |
 | App Store Connect | App ID 6839980440 (iOS and macOS in one record, SKU `mauigallery`) |
+| Google Play | App ID 4974299803467936878 |
+| Microsoft Store | Store ID `9NMT1SVSFG7V`, package family name `Verslu.isIT..NETMAUIGallery_645s8kwhqbny6` |
 | Price | Free, no in-app purchases, no ads |
-| Category | App Store and Mac App Store: **Developer Tools** (secondary: Education). Google Play: **Tools**. Microsoft Store: Developer tools |
+| Category | App Store and Mac App Store: **Developer Tools** (secondary: Education). Google Play: **Tools**. Microsoft Store: **Developer tools**, subcategory Reference and training (secondary: Education) |
 | Support URL | https://github.com/jfversluis/maui-gallery/issues |
 | Marketing / website URL | https://github.com/jfversluis/maui-gallery |
 | Privacy policy URL | https://github.com/jfversluis/maui-gallery/blob/main/docs/privacy.md |
