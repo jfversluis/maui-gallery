@@ -226,6 +226,15 @@ public partial class ControlExample : ContentView
     {
         using var trace = PageLoadTrace.Measure("realize");
         _isRealized = true;
+
+        // Build the native views before the body joins the page. Creating them can run a layout pass (on Windows,
+        // rendering a FontImageSource does), and a CollectionView measured while its handler is still being set up
+        // fails with "Element is already the child of another element".
+        if (Handler?.MauiContext is { } context)
+        {
+            Microsoft.Maui.Platform.ElementExtensions.ToPlatform(Body, context);
+        }
+
         CardLayout.Remove(Placeholder);
         CardLayout.Add(Body);
         RenderCode();
