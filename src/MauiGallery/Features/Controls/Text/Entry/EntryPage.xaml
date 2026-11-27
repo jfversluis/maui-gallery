@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Text.EntryPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Text"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <x:Array x:Key="ClearButtonOptions" Type="{x:Type ClearButtonVisibility}">
@@ -125,24 +124,24 @@
                 <VerticalStackLayout x:Name="ValidationSample"
                                      WidthRequest="280"
                                      Spacing="8"
-                                     x:DataType="local:EntryValidationViewModel">
+                                     x:DataType="EntryValidationViewModel">
                     <Entry x:Name="ValidationEntry"
-                           Text="{Binding Email}"
+                           Text="{.Email}"
                            Placeholder="name@example.com"
                            Keyboard="Email"
                            ReturnType="Done"
-                           MaxLength="{Binding MaxLength}"
+                           MaxLength="{MaxLength}"
                            IsSpellCheckEnabled="False"
                            IsTextPredictionEnabled="False"
                            ReturnCommand="{Binding SubscribeCommand}"
                            AutomationId="sample-validation-entry" />
                     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                        <Label Text="{Binding ErrorMessage}"
+                        <Label Text="{ErrorMessage}"
                                TextColor="{AppThemeBinding Light=#C42B1C, Dark=#FF99A4}"
                                FontSize="13"
                                AutomationId="sample-validation-error" />
                         <Label Grid.Column="1"
-                               Text="{Binding CharacterCount}"
+                               Text="{CharacterCount}"
                                FontSize="13"
                                AutomationId="sample-validation-count" />
                     </Grid>

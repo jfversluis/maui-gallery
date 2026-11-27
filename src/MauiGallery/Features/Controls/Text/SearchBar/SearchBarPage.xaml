@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Text.SearchBarPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Text"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <x:Array x:Key="AlignmentOptions" Type="{x:Type TextAlignment}">
@@ -51,7 +50,7 @@
                 <VerticalStackLayout x:Name="CommandSample"
                                      WidthRequest="300"
                                      Spacing="12"
-                                     x:DataType="local:SearchBarCommandViewModel">
+                                     x:DataType="SearchBarCommandViewModel">
                     <SearchBar x:Name="CommandSearchBar"
                                Placeholder="Search fruit, then press Search"
                                SearchCommand="{Binding SearchCommand}"
@@ -62,7 +61,7 @@
                                            IsVisible="{Binding SearchCommand.IsRunning}"
                                            HeightRequest="20"
                                            WidthRequest="20" />
-                        <Label Text="{Binding Status}" VerticalOptions="Center" AutomationId="sample-command-status" />
+                        <Label Text="{Status}" VerticalOptions="Center" AutomationId="sample-command-status" />
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
             </ControlExample>
@@ -76,12 +75,12 @@
                 <VerticalStackLayout x:Name="FilterSample"
                                      WidthRequest="300"
                                      Spacing="12"
-                                     x:DataType="local:SearchBarFilterViewModel">
+                                     x:DataType="SearchBarFilterViewModel">
                     <SearchBar x:Name="FilterSearchBar"
-                               Text="{Binding Query}"
+                               Text="{Query}"
                                Placeholder="Filter fruit"
                                AutomationId="sample-filter-search-bar" />
-                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Results}"
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Results}"
                                          Spacing="6"
                                          Padding="12,0"
                                          AutomationId="sample-filter-results">

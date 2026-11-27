@@ -10,6 +10,6 @@
             IsVisible="{Binding SearchCommand.IsRunning}"
             HeightRequest="20"
             WidthRequest="20" />
-        <Label Text="{Binding Status}" VerticalOptions="Center" />
+        <Label Text="{Status}" VerticalOptions="Center" />
     </HorizontalStackLayout>
 </VerticalStackLayout>
