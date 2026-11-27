@@ -12,7 +12,9 @@ namespace MauiGallery.Services;
 /// </summary>
 public static class WebViewTeardown
 {
-    private static readonly TimeSpan LoadTimeout = TimeSpan.FromSeconds(15);
+    // Generous on purpose: work that finishes after the disconnect ends the app, while keeping a web view a little longer
+    // costs nothing. A cold WebView2 start on a slow or busy PC can take well over 15 seconds.
+    private static readonly TimeSpan LoadTimeout = TimeSpan.FromMinutes(2);
 
     // Time for work that was still in flight when loading completed, such as a Blazor page's last requests.
     private static readonly TimeSpan Settle = TimeSpan.FromSeconds(1);
@@ -81,11 +83,16 @@ public static class WebViewTeardown
                 return;
             }
 
-            platformView.CoreWebView2Initialized += (view, _) =>
+            platformView.CoreWebView2Initialized += (view, args) =>
             {
                 if (view.CoreWebView2 is { } core)
                 {
                     core.NavigationCompleted += (_, _) => _loaded.TrySetResult();
+                }
+                else if (args.Exception is not null)
+                {
+                    // WebView2 couldn't start, so nothing will load: there's no pending work to wait for.
+                    _loaded.TrySetResult();
                 }
             };
         }
