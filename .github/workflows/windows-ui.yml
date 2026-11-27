@@ -5,7 +5,8 @@ name: Windows UI
 # With mode "platform-shots" (or a push whose commit message contains [platform-shots]) it captures the
 # "Same code, every platform" images instead (see eng/platform-shots) and uploads them normalized, ready to commit.
 # With mode "repeat" (or a push whose commit message contains [repeat:<page ids>] or [repeat:<page ids>:<visits>], or
-# [repeat:<page ids>:<visits>:<variants>]) it opens the given pages over and over to catch intermittent crashes.
+# [repeat:<page ids>:<visits>:<variants>]) it opens the given pages over and over to catch intermittent crashes; add
+# [repeat-path:<steps>] to choose what happens before each visit (see -RepeatPath in the script).
 # Runs on GitHub-hosted windows-latest by default. To use a self-hosted machine (see docs/windows-validation.md),
 # pick its label in the run dialog or set the WINDOWS_UI_RUNNER repository variable to it, e.g. windows-ui.
 
@@ -157,6 +158,7 @@ jobs:
               $options.Pages = $Matches[1]
               if ($Matches[2]) { $options.Repeat = [int]$Matches[2] }
               if ($Matches[3]) { $options.Variants = $Matches[3] }
+              if ($env:HEAD_MESSAGE -match '\[repeat-path:([^\]]+)\]') { $options.RepeatPath = $Matches[1] }
           }
           ./.github/scripts/windows-ui-crawl.ps1 -AppPath $env:APP_PATH -OutDir $env:OUT_DIR -Mode $mode @options
           Get-Content "$env:OUT_DIR/summary.md" >> $env:GITHUB_STEP_SUMMARY

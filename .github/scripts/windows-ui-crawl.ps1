@@ -40,6 +40,9 @@ param(
     # Repeat mode: visits per page and variant, the page visited in between, the longest stay and the cold starts.
     [int] $Repeat = 20,
     [string] $RepeatFrom = 'button',
+    # Repeat mode: what to do before each visit, comma-separated: page ids, home, controls, settings, theme (switch
+    # between light and dark) or resize (switch between the expanded and medium widths). Defaults to -RepeatFrom.
+    [string] $RepeatPath = '',
     [double] $RepeatDelay = 3.0,
     [int] $RelaunchEvery = 5,
     [string] $Variants = 'default'
@@ -349,8 +352,24 @@ function Invoke-Repeat {
                     if (-not (Start-App)) { Add-Failure "Could not launch the app ($variant)"; break }
                     Set-Configuration 'light' 'expanded'
                 }
-                Invoke-DevFlow ui navigate "//main/controls/$RepeatFrom" | Out-Null
-                Start-Sleep -Milliseconds 1500
+                foreach ($step in ($(if ($RepeatPath) { $RepeatPath } else { $RepeatFrom }) -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })) {
+                    switch ($step) {
+                        'theme' {
+                            $script:repeatTheme = if ($script:repeatTheme -eq 'dark') { 'light' } else { 'dark' }
+                            Invoke-DevFlow ui navigate '//main/settings' | Out-Null
+                            Start-Sleep -Seconds 1
+                            Invoke-DevFlow ui tap "theme-$($script:repeatTheme)" | Out-Null
+                        }
+                        'resize' {
+                            $script:repeatSize = if ($script:repeatSize -eq 'medium') { 'expanded' } else { 'medium' }
+                            $w, $h = $sizes[$script:repeatSize]
+                            Invoke-DevFlow ui resize $w $h | Out-Null
+                        }
+                        { $_ -in 'home', 'controls', 'settings' } { Invoke-DevFlow ui navigate "//main/$step" | Out-Null }
+                        default { Invoke-DevFlow ui navigate "//main/controls/$step" | Out-Null }
+                    }
+                    Start-Sleep -Milliseconds 1500
+                }
                 $before = if (Test-Path $crashLog) { (Get-Item $crashLog).Length } else { 0 }
                 Invoke-DevFlow ui navigate "//main/controls/$id" | Out-Null
                 $stay = [Math]::Round((Get-Random -Minimum 0.3 -Maximum $RepeatDelay), 1)
