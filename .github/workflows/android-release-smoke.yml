@@ -1,0 +1,65 @@
+name: Android Release smoke test
+
+# Builds the Release APK (CoreCLR, ReadyToRun, trimming and R8, like the store build) and runs it on an Android
+# emulator: cold start times, a tour of representative pages by deep link with a screenshot each, a click inside the
+# BlazorWebView, a theme switch, and a logcat check for crashes. R8 problems only show up at runtime, so run it after
+# changing Java dependencies or the Android build settings.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  APP_PROJECT: src/MauiGallery/MauiGallery.csproj
+
+jobs:
+  smoke:
+    name: Android Release smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-java@v5
+        with:
+          distribution: microsoft
+          java-version: '21'
+      - run: dotnet workload install maui-android
+      - name: Build the Release APK
+        run: |
+          dotnet publish $APP_PROJECT -f net11.0-android -c Release -p:AndroidPackageFormats=apk
+          mkdir -p out && cp src/MauiGallery/bin/Release/net11.0-android/publish/*-Signed.apk out/
+        env:
+          MapsApiKey: ${{ secrets.MAPS_API_KEY }}
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Run on the emulator
+        uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2.38.0
+        with:
+          api-level: 36
+          target: google_apis
+          arch: x86_64
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
+          script: |
+            chmod +x .github/scripts/android-release-smoke.sh
+            .github/scripts/android-release-smoke.sh out/com.jfversluis.mauigallery-Signed.apk release out/smoke 10
+      - name: Summary
+        if: always()
+        run: cat out/smoke/summary.md >> $GITHUB_STEP_SUMMARY || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-release-smoke-${{ github.run_number }}
+          path: |
+            out/smoke/
+          retention-days: 14

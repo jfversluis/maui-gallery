@@ -8,7 +8,12 @@
                     StrokeThickness="2"
                     Stroke="{StaticResource InfoCardStroke}">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="{Binding Title, Source={RelativeSource TemplatedParent}, x:DataType=InfoCard}"
+                    <!--
+                        Text="{Binding Title, Source={RelativeSource TemplatedParent}}", as in the snippet. The XAML
+                        source generator doesn't compile Self and TemplatedParent bindings yet, and the reflection-based
+                        binding it falls back to isn't trim-safe, so InfoCard sets the same binding, compiled, in code.
+                    -->
+                    <Label x:Name="TitleLabel"
                            FontSize="18"
                            FontAttributes="Bold"
                            AutomationId="sample-templated-title" />
@@ -27,8 +32,9 @@
                             Description="RelativeSource Self makes the element its own source, so one property can follow another. Here HeightRequest follows WidthRequest and the box stays square."
                             XamlSource="RelativeBindingSelf.xaml.txt"
                             CSharpSource="RelativeBindingSelf.cs.txt">
-                <BoxView WidthRequest="{Binding Value, Source={x:Reference SelfSize}, x:DataType=Slider}"
-                         HeightRequest="{Binding WidthRequest, Source={RelativeSource Self}, x:DataType=BoxView}"
+                <!-- HeightRequest="{Binding WidthRequest, Source={RelativeSource Self}}" is set in code-behind (see InfoCardTemplate). -->
+                <BoxView x:Name="SelfBox"
+                         WidthRequest="{Binding Value, Source={x:Reference SelfSize}, x:DataType=Slider}"
                          Color="#512BD4"
                          CornerRadius="8"
                          AutomationId="sample-self-box" />

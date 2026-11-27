@@ -105,6 +105,72 @@ for the first.
 
 Third-party actions are pinned to commit SHAs. The scripts the jobs run are in [`eng/release`](../eng/release).
 
+## Build configuration
+
+Release builds use the best pipeline .NET 11 supports **for this app** on each platform. Debug builds keep the defaults
+(fast builds, the DevFlow agent). The settings are in [`MauiGallery.csproj`](../src/MauiGallery/MauiGallery.csproj);
+`dotnet publish` in the Release workflow needs no extra arguments for them.
+
+| Platform | Release pipeline | Trimming | NativeAOT |
+| --- | --- | --- | --- |
+| iOS | CoreCLR, composite full ReadyToRun, interpreter for the rest (the .NET 11 default) | Partial (SDK default) | Supported by .NET 11, not used: BlazorWebView fails |
+| Mac Catalyst | Same as iOS, universal (arm64 and x64) | Partial (SDK default) | Supported by .NET 11, not used: BlazorWebView fails |
+| Android | CoreCLR, composite partial ReadyToRun (the .NET 11 default), **R8** for the Java code | Partial (SDK default) | Experimental in .NET 11 ([XA1040](https://learn.microsoft.com/dotnet/android/messages/xa1040)), not used |
+| Windows | CoreCLR, ReadyToRun (the default) | None (default) | Builds and runs unpackaged; the MSIX build fails ([dotnet/maui#35641](https://github.com/dotnet/maui/issues/35641)) and BlazorWebView fails |
+
+Why not NativeAOT or full trimming: the BlazorWebView sample. Razor components and their JS interop aren't compatible with
+either in .NET 11 ([dotnet/aspnetcore#70364](https://github.com/dotnet/aspnetcore/issues/70364)). A NativeAOT build shows
+"An unhandled error has occurred" in the component (its IPC uses reflection-based System.Text.Json), and full trimming
+strips the components, which the app only references by type. Everything else in the app works with NativeAOT. Once
+Blazor supports it, enable it for iOS and Mac Catalyst with `<PublishAot>true</PublishAot>` (not conditioned on the
+configuration: it also selects feature switches) and check the trim and AOT warnings of `dotnet publish`.
+
+What the app uses:
+
+| Feature | Trimming and NativeAOT |
+| --- | --- |
+| XAML | Source-generated with compiled bindings (`x:DataType` everywhere, `MauiStrictXamlCompilation`). `{OnIdiom}` compiles to `OnIdiom<T>` from .NET MAUI 11.0.10 on, so `MauiVersion` is pinned to it in `Directory.Build.props`. `RelativeSource Self` and `TemplatedParent` bindings aren't compiled yet, so those few are set in code. On Windows, `{OnPlatform}` isn't resolved at compile time. |
+| HybridWebView | Safe: the sample passes a source-generated `JsonSerializerContext` to `SetInvokeJavaScriptTarget` and serializes its messages with it. |
+| BlazorWebView | Not compatible with NativeAOT or full trimming (above); works with the default partial trimming. |
+| Maps, CommunityToolkit.Mvvm, IconFont.Maui.FluentIcons | No trim or AOT warnings. |
+
+The trim, AOT and single-file analyzers run in every build on iOS, Mac Catalyst and Android, and warnings fail the build,
+so the app's own code stays trim- and AOT-safe. (.NET MAUI turns the trim analyzer off when an app doesn't use full
+trimming; the project turns it back on. Not on Windows, because of `{OnPlatform}`.)
+
+R8 shrinks the Java code (`classes*.dex` went from 18.5 MB to 5.8 MB). It writes its mapping file to
+`bin/Release/net11.0-android/publish/mapping.txt` and also embeds it in the AAB
+(`BUNDLE-METADATA/com.android.tools.build.obfuscation/proguard.map`), so Google Play deobfuscates Java stack traces
+without a separate upload. No custom ProGuard rules are needed: .NET for Android generates keep rules for the Java types
+.NET code uses, and the AndroidX and Google Play services libraries bring their own. R8 problems only show at runtime:
+after changing Java dependencies or Android build settings, run the
+[Android Release smoke test](../.github/workflows/android-release-smoke.yml) workflow (Actions > Run workflow; it must be on the default branch), which
+starts the Release APK on an emulator, opens representative pages, clicks inside the BlazorWebView and checks logcat.
+
+Measured on Nov 27, 2026 (Apple silicon Mac under heavy load, so build times are rough; Android startup on the hosted
+Android emulator in CI, x86_64, median of 10 cold starts with `am start -W`; iOS startup on the iPhone 18 Pro Max
+simulator, from launch to the Home page, median of 8; Windows on `windows-latest`, median of 5):
+
+| | Before (MAUI 11.0.0, defaults) | Now | NativeAOT (not shipped) |
+| --- | --- | --- | --- |
+| iOS IPA | 30.7 MB | 29.6 MB | 27.0 MB |
+| iOS startup (simulator) | 4.8 s | 4.6 s | 3.5 s |
+| Android AAB | 39.8 MB | 37.4 MB | |
+| Android download, arm64 (bundletool) | 24.6 MB | 20.0 MB | |
+| Android startup (emulator) | 2.1 s | 2.1 s | |
+| Mac Catalyst PKG (universal) | 51.7 MB | 49.5 MB | |
+| Mac Catalyst app (universal) | 267 MB | 252 MB | |
+| Windows startup to main window (hosted runner, unpackaged) | | 1.1 s | 0.5 s |
+| Build time, IPA / AAB / PKG | 110 / 133 / 173 s | 63 / 130 / 118 s | 84 s (IPA) |
+
+Sources: [Runtimes and compilation](https://learn.microsoft.com/dotnet/maui/deployment/runtimes-compilation?view=net-maui-11.0),
+[NativeAOT deployment](https://learn.microsoft.com/dotnet/maui/deployment/nativeaot?view=net-maui-11.0),
+[Trimming](https://learn.microsoft.com/dotnet/maui/deployment/trimming?view=net-maui-11.0),
+[Mono to CoreCLR on mobile](https://learn.microsoft.com/dotnet/core/compatibility/maui/11/mobile-code-generation),
+[What's new in .NET MAUI 11](https://learn.microsoft.com/dotnet/maui/whats-new/dotnet-11?view=net-maui-11.0),
+[Android build properties (`AndroidLinkTool`)](https://learn.microsoft.com/dotnet/android/building-apps/build-properties#androidlinktool),
+[dotnet/maui#38661](https://github.com/dotnet/maui/pull/38661) (`{OnIdiom}`).
+
 ## One-time setup
 
 Run the commands from a clone of the repo with the [GitHub CLI](https://cli.github.com) signed in as an admin.

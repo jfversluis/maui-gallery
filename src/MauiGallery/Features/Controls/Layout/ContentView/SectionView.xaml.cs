@@ -13,4 +13,16 @@ public sealed partial class SectionView : ContentView
         get => (string)GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
+
+    protected override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        // The XAML source generator falls back to a reflection-based binding for RelativeSource TemplatedParent, which
+        // isn't trim-safe, so the template's title binding is set here, compiled.
+        if (GetTemplateChild("TitleLabel") is Label title)
+        {
+            title.SetBinding(Label.TextProperty, static (SectionView section) => section.Title, source: RelativeBindingSource.TemplatedParent);
+        }
+    }
 }

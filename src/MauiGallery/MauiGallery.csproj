@@ -24,7 +24,14 @@
 
     <!-- XAML: source-generated (the .NET 11 default) and strict, so binding mistakes fail the build. -->
     <MauiStrictXamlCompilation>true</MauiStrictXamlCompilation>
+    <!--
+      The app's code is trim- and AOT-safe: the trim, AOT and single-file analyzers run in every build, and any warning
+      fails it (warnings are errors). Not IsAotCompatible: that also marks the app assembly trimmable, and trimming it
+      strips the Razor components that BlazorWebView only references by type.
+    -->
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+    <EnableSingleFileAnalyzer>true</EnableSingleFileAnalyzer>
     <!-- The app's .css files are web content (HybridWebView, BlazorWebView), not .NET MAUI style sheets. -->
     <EnableDefaultCssItems>false</EnableDefaultCssItems>
 
@@ -35,6 +42,30 @@
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
     <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+  </PropertyGroup>
+
+  <!--
+    Release pipeline (docs/releasing.md, "Build configuration", has the reasoning, links and measurements):
+    - iOS and Mac Catalyst: CoreCLR with composite ReadyToRun, the .NET 11 default.
+    - Android: CoreCLR with composite ReadyToRun (the .NET 11 default), plus R8 to shrink and optimize the Java code.
+    - Windows: CoreCLR with ReadyToRun, the default.
+    NativeAOT and full trimming stay off: BlazorWebView (Razor components, JS interop) doesn't work with either in
+    .NET 11 (dotnet/aspnetcore#70364). The app's own code is trim- and AOT-safe, and the analyzers keep it that way, so
+    turning NativeAOT on later is a one-line change.
+  -->
+  <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android' and '$(Configuration)' == 'Release'">
+    <AndroidLinkTool>r8</AndroidLinkTool>
+  </PropertyGroup>
+  <!--
+    .NET MAUI turns the trim analyzer off unless the app uses full trimming or NativeAOT. Keep it on, so a reflection-based
+    binding or other trim-unsafe code in the app fails the build. The trimmer's whole-app analysis stays quiet, as .NET MAUI
+    sets it up for partial trimming: it would report the framework's own warnings (Blazor, see above), not the app's.
+    Not on Windows: there the XAML source generator doesn't resolve {OnPlatform} at compile time, and the runtime
+    fallback it generates is flagged (fine without trimming).
+  -->
+  <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'windows'">
+    <_MauiDoNotConfigureTrimAnalyzer>true</_MauiDoNotConfigureTrimAnalyzer>
+    <SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
   </PropertyGroup>
 
   <!--

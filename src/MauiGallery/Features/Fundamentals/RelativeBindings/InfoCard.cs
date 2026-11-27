@@ -11,4 +11,16 @@ public sealed class InfoCard : ContentView
         get => (string)GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
+
+    protected override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        // The template's {Binding Title, Source={RelativeSource TemplatedParent}}, compiled: the XAML source generator
+        // falls back to a reflection-based binding for TemplatedParent, which isn't trim-safe.
+        if (GetTemplateChild("TitleLabel") is Label title)
+        {
+            title.SetBinding(Label.TextProperty, static (InfoCard card) => card.Title, source: RelativeBindingSource.TemplatedParent);
+        }
+    }
 }
