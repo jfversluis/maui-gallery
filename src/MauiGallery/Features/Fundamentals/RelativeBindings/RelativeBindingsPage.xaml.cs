@@ -10,6 +10,8 @@ public sealed partial class RelativeBindingsPage : SamplePage
     {
         InitializeComponent();
 
+        SelfBox.SetBinding(BoxView.HeightRequestProperty, static (BoxView box) => box.WidthRequest, source: RelativeBindingSource.Self);
+
         var shoppingList = new ShoppingListViewModel();
         shoppingList.Items.CollectionChanged += OnShoppingListChanged;
         AncestorSample.BindingContext = shoppingList;
