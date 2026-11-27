@@ -1,0 +1,15 @@
+<!-- Give it a finite size: page content, or a parent with a width and height. -->
+<foldable:TwoPaneView
+    xmlns:foldable="clr-namespace:Microsoft.Maui.Controls.Foldable;assembly=Microsoft.Maui.Controls.Foldable"
+    MinWideModeWidth="$(MinWideModeWidth)"
+    WideModeConfiguration="$(WideModeConfiguration)"
+    PanePriority="$(PanePriority)"
+    Pane1Length="$(Pane1Length)"
+    ModeChanged="OnModeChanged">
+    <foldable:TwoPaneView.Pane1>
+        <Label Text="Pane1: inbox" />
+    </foldable:TwoPaneView.Pane1>
+    <foldable:TwoPaneView.Pane2>
+        <Label Text="Pane2: message" />
+    </foldable:TwoPaneView.Pane2>
+</foldable:TwoPaneView>

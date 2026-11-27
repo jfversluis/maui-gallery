@@ -1,0 +1,17 @@
+// MauiProgram.cs: builder.UseFoldable();
+using Microsoft.Maui.Foldable;
+
+var info = DualScreenInfo.Current;
+info.PropertyChanged += (s, e) =>
+{
+    // SinglePane, or Wide/Tall when the window spans the fold.
+    SpanModeLabel.Text = $"SpanMode: {info.SpanMode}";
+    HingeBoundsLabel.Text = $"HingeBounds: {info.HingeBounds}";
+};
+
+async void OnReadHingeAngleClicked(object? sender, EventArgs e)
+{
+    // 0 on devices without a hinge sensor.
+    var angle = await info.GetHingeAngleAsync();
+    HingeAngleLabel.Text = $"Hinge angle: {angle}°";
+}

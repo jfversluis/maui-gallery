@@ -1,0 +1,15 @@
+using Microsoft.Maui.Controls.Foldable;
+
+// Give it a finite size: page content, or a parent with a width and height.
+var twoPaneView = new TwoPaneView
+{
+    MinWideModeWidth = $(MinWideModeWidth),
+    WideModeConfiguration = $(WideModeConfigurationCode),
+    PanePriority = $(PanePriorityCode),
+    Pane1Length = $(Pane1LengthCode),
+    Pane1 = new Label { Text = "Pane1: inbox" },
+    Pane2 = new Label { Text = "Pane2: message" },
+};
+
+// Mode is SinglePane, Wide or Tall, and changes as the view resizes or the device folds.
+twoPaneView.ModeChanged += (s, e) => Console.WriteLine($"Mode: {twoPaneView.Mode}");

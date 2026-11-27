@@ -41,6 +41,10 @@ public partial class ControlExample : ContentView
         BindableProperty.Create(nameof(ShowNativeBadge), typeof(bool), typeof(ControlExample), true,
             propertyChanged: (b, _, _) => ((ControlExample)b).UpdateToolbar());
 
+    public static readonly BindableProperty FillStageProperty =
+        BindableProperty.Create(nameof(FillStage), typeof(bool), typeof(ControlExample), false,
+            propertyChanged: (b, _, n) => ((ControlExample)b).StageHost.HorizontalOptions = (bool)n ? LayoutOptions.Fill : LayoutOptions.Center);
+
     public static readonly BindableProperty NoticeProperty =
         BindableProperty.Create(nameof(Notice), typeof(string), typeof(ControlExample));
 
@@ -154,6 +158,16 @@ public partial class ControlExample : ContentView
     {
         get => (bool)GetValue(ShowNativeBadgeProperty);
         set => SetValue(ShowNativeBadgeProperty, value);
+    }
+
+    /// <summary>
+    /// Whether the sample gets the stage's full width instead of its own size, centered. Use it for adaptive samples
+    /// that react to the space they get; cap their width with <c>MaximumWidthRequest</c>.
+    /// </summary>
+    public bool FillStage
+    {
+        get => (bool)GetValue(FillStageProperty);
+        set => SetValue(FillStageProperty, value);
     }
 
     /// <summary>

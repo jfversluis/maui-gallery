@@ -1,0 +1,6 @@
+<VerticalStackLayout Spacing="8">
+    <Label x:Name="SpanModeLabel" />
+    <Label x:Name="HingeBoundsLabel" />
+    <Label x:Name="HingeAngleLabel" />
+    <Button Text="Read hinge angle" Clicked="OnReadHingeAngleClicked" />
+</VerticalStackLayout>

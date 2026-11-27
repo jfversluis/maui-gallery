@@ -82,7 +82,7 @@ public sealed partial class GalleryCatalog
             IconGlyph = FluentIconsRegular.ResizeLarge24,
             PageType = typeof(ResponsiveDesignPage),
             Keywords = ["responsive", "adaptive", "breakpoints", "size class", "compact", "expanded", "window size", "SizeChanged", "VisualStateManager", "AdaptiveTrigger", "OnIdiom", "OnPlatform", "FlyoutBehavior", "tablet", "desktop"],
-            RelatedIds = ["color", "typography", "spacing", "visual-state-manager", "shell"],
+            RelatedIds = ["color", "typography", "spacing", "visual-state-manager", "shell", "two-pane-view"],
             DocsUrl = new(DocsRoot + "user-interface/visual-states"),
             SourceUrl = new(SourceRoot + "DesignGuidance"),
         },

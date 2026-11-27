@@ -71,6 +71,21 @@ public sealed partial class GalleryCatalog
         },
         new()
         {
+            Id = "two-pane-view",
+            Title = "TwoPaneView",
+            Description = "Shows two panes side by side or stacked, and splits them along the fold on Android foldables.",
+            CategoryId = CategoryIds.Layout,
+            IconGlyph = FluentIconsRegular.SplitVertical24,
+            PageType = typeof(TwoPaneViewPage),
+            Keywords = ["foldable", "fold", "hinge", "dual screen", "Surface Duo", "split view", "master detail", "list detail", "DualScreenInfo", "span", "adaptive", "layout"],
+            NativeMappings = LayoutPanelMappings,
+            RelatedIds = ["grid", "responsive-design", "flyout-page"],
+            DocsUrl = new(DocsRoot + "user-interface/controls/twopaneview"),
+            ApiUrl = new(ApiRoot + "microsoft.maui.controls.foldable.twopaneview"),
+            SourceUrl = new(SourceRoot + "Controls/Layout/TwoPaneView"),
+        },
+        new()
+        {
             Id = "scroll-view",
             Title = "ScrollView",
             Description = "Scrolls content that is larger than the space available, vertically, horizontally or both.",

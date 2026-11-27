@@ -11,6 +11,7 @@ using MauiGallery.Features.Search;
 using MauiGallery.Features.Settings;
 using MauiGallery.Features.Chrome;
 using MauiGallery.Services;
+using Microsoft.Maui.Foldable;
 #if DEBUG
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.DevFlow.Agent;
@@ -29,6 +30,7 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseFluentIcons()
             .UseMauiMaps()
+            .UseFoldable()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("Inter-Regular.ttf", "Inter");

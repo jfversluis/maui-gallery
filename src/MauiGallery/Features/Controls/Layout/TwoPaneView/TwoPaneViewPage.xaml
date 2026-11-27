@@ -1,0 +1,152 @@
+<SamplePage x:Class="MauiGallery.Features.Controls.Layouts.TwoPaneViewPage"
+            xmlns:foldable="clr-namespace:Microsoft.Maui.Controls.Foldable;assembly=Microsoft.Maui.Controls.Foldable"
+            x:DataType="SamplePageViewModel">
+    <SamplePage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <LayoutSampleResources />
+            </ResourceDictionary.MergedDictionaries>
+            <x:Array x:Key="PaneLengthPresets" Type="{x:Type x:String}">
+                <x:String>*</x:String>
+                <x:String>2*</x:String>
+                <x:String>120</x:String>
+            </x:Array>
+        </ResourceDictionary>
+    </SamplePage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Style="{StaticResource PageContent}">
+            <ControlPageHeader />
+
+            <!-- 1. Side by side when there is room -->
+            <ControlExample x:Name="WideExample"
+                            Title="Show two panes side by side"
+                            Description="When the view is wider than MinWideModeWidth, Pane1 and Pane2 sit next to each other; when it is narrower, only the PanePriority pane is shown. On an unfolded Android foldable the split lines up with the hinge instead."
+                            ShowStyleToggle="False"
+                            FillStage="True"
+                            XamlSource="TwoPaneViewWide.xaml.txt"
+                            CSharpSource="TwoPaneViewWide.cs.txt">
+                <!--
+                    The frame takes the stage's width, up to the chosen maximum, so the sample fits a folded phone and
+                    spans the hinge when unfolded. On a book-style foldable, a TwoPaneView that doesn't cross the fold
+                    pads its panes out of view in SinglePane and Tall mode, so both samples stay wide enough to span
+                    it. TwoPaneView only picks a mode when it is measured with a finite size, so the frame also sets
+                    the height.
+                -->
+                <Border Style="{StaticResource LayoutFrame}"
+                        HorizontalOptions="Fill"
+                        MaximumWidthRequest="{Binding Value, Source={x:Reference WideWidth}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                        HeightRequest="180">
+                    <foldable:TwoPaneView x:Name="WideTwoPaneView"
+                                          MinWideModeWidth="{Binding Value, Source={x:Reference WideMinWidth}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                          ModeChanged="OnWideModeChanged"
+                                          SizeChanged="OnWideModeChanged"
+                                          AutomationId="sample-wide-two-pane-view">
+                        <foldable:TwoPaneView.Pane1>
+                            <Border Style="{StaticResource Tile}">
+                                <Label Text="Pane1: inbox" Style="{StaticResource TileText}" />
+                            </Border>
+                        </foldable:TwoPaneView.Pane1>
+                        <foldable:TwoPaneView.Pane2>
+                            <Border Style="{StaticResource TileGreen}">
+                                <Label Text="Pane2: message" Style="{StaticResource TileText}" />
+                            </Border>
+                        </foldable:TwoPaneView.Pane2>
+                    </foldable:TwoPaneView>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference WideWidth}, StringFormat='Maximum width: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="WideWidth" Minimum="320" Maximum="640" Value="640" AutomationId="option-wide-width" />
+                        <Label Text="{Binding Value, Source={x:Reference WideMinWidth}, StringFormat='MinWideModeWidth: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="WideMinWidth" Minimum="100" Maximum="600" Value="240" AutomationId="option-wide-min-width" />
+                        <Label Text="WideModeConfiguration" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="WideConfiguration" SelectedIndexChanged="OnWideOptionsChanged" AutomationId="option-wide-configuration" />
+                        <Label Text="PanePriority" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="WidePriority" SelectedIndexChanged="OnWideOptionsChanged" AutomationId="option-wide-priority" />
+                        <Label Text="Pane1Length" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="WidePane1Length"
+                                ItemsSource="{StaticResource PaneLengthPresets}"
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnWideOptionsChanged"
+                                AutomationId="option-wide-pane1-length" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="MinWideModeWidth" Value="{Binding Value, Source={x:Reference WideMinWidth}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                    <Substitution x:Name="WideConfigurationSubstitution" Key="WideModeConfiguration" Value="LeftRight" Default="LeftRight" />
+                    <Substitution x:Name="WideConfigurationCode" Key="WideModeConfigurationCode" Value="TwoPaneViewWideModeConfiguration.LeftRight" Default="TwoPaneViewWideModeConfiguration.LeftRight" IsExpression="True" />
+                    <Substitution x:Name="WidePrioritySubstitution" Key="PanePriority" Value="Pane1" Default="Pane1" />
+                    <Substitution x:Name="WidePriorityCode" Key="PanePriorityCode" Value="TwoPaneViewPriority.Pane1" Default="TwoPaneViewPriority.Pane1" IsExpression="True" />
+                    <Substitution Key="Pane1Length" Value="{Binding SelectedItem, Source={x:Reference WidePane1Length}, x:DataType=Picker}" Default="*" />
+                    <Substitution x:Name="WidePane1LengthCode" Key="Pane1LengthCode" Value="GridLength.Star" Default="GridLength.Star" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 2. Stacked when it is tall -->
+            <ControlExample x:Name="TallExample"
+                            Title="Stack the panes on a tall view"
+                            Description="A view that is too narrow for Wide mode but taller than MinTallModeHeight stacks the panes. TallModeConfiguration picks the order, or keeps a single pane. On a foldable the fold decides instead: Tall across a horizontal fold, Wide across a vertical one."
+                            ShowStyleToggle="False"
+                            FillStage="True"
+                            XamlSource="TwoPaneViewTall.xaml.txt"
+                            CSharpSource="TwoPaneViewTall.cs.txt">
+                <Border Style="{StaticResource LayoutFrame}" HorizontalOptions="Fill" MaximumWidthRequest="480" HeightRequest="260">
+                    <foldable:TwoPaneView x:Name="TallTwoPaneView"
+                                          MinWideModeWidth="10000"
+                                          MinTallModeHeight="{Binding Value, Source={x:Reference TallMinHeight}, x:DataType=Slider, Converter={StaticResource Rounded}}"
+                                          ModeChanged="OnTallModeChanged"
+                                          SizeChanged="OnTallModeChanged"
+                                          AutomationId="sample-tall-two-pane-view">
+                        <foldable:TwoPaneView.Pane1>
+                            <Border Style="{StaticResource TileAmber}">
+                                <Label Text="Pane1: video" Style="{StaticResource TileText}" />
+                            </Border>
+                        </foldable:TwoPaneView.Pane1>
+                        <foldable:TwoPaneView.Pane2>
+                            <Border Style="{StaticResource TileViolet}">
+                                <Label Text="Pane2: controls" Style="{StaticResource TileText}" />
+                            </Border>
+                        </foldable:TwoPaneView.Pane2>
+                    </foldable:TwoPaneView>
+                </Border>
+                <ControlExample.Options>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding Value, Source={x:Reference TallMinHeight}, StringFormat='MinTallModeHeight: {0:0}', x:DataType=Slider}"
+                               Style="{StaticResource OptionLabel}" />
+                        <Slider x:Name="TallMinHeight" Minimum="100" Maximum="400" Value="200" AutomationId="option-tall-min-height" />
+                        <Label Text="TallModeConfiguration" Style="{StaticResource OptionLabel}" />
+                        <Picker x:Name="TallConfiguration" SelectedIndexChanged="OnTallOptionsChanged" AutomationId="option-tall-configuration" />
+                    </VerticalStackLayout>
+                </ControlExample.Options>
+                <ControlExample.Substitutions>
+                    <Substitution Key="MinTallModeHeight" Value="{Binding Value, Source={x:Reference TallMinHeight}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
+                    <Substitution x:Name="TallConfigurationSubstitution" Key="TallModeConfiguration" Value="TopBottom" Default="TopBottom" />
+                    <Substitution x:Name="TallConfigurationCode" Key="TallModeConfigurationCode" Value="TwoPaneViewTallModeConfiguration.TopBottom" Default="TwoPaneViewTallModeConfiguration.TopBottom" IsExpression="True" />
+                </ControlExample.Substitutions>
+            </ControlExample>
+
+            <!-- 3. The fold itself -->
+            <ControlExample x:Name="HingeExample"
+                            Title="Read the fold and hinge"
+                            Description="DualScreenInfo.Current reports whether the window spans the fold, where the hinge is and, on devices with a hinge sensor, its angle. Use it to keep content out of the fold in your own layouts."
+                            ShowStyleToggle="False"
+                            ShowRtlToggle="False"
+                            ShowNativeBadge="False"
+                            XamlSource="TwoPaneViewHinge.xaml.txt"
+                            CSharpSource="TwoPaneViewHinge.cs.txt">
+                <VerticalStackLayout x:Name="HingeSample" Spacing="8" WidthRequest="300" AutomationId="sample-hinge-info">
+                    <Label x:Name="HingeSpanMode" AutomationId="sample-hinge-span-mode" />
+                    <Label x:Name="HingeLandscape" AutomationId="sample-hinge-landscape" />
+                    <Label x:Name="HingeBounds" AutomationId="sample-hinge-bounds" />
+                    <Label x:Name="HingeAngle" Text="Hinge angle: not read yet" AutomationId="sample-hinge-angle" />
+                    <Button Text="Read hinge angle" Clicked="OnReadHingeAngleClicked" HorizontalOptions="Start" AutomationId="sample-hinge-read-angle" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <RelatedItems />
+        </VerticalStackLayout>
+    </ScrollView>
+</SamplePage>

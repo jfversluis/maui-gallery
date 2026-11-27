@@ -1,0 +1,12 @@
+<foldable:TwoPaneView
+    xmlns:foldable="clr-namespace:Microsoft.Maui.Controls.Foldable;assembly=Microsoft.Maui.Controls.Foldable"
+    MinWideModeWidth="10000"
+    MinTallModeHeight="$(MinTallModeHeight)"
+    TallModeConfiguration="$(TallModeConfiguration)">
+    <foldable:TwoPaneView.Pane1>
+        <Label Text="Pane1: video" />
+    </foldable:TwoPaneView.Pane1>
+    <foldable:TwoPaneView.Pane2>
+        <Label Text="Pane2: controls" />
+    </foldable:TwoPaneView.Pane2>
+</foldable:TwoPaneView>

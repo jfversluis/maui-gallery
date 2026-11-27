@@ -141,6 +141,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" />
+    <PackageReference Include="Microsoft.Maui.Controls.Foldable" />
     <PackageReference Include="Microsoft.Maui.Controls.Maps" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="IconFont.Maui.FluentIcons" />

@@ -39,6 +39,9 @@ the reference implementation. Read it before writing a new page.
   not in the stage. Longer explanations belong in the description.
 - When the stage only holds buttons that call an API (dialogs, launchers, sensors), set `ShowNativeBadge`,
   `ShowStyleToggle` and `ShowRtlToggle` to `False`. Keep the badge wherever the native control is the point.
+- Samples are centered at their own size. For adaptive samples that react to the space they get, set
+  `FillStage="True"` and cap the sample with `MaximumWidthRequest` instead of an `OnIdiom` width: a foldable is both
+  a phone and a tablet.
 - `AutomationId`s: `sample-*` for sample controls, `option-*` for options.
 - Keep the snippet identical in meaning to the live sample, minus gallery-only details.
 - No new NuGet dependencies.

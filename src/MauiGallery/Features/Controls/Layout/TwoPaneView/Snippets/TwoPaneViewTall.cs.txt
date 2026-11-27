@@ -1,0 +1,11 @@
+using Microsoft.Maui.Controls.Foldable;
+
+var twoPaneView = new TwoPaneView
+{
+    // A large MinWideModeWidth rules out Wide mode, so the panes stack once the view is tall enough.
+    MinWideModeWidth = 10000,
+    MinTallModeHeight = $(MinTallModeHeight),
+    TallModeConfiguration = $(TallModeConfigurationCode),
+    Pane1 = new Label { Text = "Pane1: video" },
+    Pane2 = new Label { Text = "Pane2: controls" },
+};
