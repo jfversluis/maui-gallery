@@ -14,6 +14,7 @@ them; the Google Play texts don't mention Apple platforms either.
 | App name | .NET MAUI Gallery |
 | Home screen name | MAUI Gallery (iPhone, iPad and Android; the full name doesn't fit under the icon) |
 | Bundle ID / package name | `com.jfversluis.mauigallery` |
+| App Store Connect | App ID 6839980440 (iOS and macOS in one record, SKU `mauigallery`) |
 | Price | Free, no in-app purchases, no ads |
 | Category | App Store and Mac App Store: **Developer Tools** (secondary: Education). Google Play: **Tools**. Microsoft Store: Developer tools |
 | Support URL | https://github.com/jfversluis/maui-gallery/issues |
@@ -40,7 +41,7 @@ them; the Google Play texts don't mention Apple platforms either.
 **Description**
 
 > The .NET MAUI Gallery is the companion app for developers building with .NET MAUI, Microsoft's open-source
-> framework for native apps in C# and XAML. Explore every control, layout and API in one place, running live on your
+> framework for native apps in C# and XAML. Explore the controls, layouts and APIs in one place, running live on your
 > device.
 >
 > SEE IT RUN, NATIVELY
@@ -76,8 +77,7 @@ them; the Google Play texts don't mention Apple platforms either.
 >
 > The gallery is open source: browse the code and contribute at github.com/jfversluis/maui-gallery.
 >
-> .NET MAUI and .NET are trademarks of Microsoft. This app is a community project and isn't affiliated with or
-> endorsed by Microsoft.
+> .NET MAUI and .NET are trademarks of Microsoft.
 
 **What's new in 1.0**
 
