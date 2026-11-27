@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Menus.MenuBarPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
             x:DataType="SamplePageViewModel">
 
     <!-- Shown in the menu bar, next to the app's own menus, while this page is visible -->
@@ -35,7 +34,7 @@
             <Border Style="{StaticResource SubtlePanel}" IsVisible="{OnPlatform Android=True, iOS=True, Default=False}">
                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                     <Label Style="{StaticResource TextIcon}"
-                           Text="{x:Static icons:FluentIconsRegular.Desktop24}"
+                           Text="{x:Static FluentIconsRegular.Desktop24}"
                            TextColor="{DynamicResource ColorAccentText}"
                            VerticalOptions="Start" />
                     <VerticalStackLayout Grid.Column="1" Spacing="4">

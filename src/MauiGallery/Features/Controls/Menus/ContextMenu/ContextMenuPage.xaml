@@ -1,6 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Menus.ContextMenuPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Menus"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <Color x:Key="TileStrokeLight">#D1D1D6</Color>
@@ -16,7 +14,7 @@
             <Border Style="{StaticResource SubtlePanel}" IsVisible="{OnPlatform Android=True, iOS=True, Default=False}">
                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                     <Label Style="{StaticResource TextIcon}"
-                           Text="{x:Static icons:FluentIconsRegular.Desktop24}"
+                           Text="{x:Static FluentIconsRegular.Desktop24}"
                            TextColor="{DynamicResource ColorAccentText}"
                            VerticalOptions="Start" />
                     <VerticalStackLayout Grid.Column="1" Spacing="4">
@@ -43,8 +41,8 @@
                     <HorizontalStackLayout Spacing="12">
                         <Image WidthRequest="28" HeightRequest="28">
                             <Image.Source>
-                                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                 Glyph="{x:Static icons:FluentIconsRegular.DocumentPdf24}"
+                                <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                 Glyph="{x:Static FluentIconsRegular.DocumentPdf24}"
                                                  Color="{AppThemeBinding Light={StaticResource IconLight}, Dark={StaticResource IconDark}}" />
                             </Image.Source>
                         </Image>
@@ -54,15 +52,15 @@
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Open" Clicked="OnBasicItemClicked">
                                 <MenuFlyoutItem.IconImageSource>
-                                    <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                     Glyph="{x:Static icons:FluentIconsRegular.Open24}"
+                                    <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                     Glyph="{x:Static FluentIconsRegular.Open24}"
                                                      Color="{AppThemeBinding Light={StaticResource IconLight}, Dark={StaticResource IconDark}}" />
                                 </MenuFlyoutItem.IconImageSource>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem Text="Copy Link" Clicked="OnBasicItemClicked">
                                 <MenuFlyoutItem.IconImageSource>
-                                    <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                     Glyph="{x:Static icons:FluentIconsRegular.Link24}"
+                                    <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                     Glyph="{x:Static FluentIconsRegular.Link24}"
                                                      Color="{AppThemeBinding Light={StaticResource IconLight}, Dark={StaticResource IconDark}}" />
                                 </MenuFlyoutItem.IconImageSource>
                             </MenuFlyoutItem>
@@ -71,8 +69,8 @@
                                             Clicked="OnBasicItemClicked"
                                             IsEnabled="{Binding IsToggled, Source={x:Reference BasicDeleteEnabled}, x:DataType=Switch}">
                                 <MenuFlyoutItem.IconImageSource>
-                                    <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                     Glyph="{x:Static icons:FluentIconsRegular.Delete24}"
+                                    <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                     Glyph="{x:Static FluentIconsRegular.Delete24}"
                                                      Color="{AppThemeBinding Light={StaticResource IconLight}, Dark={StaticResource IconDark}}" />
                                 </MenuFlyoutItem.IconImageSource>
                             </MenuFlyoutItem>
@@ -99,28 +97,28 @@
                             XamlSource="ContextMenuList.xaml.txt"
                             CSharpSource="ContextMenuList.cs.txt">
                 <VerticalStackLayout x:Name="ListSample"
-                                     x:DataType="local:FilesViewModel"
-                                     BindableLayout.ItemsSource="{Binding Files}"
+                                     x:DataType="FilesViewModel"
+                                     BindableLayout.ItemsSource="{Files}"
                                      WidthRequest="{OnIdiom Phone=280, Default=400}"
                                      Spacing="4">
                     <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="local:FileItem">
-                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" Padding="8" AutomationId="{Binding Name, StringFormat='sample-file-{0}'}">
+                        <DataTemplate x:DataType="FileItem">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" Padding="8" AutomationId="{$'sample-file-{Name}'}">
                                 <Image WidthRequest="24" HeightRequest="24" VerticalOptions="Center">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                         Glyph="{x:Static icons:FluentIconsRegular.DocumentText24}"
+                                        <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                         Glyph="{x:Static FluentIconsRegular.DocumentText24}"
                                                          Color="{AppThemeBinding Light={StaticResource IconLight}, Dark={StaticResource IconDark}}" />
                                     </Image.Source>
                                 </Image>
                                 <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
-                                    <Label Text="{Binding Name}" />
-                                    <Label Text="{Binding Folder}" FontSize="12" Opacity="0.7" />
+                                    <Label Text="{Name}" />
+                                    <Label Text="{Folder}" FontSize="12" Opacity="0.7" />
                                 </VerticalStackLayout>
                                 <FlyoutBase.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem Text="Open"
-                                                        Command="{Binding OpenCommand, Source={RelativeSource AncestorType={x:Type local:FilesViewModel}}, x:DataType=local:FilesViewModel}"
+                                                        Command="{Binding OpenCommand, Source={RelativeSource AncestorType={x:Type FilesViewModel}}, x:DataType=FilesViewModel}"
                                                         CommandParameter="{Binding .}" />
                                         <MenuFlyoutSubItem Text="Move To">
                                             <MenuFlyoutItem Text="Documents" Command="{Binding MoveToCommand}" CommandParameter="Documents" />
@@ -129,7 +127,7 @@
                                         </MenuFlyoutSubItem>
                                         <MenuFlyoutSeparator />
                                         <MenuFlyoutItem Text="Delete"
-                                                        Command="{Binding DeleteCommand, Source={RelativeSource AncestorType={x:Type local:FilesViewModel}}, x:DataType=local:FilesViewModel}"
+                                                        Command="{Binding DeleteCommand, Source={RelativeSource AncestorType={x:Type FilesViewModel}}, x:DataType=FilesViewModel}"
                                                         CommandParameter="{Binding .}" />
                                     </MenuFlyout>
                                 </FlyoutBase.ContextFlyout>
@@ -161,8 +159,8 @@
                     <HorizontalStackLayout Spacing="12">
                         <Image WidthRequest="28" HeightRequest="28">
                             <Image.Source>
-                                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                 Glyph="{x:Static icons:FluentIconsRegular.Image24}"
+                                <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                 Glyph="{x:Static FluentIconsRegular.Image24}"
                                                  Color="{AppThemeBinding Light={StaticResource IconLight}, Dark={StaticResource IconDark}}" />
                             </Image.Source>
                         </Image>

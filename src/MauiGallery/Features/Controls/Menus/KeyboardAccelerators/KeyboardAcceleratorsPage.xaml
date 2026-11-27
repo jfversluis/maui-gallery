@@ -1,6 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Menus.KeyboardAcceleratorsPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Menus"
             x:DataType="SamplePageViewModel">
 
     <SamplePage.MenuBarItems>
@@ -16,7 +14,7 @@
             <Border Style="{StaticResource SubtlePanel}" IsVisible="{OnPlatform Android=True, iOS=True, Default=False}">
                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                     <Label Style="{StaticResource TextIcon}"
-                           Text="{x:Static icons:FluentIconsRegular.Desktop24}"
+                           Text="{x:Static FluentIconsRegular.Desktop24}"
                            TextColor="{DynamicResource ColorAccentText}"
                            VerticalOptions="Start" />
                     <VerticalStackLayout Grid.Column="1" Spacing="4">
@@ -117,10 +115,10 @@
                                      WidthRequest="{OnIdiom Phone=280, Default=360}"
                                      AutomationId="sample-app-shortcuts">
                     <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="local:ShortcutRow">
+                        <DataTemplate x:DataType="ShortcutRow">
                             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                                 <Label Text="{Binding Command}" />
-                                <Label Grid.Column="1" Text="{Binding Shortcut}" FontAttributes="Bold" HorizontalOptions="End" />
+                                <Label Grid.Column="1" Text="{Shortcut}" FontAttributes="Bold" HorizontalOptions="End" />
                             </Grid>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
