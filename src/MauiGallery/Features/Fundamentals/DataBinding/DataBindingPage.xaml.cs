@@ -26,6 +26,8 @@ public sealed partial class DataBindingPage : SamplePage
 
         CompiledSample.BindingContext = new GreetingViewModel();
         ViewToViewExample.NativeTarget = ViewToViewSlider;
+        ExpressionsSample.BindingContext = new TicketOrderViewModel();
+        ExpressionsExample.NativeTarget = ExpressionsStepper;
     }
 
     private void OnFallbackSourceChanged(object? sender, EventArgs e)

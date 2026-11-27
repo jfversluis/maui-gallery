@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Fundamentals.DataBindingPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Fundamentals"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -33,7 +32,7 @@
                             XamlSource="DataBindingModes.xaml.txt"
                             CSharpSource="DataBindingModes.cs.txt">
                 <VerticalStackLayout x:Name="ModesSample"
-                                     x:DataType="local:BindingModesViewModel"
+                                     x:DataType="BindingModesViewModel"
                                      Spacing="16"
                                      WidthRequest="{OnIdiom Phone=280, Default=380}">
                     <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="8">
@@ -92,7 +91,7 @@
                             XamlSource="DataBindingFallback.xaml.txt"
                             CSharpSource="DataBindingFallback.cs.txt">
                 <Border x:Name="FallbackSample"
-                        x:DataType="local:Teammate"
+                        x:DataType="Teammate"
                         Padding="20,16"
                         StrokeShape="RoundRectangle 12"
                         Stroke="#808A8886"
@@ -130,7 +129,7 @@
                             XamlSource="DataBindingCompiled.xaml.txt"
                             CSharpSource="DataBindingCompiled.cs.txt">
                 <VerticalStackLayout x:Name="CompiledSample"
-                                     x:DataType="local:GreetingViewModel"
+                                     x:DataType="GreetingViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=240, Default=280}">
                     <Entry x:Name="CompiledEntry"
@@ -141,6 +140,42 @@
                            FontSize="20"
                            HorizontalOptions="Center"
                            AutomationId="sample-compiled-greeting" />
+                </VerticalStackLayout>
+            </ControlExample>
+
+            <!-- 6. C# expressions -->
+            <ControlExample x:Name="ExpressionsExample"
+                            Title="C# expressions in XAML"
+                            Description="New in .NET 11: write C# right in an attribute. A property path such as {Quantity} is a compiled binding; interpolated strings, operators and ternaries are computed one-way bindings that update when a property they read changes; events can take a lambda. They need x:DataType and XAML source generation, the .NET 11 default."
+                            XamlSource="DataBindingExpressions.xaml.txt"
+                            CSharpSource="DataBindingExpressions.cs.txt">
+                <VerticalStackLayout x:Name="ExpressionsSample"
+                                     x:DataType="TicketOrderViewModel"
+                                     Spacing="12"
+                                     WidthRequest="{OnIdiom Phone=240, Default=280}">
+                    <Stepper x:Name="ExpressionsStepper"
+                             Value="{Quantity}"
+                             Minimum="1"
+                             Maximum="10"
+                             HorizontalOptions="Center"
+                             SemanticProperties.Description="Number of tickets"
+                             AutomationId="sample-expressions-stepper" />
+                    <Label Text="{$'{Quantity} {(Quantity == 1 ? 'ticket' : 'tickets')} × {UnitPrice:C}'}"
+                           HorizontalOptions="Center"
+                           AutomationId="sample-expressions-summary" />
+                    <Label Text="{$'Total: {(decimal)Quantity * UnitPrice:C}'}"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           AutomationId="sample-expressions-total" />
+                    <Label Text="Group discount applied at checkout"
+                           IsVisible="{Quantity GTE 5}"
+                           HorizontalOptions="Center"
+                           AutomationId="sample-expressions-discount" />
+                    <Button Text="Reset"
+                            Clicked="{(s, e) => ExpressionsStepper.Value = 1}"
+                            HorizontalOptions="Center"
+                            AutomationId="sample-expressions-reset" />
                 </VerticalStackLayout>
             </ControlExample>
 

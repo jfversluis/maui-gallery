@@ -1,0 +1,8 @@
+<!-- Expressions are compiled against x:DataType. If the page has a member with the same name, write {.Name}. -->
+<VerticalStackLayout x:DataType="local:TicketOrderViewModel" Spacing="12">
+    <Stepper x:Name="stepper" Value="{Quantity}" Minimum="1" Maximum="10" />
+    <Label Text="{$'{Quantity} {(Quantity == 1 ? 'ticket' : 'tickets')} × {UnitPrice:C}'}" />
+    <Label Text="{$'Total: {(decimal)Quantity * UnitPrice:C}'}" FontAttributes="Bold" />
+    <Label Text="Group discount applied at checkout" IsVisible="{Quantity GTE 5}" />
+    <Button Text="Reset" Clicked="{(s, e) => stepper.Value = 1}" />
+</VerticalStackLayout>
