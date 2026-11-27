@@ -1,4 +1,4 @@
-The .NET MAUI Gallery is the companion app for developers building with .NET MAUI, Microsoft's open-source framework for native apps in C# and XAML. Explore every control, layout and API in one place, running live on your device.
+The .NET MAUI Gallery is the companion app for developers building with .NET MAUI, Microsoft's open-source framework for native apps in C# and XAML. Explore the controls, layouts and APIs in one place, running live on your device.
 
 SEE IT RUN, NATIVELY
 Every sample is a real native control, not a picture of one. A badge shows the native view each control becomes on this device, so you can see exactly what .NET MAUI renders.
@@ -26,4 +26,4 @@ No accounts, no analytics, no ads. Samples that use the camera, location or sens
 
 The gallery is open source: browse the code and contribute at github.com/jfversluis/maui-gallery.
 
-.NET MAUI and .NET are trademarks of Microsoft. This app is a community project and isn't affiliated with or endorsed by Microsoft.
+.NET MAUI and .NET are trademarks of Microsoft.

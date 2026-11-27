@@ -92,7 +92,7 @@ both together.
 
 **Short description** (80 max)
 
-> Explore every .NET MAUI control and API, running natively, with the code to copy.
+> Explore .NET MAUI controls and APIs, running natively, with the code to copy.
 
 **Full description** (4000 max)
 
