@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Fundamentals.AccessibilityPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <x:Array x:Key="HeadingLevelOptions" Type="{x:Type SemanticHeadingLevel}">
@@ -34,8 +33,8 @@
                              AutomationId="sample-favorite-button">
                     <ImageButton.Source>
                         <FontImageSource x:Name="FavoriteIcon"
-                                         FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                         Glyph="{x:Static icons:FluentIconsRegular.Heart24}"
+                                         FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                         Glyph="{x:Static FluentIconsRegular.Heart24}"
                                          Color="{StaticResource IconColor}"
                                          Size="32" />
                     </ImageButton.Source>
@@ -149,18 +148,18 @@
                                SemanticProperties.Description="Food icon"
                                AutomationProperties.IsInAccessibleTree="{Binding IsToggled, Source={x:Reference IconInTree}, x:DataType=Switch}">
                             <Image.Source>
-                                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                 Glyph="{x:Static icons:FluentIconsRegular.Food24}"
+                                <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                 Glyph="{x:Static FluentIconsRegular.Food24}"
                                                  Color="{StaticResource IconColor}" />
                             </Image.Source>
                         </Image>
                         <Label Grid.Column="1" Text="Pasta carbonara" FontAttributes="Bold" />
                         <HorizontalStackLayout Grid.Row="1" Grid.Column="1" AutomationProperties.ExcludedWithChildren="{Binding IsToggled, Source={x:Reference StarsExcluded}, x:DataType=Switch}">
-                            <Label Text="{x:Static icons:FluentIconsFilled.Star24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" TextColor="{StaticResource StarColor}" FontSize="18" />
-                            <Label Text="{x:Static icons:FluentIconsFilled.Star24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" TextColor="{StaticResource StarColor}" FontSize="18" />
-                            <Label Text="{x:Static icons:FluentIconsFilled.Star24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" TextColor="{StaticResource StarColor}" FontSize="18" />
-                            <Label Text="{x:Static icons:FluentIconsFilled.Star24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" TextColor="{StaticResource StarColor}" FontSize="18" />
-                            <Label Text="{x:Static icons:FluentIconsFilled.StarHalf24}" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" TextColor="{StaticResource StarColor}" FontSize="18" />
+                            <Label Text="{x:Static FluentIconsFilled.Star24}" FontFamily="{x:Static FluentIconsFilled.FontFamily}" TextColor="{StaticResource StarColor}" FontSize="18" />
+                            <Label Text="{x:Static FluentIconsFilled.Star24}" FontFamily="{x:Static FluentIconsFilled.FontFamily}" TextColor="{StaticResource StarColor}" FontSize="18" />
+                            <Label Text="{x:Static FluentIconsFilled.Star24}" FontFamily="{x:Static FluentIconsFilled.FontFamily}" TextColor="{StaticResource StarColor}" FontSize="18" />
+                            <Label Text="{x:Static FluentIconsFilled.Star24}" FontFamily="{x:Static FluentIconsFilled.FontFamily}" TextColor="{StaticResource StarColor}" FontSize="18" />
+                            <Label Text="{x:Static FluentIconsFilled.StarHalf24}" FontFamily="{x:Static FluentIconsFilled.FontFamily}" TextColor="{StaticResource StarColor}" FontSize="18" />
                         </HorizontalStackLayout>
                         <Label Grid.Row="2" Grid.Column="1" Text="4.5 out of 5, 128 reviews" />
                     </Grid>

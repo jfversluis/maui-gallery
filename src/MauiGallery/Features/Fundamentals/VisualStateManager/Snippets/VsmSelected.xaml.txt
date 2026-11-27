@@ -1,4 +1,4 @@
-<CollectionView ItemsSource="{Binding Folders}" SelectionMode="Single">
+<CollectionView ItemsSource="{Folders}" SelectionMode="Single">
     <CollectionView.ItemTemplate>
         <DataTemplate x:DataType="x:String">
             <Grid Padding="16,12">

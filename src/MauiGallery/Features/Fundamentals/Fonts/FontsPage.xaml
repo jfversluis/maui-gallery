@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Fundamentals.FontsPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <x:Array x:Key="FontFamilyOptions" Type="{x:Type x:String}">
@@ -147,7 +146,7 @@
                            AutomationId="sample-icon-image">
                         <Image.Source>
                             <FontImageSource x:Name="ImageIcon"
-                                             FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                             FontFamily="{x:Static FluentIconsRegular.FontFamily}"
                                              Color="{Binding SelectedColor, Source={x:Reference IconColor}, x:DataType=SwatchPicker}"
                                              Size="{Binding Value, Source={x:Reference IconSize}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
                         </Image.Source>
@@ -155,7 +154,7 @@
                     <Button Text="Like" VerticalOptions="Center" AutomationId="sample-icon-button">
                         <Button.ImageSource>
                             <FontImageSource x:Name="ButtonIcon"
-                                             FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                             FontFamily="{x:Static FluentIconsRegular.FontFamily}"
                                              Color="{Binding SelectedColor, Source={x:Reference IconColor}, x:DataType=SwatchPicker}"
                                              Size="20" />
                         </Button.ImageSource>

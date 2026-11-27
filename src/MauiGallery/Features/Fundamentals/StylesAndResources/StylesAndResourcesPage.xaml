@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Fundamentals.StylesAndResourcesPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Fundamentals"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -124,7 +123,7 @@
                     <VerticalStackLayout.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.MergedDictionaries>
-                                <local:BrandResources />
+                                <BrandResources />
                             </ResourceDictionary.MergedDictionaries>
                         </ResourceDictionary>
                     </VerticalStackLayout.Resources>

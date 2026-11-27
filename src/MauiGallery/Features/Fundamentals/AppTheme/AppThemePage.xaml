@@ -1,6 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Fundamentals.AppThemePage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-            xmlns:local="clr-namespace:MauiGallery.Features.Fundamentals"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -22,8 +20,8 @@
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
                         <Image WidthRequest="40" HeightRequest="40" VerticalOptions="Center">
                             <Image.Source>
-                                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                 Glyph="{AppThemeBinding Light={x:Static icons:FluentIconsRegular.WeatherSunnyHigh24}, Dark={x:Static icons:FluentIconsRegular.WeatherMoon24}}"
+                                <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                 Glyph="{AppThemeBinding Light={x:Static FluentIconsRegular.WeatherSunnyHigh24}, Dark={x:Static FluentIconsRegular.WeatherMoon24}}"
                                                  Color="{AppThemeBinding Light=#EA580C, Dark=#B3A3FF}"
                                                  Size="40" />
                             </Image.Source>
@@ -83,7 +81,7 @@
                     <Border.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.MergedDictionaries>
-                                <local:ThemePreviewLight />
+                                <ThemePreviewLight />
                             </ResourceDictionary.MergedDictionaries>
                         </ResourceDictionary>
                     </Border.Resources>
