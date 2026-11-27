@@ -180,6 +180,7 @@ from:
 
 | Store | Device class | Size |
 | --- | --- | --- |
+| App Store | iPhone 6.1"/6.3" (the size App Store Connect asks for) | 1206×2622 |
 | App Store | iPhone 6.9" | 1320×2868 |
 | App Store | iPad 13" | 2064×2752 |
 | Mac App Store | Mac | 2880×1800 |

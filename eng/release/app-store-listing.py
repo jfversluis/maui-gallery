@@ -37,10 +37,12 @@ ROOT = Path(__file__).resolve().parent / "app-store"
 # Screenshot folder: (platform, display type, accepted sizes). iPhone and iPad sizes also work in landscape.
 DEVICES = {
     "iphone-6.9": ("IOS", "APP_IPHONE_67", {(1320, 2868), (1290, 2796), (1260, 2736)}),
+    # App Store Connect's web UI asks for this size (6.1"/6.3" displays) as the main iPhone set.
+    "iphone-6.3": ("IOS", "APP_IPHONE_61", {(1206, 2622), (1179, 2556)}),
     "ipad-13": ("IOS", "APP_IPAD_PRO_3GEN_129", {(2064, 2752), (2048, 2732)}),
     "mac": ("MAC_OS", "APP_DESKTOP", {(2880, 1800), (2560, 1600), (1440, 900), (1280, 800)}),
 }
-ROTATES = {"iphone-6.9", "ipad-13"}
+ROTATES = {"iphone-6.9", "iphone-6.3", "ipad-13"}
 MAX_SCREENSHOTS = 10
 
 # Metadata file: (resource, attribute, maximum length; keywords count UTF-8 bytes).
