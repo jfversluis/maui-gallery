@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Fundamentals.AnimationsPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <x:Array x:Key="AnimationOptions" Type="{x:Type x:String}">
@@ -118,8 +117,8 @@
                             CSharpSource="AnimationsCustom.cs.txt">
                 <VerticalStackLayout Spacing="16" WidthRequest="240">
                     <Label x:Name="Heart"
-                           Text="{x:Static icons:FluentIconsFilled.Heart48}"
-                           FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}"
+                           Text="{x:Static FluentIconsFilled.Heart48}"
+                           FontFamily="{x:Static FluentIconsFilled.FontFamily}"
                            FontSize="72"
                            TextColor="#DB2777"
                            HorizontalOptions="Center"
@@ -145,7 +144,7 @@
                 </ControlExample.Options>
                 <ControlExample.Substitutions>
                     <Substitution Key="Length" Value="{Binding Value, Source={x:Reference CustomLength}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
-                    <Substitution Key="Repeat" Value="{Binding IsToggled, Source={x:Reference CustomRepeat}, x:DataType=Switch}" Default="False" IsExpression="True" />
+                    <Substitution Key="Repeat" Value="{Binding IsToggled, Source={x:Reference CustomRepeat}, x:DataType=Switch}" Default="False" />
                 </ControlExample.Substitutions>
             </ControlExample>
 

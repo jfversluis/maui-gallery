@@ -1,5 +1,5 @@
 <VerticalStackLayout x:DataType="local:SpeechViewModel" Spacing="12">
-    <Editor Text="{Binding Text}" HeightRequest="90" />
+    <Editor Text="{Text}" HeightRequest="90" />
     <HorizontalStackLayout Spacing="8">
         <Button Text="Speak" Command="{Binding SpeakCommand}" />
         <Button Text="Stop" Command="{Binding StopCommand}" />

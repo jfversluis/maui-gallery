@@ -1,10 +1,10 @@
 <VerticalStackLayout x:DataType="local:PlaceSearchViewModel" Spacing="8">
-    <SearchBar Text="{Binding SearchText}" Placeholder="Search places" />
+    <SearchBar Text="{SearchText}" Placeholder="Search places" />
     <CollectionView
-        ItemsSource="{Binding Results}"
+        ItemsSource="{Results}"
         ItemTemplate="{StaticResource PlaceTemplate}">
         <CollectionView.Header>
-            <Label Text="{Binding Summary}" FontAttributes="Bold" Padding="12,8" />
+            <Label Text="{Summary}" FontAttributes="Bold" Padding="12,8" />
         </CollectionView.Header>
         <CollectionView.Footer>
             <Label Text="Can't find a place? Suggest one." HorizontalTextAlignment="Center" Padding="12" />

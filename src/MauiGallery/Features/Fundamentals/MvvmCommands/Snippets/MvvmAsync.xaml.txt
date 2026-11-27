@@ -8,5 +8,5 @@
         <Button Text="Cancel" Command="{Binding CancelCommand}" />
     </HorizontalStackLayout>
     <ActivityIndicator IsRunning="{Binding SearchCommand.IsRunning}" />
-    <Label Text="{Binding Result}" />
+    <Label Text="{Result}" />
 </VerticalStackLayout>

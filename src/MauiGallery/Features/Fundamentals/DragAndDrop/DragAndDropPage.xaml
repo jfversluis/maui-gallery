@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Fundamentals.DragAndDropPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Fundamentals"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <SolidColorBrush x:Key="TargetStroke" Color="{AppThemeBinding Light=#AEAEB2, Dark=#636366}" />
@@ -137,35 +136,35 @@
                             XamlSource="DragAndDropReorder.xaml.txt"
                             CSharpSource="DragAndDropReorder.cs.txt">
                 <VerticalStackLayout x:Name="ReorderSample"
-                                     x:DataType="local:ReorderViewModel"
+                                     x:DataType="ReorderViewModel"
                                      Spacing="8"
                                      WidthRequest="{OnIdiom Phone=280, Default=320}"
-                                     BindableLayout.ItemsSource="{Binding Tiles}"
+                                     BindableLayout.ItemsSource="{Tiles}"
                                      AutomationId="sample-reorder-list">
                     <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="local:ReorderTile">
+                        <DataTemplate x:DataType="ReorderTile">
                             <Border HeightRequest="52"
                                     Padding="16,0"
                                     StrokeShape="RoundRectangle 12"
                                     Stroke="#FACC15"
                                     StrokeThickness="0"
-                                    BackgroundColor="{Binding Color}"
-                                    AutomationId="{Binding Name, StringFormat='sample-reorder-{0}'}">
+                                    BackgroundColor="{.Color}"
+                                    AutomationId="{$'sample-reorder-{Name}'}">
                                 <Border.Triggers>
                                     <DataTrigger TargetType="Border" Binding="{Binding IsDragOver}" Value="True">
                                         <Setter Property="StrokeThickness" Value="4" />
                                     </DataTrigger>
                                 </Border.Triggers>
                                 <Border.GestureRecognizers>
-                                    <DragGestureRecognizer DragStartingCommand="{Binding DragStartingCommand, Source={RelativeSource AncestorType={x:Type local:ReorderViewModel}}, x:DataType=local:ReorderViewModel}"
+                                    <DragGestureRecognizer DragStartingCommand="{Binding DragStartingCommand, Source={RelativeSource AncestorType={x:Type ReorderViewModel}}, x:DataType=ReorderViewModel}"
                                                            DragStartingCommandParameter="{Binding .}" />
-                                    <DropGestureRecognizer DragOverCommand="{Binding DragOverCommand, Source={RelativeSource AncestorType={x:Type local:ReorderViewModel}}, x:DataType=local:ReorderViewModel}"
+                                    <DropGestureRecognizer DragOverCommand="{Binding DragOverCommand, Source={RelativeSource AncestorType={x:Type ReorderViewModel}}, x:DataType=ReorderViewModel}"
                                                            DragOverCommandParameter="{Binding .}"
-                                                           DragLeaveCommand="{Binding DragLeaveCommand, Source={RelativeSource AncestorType={x:Type local:ReorderViewModel}}, x:DataType=local:ReorderViewModel}"
-                                                           DropCommand="{Binding DropCommand, Source={RelativeSource AncestorType={x:Type local:ReorderViewModel}}, x:DataType=local:ReorderViewModel}"
+                                                           DragLeaveCommand="{Binding DragLeaveCommand, Source={RelativeSource AncestorType={x:Type ReorderViewModel}}, x:DataType=ReorderViewModel}"
+                                                           DropCommand="{Binding DropCommand, Source={RelativeSource AncestorType={x:Type ReorderViewModel}}, x:DataType=ReorderViewModel}"
                                                            DropCommandParameter="{Binding .}" />
                                 </Border.GestureRecognizers>
-                                <Label Text="{Binding Name}" TextColor="White" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Label Text="{Name}" TextColor="White" FontAttributes="Bold" VerticalOptions="Center" />
                             </Border>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>

@@ -1,11 +1,11 @@
 <VerticalStackLayout
     x:DataType="local:FilesViewModel"
-    BindableLayout.ItemsSource="{Binding Files}">
+    BindableLayout.ItemsSource="{Files}">
     <BindableLayout.ItemTemplate>
         <DataTemplate x:DataType="local:FileItem">
             <VerticalStackLayout Padding="8">
-                <Label Text="{Binding Name}" />
-                <Label Text="{Binding Folder}" FontSize="12" />
+                <Label Text="{Name}" />
+                <Label Text="{Folder}" FontSize="12" />
                 <FlyoutBase.ContextFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem

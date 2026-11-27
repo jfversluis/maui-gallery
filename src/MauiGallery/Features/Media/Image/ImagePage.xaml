@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Media.ImagePage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <x:Array x:Key="AspectOptions" Type="{x:Type Aspect}">
@@ -69,8 +68,8 @@
                             CSharpSource="ImageFont.cs.txt">
                 <Image x:Name="FontImage" SemanticProperties.Description="Camera" AutomationId="sample-image-font">
                     <Image.Source>
-                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                         Glyph="{x:Static icons:FluentIconsRegular.Camera24}"
+                        <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                         Glyph="{x:Static FluentIconsRegular.Camera24}"
                                          Color="{Binding SelectedColor, Source={x:Reference FontColor}, x:DataType=SwatchPicker}"
                                          Size="{Binding Value, Source={x:Reference FontSize}, x:DataType=Slider, Converter={StaticResource Rounded}}" />
                     </Image.Source>

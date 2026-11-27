@@ -1,6 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Collections.CollectionViewPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Collections"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <x:Array x:Key="LayoutOptions" Type="{x:Type x:String}">
@@ -22,7 +20,7 @@
             One row per place, shared by the examples on this page. Rows are 56 tall, and the lists show whole rows
             plus the top of the next one, so it's clear they scroll without cutting through a name.
         -->
-        <DataTemplate x:Key="PlaceTemplate" x:DataType="local:Place">
+        <DataTemplate x:Key="PlaceTemplate" x:DataType="Place">
             <Grid Padding="12,8" HeightRequest="56" ColumnDefinitions="Auto,*" ColumnSpacing="12">
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroupList>
@@ -40,17 +38,17 @@
                         HeightRequest="40"
                         StrokeShape="RoundRectangle 10"
                         StrokeThickness="0"
-                        BackgroundColor="{Binding Color}">
-                    <Label Text="{Binding Glyph}"
-                           FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                        BackgroundColor="{.Color}">
+                    <Label Text="{Glyph}"
+                           FontFamily="{x:Static FluentIconsRegular.FontFamily}"
                            FontSize="22"
                            TextColor="White"
                            HorizontalOptions="Center"
                            VerticalOptions="Center" />
                 </Border>
                 <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
-                    <Label Text="{Binding Name}" FontAttributes="Bold" LineBreakMode="TailTruncation" />
-                    <Label Text="{Binding Country}"
+                    <Label Text="{Name}" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                    <Label Text="{Country}"
                            FontSize="13"
                            TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
                            LineBreakMode="TailTruncation" />
@@ -70,7 +68,7 @@
                             XamlSource="CollectionViewLayout.xaml.txt"
                             CSharpSource="CollectionViewLayout.cs.txt">
                 <CollectionView x:Name="LayoutCollection"
-                                ItemsSource="{x:Static local:PlaceData.All}"
+                                ItemsSource="{x:Static PlaceData.All}"
                                 WidthRequest="{OnIdiom Phone=280, Default=400}"
                                 HeightRequest="312"
                                 VerticalOptions="Start"
@@ -105,7 +103,7 @@
             <Border Style="{StaticResource SubtlePanel}">
                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                     <Label Style="{StaticResource TextIcon}"
-                           Text="{x:Static icons:FluentIconsRegular.Lightbulb24}"
+                           Text="{x:Static FluentIconsRegular.Lightbulb24}"
                            TextColor="{DynamicResource ColorAccentText}"
                            VerticalOptions="Start" />
                     <VerticalStackLayout Grid.Column="1" Spacing="4">
@@ -123,7 +121,7 @@
                             XamlSource="CollectionViewSelection.xaml.txt"
                             CSharpSource="CollectionViewSelection.cs.txt">
                 <CollectionView x:Name="SelectionCollection"
-                                ItemsSource="{x:Static local:PlaceData.All}"
+                                ItemsSource="{x:Static PlaceData.All}"
                                 WidthRequest="{OnIdiom Phone=280, Default=400}"
                                 HeightRequest="256"
                                 SelectionMode="{Binding SelectedItem, Source={x:Reference SelectionModePicker}, x:DataType=Picker}"
@@ -156,15 +154,15 @@
                             XamlSource="CollectionViewGrouping.xaml.txt"
                             CSharpSource="CollectionViewGrouping.cs.txt">
                 <CollectionView x:Name="GroupingCollection"
-                                ItemsSource="{x:Static local:PlaceData.ByContinent}"
+                                ItemsSource="{x:Static PlaceData.ByContinent}"
                                 WidthRequest="{OnIdiom Phone=280, Default=400}"
                                 HeightRequest="320"
                                 IsGrouped="True"
                                 ItemTemplate="{StaticResource PlaceTemplate}"
                                 AutomationId="sample-grouping-collection">
                     <CollectionView.GroupHeaderTemplate>
-                        <DataTemplate x:DataType="local:PlaceGroup">
-                            <Label Text="{Binding Name}"
+                        <DataTemplate x:DataType="PlaceGroup">
+                            <Label Text="{Name}"
                                    FontSize="13"
                                    FontAttributes="Bold"
                                    TextTransform="Uppercase"
@@ -172,8 +170,8 @@
                         </DataTemplate>
                     </CollectionView.GroupHeaderTemplate>
                     <CollectionView.GroupFooterTemplate>
-                        <DataTemplate x:DataType="local:PlaceGroup">
-                            <Label Text="{Binding Count, StringFormat='{0} places'}"
+                        <DataTemplate x:DataType="PlaceGroup">
+                            <Label Text="{$'{Count} places'}"
                                    FontSize="12"
                                    TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
                                    Padding="12,0,12,8" />
@@ -191,17 +189,17 @@
                 <VerticalStackLayout x:Name="EmptySample"
                                      Spacing="8"
                                      WidthRequest="{OnIdiom Phone=280, Default=400}"
-                                     x:DataType="local:PlaceSearchViewModel">
-                    <SearchBar Text="{Binding SearchText}"
+                                     x:DataType="PlaceSearchViewModel">
+                    <SearchBar Text="{SearchText}"
                                Placeholder="Search places"
                                AutomationId="sample-empty-search" />
                     <CollectionView x:Name="EmptyCollection"
                                     HeightRequest="256"
-                                    ItemsSource="{Binding Results}"
+                                    ItemsSource="{Results}"
                                     ItemTemplate="{StaticResource PlaceTemplate}"
                                     AutomationId="sample-empty-collection">
                         <CollectionView.Header>
-                            <Label Text="{Binding Summary}"
+                            <Label Text="{Summary}"
                                    FontSize="13"
                                    FontAttributes="Bold"
                                    Padding="12,8"
@@ -216,8 +214,8 @@
                         </CollectionView.Footer>
                         <CollectionView.EmptyView>
                             <VerticalStackLayout Padding="24,48" Spacing="8" AutomationId="sample-empty-view">
-                                <Label Text="{x:Static icons:FluentIconsRegular.Search24}"
-                                       FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                <Label Text="{x:Static FluentIconsRegular.Search24}"
+                                       FontFamily="{x:Static FluentIconsRegular.FontFamily}"
                                        FontSize="40"
                                        TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
                                        HorizontalOptions="Center" />
@@ -243,31 +241,31 @@
                 <CollectionView x:Name="LoadMoreCollection"
                                 WidthRequest="{OnIdiom Phone=280, Default=400}"
                                 HeightRequest="320"
-                                x:DataType="local:OrderFeedViewModel"
-                                ItemsSource="{Binding Orders}"
+                                x:DataType="OrderFeedViewModel"
+                                ItemsSource="{Orders}"
                                 RemainingItemsThreshold="{Binding Value, Source={x:Reference LoadMoreThreshold}, x:DataType=Slider, Converter={StaticResource Rounded}}"
                                 RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
                                 AutomationId="sample-load-more-collection">
                     <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="local:Order">
+                        <DataTemplate x:DataType="Order">
                             <Grid Padding="12,10" ColumnDefinitions="*,Auto" ColumnSpacing="12">
                                 <VerticalStackLayout>
-                                    <Label Text="{Binding Title}" FontAttributes="Bold" />
-                                    <Label Text="{Binding Details}"
+                                    <Label Text="{.Title}" FontAttributes="Bold" />
+                                    <Label Text="{Details}"
                                            FontSize="13"
                                            TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}" />
                                 </VerticalStackLayout>
-                                <Label Grid.Column="1" Text="{Binding TotalText}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="{TotalText}" VerticalOptions="Center" />
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                     <CollectionView.Footer>
                         <HorizontalStackLayout Padding="12,12,12,16" Spacing="8" HorizontalOptions="Center">
-                            <ActivityIndicator IsRunning="{Binding IsLoading}"
-                                               IsVisible="{Binding IsLoading}"
+                            <ActivityIndicator IsRunning="{IsLoading}"
+                                               IsVisible="{IsLoading}"
                                                HeightRequest="20"
                                                WidthRequest="20" />
-                            <Label Text="{Binding Status}"
+                            <Label Text="{Status}"
                                    FontSize="13"
                                    TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
                                    VerticalOptions="Center"

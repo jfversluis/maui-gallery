@@ -1,11 +1,11 @@
 <Grid x:DataType="local:TipCalculatorViewModel" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
     <Label Text="Bill" />
-    <Entry Grid.Column="1" Text="{Binding BillText}" Keyboard="Numeric" />
-    <Label Grid.Row="1" Text="{Binding TipPercent, StringFormat='Tip {0:0}%'}" />
-    <Slider Grid.Row="1" Grid.Column="1" Maximum="30" Value="{Binding TipPercent}" />
-    <Label Grid.Row="2" Text="{Binding People, StringFormat='{0:0} people'}" />
-    <Stepper Grid.Row="2" Grid.Column="1" Minimum="1" Maximum="12" Value="{Binding People}" />
-    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Tip, StringFormat='{0:C}'}" />
-    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Total, StringFormat='{0:C}'}" />
-    <Label Grid.Row="5" Grid.Column="1" Text="{Binding PerPerson, StringFormat='{0:C}'}" />
+    <Entry Grid.Column="1" Text="{BillText}" Keyboard="Numeric" />
+    <Label Grid.Row="1" Text="{$'Tip {TipPercent:0}%'}" />
+    <Slider Grid.Row="1" Grid.Column="1" Maximum="30" Value="{TipPercent}" />
+    <Label Grid.Row="2" Text="{$'{People:0} people'}" />
+    <Stepper Grid.Row="2" Grid.Column="1" Minimum="1" Maximum="12" Value="{People}" />
+    <Label Grid.Row="3" Grid.Column="1" Text="{$'{Tip:C}'}" />
+    <Label Grid.Row="4" Grid.Column="1" Text="{$'{Total:C}'}" />
+    <Label Grid.Row="5" Grid.Column="1" Text="{$'{PerPerson:C}'}" />
 </Grid>

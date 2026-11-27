@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Fundamentals.GesturesPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <x:Array x:Key="TapCountOptions" Type="{x:Type x:Int32}">
@@ -140,8 +139,8 @@
                                 <PanGestureRecognizer PanUpdated="OnPanUpdated" />
                                 <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
                             </Border.GestureRecognizers>
-                            <Label Text="{x:Static icons:FluentIconsRegular.HandDraw24}"
-                                   FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                            <Label Text="{x:Static FluentIconsRegular.HandDraw24}"
+                                   FontFamily="{x:Static FluentIconsRegular.FontFamily}"
                                    FontSize="32"
                                    TextColor="White"
                                    HorizontalOptions="Center"

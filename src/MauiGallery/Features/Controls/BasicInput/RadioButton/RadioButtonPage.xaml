@@ -1,6 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.BasicInput.RadioButtonPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.BasicInput"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <!-- The look of the "Redesign it with a ControlTemplate" sample: a selectable card. Stroke is a Brush, so the
@@ -89,14 +87,14 @@
                             Description="Set RadioButtonGroup.GroupName and SelectedValue on the parent layout to bind the whole group to one view model property. Each button's Value is what the group reports."
                             XamlSource="RadioButtonGroup.xaml.txt"
                             CSharpSource="RadioButtonGroup.cs.txt">
-                <VerticalStackLayout x:Name="GroupSample" Spacing="12" x:DataType="local:RadioButtonSizeViewModel">
+                <VerticalStackLayout x:Name="GroupSample" Spacing="12" x:DataType="RadioButtonSizeViewModel">
                     <VerticalStackLayout RadioButtonGroup.GroupName="size"
-                                         RadioButtonGroup.SelectedValue="{Binding Size}">
+                                         RadioButtonGroup.SelectedValue="{.Size}">
                         <RadioButton x:Name="SmallRadio" Content="Small" Value="S" AutomationId="sample-group-small" />
                         <RadioButton Content="Medium" Value="M" AutomationId="sample-group-medium" />
                         <RadioButton Content="Large" Value="L" AutomationId="sample-group-large" />
                     </VerticalStackLayout>
-                    <Label Text="{Binding Size, StringFormat='Size: {0}'}" AutomationId="sample-group-summary" />
+                    <Label Text="{$'Size: {Size}'}" AutomationId="sample-group-summary" />
                     <Button Text="Reset to medium"
                             Command="{Binding ResetCommand}"
                             HorizontalOptions="Start"
@@ -121,8 +119,8 @@
                             <HorizontalStackLayout Spacing="8">
                                 <Image WidthRequest="20" HeightRequest="20" VerticalOptions="Center">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                         Glyph="{x:Static icons:FluentIconsRegular.WeatherSunnyHigh24}"
+                                        <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                         Glyph="{x:Static FluentIconsRegular.WeatherSunnyHigh24}"
                                                          Color="{AppThemeBinding Light=#EA580C, Dark=#FDBA74}" />
                                     </Image.Source>
                                 </Image>
@@ -138,8 +136,8 @@
                             <HorizontalStackLayout Spacing="8">
                                 <Image WidthRequest="20" HeightRequest="20" VerticalOptions="Center">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                         Glyph="{x:Static icons:FluentIconsRegular.WeatherMoon24}"
+                                        <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                         Glyph="{x:Static FluentIconsRegular.WeatherMoon24}"
                                                          Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}" />
                                     </Image.Source>
                                 </Image>
@@ -170,8 +168,8 @@
                             <VerticalStackLayout Spacing="4">
                                 <Image WidthRequest="28" HeightRequest="28" HorizontalOptions="Center">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                         Glyph="{x:Static icons:FluentIconsRegular.VehicleCar24}"
+                                        <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                         Glyph="{x:Static FluentIconsRegular.VehicleCar24}"
                                                          Color="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}" />
                                     </Image.Source>
                                 </Image>
@@ -188,8 +186,8 @@
                             <VerticalStackLayout Spacing="4">
                                 <Image WidthRequest="28" HeightRequest="28" HorizontalOptions="Center">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                         Glyph="{x:Static icons:FluentIconsRegular.VehicleBicycle24}"
+                                        <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                         Glyph="{x:Static FluentIconsRegular.VehicleBicycle24}"
                                                          Color="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}" />
                                     </Image.Source>
                                 </Image>
@@ -206,8 +204,8 @@
                             <VerticalStackLayout Spacing="4">
                                 <Image WidthRequest="28" HeightRequest="28" HorizontalOptions="Center">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                         Glyph="{x:Static icons:FluentIconsRegular.VehicleBus24}"
+                                        <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                         Glyph="{x:Static FluentIconsRegular.VehicleBus24}"
                                                          Color="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}" />
                                     </Image.Source>
                                 </Image>

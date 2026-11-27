@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.BasicInput.StepperPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.BasicInput"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -56,25 +55,25 @@
                             XamlSource="StepperQuantity.xaml.txt"
                             CSharpSource="StepperQuantity.cs.txt">
                 <Grid x:Name="QuantitySample"
-                      x:DataType="local:StepperTicketsViewModel"
+                      x:DataType="StepperTicketsViewModel"
                       ColumnDefinitions="*,Auto"
                       RowDefinitions="Auto,Auto"
                       ColumnSpacing="24"
                       RowSpacing="8"
                       MinimumWidthRequest="260">
-                    <Label Text="{Binding Tickets, StringFormat='{0} × concert ticket'}"
+                    <Label Text="{$'{Tickets} × concert ticket'}"
                            VerticalOptions="Center"
                            AutomationId="sample-quantity-tickets" />
                     <Stepper x:Name="QuantityStepper"
                              Grid.Column="1"
                              Minimum="1"
                              Maximum="8"
-                             Value="{Binding Tickets}"
+                             Value="{Tickets}"
                              SemanticProperties.Description="Number of tickets"
                              AutomationId="sample-quantity-stepper" />
                     <Label Grid.Row="1"
                            Grid.ColumnSpan="2"
-                           Text="{Binding Total, StringFormat='Total: {0:C}'}"
+                           Text="{$'Total: {Total:C}'}"
                            FontAttributes="Bold"
                            AutomationId="sample-quantity-total" />
                 </Grid>

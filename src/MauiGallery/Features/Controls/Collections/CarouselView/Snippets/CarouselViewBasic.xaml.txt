@@ -1,5 +1,5 @@
 <CarouselView
-    ItemsSource="{Binding Trips}"
+    ItemsSource="{Trips}"
     HeightRequest="200"
     Loop="$(Loop)"
     PeekAreaInsets="$(PeekAreaInsets),0"
@@ -16,12 +16,12 @@
             <Border
                 StrokeShape="RoundRectangle 16"
                 StrokeThickness="0"
-                BackgroundColor="{Binding Color}"
+                BackgroundColor="{.Color}"
                 Padding="20">
                 <Grid RowDefinitions="*,Auto,Auto">
-                    <Label Text="{Binding Glyph}" FontFamily="FluentIcons" FontSize="40" TextColor="White" />
-                    <Label Grid.Row="1" Text="{Binding Title}" FontSize="22" FontAttributes="Bold" TextColor="White" />
-                    <Label Grid.Row="2" Text="{Binding Details}" TextColor="#E6FFFFFF" />
+                    <Label Text="{Glyph}" FontFamily="FluentIcons" FontSize="40" TextColor="White" />
+                    <Label Grid.Row="1" Text="{.Title}" FontSize="22" FontAttributes="Bold" TextColor="White" />
+                    <Label Grid.Row="2" Text="{Details}" TextColor="#E6FFFFFF" />
                 </Grid>
             </Border>
         </DataTemplate>

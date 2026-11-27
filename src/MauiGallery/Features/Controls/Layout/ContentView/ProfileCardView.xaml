@@ -1,7 +1,6 @@
 <ContentView x:Class="MauiGallery.Features.Controls.Layouts.ProfileCardView"
-             xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
              x:Name="Self"
-             x:DataType="local:ProfileCardView">
+             x:DataType="ProfileCardView">
     <ContentView.Resources>
         <SolidColorBrush x:Key="CardStroke" Color="{AppThemeBinding Light=#D1D5DB, Dark=#3F3F46}" />
     </ContentView.Resources>

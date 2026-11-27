@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.PlatformApis.TextToSpeechPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -15,10 +14,10 @@
                             XamlSource="TextToSpeechSpeak.xaml.txt"
                             CSharpSource="TextToSpeechSpeak.cs.txt">
                 <VerticalStackLayout x:Name="SpeakSample"
-                                     x:DataType="local:TextToSpeechViewModel"
+                                     x:DataType="TextToSpeechViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=380}">
-                    <Editor Text="{Binding Text}"
+                    <Editor Text="{Text}"
                             HeightRequest="90"
                             SemanticProperties.Description="Text to speak"
                             AutomationId="sample-tts-text" />
@@ -31,7 +30,7 @@
                                            WidthRequest="20"
                                            VerticalOptions="Center" />
                     </HorizontalStackLayout>
-                    <Label Text="{Binding Status}" AutomationId="sample-tts-status" />
+                    <Label Text="{Status}" AutomationId="sample-tts-status" />
                 </VerticalStackLayout>
             </ControlExample>
 
@@ -45,7 +44,7 @@
                             XamlSource="TextToSpeechOptions.xaml.txt"
                             CSharpSource="TextToSpeechOptions.cs.txt">
                 <VerticalStackLayout x:Name="VoiceSample"
-                                     x:DataType="local:TextToSpeechViewModel"
+                                     x:DataType="TextToSpeechViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=380}">
                     <Label Text="{Binding Voice.DisplayName, StringFormat='Voice: {0}', FallbackValue='Voice: system default'}" AutomationId="sample-tts-voice" />
@@ -56,18 +55,18 @@
                             AutomationId="sample-tts-speak-options" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
-                    <VerticalStackLayout x:Name="VoiceOptions" x:DataType="local:TextToSpeechViewModel" Spacing="8">
+                    <VerticalStackLayout x:Name="VoiceOptions" x:DataType="TextToSpeechViewModel" Spacing="8">
                         <Label Text="Locale" Style="{StaticResource OptionLabel}" />
-                        <Picker ItemsSource="{Binding Voices}"
-                                ItemDisplayBinding="{Binding DisplayName, x:DataType=local:VoiceOption}"
+                        <Picker ItemsSource="{Voices}"
+                                ItemDisplayBinding="{Binding DisplayName, x:DataType=VoiceOption}"
                                 SelectedItem="{Binding Voice}"
                                 AutomationId="option-tts-locale" />
-                        <Label Text="{Binding Pitch, StringFormat='Pitch: {0:0.0}'}" Style="{StaticResource OptionLabel}" />
-                        <Slider Minimum="0" Maximum="2" Value="{Binding Pitch}" AutomationId="option-tts-pitch" />
-                        <Label Text="{Binding Volume, StringFormat='Volume: {0:0.0}'}" Style="{StaticResource OptionLabel}" />
-                        <Slider Minimum="0" Maximum="1" Value="{Binding Volume}" AutomationId="option-tts-volume" />
-                        <Label Text="{Binding Rate, StringFormat='Rate: {0:0.0}'}" Style="{StaticResource OptionLabel}" />
-                        <Slider Minimum="0.1" Maximum="2" Value="{Binding Rate}" AutomationId="option-tts-rate" />
+                        <Label Text="{$'Pitch: {Pitch:0.0}'}" Style="{StaticResource OptionLabel}" />
+                        <Slider Minimum="0" Maximum="2" Value="{Pitch}" AutomationId="option-tts-pitch" />
+                        <Label Text="{$'Volume: {Volume:0.0}'}" Style="{StaticResource OptionLabel}" />
+                        <Slider Minimum="0" Maximum="1" Value="{Volume}" AutomationId="option-tts-volume" />
+                        <Label Text="{$'Rate: {Rate:0.0}'}" Style="{StaticResource OptionLabel}" />
+                        <Slider Minimum="0.1" Maximum="2" Value="{Rate}" AutomationId="option-tts-rate" />
                     </VerticalStackLayout>
                 </ControlExample.Options>
                 <ControlExample.Substitutions>

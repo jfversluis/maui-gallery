@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.PlatformApis.ConnectivityPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -15,16 +14,16 @@
                             XamlSource="ConnectivityStatus.xaml.txt"
                             CSharpSource="ConnectivityStatus.cs.txt">
                 <Grid x:Name="StatusSample"
-                      x:DataType="local:ConnectivityViewModel"
+                      x:DataType="ConnectivityViewModel"
                       ColumnDefinitions="Auto,*"
                       RowDefinitions="Auto,Auto"
                       ColumnSpacing="16"
                       RowSpacing="8"
                       WidthRequest="{OnIdiom Phone=280, Default=380}">
                     <Label Text="Network access" Opacity="0.7" />
-                    <Label Grid.Column="1" Text="{Binding Access}" AutomationId="sample-connectivity-access" />
+                    <Label Grid.Column="1" Text="{Access}" AutomationId="sample-connectivity-access" />
                     <Label Grid.Row="1" Text="Profiles" Opacity="0.7" />
-                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Profiles}" AutomationId="sample-connectivity-profiles" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Profiles}" AutomationId="sample-connectivity-profiles" />
                 </Grid>
             </ControlExample>
 
@@ -38,7 +37,7 @@
                             XamlSource="ConnectivityCheck.xaml.txt"
                             CSharpSource="ConnectivityCheck.cs.txt">
                 <VerticalStackLayout x:Name="LoadSample"
-                                     x:DataType="local:ConnectivityViewModel"
+                                     x:DataType="ConnectivityViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=380}">
                     <Button x:Name="LoadButton"
@@ -46,7 +45,7 @@
                             Command="{Binding LoadHeadlinesCommand}"
                             HorizontalOptions="Start"
                             AutomationId="sample-connectivity-load" />
-                    <Label Text="{Binding Headlines}" AutomationId="sample-connectivity-headlines" />
+                    <Label Text="{Headlines}" AutomationId="sample-connectivity-headlines" />
                 </VerticalStackLayout>
             </ControlExample>
 
@@ -60,11 +59,11 @@
                             XamlSource="ConnectivityChanged.xaml.txt"
                             CSharpSource="ConnectivityChanged.cs.txt">
                 <VerticalStackLayout x:Name="ChangesSample"
-                                     x:DataType="local:ConnectivityViewModel"
+                                     x:DataType="ConnectivityViewModel"
                                      Spacing="6"
                                      WidthRequest="{OnIdiom Phone=280, Default=380}">
-                    <Label Text="{Binding IsOnline, StringFormat='IsOnline = {0}'}" FontAttributes="Bold" AutomationId="sample-connectivity-online" />
-                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Changes}" Spacing="4" AutomationId="sample-connectivity-log">
+                    <Label Text="{$'IsOnline = {IsOnline}'}" FontAttributes="Bold" AutomationId="sample-connectivity-online" />
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Changes}" Spacing="4" AutomationId="sample-connectivity-log">
                         <BindableLayout.EmptyView>
                             <Label Text="No changes yet. Turn Wi-Fi or airplane mode on or off." Opacity="0.7" />
                         </BindableLayout.EmptyView>

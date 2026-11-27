@@ -1,6 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Collections.SwipeViewPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Collections"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <x:Array x:Key="ModeOptions" Type="{x:Type SwipeMode}">
@@ -12,10 +10,10 @@
             <x:Static Member="SwipeBehaviorOnInvoked.Close" />
             <x:Static Member="SwipeBehaviorOnInvoked.RemainOpen" />
         </x:Array>
-        <FontImageSource x:Key="ArchiveIcon" FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Archive24}" Color="White" Size="20" />
-        <FontImageSource x:Key="FlagIcon" FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Flag24}" Color="White" Size="20" />
-        <FontImageSource x:Key="DeleteIcon" FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Delete24}" Color="White" Size="20" />
-        <FontImageSource x:Key="PinIcon" FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Pin24}" Color="White" Size="20" />
+        <FontImageSource x:Key="ArchiveIcon" FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.Archive24}" Color="White" Size="20" />
+        <FontImageSource x:Key="FlagIcon" FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.Flag24}" Color="White" Size="20" />
+        <FontImageSource x:Key="DeleteIcon" FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.Delete24}" Color="White" Size="20" />
+        <FontImageSource x:Key="PinIcon" FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.Pin24}" Color="White" Size="20" />
     </SamplePage.Resources>
 
     <ScrollView>
@@ -33,21 +31,21 @@
                         StrokeShape="RoundRectangle 12"
                         StrokeThickness="0"
                         BackgroundColor="{AppThemeBinding Light=#D1D1D6, Dark=#38383A}"
-                        x:DataType="local:InboxViewModel">
+                        x:DataType="InboxViewModel">
                     <VerticalStackLayout x:Name="InboxLayout"
                                          Spacing="1"
-                                         BindableLayout.ItemsSource="{Binding Messages}"
+                                         BindableLayout.ItemsSource="{Messages}"
                                          ChildAdded="OnInboxRowAdded">
                         <BindableLayout.ItemTemplate>
-                            <DataTemplate x:DataType="local:InboxMessage">
-                                <SwipeView AutomationId="{Binding Sender, StringFormat='sample-swipe-{0}'}">
+                            <DataTemplate x:DataType="InboxMessage">
+                                <SwipeView AutomationId="{$'sample-swipe-{Sender}'}">
                                     <SwipeView.LeftItems>
                                         <SwipeItems>
                                             <SwipeItem Text="Archive"
                                                        IconImageSource="{StaticResource ArchiveIcon}"
                                                        BackgroundColor="#16A34A"
                                                        TextColor="White"
-                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type local:InboxViewModel}}, Path=ArchiveCommand, x:DataType=local:InboxViewModel}"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type InboxViewModel}}, Path=ArchiveCommand, x:DataType=InboxViewModel}"
                                                        CommandParameter="{Binding .}" />
                                         </SwipeItems>
                                     </SwipeView.LeftItems>
@@ -57,13 +55,13 @@
                                                        IconImageSource="{StaticResource FlagIcon}"
                                                        BackgroundColor="#D97706"
                                                        TextColor="White"
-                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type local:InboxViewModel}}, Path=ToggleFlagCommand, x:DataType=local:InboxViewModel}"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type InboxViewModel}}, Path=ToggleFlagCommand, x:DataType=InboxViewModel}"
                                                        CommandParameter="{Binding .}" />
                                             <SwipeItem Text="Delete"
                                                        IconImageSource="{StaticResource DeleteIcon}"
                                                        BackgroundColor="#DC2626"
                                                        TextColor="White"
-                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type local:InboxViewModel}}, Path=DeleteCommand, x:DataType=local:InboxViewModel}"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type InboxViewModel}}, Path=DeleteCommand, x:DataType=InboxViewModel}"
                                                        CommandParameter="{Binding .}" />
                                         </SwipeItems>
                                     </SwipeView.RightItems>
@@ -72,23 +70,23 @@
                                           ColumnSpacing="12"
                                           BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1C1C1E}">
                                         <VerticalStackLayout>
-                                            <Label Text="{Binding Sender}" FontAttributes="Bold" LineBreakMode="TailTruncation" />
-                                            <Label Text="{Binding Subject}"
+                                            <Label Text="{Sender}" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                            <Label Text="{Subject}"
                                                    FontSize="13"
                                                    TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
                                                    LineBreakMode="TailTruncation" />
                                         </VerticalStackLayout>
                                         <VerticalStackLayout Grid.Column="1" Spacing="2">
-                                            <Label Text="{Binding Time}"
+                                            <Label Text="{Time}"
                                                    FontSize="12"
                                                    TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
                                                    HorizontalOptions="End" />
-                                            <Label Text="{x:Static icons:FluentIconsRegular.Flag24}"
-                                                   FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                            <Label Text="{x:Static FluentIconsRegular.Flag24}"
+                                                   FontFamily="{x:Static FluentIconsRegular.FontFamily}"
                                                    FontSize="16"
                                                    TextColor="#D97706"
                                                    HorizontalOptions="End"
-                                                   IsVisible="{Binding IsFlagged}" />
+                                                   IsVisible="{IsFlagged}" />
                                         </VerticalStackLayout>
                                     </Grid>
                                 </SwipeView>
@@ -139,7 +137,7 @@
                         WidthRequest="{OnIdiom Phone=280, Default=400}"
                         StrokeShape="RoundRectangle 12"
                         StrokeThickness="0"
-                        x:DataType="local:CartLineViewModel">
+                        x:DataType="CartLineViewModel">
                     <SwipeView x:Name="CartSwipe" AutomationId="sample-cart-swipe">
                         <SwipeView.RightItems>
                             <SwipeItems SwipeBehaviorOnInvoked="RemainOpen">
@@ -150,7 +148,7 @@
                                                 Command="{Binding DecreaseCommand}"
                                                 SemanticProperties.Description="Decrease quantity"
                                                 AutomationId="sample-cart-decrease" />
-                                        <Label Text="{Binding Quantity}"
+                                        <Label Text="{Quantity}"
                                                MinimumWidthRequest="24"
                                                FontAttributes="Bold"
                                                HorizontalTextAlignment="Center"
@@ -169,14 +167,14 @@
                               ColumnDefinitions="Auto,*"
                               ColumnSpacing="12"
                               BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1C1C1E}">
-                            <Label Text="{x:Static icons:FluentIconsRegular.DrinkCoffee24}"
-                                   FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                            <Label Text="{x:Static FluentIconsRegular.DrinkCoffee24}"
+                                   FontFamily="{x:Static FluentIconsRegular.FontFamily}"
                                    FontSize="28"
                                    TextColor="#B45309"
                                    VerticalOptions="Center" />
                             <VerticalStackLayout Grid.Column="1">
-                                <Label Text="{Binding Name}" FontAttributes="Bold" />
-                                <Label Text="{Binding Summary}"
+                                <Label Text="{Name}" FontAttributes="Bold" />
+                                <Label Text="{Summary}"
                                        FontSize="13"
                                        TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
                                        AutomationId="sample-cart-summary" />

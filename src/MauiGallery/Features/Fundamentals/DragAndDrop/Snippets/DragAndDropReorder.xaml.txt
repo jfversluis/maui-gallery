@@ -1,7 +1,7 @@
 <VerticalStackLayout
     x:DataType="local:ReorderViewModel"
     Spacing="8"
-    BindableLayout.ItemsSource="{Binding Tiles}">
+    BindableLayout.ItemsSource="{Tiles}">
     <BindableLayout.ItemTemplate>
         <DataTemplate x:DataType="local:ReorderTile">
             <Border
@@ -10,7 +10,7 @@
                 StrokeShape="RoundRectangle 12"
                 Stroke="#FACC15"
                 StrokeThickness="0"
-                BackgroundColor="{Binding Color}">
+                BackgroundColor="{.Color}">
                 <Border.Triggers>
                     <DataTrigger TargetType="Border" Binding="{Binding IsDragOver}" Value="True">
                         <Setter Property="StrokeThickness" Value="4" />
@@ -27,7 +27,7 @@
                         DropCommand="{Binding DropCommand, Source={RelativeSource AncestorType={x:Type local:ReorderViewModel}}, x:DataType=local:ReorderViewModel}"
                         DropCommandParameter="{Binding .}" />
                 </Border.GestureRecognizers>
-                <Label Text="{Binding Name}" TextColor="White" FontAttributes="Bold" VerticalOptions="Center" />
+                <Label Text="{Name}" TextColor="White" FontAttributes="Bold" VerticalOptions="Center" />
             </Border>
         </DataTemplate>
     </BindableLayout.ItemTemplate>

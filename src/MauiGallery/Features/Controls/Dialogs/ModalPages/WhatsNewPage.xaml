@@ -1,6 +1,5 @@
 <ContentPage x:Class="MauiGallery.Features.Controls.Dialogs.WhatsNewPage"
-             xmlns:local="clr-namespace:MauiGallery.Features.Controls.Dialogs"
-             x:DataType="local:WhatsNewPage"
+             x:DataType="WhatsNewPage"
              Title="What's new">
     <ScrollView>
         <VerticalStackLayout Padding="24" Spacing="16" MaximumWidthRequest="520">

@@ -1,6 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.BasicInput.ImageButtonPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.BasicInput"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -21,8 +19,8 @@
                              Clicked="OnBasicClicked"
                              AutomationId="sample-basic-image-button">
                     <ImageButton.Source>
-                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                         Glyph="{x:Static icons:FluentIconsRegular.Heart24}"
+                        <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                         Glyph="{x:Static FluentIconsRegular.Heart24}"
                                          Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}" />
                     </ImageButton.Source>
                 </ImageButton>
@@ -59,8 +57,8 @@
                              SemanticProperties.Description="Play"
                              AutomationId="sample-appearance-image-button">
                     <ImageButton.Source>
-                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                         Glyph="{x:Static icons:FluentIconsRegular.Play24}"
+                        <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                         Glyph="{x:Static FluentIconsRegular.Play24}"
                                          Color="White" />
                     </ImageButton.Source>
                 </ImageButton>
@@ -87,7 +85,7 @@
                             Description="Bind every button to the same command and tell them apart with CommandParameter. A row of reactions or a formatting toolbar are typical uses."
                             XamlSource="ImageButtonCommand.xaml.txt"
                             CSharpSource="ImageButtonCommand.cs.txt">
-                <VerticalStackLayout x:Name="CommandSample" Spacing="12" x:DataType="local:ImageButtonReactionsViewModel">
+                <VerticalStackLayout x:Name="CommandSample" Spacing="12" x:DataType="ImageButtonReactionsViewModel">
                     <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
                         <ImageButton x:Name="LikeButton"
                                      WidthRequest="48"
@@ -98,8 +96,8 @@
                                      SemanticProperties.Description="Like"
                                      AutomationId="sample-command-like">
                             <ImageButton.Source>
-                                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                 Glyph="{x:Static icons:FluentIconsRegular.ThumbLike24}"
+                                <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                 Glyph="{x:Static FluentIconsRegular.ThumbLike24}"
                                                  Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}" />
                             </ImageButton.Source>
                         </ImageButton>
@@ -111,8 +109,8 @@
                                      SemanticProperties.Description="Love"
                                      AutomationId="sample-command-love">
                             <ImageButton.Source>
-                                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                 Glyph="{x:Static icons:FluentIconsRegular.Heart24}"
+                                <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                 Glyph="{x:Static FluentIconsRegular.Heart24}"
                                                  Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}" />
                             </ImageButton.Source>
                         </ImageButton>
@@ -124,13 +122,13 @@
                                      SemanticProperties.Description="Haha"
                                      AutomationId="sample-command-haha">
                             <ImageButton.Source>
-                                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                 Glyph="{x:Static icons:FluentIconsRegular.EmojiLaugh24}"
+                                <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                 Glyph="{x:Static FluentIconsRegular.EmojiLaugh24}"
                                                  Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}" />
                             </ImageButton.Source>
                         </ImageButton>
                     </HorizontalStackLayout>
-                    <Label Text="{Binding Summary}" HorizontalOptions="Center" AutomationId="sample-command-summary" />
+                    <Label Text="{Summary}" HorizontalOptions="Center" AutomationId="sample-command-summary" />
                 </VerticalStackLayout>
             </ControlExample>
 

@@ -1,5 +1,5 @@
 <VerticalStackLayout x:DataType="local:LauncherViewModel" Spacing="12">
-    <Entry Text="{Binding Uri}" Keyboard="Url" />
+    <Entry Text="{.Uri}" Keyboard="Url" />
     <HorizontalStackLayout Spacing="8">
         <Button Text="Can open?" Command="{Binding CheckCommand}" />
         <Button Text="Open" Command="{Binding OpenCommand}" />

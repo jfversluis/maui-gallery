@@ -55,17 +55,17 @@ public sealed partial class HybridWebViewPage : SamplePage
 
     private void OnSendClicked(object? sender, EventArgs e)
     {
-        var message = new ChatMessage(".NET MAUI", MessageText.Text ?? string.Empty);
-        MessagesWebView.SendRawMessage(JsonSerializer.Serialize(message, HybridJsonContext.Default.ChatMessage));
+        var message = new HybridChatMessage(".NET MAUI", MessageText.Text ?? string.Empty);
+        MessagesWebView.SendRawMessage(JsonSerializer.Serialize(message, HybridJsonContext.Default.HybridChatMessage));
         MessagesExample.Output = $"SendRawMessage: \"{message.Text}\"";
     }
 
     private void OnRawMessageReceived(object? sender, HybridWebViewRawMessageReceivedEventArgs e)
     {
-        ChatMessage? message;
+        HybridChatMessage? message;
         try
         {
-            message = JsonSerializer.Deserialize(e.Message ?? string.Empty, HybridJsonContext.Default.ChatMessage);
+            message = JsonSerializer.Deserialize(e.Message ?? string.Empty, HybridJsonContext.Default.HybridChatMessage);
         }
         catch (JsonException)
         {

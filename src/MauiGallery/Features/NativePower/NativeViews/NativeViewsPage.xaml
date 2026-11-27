@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.NativePower.NativeViewsPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.NativePower"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -12,7 +11,7 @@
                             ShowStyleToggle="False"
                             XamlSource="NativeViewsCalendar.xaml.txt"
                             CSharpSource="NativeViewsCalendar.cs.txt">
-                <local:NativeCalendar x:Name="CalendarSample"
+                <NativeCalendar x:Name="CalendarSample"
                                       WidthRequest="{OnIdiom Phone=300, Default=340}"
                                       DateSelected="OnCalendarDateSelected"
                                       AutomationId="sample-native-calendar" />
@@ -44,7 +43,7 @@
                             CSharpSource="NativeViewsHost.cs.txt">
                 <HorizontalStackLayout Spacing="12">
                     <Label x:Name="PlatformOnlyCaption" VerticalOptions="Center" />
-                    <local:PlatformViewHost x:Name="PlatformOnlySample" VerticalOptions="Center" AutomationId="sample-native-host" />
+                    <PlatformViewHost x:Name="PlatformOnlySample" VerticalOptions="Center" AutomationId="sample-native-host" />
                 </HorizontalStackLayout>
             </ControlExample>
 

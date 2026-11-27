@@ -1,23 +1,23 @@
 <CollectionView
     x:DataType="local:OrdersViewModel"
-    ItemsSource="{Binding Orders}"
+    ItemsSource="{Orders}"
     RemainingItemsThreshold="$(RemainingItemsThreshold)"
     RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}">
     <CollectionView.ItemTemplate>
         <DataTemplate x:DataType="local:Order">
             <Grid Padding="12,10" ColumnDefinitions="*,Auto" ColumnSpacing="12">
                 <VerticalStackLayout>
-                    <Label Text="{Binding Title}" FontAttributes="Bold" />
-                    <Label Text="{Binding Details}" FontSize="13" />
+                    <Label Text="{.Title}" FontAttributes="Bold" />
+                    <Label Text="{Details}" FontSize="13" />
                 </VerticalStackLayout>
-                <Label Grid.Column="1" Text="{Binding TotalText}" VerticalOptions="Center" />
+                <Label Grid.Column="1" Text="{TotalText}" VerticalOptions="Center" />
             </Grid>
         </DataTemplate>
     </CollectionView.ItemTemplate>
     <CollectionView.Footer>
         <HorizontalStackLayout Padding="12" Spacing="8" HorizontalOptions="Center">
-            <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
-            <Label Text="{Binding Status}" VerticalOptions="Center" />
+            <ActivityIndicator IsRunning="{IsLoading}" IsVisible="{IsLoading}" />
+            <Label Text="{Status}" VerticalOptions="Center" />
         </HorizontalStackLayout>
     </CollectionView.Footer>
 </CollectionView>

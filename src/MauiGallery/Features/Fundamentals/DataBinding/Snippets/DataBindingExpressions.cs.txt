@@ -1,0 +1,8 @@
+// The view model the XAML expressions bind to. In C# UI, bind with lambdas (see "Compiled bindings with x:DataType").
+public partial class TicketOrderViewModel : ObservableObject
+{
+    [ObservableProperty]
+    public partial double Quantity { get; set; } = 2;
+
+    public decimal UnitPrice { get; } = 24.50m;
+}

@@ -1,6 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Collections.IndicatorViewPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Collections"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <x:Array x:Key="ShapeOptions" Type="{x:Type IndicatorShape}">
@@ -9,23 +7,23 @@
         </x:Array>
 
         <!-- One page of the onboarding tour, shared by the carousels on this page. -->
-        <DataTemplate x:Key="SlideTemplate" x:DataType="local:OnboardingSlide">
+        <DataTemplate x:Key="SlideTemplate" x:DataType="OnboardingSlide">
             <Border StrokeShape="RoundRectangle 16"
                     StrokeThickness="0"
-                    BackgroundColor="{Binding Color}"
+                    BackgroundColor="{.Color}"
                     Padding="20">
                 <VerticalStackLayout Spacing="6" VerticalOptions="Center">
-                    <Label Text="{Binding Glyph}"
-                           FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                    <Label Text="{Glyph}"
+                           FontFamily="{x:Static FluentIconsRegular.FontFamily}"
                            FontSize="36"
                            TextColor="White"
                            HorizontalOptions="Center" />
-                    <Label Text="{Binding Title}"
+                    <Label Text="{.Title}"
                            FontSize="20"
                            FontAttributes="Bold"
                            TextColor="White"
                            HorizontalOptions="Center" />
-                    <Label Text="{Binding Text}"
+                    <Label Text="{Text}"
                            TextColor="#E6FFFFFF"
                            HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>
@@ -45,7 +43,7 @@
                             CSharpSource="IndicatorViewBasic.cs.txt">
                 <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=400}">
                     <CarouselView HeightRequest="180"
-                                  ItemsSource="{x:Static local:OnboardingData.Slides}"
+                                  ItemsSource="{x:Static OnboardingData.Slides}"
                                   ItemTemplate="{StaticResource SlideTemplate}"
                                   IndicatorView="{x:Reference BasicIndicator}"
                                   Loop="False"
@@ -141,7 +139,7 @@
                 <VerticalStackLayout Spacing="12" WidthRequest="{OnIdiom Phone=280, Default=400}">
                     <CarouselView x:Name="TemplateCarousel"
                                   HeightRequest="180"
-                                  ItemsSource="{x:Static local:OnboardingData.Slides}"
+                                  ItemsSource="{x:Static OnboardingData.Slides}"
                                   ItemTemplate="{StaticResource SlideTemplate}"
                                   IndicatorView="{x:Reference TemplateIndicator}"
                                   Loop="False"
@@ -152,7 +150,7 @@
                                    HorizontalOptions="Center"
                                    AutomationId="sample-template-indicator">
                         <IndicatorView.IndicatorTemplate>
-                            <DataTemplate x:DataType="local:OnboardingSlide">
+                            <DataTemplate x:DataType="OnboardingSlide">
                                 <Border WidthRequest="8"
                                         HeightRequest="8"
                                         Margin="3,0"

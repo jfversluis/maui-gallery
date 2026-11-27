@@ -39,10 +39,10 @@
             ColumnDefinitions="*,Auto"
             BackgroundColor="{AppThemeBinding Light=White, Dark=#1C1C1E}">
             <VerticalStackLayout>
-                <Label Text="{Binding Sender}" FontAttributes="Bold" />
-                <Label Text="{Binding Subject}" FontSize="13" />
+                <Label Text="{Sender}" FontAttributes="Bold" />
+                <Label Text="{Subject}" FontSize="13" />
             </VerticalStackLayout>
-            <Label Grid.Column="1" Text="{Binding Time}" FontSize="12" />
+            <Label Grid.Column="1" Text="{Time}" FontSize="12" />
         </Grid>
     </SwipeView>
 </DataTemplate>

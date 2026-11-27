@@ -4,15 +4,15 @@
     RowDefinitions="Auto,Auto"
     ColumnSpacing="24"
     RowSpacing="8">
-    <Label Text="{Binding Tickets, StringFormat='{0} × concert ticket'}" VerticalOptions="Center" />
+    <Label Text="{$'{Tickets} × concert ticket'}" VerticalOptions="Center" />
     <Stepper
         Grid.Column="1"
         Minimum="1"
         Maximum="8"
-        Value="{Binding Tickets}" />
+        Value="{Tickets}" />
     <Label
         Grid.Row="1"
         Grid.ColumnSpan="2"
-        Text="{Binding Total, StringFormat='Total: {0:C}'}"
+        Text="{$'Total: {Total:C}'}"
         FontAttributes="Bold" />
 </Grid>

@@ -5,7 +5,7 @@
                 <VisualStateGroup x:Name="ValidationStates">
                     <VisualState x:Name="Empty">
                         <VisualState.StateTriggers>
-                            <StateTrigger IsActive="{Binding IsEmpty}" />
+                            <StateTrigger IsActive="{IsEmpty}" />
                         </VisualState.StateTriggers>
                         <VisualState.Setters>
                             <Setter TargetName="message" Property="Label.Text" Value="We'll never share it." />
@@ -14,7 +14,7 @@
                     </VisualState>
                     <VisualState x:Name="Valid">
                         <VisualState.StateTriggers>
-                            <StateTrigger IsActive="{Binding IsValid}" />
+                            <StateTrigger IsActive="{IsValid}" />
                         </VisualState.StateTriggers>
                         <VisualState.Setters>
                             <Setter TargetName="message" Property="Label.Text" Value="Looks good." />
@@ -23,7 +23,7 @@
                     </VisualState>
                     <VisualState x:Name="Invalid">
                         <VisualState.StateTriggers>
-                            <StateTrigger IsActive="{Binding IsInvalid}" />
+                            <StateTrigger IsActive="{IsInvalid}" />
                         </VisualState.StateTriggers>
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="#D13438" />

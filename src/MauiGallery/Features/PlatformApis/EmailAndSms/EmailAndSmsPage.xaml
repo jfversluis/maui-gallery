@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.PlatformApis.EmailAndSmsPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -15,28 +14,28 @@
                             XamlSource="EmailCompose.xaml.txt"
                             CSharpSource="EmailCompose.cs.txt">
                 <VerticalStackLayout x:Name="EmailSample"
-                                     x:DataType="local:EmailViewModel"
+                                     x:DataType="EmailViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=380}">
-                    <Entry Text="{Binding To}" Keyboard="Email" Placeholder="To" SemanticProperties.Description="To" AutomationId="sample-email-to" />
-                    <Entry Text="{Binding Subject}" Placeholder="Subject" SemanticProperties.Description="Subject" AutomationId="sample-email-subject" />
-                    <Editor Text="{Binding Body}" HeightRequest="80" Placeholder="Message" SemanticProperties.Description="Message" AutomationId="sample-email-body" />
+                    <Entry Text="{To}" Keyboard="Email" Placeholder="To" SemanticProperties.Description="To" AutomationId="sample-email-to" />
+                    <Entry Text="{Subject}" Placeholder="Subject" SemanticProperties.Description="Subject" AutomationId="sample-email-subject" />
+                    <Editor Text="{Body}" HeightRequest="80" Placeholder="Message" SemanticProperties.Description="Message" AutomationId="sample-email-body" />
                     <Button x:Name="EmailButton"
                             Text="Compose email"
                             Command="{Binding ComposeCommand}"
                             HorizontalOptions="Start"
                             AutomationId="sample-email-compose" />
-                    <Label Text="{Binding Result}" IsVisible="{Binding Result, Converter={StaticResource IsNotNullOrEmpty}}" AutomationId="sample-email-result" />
+                    <Label Text="{Binding Result}" IsVisible="{!string.IsNullOrEmpty(Result)}" AutomationId="sample-email-result" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
-                    <VerticalStackLayout x:Name="EmailOptions" x:DataType="local:EmailViewModel" Spacing="8">
+                    <VerticalStackLayout x:Name="EmailOptions" x:DataType="EmailViewModel" Spacing="8">
                         <Grid ColumnDefinitions="*,Auto">
                             <Label Text="HTML body" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
-                            <Switch x:Name="EmailHtml" Grid.Column="1" IsToggled="{Binding IsHtml}" AutomationId="option-email-html" />
+                            <Switch x:Name="EmailHtml" Grid.Column="1" IsToggled="{IsHtml}" AutomationId="option-email-html" />
                         </Grid>
                         <Grid ColumnDefinitions="*,Auto">
                             <Label Text="Attach a file" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
-                            <Switch x:Name="EmailAttach" Grid.Column="1" IsToggled="{Binding AttachLog}" AutomationId="option-email-attach" />
+                            <Switch x:Name="EmailAttach" Grid.Column="1" IsToggled="{AttachLog}" AutomationId="option-email-attach" />
                         </Grid>
                     </VerticalStackLayout>
                 </ControlExample.Options>
@@ -56,17 +55,17 @@
                             XamlSource="SmsCompose.xaml.txt"
                             CSharpSource="SmsCompose.cs.txt">
                 <VerticalStackLayout x:Name="SmsSample"
-                                     x:DataType="local:SmsViewModel"
+                                     x:DataType="SmsViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=380}">
-                    <Entry Text="{Binding Recipient}" Keyboard="Telephone" Placeholder="Phone number" SemanticProperties.Description="Phone number" AutomationId="sample-sms-recipient" />
-                    <Editor Text="{Binding Message}" HeightRequest="80" Placeholder="Message" SemanticProperties.Description="Message" AutomationId="sample-sms-message" />
+                    <Entry Text="{Recipient}" Keyboard="Telephone" Placeholder="Phone number" SemanticProperties.Description="Phone number" AutomationId="sample-sms-recipient" />
+                    <Editor Text="{Message}" HeightRequest="80" Placeholder="Message" SemanticProperties.Description="Message" AutomationId="sample-sms-message" />
                     <Button x:Name="SmsButton"
                             Text="Compose message"
                             Command="{Binding ComposeCommand}"
                             HorizontalOptions="Start"
                             AutomationId="sample-sms-compose" />
-                    <Label Text="{Binding Result}" IsVisible="{Binding Result, Converter={StaticResource IsNotNullOrEmpty}}" AutomationId="sample-sms-result" />
+                    <Label Text="{Binding Result}" IsVisible="{!string.IsNullOrEmpty(Result)}" AutomationId="sample-sms-result" />
                 </VerticalStackLayout>
             </ControlExample>
 

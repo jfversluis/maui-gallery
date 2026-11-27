@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Layouts.ContentViewPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -12,13 +11,13 @@
                             XamlSource="ContentViewCard.xaml.txt"
                             CSharpSource="ContentViewCard.cs.txt">
                 <VerticalStackLayout Spacing="8" WidthRequest="280">
-                    <local:ProfileCardView x:Name="FirstCard"
+                    <ProfileCardView x:Name="FirstCard"
                                            Name="{Binding Text, Source={x:Reference CardName}, x:DataType=Entry}"
                                            Role="Mathematician"
                                            AccentColor="{Binding SelectedColor, Source={x:Reference CardColor}, x:DataType=SwatchPicker}"
                                            AutomationId="sample-card-first" />
-                    <local:ProfileCardView Name="Grace Hopper" Role="Computer scientist" AccentColor="#7C3AED" AutomationId="sample-card-second" />
-                    <local:ProfileCardView Name="Alan Turing" Role="Logician" AccentColor="#EA580C" AutomationId="sample-card-third" />
+                    <ProfileCardView Name="Grace Hopper" Role="Computer scientist" AccentColor="#7C3AED" AutomationId="sample-card-second" />
+                    <ProfileCardView Name="Alan Turing" Role="Logician" AccentColor="#EA580C" AutomationId="sample-card-third" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
                     <VerticalStackLayout Spacing="8">
@@ -41,7 +40,7 @@
                             XamlSource="ContentViewRating.xaml.txt"
                             CSharpSource="ContentViewRating.cs.txt">
                 <VerticalStackLayout Spacing="8">
-                    <local:RatingView x:Name="Rating"
+                    <RatingView x:Name="Rating"
                                       Value="3"
                                       Maximum="{Binding Value, Source={x:Reference RatingMaximum}, x:DataType=Stepper}"
                                       Color="{Binding SelectedColor, Source={x:Reference RatingColor}, x:DataType=SwatchPicker}"
@@ -72,7 +71,7 @@
                             Description="Give a ContentView a ControlTemplate with a ContentPresenter to build a container: the template draws the chrome and the content you put inside appears where the presenter is."
                             XamlSource="ContentViewSection.xaml.txt"
                             CSharpSource="ContentViewSection.cs.txt">
-                <local:SectionView x:Name="Section" Title="Notifications" WidthRequest="280" AutomationId="sample-section">
+                <SectionView x:Name="Section" Title="Notifications" WidthRequest="280" AutomationId="sample-section">
                     <VerticalStackLayout>
                         <Grid ColumnDefinitions="*,Auto">
                             <Label Text="Messages" VerticalOptions="Center" />
@@ -83,7 +82,7 @@
                             <Switch Grid.Column="1" AutomationId="sample-section-reminders" />
                         </Grid>
                     </VerticalStackLayout>
-                </local:SectionView>
+                </SectionView>
             </ControlExample>
 
             <RelatedItems />

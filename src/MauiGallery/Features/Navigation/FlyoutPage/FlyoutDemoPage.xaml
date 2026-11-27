@@ -1,6 +1,5 @@
 <FlyoutPage x:Class="MauiGallery.Features.Navigation.FlyoutDemoPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Navigation"
-            x:DataType="local:FlyoutDemoPage"
+            x:DataType="FlyoutDemoPage"
             Title="Flyout page">
     <FlyoutPage.Flyout>
         <!-- The flyout page must have a Title. -->

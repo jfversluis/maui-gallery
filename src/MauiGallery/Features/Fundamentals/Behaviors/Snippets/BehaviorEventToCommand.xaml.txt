@@ -6,5 +6,5 @@
                 CommandParameter="{Binding Text, Source={x:Reference username}, x:DataType=Entry}" />
         </Entry.Behaviors>
     </Entry>
-    <Label Text="{Binding Status}" />
+    <Label Text="{Status}" />
 </VerticalStackLayout>

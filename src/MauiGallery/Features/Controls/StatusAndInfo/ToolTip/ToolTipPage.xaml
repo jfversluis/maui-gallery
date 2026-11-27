@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.StatusAndInfo.ToolTipPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -43,8 +42,8 @@
                                  Clicked="OnToolbarClicked"
                                  AutomationId="sample-toolbar-bold">
                         <ImageButton.Source>
-                            <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                             Glyph="{x:Static icons:FluentIconsRegular.TextBold24}"
+                            <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                             Glyph="{x:Static FluentIconsRegular.TextBold24}"
                                              Color="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}" />
                         </ImageButton.Source>
                     </ImageButton>
@@ -56,8 +55,8 @@
                                  Clicked="OnToolbarClicked"
                                  AutomationId="sample-toolbar-italic">
                         <ImageButton.Source>
-                            <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                             Glyph="{x:Static icons:FluentIconsRegular.TextItalic24}"
+                            <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                             Glyph="{x:Static FluentIconsRegular.TextItalic24}"
                                              Color="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}" />
                         </ImageButton.Source>
                     </ImageButton>
@@ -69,8 +68,8 @@
                                  Clicked="OnToolbarClicked"
                                  AutomationId="sample-toolbar-underline">
                         <ImageButton.Source>
-                            <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                             Glyph="{x:Static icons:FluentIconsRegular.TextUnderline24}"
+                            <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                             Glyph="{x:Static FluentIconsRegular.TextUnderline24}"
                                              Color="{AppThemeBinding Light=#1F1A33, Dark=#FFFFFF}" />
                         </ImageButton.Source>
                     </ImageButton>
@@ -99,8 +98,8 @@
                            SemanticProperties.Description="Changes are kept on this device only"
                            AutomationId="sample-anyview-info">
                         <Image.Source>
-                            <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                             Glyph="{x:Static icons:FluentIconsRegular.Info24}"
+                            <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                             Glyph="{x:Static FluentIconsRegular.Info24}"
                                              Color="{AppThemeBinding Light=#5C5770, Dark=#B8B4C8}" />
                         </Image.Source>
                     </Image>

@@ -6,7 +6,7 @@ namespace MauiGallery.Features.Media;
 public sealed record DeviceSummary(string Platform, string Version, string Model, string Idiom);
 
 /// <summary>The JSON payload of the raw messages the HybridWebView sample exchanges.</summary>
-public sealed record ChatMessage(string Author, string Text);
+public sealed record HybridChatMessage(string Author, string Text);
 
 /// <summary>
 /// Source-generated JSON metadata for every type that crosses the JavaScript boundary, so the HybridWebView samples
@@ -14,7 +14,7 @@ public sealed record ChatMessage(string Author, string Text);
 /// </summary>
 [JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
 [JsonSerializable(typeof(DeviceSummary))]
-[JsonSerializable(typeof(ChatMessage))]
+[JsonSerializable(typeof(HybridChatMessage))]
 [JsonSerializable(typeof(string))]
 [JsonSerializable(typeof(int))]
 internal sealed partial class HybridJsonContext : JsonSerializerContext;

@@ -1,6 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.BasicInput.ButtonPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.BasicInput"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -41,8 +39,8 @@
                             CSharpSource="ButtonIcon.cs.txt">
                 <Button x:Name="IconButton" Text="Add to cart" AutomationId="sample-icon-button">
                     <Button.ImageSource>
-                        <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                         Glyph="{x:Static icons:FluentIconsRegular.Cart24}"
+                        <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                         Glyph="{x:Static FluentIconsRegular.Cart24}"
                                          Color="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}"
                                          Size="20" />
                     </Button.ImageSource>
@@ -120,12 +118,12 @@
                             Description="With MVVM, bind Command to an ICommand on your view model. When CanExecute returns false, the button disables itself."
                             XamlSource="ButtonCommand.xaml.txt"
                             CSharpSource="ButtonCommand.cs.txt">
-                <VerticalStackLayout x:Name="CommandSample" Spacing="12" x:DataType="local:ButtonCommandViewModel">
+                <VerticalStackLayout x:Name="CommandSample" Spacing="12" x:DataType="ButtonCommandViewModel">
                     <Button x:Name="CommandButton"
                             Text="Add to cart"
                             Command="{Binding AddToCartCommand}"
                             AutomationId="sample-command-button" />
-                    <Label Text="{Binding CartSummary}" HorizontalOptions="Center" AutomationId="sample-command-summary" />
+                    <Label Text="{CartSummary}" HorizontalOptions="Center" AutomationId="sample-command-summary" />
                 </VerticalStackLayout>
             </ControlExample>
 

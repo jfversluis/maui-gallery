@@ -9,7 +9,7 @@
                     StrokeShape="RoundRectangle 16,16,4,16"
                     StrokeThickness="0"
                     BackgroundColor="{AppThemeBinding Light=#E5E5EA, Dark=#3A3A3C}">
-                    <Label Text="{Binding Text}" />
+                    <Label Text="{Text}" />
                 </Border>
             </DataTemplate>
         </local:ChatMessageTemplateSelector.IncomingTemplate>
@@ -22,7 +22,7 @@
                     StrokeShape="RoundRectangle 16,16,16,4"
                     StrokeThickness="0"
                     BackgroundColor="#2563EB">
-                    <Label Text="{Binding Text}" TextColor="White" />
+                    <Label Text="{Text}" TextColor="White" />
                 </Border>
             </DataTemplate>
         </local:ChatMessageTemplateSelector.OutgoingTemplate>
@@ -32,5 +32,5 @@
 <VerticalStackLayout
     x:DataType="local:ChatViewModel"
     Spacing="8"
-    BindableLayout.ItemsSource="{Binding Messages}"
+    BindableLayout.ItemsSource="{Messages}"
     BindableLayout.ItemTemplateSelector="{StaticResource ChatTemplates}" />

@@ -1,7 +1,5 @@
 <ContentPage x:Class="MauiGallery.Features.Settings.SettingsPage"
-             xmlns:local="clr-namespace:MauiGallery.Features.Settings"
-             xmlns:services="clr-namespace:MauiGallery.Services"
-             x:DataType="local:SettingsViewModel"
+             x:DataType="SettingsViewModel"
              Title="Settings"
              Style="{StaticResource PageChrome}">
     <ContentPage.Resources>
@@ -18,14 +16,14 @@
             <VerticalStackLayout Spacing="12">
                 <SectionHeader Title="Appearance" />
                 <Border Style="{StaticResource Card}" Padding="20,16">
-                    <VerticalStackLayout Spacing="4" RadioButtonGroup.GroupName="theme" RadioButtonGroup.SelectedValue="{Binding Theme}">
+                    <VerticalStackLayout Spacing="4" RadioButtonGroup.GroupName="theme" RadioButtonGroup.SelectedValue="{Theme}">
                         <Label Text="Theme" Style="{StaticResource TextBodyStrong}" SemanticProperties.HeadingLevel="Level3" />
                         <Label Text="Applies to the app and to every native control in the samples."
                                Style="{StaticResource TextCaption}"
                                Margin="0,0,0,8" />
-                        <RadioButton Content="Use system setting" Value="{x:Static services:ThemePreference.System}" AutomationId="theme-system" MinimumHeightRequest="{OnPlatform Android=48}" />
-                        <RadioButton Content="Light" Value="{x:Static services:ThemePreference.Light}" AutomationId="theme-light" MinimumHeightRequest="{OnPlatform Android=48}" />
-                        <RadioButton Content="Dark" Value="{x:Static services:ThemePreference.Dark}" AutomationId="theme-dark" MinimumHeightRequest="{OnPlatform Android=48}" />
+                        <RadioButton Content="Use system setting" Value="{x:Static ThemePreference.System}" AutomationId="theme-system" MinimumHeightRequest="{OnPlatform Android=48}" />
+                        <RadioButton Content="Light" Value="{x:Static ThemePreference.Light}" AutomationId="theme-light" MinimumHeightRequest="{OnPlatform Android=48}" />
+                        <RadioButton Content="Dark" Value="{x:Static ThemePreference.Dark}" AutomationId="theme-dark" MinimumHeightRequest="{OnPlatform Android=48}" />
                     </VerticalStackLayout>
                 </Border>
             </VerticalStackLayout>
@@ -36,22 +34,22 @@
                     <VerticalStackLayout>
                         <Grid Style="{StaticResource SettingRow}">
                             <Label Text="App version" Style="{StaticResource TextBody}" />
-                            <Label Grid.Column="1" Text="{Binding AppVersion}" Style="{StaticResource TextBodySecondary}" />
+                            <Label Grid.Column="1" Text="{AppVersion}" Style="{StaticResource TextBodySecondary}" />
                         </Grid>
                         <BoxView Style="{StaticResource Divider}" />
                         <Grid Style="{StaticResource SettingRow}">
                             <Label Text=".NET MAUI" Style="{StaticResource TextBody}" />
-                            <Label Grid.Column="1" Text="{Binding MauiVersion}" Style="{StaticResource TextBodySecondary}" AutomationId="about-maui-version" />
+                            <Label Grid.Column="1" Text="{MauiVersion}" Style="{StaticResource TextBodySecondary}" AutomationId="about-maui-version" />
                         </Grid>
                         <BoxView Style="{StaticResource Divider}" />
                         <Grid Style="{StaticResource SettingRow}">
                             <Label Text=".NET runtime" Style="{StaticResource TextBody}" />
-                            <Label Grid.Column="1" Text="{Binding DotNetVersion}" Style="{StaticResource TextBodySecondary}" />
+                            <Label Grid.Column="1" Text="{DotNetVersion}" Style="{StaticResource TextBodySecondary}" />
                         </Grid>
                         <BoxView Style="{StaticResource Divider}" />
                         <Grid Style="{StaticResource SettingRow}">
                             <Label Text="Device" Style="{StaticResource TextBody}" />
-                            <Label Grid.Column="1" Text="{Binding PlatformDescription}" Style="{StaticResource TextBodySecondary}" />
+                            <Label Grid.Column="1" Text="{PlatformDescription}" Style="{StaticResource TextBodySecondary}" />
                         </Grid>
                     </VerticalStackLayout>
                 </Border>
@@ -65,16 +63,16 @@
             <VerticalStackLayout Spacing="12">
                 <SectionHeader Title="Third-party notices" />
                 <Border Style="{StaticResource Card}" Padding="0">
-                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Notices}">
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Notices}">
                         <BindableLayout.ItemTemplate>
-                            <DataTemplate x:DataType="local:LicenseNotice">
+                            <DataTemplate x:DataType="LicenseNotice">
                                 <Grid Style="{StaticResource SettingRow}">
                                     <Grid.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding OpenNoticeCommand, Source={RelativeSource AncestorType={x:Type local:SettingsViewModel}}, x:DataType=local:SettingsViewModel}"
+                                        <TapGestureRecognizer Command="{Binding OpenNoticeCommand, Source={RelativeSource AncestorType={x:Type SettingsViewModel}}, x:DataType=SettingsViewModel}"
                                                               CommandParameter="{Binding .}" />
                                     </Grid.GestureRecognizers>
-                                    <Label Text="{Binding Name}" Style="{StaticResource TextBody}" />
-                                    <Label Grid.Column="1" Text="{Binding License}" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
+                                    <Label Text="{Name}" Style="{StaticResource TextBody}" />
+                                    <Label Grid.Column="1" Text="{License}" Style="{StaticResource TextCaption}" VerticalOptions="Center" />
                                 </Grid>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>

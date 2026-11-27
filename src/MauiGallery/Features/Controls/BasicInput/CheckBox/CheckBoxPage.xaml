@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.BasicInput.CheckBoxPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.BasicInput"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -77,15 +76,15 @@
                             Description="Bind IsChecked two-way to each item in your view model. Here a summary and a strikethrough follow the items as you check them off."
                             XamlSource="CheckBoxList.xaml.txt"
                             CSharpSource="CheckBoxList.cs.txt">
-                <VerticalStackLayout x:Name="ListSample" Spacing="12" x:DataType="local:CheckBoxChecklistViewModel">
-                    <VerticalStackLayout Spacing="8" BindableLayout.ItemsSource="{Binding Tasks}">
+                <VerticalStackLayout x:Name="ListSample" Spacing="12" x:DataType="CheckBoxChecklistViewModel">
+                    <VerticalStackLayout Spacing="8" BindableLayout.ItemsSource="{Tasks}">
                         <BindableLayout.ItemTemplate>
-                            <DataTemplate x:DataType="local:ChecklistTask">
+                            <DataTemplate x:DataType="ChecklistTask">
                                 <HorizontalStackLayout Spacing="4">
-                                    <CheckBox IsChecked="{Binding IsDone}"
-                                              SemanticProperties.Description="{Binding Title}"
-                                              AutomationId="{Binding AutomationId}" />
-                                    <Label Text="{Binding Title}" VerticalOptions="Center">
+                                    <CheckBox IsChecked="{IsDone}"
+                                              SemanticProperties.Description="{.Title}"
+                                              AutomationId="{.AutomationId}" />
+                                    <Label Text="{.Title}" VerticalOptions="Center">
                                         <Label.Triggers>
                                             <DataTrigger TargetType="Label" Binding="{Binding IsDone}" Value="True">
                                                 <Setter Property="TextDecorations" Value="Strikethrough" />
@@ -96,7 +95,7 @@
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </VerticalStackLayout>
-                    <Label Text="{Binding Summary}" AutomationId="sample-list-summary" />
+                    <Label Text="{Summary}" AutomationId="sample-list-summary" />
                 </VerticalStackLayout>
             </ControlExample>
 

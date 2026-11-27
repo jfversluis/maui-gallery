@@ -1,7 +1,5 @@
 <ContentPage x:Class="MauiGallery.Features.Catalog.CategoryPage"
-             xmlns:catalog="clr-namespace:MauiGallery.Core.Catalog;assembly=MauiGallery.Core"
-             xmlns:local="clr-namespace:MauiGallery.Features.Catalog"
-             x:DataType="local:CategoryViewModel"
+             x:DataType="CategoryViewModel"
              Title="{Binding Category.Title}"
              Shell.NavBarIsVisible="True"
              Style="{StaticResource PageChrome}">
@@ -11,10 +9,10 @@
                 <Label Text="{Binding Category.Title}" Style="{StaticResource TextTitle1}" />
                 <Label Text="{Binding Category.Description}" Style="{StaticResource TextBodySecondary}" />
             </VerticalStackLayout>
-            <AdaptiveGrid MinItemWidth="260" BindableLayout.ItemsSource="{Binding Items}">
+            <AdaptiveGrid MinItemWidth="260" BindableLayout.ItemsSource="{Items}">
                 <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="catalog:GalleryItem">
-                        <ItemCard Command="{Binding OpenItemCommand, Source={RelativeSource AncestorType={x:Type local:CategoryViewModel}}, x:DataType=local:CategoryViewModel}" />
+                    <DataTemplate x:DataType="GalleryItem">
+                        <ItemCard Command="{Binding OpenItemCommand, Source={RelativeSource AncestorType={x:Type CategoryViewModel}}, x:DataType=CategoryViewModel}" />
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </AdaptiveGrid>

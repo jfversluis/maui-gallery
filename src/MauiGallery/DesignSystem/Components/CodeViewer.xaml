@@ -1,5 +1,4 @@
 <ContentView x:Class="MauiGallery.DesignSystem.Components.CodeViewer"
-             xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
              x:Name="Self"
              x:DataType="CodeViewer">
     <ContentView.Resources>
@@ -32,8 +31,8 @@
                          ToolTipProperties.Text="Copy code">
                 <ImageButton.Source>
                     <FontImageSource x:Name="CopyGlyph"
-                                     FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                     Glyph="{x:Static icons:FluentIconsRegular.Copy24}"
+                                     FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                     Glyph="{x:Static FluentIconsRegular.Copy24}"
                                      Color="{DynamicResource ColorTextSecondary}"
                                      Size="18" />
                 </ImageButton.Source>
@@ -88,8 +87,8 @@
                 AutomationId="code-expand">
             <Button.ImageSource>
                 <FontImageSource x:Name="ExpandGlyph"
-                                 FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                 Glyph="{x:Static icons:FluentIconsRegular.ChevronDown24}"
+                                 FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                 Glyph="{x:Static FluentIconsRegular.ChevronDown24}"
                                  Color="{DynamicResource ColorAccentText}"
                                  Size="14" />
             </Button.ImageSource>

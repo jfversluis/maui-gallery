@@ -1,12 +1,5 @@
 <Shell x:Class="MauiGallery.AppShell"
-       xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-       xmlns:home="clr-namespace:MauiGallery.Features.Home"
-       xmlns:catalog="clr-namespace:MauiGallery.Features.Catalog"
-       xmlns:search="clr-namespace:MauiGallery.Features.Search"
-       xmlns:settings="clr-namespace:MauiGallery.Features.Settings"
-       xmlns:shell="clr-namespace:MauiGallery.Features.Chrome"
-       xmlns:services="clr-namespace:MauiGallery.Services"
-       x:DataType="shell:AppShellViewModel"
+       x:DataType="AppShellViewModel"
        Title=".NET MAUI Gallery"
        FlyoutWidth="{StaticResource SidebarWidth}"
        FlyoutBackgroundColor="{DynamicResource ColorSidebar}"
@@ -23,7 +16,7 @@
     -->
     <Shell.MenuBarItems>
         <MenuBarItem Text="File">
-            <MenuFlyoutItem Text="New Window" Command="{Binding NewWindowCommand}" IsEnabled="{Binding CanOpenWindows}">
+            <MenuFlyoutItem Text="New Window" Command="{Binding NewWindowCommand}" IsEnabled="{CanOpenWindows}">
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Modifiers="{OnPlatform MacCatalyst=Cmd, Default=Ctrl}" Key="N" />
                 </MenuFlyoutItem.KeyboardAccelerators>
@@ -31,18 +24,18 @@
         </MenuBarItem>
         <MenuBarItem Text="View">
             <MenuFlyoutSubItem Text="Theme">
-                <MenuFlyoutItem Text="System" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static services:ThemePreference.System}" />
-                <MenuFlyoutItem Text="Light" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static services:ThemePreference.Light}" />
-                <MenuFlyoutItem Text="Dark" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static services:ThemePreference.Dark}" />
+                <MenuFlyoutItem Text="System" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static ThemePreference.System}" />
+                <MenuFlyoutItem Text="Light" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static ThemePreference.Light}" />
+                <MenuFlyoutItem Text="Dark" Command="{Binding SetThemeCommand}" CommandParameter="{x:Static ThemePreference.Dark}" />
             </MenuFlyoutSubItem>
         </MenuBarItem>
         <MenuBarItem Text="Go">
-            <MenuFlyoutItem Text="Home" Command="{Binding GoToCommand}" CommandParameter="{x:Static shell:AppShellViewModel.HomeRoute}">
+            <MenuFlyoutItem Text="Home" Command="{Binding GoToCommand}" CommandParameter="{x:Static AppShellViewModel.HomeRoute}">
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Modifiers="{OnPlatform MacCatalyst=Cmd, Default=Ctrl}" Key="1" />
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
-            <MenuFlyoutItem Text="All Controls" Command="{Binding GoToCommand}" CommandParameter="{x:Static shell:AppShellViewModel.AllControlsRoute}">
+            <MenuFlyoutItem Text="All Controls" Command="{Binding GoToCommand}" CommandParameter="{x:Static AppShellViewModel.AllControlsRoute}">
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Modifiers="{OnPlatform MacCatalyst=Cmd, Default=Ctrl}" Key="2" />
                 </MenuFlyoutItem.KeyboardAccelerators>
@@ -53,7 +46,7 @@
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
-            <MenuFlyoutItem Text="Settings" Command="{Binding GoToCommand}" CommandParameter="{x:Static shell:AppShellViewModel.SettingsRoute}">
+            <MenuFlyoutItem Text="Settings" Command="{Binding GoToCommand}" CommandParameter="{x:Static AppShellViewModel.SettingsRoute}">
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Modifiers="{OnPlatform MacCatalyst=Cmd, Default=Ctrl}" Key="," />
                 </MenuFlyoutItem.KeyboardAccelerators>
@@ -73,27 +66,27 @@
     <FlyoutItem Route="main" FlyoutDisplayOptions="AsSingleItem">
         <Tab Title="Home" Route="home">
             <Tab.Icon>
-                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Home24}" />
+                <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.Home24}" />
             </Tab.Icon>
-            <ShellContent ContentTemplate="{DataTemplate home:HomePage}" />
+            <ShellContent ContentTemplate="{DataTemplate HomePage}" />
         </Tab>
         <Tab Title="Controls" Route="controls">
             <Tab.Icon>
-                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Apps24}" />
+                <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.Apps24}" />
             </Tab.Icon>
-            <ShellContent ContentTemplate="{DataTemplate catalog:AllControlsPage}" />
+            <ShellContent ContentTemplate="{DataTemplate AllControlsPage}" />
         </Tab>
         <Tab Title="Search" Route="search">
             <Tab.Icon>
-                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Search24}" />
+                <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.Search24}" />
             </Tab.Icon>
-            <ShellContent ContentTemplate="{DataTemplate search:SearchPage}" />
+            <ShellContent ContentTemplate="{DataTemplate SearchPage}" />
         </Tab>
         <Tab Title="Settings" Route="settings">
             <Tab.Icon>
-                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Settings24}" />
+                <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.Settings24}" />
             </Tab.Icon>
-            <ShellContent ContentTemplate="{DataTemplate settings:SettingsPage}" />
+            <ShellContent ContentTemplate="{DataTemplate SettingsPage}" />
         </Tab>
     </FlyoutItem>
 </Shell>

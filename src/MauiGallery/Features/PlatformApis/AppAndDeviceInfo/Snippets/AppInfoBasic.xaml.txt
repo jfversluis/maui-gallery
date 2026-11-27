@@ -1,15 +1,15 @@
 <VerticalStackLayout x:DataType="local:AppInfoViewModel" Spacing="16">
     <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="8">
         <Label Text="Name" />
-        <Label Grid.Column="1" Text="{Binding Name}" />
+        <Label Grid.Column="1" Text="{Name}" />
         <Label Grid.Row="1" Text="Package" />
-        <Label Grid.Row="1" Grid.Column="1" Text="{Binding PackageName}" />
+        <Label Grid.Row="1" Grid.Column="1" Text="{PackageName}" />
         <Label Grid.Row="2" Text="Version" />
-        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Version}" />
+        <Label Grid.Row="2" Grid.Column="1" Text="{.Version}" />
         <Label Grid.Row="3" Text="Build" />
-        <Label Grid.Row="3" Grid.Column="1" Text="{Binding Build}" />
+        <Label Grid.Row="3" Grid.Column="1" Text="{Build}" />
         <Label Grid.Row="4" Text="OS theme" />
-        <Label Grid.Row="4" Grid.Column="1" Text="{Binding Theme}" />
+        <Label Grid.Row="4" Grid.Column="1" Text="{Theme}" />
     </Grid>
     <Button Text="Open app settings" Command="{Binding ShowSettingsCommand}" />
 </VerticalStackLayout>

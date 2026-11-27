@@ -1,34 +1,32 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Collections.BindableLayoutPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Collections"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
-        <local:ChatMessageTemplateSelector x:Key="ChatTemplates">
-            <local:ChatMessageTemplateSelector.IncomingTemplate>
-                <DataTemplate x:DataType="local:ChatMessage">
+        <ChatMessageTemplateSelector x:Key="ChatTemplates">
+            <ChatMessageTemplateSelector.IncomingTemplate>
+                <DataTemplate x:DataType="ChatMessage">
                     <Border HorizontalOptions="Start"
                             MaximumWidthRequest="240"
                             Padding="12,8"
                             StrokeShape="RoundRectangle 16,16,4,16"
                             StrokeThickness="0"
                             BackgroundColor="{AppThemeBinding Light=#E5E5EA, Dark=#3A3A3C}">
-                        <Label Text="{Binding Text}" />
+                        <Label Text="{Text}" />
                     </Border>
                 </DataTemplate>
-            </local:ChatMessageTemplateSelector.IncomingTemplate>
-            <local:ChatMessageTemplateSelector.OutgoingTemplate>
-                <DataTemplate x:DataType="local:ChatMessage">
+            </ChatMessageTemplateSelector.IncomingTemplate>
+            <ChatMessageTemplateSelector.OutgoingTemplate>
+                <DataTemplate x:DataType="ChatMessage">
                     <Border HorizontalOptions="End"
                             MaximumWidthRequest="240"
                             Padding="12,8"
                             StrokeShape="RoundRectangle 16,16,16,4"
                             StrokeThickness="0"
                             BackgroundColor="#2563EB">
-                        <Label Text="{Binding Text}" TextColor="White" />
+                        <Label Text="{Text}" TextColor="White" />
                     </Border>
                 </DataTemplate>
-            </local:ChatMessageTemplateSelector.OutgoingTemplate>
-        </local:ChatMessageTemplateSelector>
+            </ChatMessageTemplateSelector.OutgoingTemplate>
+        </ChatMessageTemplateSelector>
     </SamplePage.Resources>
 
     <ScrollView>
@@ -44,10 +42,10 @@
                 <VerticalStackLayout x:Name="TagsSample"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=400}"
-                                     x:DataType="local:TagListViewModel">
+                                     x:DataType="TagListViewModel">
                     <FlexLayout x:Name="TagsLayout"
                                 Wrap="Wrap"
-                                BindableLayout.ItemsSource="{Binding Tags}"
+                                BindableLayout.ItemsSource="{Tags}"
                                 AutomationId="sample-tags-layout">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="x:String">
@@ -59,13 +57,13 @@
                                         SemanticProperties.Description="{Binding ., StringFormat='Remove {0}'}"
                                         AutomationId="{Binding ., StringFormat='sample-tag-{0}'}">
                                     <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:TagListViewModel}}, Path=RemoveTagCommand, x:DataType=local:TagListViewModel}"
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type TagListViewModel}}, Path=RemoveTagCommand, x:DataType=TagListViewModel}"
                                                               CommandParameter="{Binding .}" />
                                     </Border.GestureRecognizers>
                                     <HorizontalStackLayout Spacing="6">
                                         <Label Text="{Binding .}" VerticalOptions="Center" />
-                                        <Label Text="{x:Static icons:FluentIconsRegular.Dismiss24}"
-                                               FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                                        <Label Text="{x:Static FluentIconsRegular.Dismiss24}"
+                                               FontFamily="{x:Static FluentIconsRegular.FontFamily}"
                                                FontSize="12"
                                                VerticalOptions="Center" />
                                     </HorizontalStackLayout>
@@ -74,7 +72,7 @@
                         </BindableLayout.ItemTemplate>
                     </FlexLayout>
                     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                        <Entry Text="{Binding NewTag}"
+                        <Entry Text="{NewTag}"
                                Placeholder="Add a tag"
                                ReturnCommand="{Binding AddTagCommand}"
                                AutomationId="sample-tags-entry" />
@@ -89,7 +87,7 @@
             <Border Style="{StaticResource SubtlePanel}">
                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                     <Label Style="{StaticResource TextIcon}"
-                           Text="{x:Static icons:FluentIconsRegular.Lightbulb24}"
+                           Text="{x:Static FluentIconsRegular.Lightbulb24}"
                            TextColor="{DynamicResource ColorAccentText}"
                            VerticalOptions="Start" />
                     <VerticalStackLayout Grid.Column="1" Spacing="4">
@@ -109,20 +107,20 @@
                 <VerticalStackLayout x:Name="TasksSample"
                                      WidthRequest="{OnIdiom Phone=280, Default=400}"
                                      MinimumHeightRequest="132"
-                                     BindableLayout.ItemsSource="{Binding Tasks}"
-                                     x:DataType="local:TaskListViewModel"
+                                     BindableLayout.ItemsSource="{Tasks}"
+                                     x:DataType="TaskListViewModel"
                                      AutomationId="sample-tasks-layout">
                     <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="local:TodoItem">
+                        <DataTemplate x:DataType="TodoItem">
                             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" MinimumHeightRequest="44">
-                                <CheckBox Command="{Binding Source={RelativeSource AncestorType={x:Type local:TaskListViewModel}}, Path=CompleteCommand, x:DataType=local:TaskListViewModel}"
+                                <CheckBox Command="{Binding Source={RelativeSource AncestorType={x:Type TaskListViewModel}}, Path=CompleteCommand, x:DataType=TaskListViewModel}"
                                           CommandParameter="{Binding .}"
                                           VerticalOptions="Center"
-                                          SemanticProperties.Description="{Binding Title}"
-                                          AutomationId="{Binding Due, StringFormat='sample-task-{0}'}" />
-                                <Label Grid.Column="1" Text="{Binding Title}" VerticalOptions="Center" />
+                                          SemanticProperties.Description="{.Title}"
+                                          AutomationId="{$'sample-task-{Due}'}" />
+                                <Label Grid.Column="1" Text="{.Title}" VerticalOptions="Center" />
                                 <Label Grid.Column="2"
-                                       Text="{Binding Due}"
+                                       Text="{Due}"
                                        FontSize="13"
                                        TextColor="{AppThemeBinding Light=#6E6E73, Dark=#AEAEB2}"
                                        VerticalOptions="Center" />
@@ -131,8 +129,8 @@
                     </BindableLayout.ItemTemplate>
                     <BindableLayout.EmptyView>
                         <VerticalStackLayout Spacing="6" Padding="0,16" AutomationId="sample-tasks-empty">
-                            <Label Text="{x:Static icons:FluentIconsRegular.CheckmarkCircle24}"
-                                   FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
+                            <Label Text="{x:Static FluentIconsRegular.CheckmarkCircle24}"
+                                   FontFamily="{x:Static FluentIconsRegular.FontFamily}"
                                    FontSize="36"
                                    TextColor="#16A34A"
                                    HorizontalOptions="Center" />
@@ -161,14 +159,14 @@
                 <VerticalStackLayout x:Name="ChatSample"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=400}"
-                                     x:DataType="local:ChatViewModel">
+                                     x:DataType="ChatViewModel">
                     <VerticalStackLayout x:Name="ChatLayout"
                                          Spacing="8"
-                                         BindableLayout.ItemsSource="{Binding Messages}"
+                                         BindableLayout.ItemsSource="{Messages}"
                                          BindableLayout.ItemTemplateSelector="{StaticResource ChatTemplates}"
                                          AutomationId="sample-chat-layout" />
                     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                        <Entry Text="{Binding Draft}"
+                        <Entry Text="{Draft}"
                                Placeholder="Message"
                                ReturnCommand="{Binding SendCommand}"
                                AutomationId="sample-chat-entry" />

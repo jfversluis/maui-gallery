@@ -1,5 +1,5 @@
 <VerticalStackLayout x:DataType="local:PlanPickerViewModel" Spacing="16">
-    <Label Text="{Binding CurrentPlan, StringFormat='Current plan: {0}'}" />
+    <Label Text="{$'Current plan: {CurrentPlan}'}" />
     <HorizontalStackLayout Spacing="8">
         <Button Text="Free" CommandParameter="Free" Command="{Binding ChoosePlanCommand}" />
         <Button Text="Pro" CommandParameter="Pro" Command="{Binding ChoosePlanCommand}" />

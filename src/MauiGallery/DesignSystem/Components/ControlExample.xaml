@@ -1,5 +1,4 @@
 <ContentView x:Class="MauiGallery.DesignSystem.Components.ControlExample"
-             xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
              x:Name="Self"
              x:DataType="ControlExample">
     <ContentView.Resources>
@@ -45,7 +44,7 @@
                             <Label Style="{StaticResource TextIcon}"
                                    FontSize="{StaticResource IconSizeSmall}"
                                    TextColor="{DynamicResource ColorAccentText}"
-                                   Text="{x:Static icons:FluentIconsRegular.Info24}"
+                                   Text="{x:Static FluentIconsRegular.Info24}"
                                    VerticalOptions="Start" />
                             <Label Grid.Column="1"
                                    Text="{Binding Notice, Source={x:Reference Self}}"
@@ -155,7 +154,7 @@
                         <Label Style="{StaticResource TextIcon}"
                                FontSize="{StaticResource IconSizeSmall}"
                                TextColor="{DynamicResource ColorAccentText}"
-                               Text="{x:Static icons:FluentIconsRegular.Flash24}" />
+                               Text="{x:Static FluentIconsRegular.Flash24}" />
                         <Label Grid.Column="1"
                                Text="{Binding Output, Source={x:Reference Self}}"
                                Style="{StaticResource TextCode}"

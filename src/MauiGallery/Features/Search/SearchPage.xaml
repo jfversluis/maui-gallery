@@ -1,8 +1,5 @@
 <ContentPage x:Class="MauiGallery.Features.Search.SearchPage"
-             xmlns:catalog="clr-namespace:MauiGallery.Core.Catalog;assembly=MauiGallery.Core"
-             xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-             xmlns:local="clr-namespace:MauiGallery.Features.Search"
-             x:DataType="local:SearchViewModel"
+             x:DataType="SearchViewModel"
              Title="Search"
              Style="{StaticResource PageChrome}">
     <Grid RowDefinitions="Auto,*">
@@ -13,20 +10,20 @@
                    AutomationId="search-box"
                    SemanticProperties.Description="Search the gallery" />
         <CollectionView Grid.Row="1"
-                        ItemsSource="{Binding Results}"
+                        ItemsSource="{Results}"
                         AutomationId="search-results">
             <CollectionView.Header>
-                <Label Text="{Binding ResultsTitle}" Style="{StaticResource TextOverline}" Padding="16,16,16,4" />
+                <Label Text="{ResultsTitle}" Style="{StaticResource TextOverline}" Padding="16,16,16,4" />
             </CollectionView.Header>
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="catalog:GalleryItem">
+                <DataTemplate x:DataType="GalleryItem">
                     <ItemCard Margin="16,6"
-                              Command="{Binding OpenItemCommand, Source={RelativeSource AncestorType={x:Type local:SearchViewModel}}, x:DataType=local:SearchViewModel}" />
+                              Command="{Binding OpenItemCommand, Source={RelativeSource AncestorType={x:Type SearchViewModel}}, x:DataType=SearchViewModel}" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
                 <VerticalStackLayout Padding="32,48" Spacing="8" HorizontalOptions="Center" AutomationId="search-empty">
-                    <Label Text="{x:Static icons:FluentIconsRegular.SearchInfo24}"
+                    <Label Text="{x:Static FluentIconsRegular.SearchInfo24}"
                            Style="{StaticResource TextIcon}"
                            FontSize="40"
                            TextColor="{DynamicResource ColorTextTertiary}" />

@@ -1,6 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.PlatformApis.FlashlightPage"
-            xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
-            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <Style x:Key="Lamp" TargetType="Border">
@@ -11,7 +9,7 @@
             <Setter Property="HorizontalOptions" Value="Center" />
             <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#E5E7EB, Dark=#374151}" />
             <Style.Triggers>
-                <DataTrigger TargetType="Border" Binding="{Binding IsOn, x:DataType=local:FlashlightViewModel}" Value="True">
+                <DataTrigger TargetType="Border" Binding="{Binding IsOn, x:DataType=FlashlightViewModel}" Value="True">
                     <Setter Property="BackgroundColor" Value="#FACC15" />
                     <Setter Property="Shadow">
                         <Shadow Brush="#FACC15" Radius="32" Opacity="0.9" Offset="0,0" />
@@ -34,25 +32,25 @@
                             Description="Flashlight turns the camera's torch on and off. Check IsSupportedAsync first: tablets, computers and simulators often have none. On Android the torch belongs to the camera, so the first call asks for camera permission. Turn it off when the page disappears, as this one does."
                             CSharpSource="FlashlightToggle.cs.txt">
                 <VerticalStackLayout x:Name="ToggleSample"
-                                     x:DataType="local:FlashlightViewModel"
+                                     x:DataType="FlashlightViewModel"
                                      Spacing="16">
                     <Border Style="{StaticResource Lamp}" AutomationId="sample-flashlight-lamp">
                         <Image HeightRequest="40" WidthRequest="40" HorizontalOptions="Center" VerticalOptions="Center">
                             <Image.Source>
-                                <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}"
-                                                 Glyph="{x:Static icons:FluentIconsRegular.Flashlight24}"
+                                <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}"
+                                                 Glyph="{x:Static FluentIconsRegular.Flashlight24}"
                                                  Color="#1F2937"
                                                  Size="40" />
                             </Image.Source>
                         </Image>
                     </Border>
                     <Button x:Name="ToggleButton"
-                            Text="{Binding ToggleText}"
+                            Text="{ToggleText}"
                             HorizontalOptions="Center"
                             Command="{Binding ToggleCommand}"
                             AutomationId="sample-flashlight-toggle" />
                     <Label x:Name="ToggleMessage"
-                           Text="{Binding Message}"
+                           Text="{Message}"
                            FontSize="13"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
@@ -69,7 +67,7 @@
                             Description="Switch the light in a loop with delays between the calls, here SOS in Morse code. Pass a CancellationToken to the delays so the user can stop it, and turn the light off in a finally block so it never stays on by accident."
                             CSharpSource="FlashlightSignal.cs.txt">
                 <VerticalStackLayout x:Name="SignalSample"
-                                     x:DataType="local:FlashlightViewModel"
+                                     x:DataType="FlashlightViewModel"
                                      Spacing="12">
                     <Label Text="··· – – – ···"
                            FontSize="28"
@@ -91,12 +89,12 @@
                            AutomationId="sample-flashlight-signal-status" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
-                    <VerticalStackLayout x:Name="SignalOptions" x:DataType="local:FlashlightViewModel" Spacing="8">
-                        <Label Text="{Binding UnitMilliseconds, StringFormat='Dot length: {0:0} ms'}" Style="{StaticResource OptionLabel}" />
+                    <VerticalStackLayout x:Name="SignalOptions" x:DataType="FlashlightViewModel" Spacing="8">
+                        <Label Text="{$'Dot length: {UnitMilliseconds:0} ms'}" Style="{StaticResource OptionLabel}" />
                         <Slider x:Name="SignalUnit"
                                 Minimum="100"
                                 Maximum="500"
-                                Value="{Binding UnitMilliseconds}"
+                                Value="{UnitMilliseconds}"
                                 AutomationId="option-flashlight-unit" />
                     </VerticalStackLayout>
                 </ControlExample.Options>

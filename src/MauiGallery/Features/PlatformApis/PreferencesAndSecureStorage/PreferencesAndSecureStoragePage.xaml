@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.PlatformApis.PreferencesAndSecureStoragePage"
-            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -15,25 +14,25 @@
                             XamlSource="PreferencesSettings.xaml.txt"
                             CSharpSource="PreferencesSettings.cs.txt">
                 <VerticalStackLayout x:Name="PreferencesSample"
-                                     x:DataType="local:SettingsStoreViewModel"
+                                     x:DataType="SettingsStoreViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=380}">
-                    <Entry Text="{Binding UserName}" Placeholder="Your name" SemanticProperties.Description="Your name" AutomationId="sample-preferences-name" />
+                    <Entry Text="{UserName}" Placeholder="Your name" SemanticProperties.Description="Your name" AutomationId="sample-preferences-name" />
                     <Grid ColumnDefinitions="*,Auto">
                         <Label Text="Notifications" VerticalOptions="Center" />
-                        <Switch Grid.Column="1" IsToggled="{Binding Notifications}" AutomationId="sample-preferences-notifications" />
+                        <Switch Grid.Column="1" IsToggled="{Notifications}" AutomationId="sample-preferences-notifications" />
                     </Grid>
                     <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="{Binding TextSize, StringFormat='Text size: {0}'}" VerticalOptions="Center" />
+                        <Label Text="{$'Text size: {TextSize}'}" VerticalOptions="Center" />
                         <Stepper Grid.Column="1"
                                  Minimum="10"
                                  Maximum="30"
-                                 Value="{Binding TextSize}"
+                                 Value="{TextSize}"
                                  SemanticProperties.Description="Text size"
                                  AutomationId="sample-preferences-text-size" />
                     </Grid>
                     <Label Text="Stored values" Opacity="0.7" Margin="0,8,0,0" />
-                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Stored}" Spacing="2" AutomationId="sample-preferences-stored">
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Stored}" Spacing="2" AutomationId="sample-preferences-stored">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="x:String">
                                 <Label Text="{Binding .}" FontSize="13" />
@@ -57,10 +56,10 @@
                             XamlSource="SecureStorageToken.xaml.txt"
                             CSharpSource="SecureStorageToken.cs.txt">
                 <VerticalStackLayout x:Name="SecureSample"
-                                     x:DataType="local:SecretsViewModel"
+                                     x:DataType="SecretsViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=380}">
-                    <Entry Text="{Binding Token}" IsPassword="True" Placeholder="API token" SemanticProperties.Description="API token" AutomationId="sample-secure-token" />
+                    <Entry Text="{Token}" IsPassword="True" Placeholder="API token" SemanticProperties.Description="API token" AutomationId="sample-secure-token" />
                     <HorizontalStackLayout Spacing="8">
                         <Button x:Name="SecureSave" Text="Save" Command="{Binding SaveCommand}" AutomationId="sample-secure-save" />
                         <Button Text="Read" Command="{Binding ReadCommand}" AutomationId="sample-secure-read" />
@@ -68,9 +67,9 @@
                     </HorizontalStackLayout>
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
                         <Label Text="Stored" Opacity="0.7" />
-                        <Label Grid.Column="1" Text="{Binding Stored}" AutomationId="sample-secure-stored" />
+                        <Label Grid.Column="1" Text="{Stored}" AutomationId="sample-secure-stored" />
                     </Grid>
-                    <Label Text="{Binding Result}" IsVisible="{Binding Result, Converter={StaticResource IsNotNullOrEmpty}}" AutomationId="sample-secure-result" />
+                    <Label Text="{Binding Result}" IsVisible="{!string.IsNullOrEmpty(Result)}" AutomationId="sample-secure-result" />
                 </VerticalStackLayout>
             </ControlExample>
 

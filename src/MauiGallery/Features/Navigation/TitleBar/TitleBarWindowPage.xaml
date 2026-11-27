@@ -1,6 +1,5 @@
 <ContentPage x:Class="MauiGallery.Features.Navigation.TitleBarWindowPage"
-             xmlns:local="clr-namespace:MauiGallery.Features.Navigation"
-             x:DataType="local:TitleBarWindowPage"
+             x:DataType="TitleBarWindowPage"
              Title="Title bar">
     <ScrollView>
         <VerticalStackLayout Padding="24" Spacing="12" MaximumWidthRequest="560">

@@ -5,9 +5,9 @@
         <Label>
             <Label.FormattedText>
                 <FormattedString>
-                    <Span Text="{Binding Width, StringFormat='{0:0}'}" />
+                    <Span Text="{$'{Width:0}'}" />
                     <Span Text=" × " />
-                    <Span Text="{Binding Height, StringFormat='{0:0}'}" />
+                    <Span Text="{$'{Height:0}'}" />
                 </FormattedString>
             </Label.FormattedText>
         </Label>

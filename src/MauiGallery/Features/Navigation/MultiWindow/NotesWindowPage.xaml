@@ -10,9 +10,9 @@
                 <Label Grid.Column="1" AutomationId="window-size">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="{Binding Width, StringFormat='{0:0}'}" />
+                            <Span Text="{$'{Width:0}'}" />
                             <Span Text=" × " />
-                            <Span Text="{Binding Height, StringFormat='{0:0}'}" />
+                            <Span Text="{$'{Height:0}'}" />
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
@@ -20,9 +20,9 @@
                 <Label Grid.Row="1" Grid.Column="1" AutomationId="window-position">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="{Binding X, StringFormat='{0:0}'}" />
+                            <Span Text="{$'{X:0}'}" />
                             <Span Text=", " />
-                            <Span Text="{Binding Y, StringFormat='{0:0}'}" />
+                            <Span Text="{$'{Y:0}'}" />
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>

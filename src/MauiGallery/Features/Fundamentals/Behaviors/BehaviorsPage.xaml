@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Fundamentals.BehaviorsPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Fundamentals"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -18,14 +17,14 @@
                            Placeholder="Enter a number"
                            AutomationId="sample-behavior-number">
                         <Entry.Behaviors>
-                            <local:NumericValidationBehavior x:Name="ValidationBehavior"
+                            <NumericValidationBehavior x:Name="ValidationBehavior"
                                                              AllowDecimals="{Binding IsToggled, Source={x:Reference ValidationDecimals}, x:DataType=Switch}" />
                         </Entry.Behaviors>
                     </Entry>
                     <Label Text="That's not a valid number."
                            TextColor="Red"
                            FontSize="13"
-                           IsVisible="{Binding IsValid, Source={x:Reference ValidationBehavior}, Converter={StaticResource InvertedBool}, x:DataType=local:NumericValidationBehavior}"
+                           IsVisible="{Binding IsValid, Source={x:Reference ValidationBehavior}, Converter={StaticResource InvertedBool}, x:DataType=NumericValidationBehavior}"
                            AutomationId="sample-behavior-error" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
@@ -49,7 +48,7 @@
                     <Label Text="Coupon code" />
                     <Entry x:Name="AttachedEntry"
                            Text="SPRING-2026-SAVE20"
-                           local:SelectAllOnFocus.IsEnabled="{Binding IsToggled, Source={x:Reference AttachedEnabled}, x:DataType=Switch}"
+                           SelectAllOnFocus.IsEnabled="{Binding IsToggled, Source={x:Reference AttachedEnabled}, x:DataType=Switch}"
                            AutomationId="sample-behavior-select-all" />
                     <Label Text="Tap the field: all of its text is selected, ready to copy or replace."
                            FontSize="13"
@@ -73,7 +72,7 @@
                             XamlSource="BehaviorEventToCommand.xaml.txt"
                             CSharpSource="BehaviorEventToCommand.cs.txt">
                 <VerticalStackLayout x:Name="CommandSample"
-                                     x:DataType="local:UsernameViewModel"
+                                     x:DataType="UsernameViewModel"
                                      Spacing="8"
                                      WidthRequest="{OnIdiom Phone=260, Default=300}">
                     <Label Text="Username" />
@@ -81,11 +80,11 @@
                            Placeholder="Try maui or your name"
                            AutomationId="sample-behavior-username">
                         <Entry.Behaviors>
-                            <local:UnfocusedCommandBehavior Command="{Binding CheckAvailabilityCommand}"
+                            <UnfocusedCommandBehavior Command="{Binding CheckAvailabilityCommand}"
                                                             CommandParameter="{Binding Text, Source={x:Reference CommandUsername}, x:DataType=Entry}" />
                         </Entry.Behaviors>
                     </Entry>
-                    <Label Text="{Binding Status}" FontSize="13" AutomationId="sample-behavior-status" />
+                    <Label Text="{Status}" FontSize="13" AutomationId="sample-behavior-status" />
                     <Label Text="Email" Margin="0,8,0,0" />
                     <Entry Placeholder="name@example.com" Keyboard="Email" AutomationId="sample-behavior-email" />
                 </VerticalStackLayout>

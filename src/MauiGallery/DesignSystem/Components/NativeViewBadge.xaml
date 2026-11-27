@@ -1,5 +1,4 @@
 <ContentView x:Class="MauiGallery.DesignSystem.Components.NativeViewBadge"
-             xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
              x:Name="Self"
              x:DataType="NativeViewBadge">
     <Border x:Name="Pill"
@@ -13,7 +12,7 @@
             <Label Style="{StaticResource TextIcon}"
                    FontSize="{StaticResource IconSizeSmall}"
                    TextColor="{DynamicResource ColorAccentText}"
-                   Text="{x:Static icons:FluentIconsRegular.DeveloperBoard24}" />
+                   Text="{x:Static FluentIconsRegular.DeveloperBoard24}" />
             <Label x:Name="TypeNameLabel"
                    Grid.Column="1"
                    FontFamily="{StaticResource FontCode}"

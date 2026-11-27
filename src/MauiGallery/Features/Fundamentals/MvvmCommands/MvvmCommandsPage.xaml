@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Fundamentals.MvvmCommandsPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Fundamentals"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -12,7 +11,7 @@
                             XamlSource="MvvmObservable.xaml.txt"
                             CSharpSource="MvvmObservable.cs.txt">
                 <Grid x:Name="TipSample"
-                      x:DataType="local:TipCalculatorViewModel"
+                      x:DataType="TipCalculatorViewModel"
                       ColumnDefinitions="Auto,*"
                       RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
                       ColumnSpacing="16"
@@ -20,33 +19,33 @@
                       WidthRequest="{OnIdiom Phone=280, Default=340}">
                     <Label Text="Bill" VerticalOptions="Center" />
                     <Entry Grid.Column="1"
-                           Text="{Binding BillText}"
+                           Text="{BillText}"
                            Keyboard="Numeric"
                            SemanticProperties.Description="Bill amount"
                            AutomationId="sample-mvvm-bill" />
-                    <Label Grid.Row="1" Text="{Binding TipPercent, StringFormat='Tip {0:0}%'}" VerticalOptions="Center" />
+                    <Label Grid.Row="1" Text="{$'Tip {TipPercent:0}%'}" VerticalOptions="Center" />
                     <Slider Grid.Row="1"
                             Grid.Column="1"
                             Maximum="30"
-                            Value="{Binding TipPercent}"
+                            Value="{TipPercent}"
                             SemanticProperties.Description="Tip percentage"
                             AutomationId="sample-mvvm-tip" />
-                    <Label Grid.Row="2" Text="{Binding People, StringFormat='{0:0} people'}" VerticalOptions="Center" />
+                    <Label Grid.Row="2" Text="{$'{People:0} people'}" VerticalOptions="Center" />
                     <Stepper Grid.Row="2"
                              Grid.Column="1"
                              Minimum="1"
                              Maximum="12"
-                             Value="{Binding People}"
+                             Value="{People}"
                              SemanticProperties.Description="Number of people"
                              AutomationId="sample-mvvm-people" />
                     <Label Grid.Row="3" Text="Tip" Margin="0,8,0,0" />
-                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Tip, StringFormat='{0:C}'}" Margin="0,8,0,0" HorizontalOptions="End" />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{$'{Tip:C}'}" Margin="0,8,0,0" HorizontalOptions="End" />
                     <Label Grid.Row="4" Text="Total" />
-                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Total, StringFormat='{0:C}'}" HorizontalOptions="End" />
+                    <Label Grid.Row="4" Grid.Column="1" Text="{$'{Total:C}'}" HorizontalOptions="End" />
                     <Label Grid.Row="5" Text="Per person" FontAttributes="Bold" />
                     <Label Grid.Row="5"
                            Grid.Column="1"
-                           Text="{Binding PerPerson, StringFormat='{0:C}'}"
+                           Text="{$'{PerPerson:C}'}"
                            FontAttributes="Bold"
                            HorizontalOptions="End"
                            AutomationId="sample-mvvm-per-person" />
@@ -60,9 +59,9 @@
                             XamlSource="MvvmCanExecute.xaml.txt"
                             CSharpSource="MvvmCanExecute.cs.txt">
                 <VerticalStackLayout x:Name="PlanSample"
-                                     x:DataType="local:PlanPickerViewModel"
+                                     x:DataType="PlanPickerViewModel"
                                      Spacing="16">
-                    <Label Text="{Binding CurrentPlan, StringFormat='Current plan: {0}'}"
+                    <Label Text="{$'Current plan: {CurrentPlan}'}"
                            HorizontalOptions="Center"
                            AutomationId="sample-mvvm-plan" />
                     <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
@@ -90,7 +89,7 @@
                             XamlSource="MvvmAsync.xaml.txt"
                             CSharpSource="MvvmAsync.cs.txt">
                 <VerticalStackLayout x:Name="SearchSample"
-                                     x:DataType="local:CitySearchViewModel"
+                                     x:DataType="CitySearchViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=260, Default=320}">
                     <Entry x:Name="SearchCity"
@@ -114,7 +113,7 @@
                                            HeightRequest="20"
                                            WidthRequest="20"
                                            AutomationId="sample-mvvm-busy" />
-                        <Label Text="{Binding Result}" VerticalOptions="Center" AutomationId="sample-mvvm-result" />
+                        <Label Text="{Result}" VerticalOptions="Center" AutomationId="sample-mvvm-result" />
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
             </ControlExample>

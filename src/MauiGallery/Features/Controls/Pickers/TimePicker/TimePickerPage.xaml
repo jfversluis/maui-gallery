@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Pickers.TimePickerPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Pickers"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -48,16 +47,16 @@
                 <VerticalStackLayout x:Name="OptionalSample"
                                      WidthRequest="280"
                                      Spacing="12"
-                                     x:DataType="local:TimePickerOptionalViewModel">
+                                     x:DataType="TimePickerOptionalViewModel">
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                         <Label Text="Reminder" VerticalOptions="Center" />
                         <TimePicker x:Name="OptionalPicker"
                                     Grid.Column="1"
-                                    Time="{Binding ReminderTime}"
-                                    IsOpen="{Binding IsPickerOpen}"
+                                    Time="{ReminderTime}"
+                                    IsOpen="{IsPickerOpen}"
                                     AutomationId="sample-optional-time-picker" />
                     </Grid>
-                    <Label Text="{Binding Summary}" AutomationId="sample-optional-summary" />
+                    <Label Text="{Summary}" AutomationId="sample-optional-summary" />
                     <HorizontalStackLayout Spacing="8">
                         <Button Text="Choose a time"
                                 Command="{Binding ChooseCommand}"

@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.PlatformApis.FilePickerPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -15,7 +14,7 @@
                             XamlSource="FilePickerPick.xaml.txt"
                             CSharpSource="FilePickerPick.cs.txt">
                 <VerticalStackLayout x:Name="PickSample"
-                                     x:DataType="local:FilePickerViewModel"
+                                     x:DataType="FilePickerViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=380}">
                     <Button x:Name="PickButton"
@@ -23,12 +22,12 @@
                             Command="{Binding PickCommand}"
                             HorizontalOptions="Start"
                             AutomationId="sample-filepicker-pick" />
-                    <Label Text="{Binding Status}" AutomationId="sample-filepicker-status" />
+                    <Label Text="{Status}" AutomationId="sample-filepicker-status" />
                     <Grid ColumnDefinitions="Auto,*"
                           RowDefinitions="Auto,Auto,Auto"
                           ColumnSpacing="16"
                           RowSpacing="8"
-                          IsVisible="{Binding FileName, Converter={StaticResource IsNotNullOrEmpty}}">
+                          IsVisible="{!string.IsNullOrEmpty(FileName)}">
                         <Label Text="Name" Opacity="0.7" />
                         <Label Grid.Column="1" Text="{Binding FileName}" AutomationId="sample-filepicker-name" />
                         <Label Grid.Row="1" Text="Type" Opacity="0.7" />
@@ -40,20 +39,20 @@
                            HeightRequest="160"
                            Aspect="AspectFit"
                            HorizontalOptions="Start"
-                           IsVisible="{Binding ImagePreview, Converter={StaticResource IsNotNullOrEmpty}}"
+                           IsVisible="{ImagePreview != null}"
                            SemanticProperties.Description="Preview of the picked image"
                            AutomationId="sample-filepicker-image" />
                     <Label Text="{Binding TextPreview}"
                            FontSize="13"
-                           IsVisible="{Binding TextPreview, Converter={StaticResource IsNotNullOrEmpty}}"
+                           IsVisible="{!string.IsNullOrEmpty(TextPreview)}"
                            AutomationId="sample-filepicker-text" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
-                    <VerticalStackLayout x:Name="PickTypeOptions" x:DataType="local:FilePickerViewModel" Spacing="8">
+                    <VerticalStackLayout x:Name="PickTypeOptions" x:DataType="FilePickerViewModel" Spacing="8">
                         <Label Text="FileTypes" Style="{StaticResource OptionLabel}" />
                         <Picker x:Name="PickType"
-                                ItemsSource="{x:Static local:FilePickerViewModel.FileTypeNames}"
-                                SelectedItem="{Binding FileTypeName}"
+                                ItemsSource="{x:Static FilePickerViewModel.FileTypeNames}"
+                                SelectedItem="{FileTypeName}"
                                 AutomationId="option-filepicker-type" />
                     </VerticalStackLayout>
                 </ControlExample.Options>
@@ -72,7 +71,7 @@
                             XamlSource="FilePickerMultiple.xaml.txt"
                             CSharpSource="FilePickerMultiple.cs.txt">
                 <VerticalStackLayout x:Name="MultipleSample"
-                                     x:DataType="local:FilePickerViewModel"
+                                     x:DataType="FilePickerViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=380}">
                     <Button x:Name="MultipleButton"
@@ -80,7 +79,7 @@
                             Command="{Binding PickImagesCommand}"
                             HorizontalOptions="Start"
                             AutomationId="sample-filepicker-multiple" />
-                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding PickedFiles}" Spacing="4" AutomationId="sample-filepicker-files">
+                    <VerticalStackLayout BindableLayout.ItemsSource="{PickedFiles}" Spacing="4" AutomationId="sample-filepicker-files">
                         <BindableLayout.EmptyView>
                             <Label Text="No images picked" Opacity="0.7" />
                         </BindableLayout.EmptyView>

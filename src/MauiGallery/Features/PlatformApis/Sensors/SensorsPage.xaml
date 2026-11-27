@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.PlatformApis.SensorsPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <!-- In SensorSpeed's order, so the index converts straight to the enum. -->
@@ -24,7 +23,7 @@
                             Description="Accelerometer reports acceleration along the device's X, Y and Z axes in multiples of gravity. Lying still, that's gravity alone, so it tells you which way is down: enough for a spirit level. ShakeDetected fires when the user shakes the device."
                             CSharpSource="SensorsAccelerometer.cs.txt">
                 <VerticalStackLayout x:Name="AccelerometerSample"
-                                     x:DataType="local:AccelerometerViewModel"
+                                     x:DataType="AccelerometerViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=360}">
                     <GraphicsView x:Name="LevelView"
@@ -33,23 +32,23 @@
                                   HorizontalOptions="Center"
                                   SemanticProperties.Description="Spirit level"
                                   AutomationId="sample-sensors-level" />
-                    <Label Text="{Binding Reading}"
+                    <Label Text="{Reading}"
                            FontSize="13"
                            HorizontalOptions="Center"
                            AutomationId="sample-sensors-accelerometer-reading" />
-                    <Label Text="{Binding ShakeCount, StringFormat='Shakes detected: {0}'}" FontSize="13" HorizontalOptions="Center" AutomationId="sample-sensors-shakes" />
+                    <Label Text="{$'Shakes detected: {ShakeCount}'}" FontSize="13" HorizontalOptions="Center" AutomationId="sample-sensors-shakes" />
                     <Button x:Name="AccelerometerToggle"
-                            Text="{Binding ToggleText}"
+                            Text="{ToggleText}"
                             HorizontalOptions="Center"
                             Command="{Binding ToggleCommand}"
                             AutomationId="sample-sensors-accelerometer-toggle" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
-                    <VerticalStackLayout x:Name="AccelerometerOptions" x:DataType="local:AccelerometerViewModel" Spacing="8">
+                    <VerticalStackLayout x:Name="AccelerometerOptions" x:DataType="AccelerometerViewModel" Spacing="8">
                         <Label Text="SensorSpeed" Style="{StaticResource OptionLabel}" />
                         <Picker x:Name="AccelerometerSpeed"
                                 ItemsSource="{StaticResource SpeedOptions}"
-                                SelectedIndex="{Binding SpeedIndex}"
+                                SelectedIndex="{SpeedIndex}"
                                 AutomationId="option-sensors-accelerometer-speed" />
                     </VerticalStackLayout>
                 </ControlExample.Options>
@@ -67,29 +66,29 @@
                             Description="Gyroscope reports how fast the device rotates around each axis, in radians per second. It's zero when the device is still, whatever its angle: turn the device to move the bars."
                             CSharpSource="SensorsGyroscope.cs.txt">
                 <VerticalStackLayout x:Name="GyroscopeSample"
-                                     x:DataType="local:GyroscopeViewModel"
+                                     x:DataType="GyroscopeViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=360}">
                     <GraphicsView x:Name="GyroscopeView"
                                   HeightRequest="110"
                                   SemanticProperties.Description="Rotation speed per axis"
                                   AutomationId="sample-sensors-gyroscope" />
-                    <Label Text="{Binding Reading}"
+                    <Label Text="{Reading}"
                            FontSize="13"
                            HorizontalOptions="Center"
                            AutomationId="sample-sensors-gyroscope-reading" />
                     <Button x:Name="GyroscopeToggle"
-                            Text="{Binding ToggleText}"
+                            Text="{ToggleText}"
                             HorizontalOptions="Center"
                             Command="{Binding ToggleCommand}"
                             AutomationId="sample-sensors-gyroscope-toggle" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
-                    <VerticalStackLayout x:Name="GyroscopeOptions" x:DataType="local:GyroscopeViewModel" Spacing="8">
+                    <VerticalStackLayout x:Name="GyroscopeOptions" x:DataType="GyroscopeViewModel" Spacing="8">
                         <Label Text="SensorSpeed" Style="{StaticResource OptionLabel}" />
                         <Picker x:Name="GyroscopeSpeed"
                                 ItemsSource="{StaticResource SpeedOptions}"
-                                SelectedIndex="{Binding SpeedIndex}"
+                                SelectedIndex="{SpeedIndex}"
                                 AutomationId="option-sensors-gyroscope-speed" />
                     </VerticalStackLayout>
                 </ControlExample.Options>
@@ -107,30 +106,30 @@
                             Description="Magnetometer reports the magnetic field around the device along each axis, in microteslas. The Earth's field is 25 to 65 µT; bring a magnet or a speaker close and watch it jump."
                             CSharpSource="SensorsMagnetometer.cs.txt">
                 <VerticalStackLayout x:Name="MagnetometerSample"
-                                     x:DataType="local:MagnetometerViewModel"
+                                     x:DataType="MagnetometerViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=360}">
                     <GraphicsView x:Name="MagnetometerView"
                                   HeightRequest="110"
                                   SemanticProperties.Description="Magnetic field per axis"
                                   AutomationId="sample-sensors-magnetometer" />
-                    <Label Text="{Binding Reading}"
+                    <Label Text="{Reading}"
                            FontSize="13"
                            HorizontalOptions="Center"
                            AutomationId="sample-sensors-magnetometer-reading" />
-                    <Label Text="{Binding Strength, StringFormat='Field strength: {0}'}" FontSize="13" HorizontalOptions="Center" />
+                    <Label Text="{$'Field strength: {Strength}'}" FontSize="13" HorizontalOptions="Center" />
                     <Button x:Name="MagnetometerToggle"
-                            Text="{Binding ToggleText}"
+                            Text="{ToggleText}"
                             HorizontalOptions="Center"
                             Command="{Binding ToggleCommand}"
                             AutomationId="sample-sensors-magnetometer-toggle" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
-                    <VerticalStackLayout x:Name="MagnetometerOptions" x:DataType="local:MagnetometerViewModel" Spacing="8">
+                    <VerticalStackLayout x:Name="MagnetometerOptions" x:DataType="MagnetometerViewModel" Spacing="8">
                         <Label Text="SensorSpeed" Style="{StaticResource OptionLabel}" />
                         <Picker x:Name="MagnetometerSpeed"
                                 ItemsSource="{StaticResource SpeedOptions}"
-                                SelectedIndex="{Binding SpeedIndex}"
+                                SelectedIndex="{SpeedIndex}"
                                 AutomationId="option-sensors-magnetometer-speed" />
                     </VerticalStackLayout>
                 </ControlExample.Options>
@@ -148,7 +147,7 @@
                             Description="Compass reports the heading of the top of the device, in degrees clockwise from magnetic north. It combines the magnetometer and accelerometer for you. On Android, ApplyLowPassFilter smooths jittery readings."
                             CSharpSource="SensorsCompass.cs.txt">
                 <VerticalStackLayout x:Name="CompassSample"
-                                     x:DataType="local:CompassViewModel"
+                                     x:DataType="CompassViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=360}">
                     <GraphicsView x:Name="CompassView"
@@ -156,29 +155,29 @@
                                   HeightRequest="200"
                                   HorizontalOptions="Center"
                                   AutomationId="sample-sensors-compass" />
-                    <Label Text="{Binding Reading}"
+                    <Label Text="{Reading}"
                            FontSize="24"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            AutomationId="sample-sensors-compass-heading" />
                     <Button x:Name="CompassToggle"
-                            Text="{Binding ToggleText}"
+                            Text="{ToggleText}"
                             HorizontalOptions="Center"
                             Command="{Binding ToggleCommand}"
                             AutomationId="sample-sensors-compass-toggle" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
-                    <VerticalStackLayout x:Name="CompassOptions" x:DataType="local:CompassViewModel" Spacing="8">
+                    <VerticalStackLayout x:Name="CompassOptions" x:DataType="CompassViewModel" Spacing="8">
                         <Label Text="SensorSpeed" Style="{StaticResource OptionLabel}" />
                         <Picker x:Name="CompassSpeed"
                                 ItemsSource="{StaticResource SpeedOptions}"
-                                SelectedIndex="{Binding SpeedIndex}"
+                                SelectedIndex="{SpeedIndex}"
                                 AutomationId="option-sensors-compass-speed" />
                         <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
                             <Label Text="ApplyLowPassFilter" Style="{StaticResource OptionLabel}" VerticalOptions="Center" />
                             <Switch x:Name="CompassLowPass"
                                     Grid.Column="1"
-                                    IsToggled="{Binding ApplyLowPassFilter}"
+                                    IsToggled="{ApplyLowPassFilter}"
                                     AutomationId="option-sensors-compass-low-pass" />
                         </Grid>
                     </VerticalStackLayout>
@@ -198,7 +197,7 @@
                             Description="Barometer reports the air pressure in hectopascals. Pressure falls as you climb, about 1 hPa per 8 m, and as the weather turns, so apps use it for floors climbed and forecasts. Many phones have one; few tablets and computers do."
                             CSharpSource="SensorsBarometer.cs.txt">
                 <VerticalStackLayout x:Name="BarometerSample"
-                                     x:DataType="local:BarometerViewModel"
+                                     x:DataType="BarometerViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=360}">
                     <GraphicsView x:Name="BarometerView"
@@ -206,23 +205,23 @@
                                   HeightRequest="140"
                                   HorizontalOptions="Center"
                                   AutomationId="sample-sensors-barometer" />
-                    <Label Text="{Binding Reading}"
+                    <Label Text="{Reading}"
                            FontSize="13"
                            HorizontalOptions="Center"
                            AutomationId="sample-sensors-barometer-reading" />
-                    <Label Text="{Binding Altitude}" FontSize="13" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                    <Label Text="{Altitude}" FontSize="13" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
                     <Button x:Name="BarometerToggle"
-                            Text="{Binding ToggleText}"
+                            Text="{ToggleText}"
                             HorizontalOptions="Center"
                             Command="{Binding ToggleCommand}"
                             AutomationId="sample-sensors-barometer-toggle" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
-                    <VerticalStackLayout x:Name="BarometerOptions" x:DataType="local:BarometerViewModel" Spacing="8">
+                    <VerticalStackLayout x:Name="BarometerOptions" x:DataType="BarometerViewModel" Spacing="8">
                         <Label Text="SensorSpeed" Style="{StaticResource OptionLabel}" />
                         <Picker x:Name="BarometerSpeed"
                                 ItemsSource="{StaticResource SpeedOptions}"
-                                SelectedIndex="{Binding SpeedIndex}"
+                                SelectedIndex="{SpeedIndex}"
                                 AutomationId="option-sensors-barometer-speed" />
                     </VerticalStackLayout>
                 </ControlExample.Options>
@@ -240,7 +239,7 @@
                             Description="OrientationSensor reports how the device is rotated relative to the Earth, as a quaternion: no gimbal lock, and ready for 3D math. Convert it to angles for the UI; this card tilts with the device."
                             CSharpSource="SensorsOrientation.cs.txt">
                 <VerticalStackLayout x:Name="OrientationSample"
-                                     x:DataType="local:OrientationViewModel"
+                                     x:DataType="OrientationViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=360}">
                     <Grid HeightRequest="200">
@@ -253,9 +252,9 @@
                                 StrokeThickness="2"
                                 Stroke="{AppThemeBinding Light=#512BD4, Dark=#B3A3FF}"
                                 BackgroundColor="{AppThemeBinding Light=#EDE9FE, Dark=#2E2650}"
-                                RotationX="{Binding TiltForward}"
-                                RotationY="{Binding TiltSideways}"
-                                SemanticProperties.Description="{Binding Angles}"
+                                RotationX="{TiltForward}"
+                                RotationY="{TiltSideways}"
+                                SemanticProperties.Description="{Angles}"
                                 AutomationId="sample-sensors-orientation-card">
                             <Label Text="Top"
                                    FontSize="13"
@@ -266,23 +265,23 @@
                                    Margin="0,12,0,0" />
                         </Border>
                     </Grid>
-                    <Label Text="{Binding Reading}"
+                    <Label Text="{Reading}"
                            FontSize="13"
                            HorizontalOptions="Center"
                            AutomationId="sample-sensors-orientation-reading" />
-                    <Label Text="{Binding Angles}" FontSize="13" HorizontalOptions="Center" />
+                    <Label Text="{Angles}" FontSize="13" HorizontalOptions="Center" />
                     <Button x:Name="OrientationToggle"
-                            Text="{Binding ToggleText}"
+                            Text="{ToggleText}"
                             HorizontalOptions="Center"
                             Command="{Binding ToggleCommand}"
                             AutomationId="sample-sensors-orientation-toggle" />
                 </VerticalStackLayout>
                 <ControlExample.Options>
-                    <VerticalStackLayout x:Name="OrientationOptions" x:DataType="local:OrientationViewModel" Spacing="8">
+                    <VerticalStackLayout x:Name="OrientationOptions" x:DataType="OrientationViewModel" Spacing="8">
                         <Label Text="SensorSpeed" Style="{StaticResource OptionLabel}" />
                         <Picker x:Name="OrientationSpeed"
                                 ItemsSource="{StaticResource SpeedOptions}"
-                                SelectedIndex="{Binding SpeedIndex}"
+                                SelectedIndex="{SpeedIndex}"
                                 AutomationId="option-sensors-orientation-speed" />
                     </VerticalStackLayout>
                 </ControlExample.Options>

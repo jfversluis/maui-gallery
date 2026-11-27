@@ -1,15 +1,15 @@
 <VerticalStackLayout
     x:DataType="local:TasksViewModel"
-    BindableLayout.ItemsSource="{Binding Tasks}">
+    BindableLayout.ItemsSource="{Tasks}">
     <BindableLayout.ItemTemplate>
         <DataTemplate x:DataType="local:TodoItem">
             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
                 <CheckBox
                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:TasksViewModel}}, Path=CompleteCommand}"
                     CommandParameter="{Binding .}"
-                    SemanticProperties.Description="{Binding Title}" />
-                <Label Grid.Column="1" Text="{Binding Title}" VerticalOptions="Center" />
-                <Label Grid.Column="2" Text="{Binding Due}" FontSize="13" VerticalOptions="Center" />
+                    SemanticProperties.Description="{.Title}" />
+                <Label Grid.Column="1" Text="{.Title}" VerticalOptions="Center" />
+                <Label Grid.Column="2" Text="{Due}" FontSize="13" VerticalOptions="Center" />
             </Grid>
         </DataTemplate>
     </BindableLayout.ItemTemplate>

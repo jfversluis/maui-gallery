@@ -1,10 +1,9 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Layouts.StackLayoutPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <local:LayoutSampleResources />
+                <LayoutSampleResources />
             </ResourceDictionary.MergedDictionaries>
             <x:Array x:Key="LayoutOptionNames" Type="{x:Type x:String}">
                 <x:String>Start</x:String>

@@ -1,5 +1,5 @@
 <DatePicker
     x:DataType="local:BookingViewModel"
-    Date="{Binding CheckIn}"
-    MinimumDate="{Binding Today}"
-    MaximumDate="{Binding LastBookableDate}" />
+    Date="{CheckIn}"
+    MinimumDate="{Today}"
+    MaximumDate="{LastBookableDate}" />

@@ -7,9 +7,7 @@ namespace MauiGallery.Features.Fundamentals;
 public sealed partial class EmailValidationViewModel : ObservableObject
 {
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(IsEmpty))]
-    [NotifyPropertyChangedFor(nameof(IsValid))]
-    [NotifyPropertyChangedFor(nameof(IsInvalid))]
+    [NotifyPropertyChangedFor(nameof(IsEmpty), nameof(IsValid), nameof(IsInvalid))]
     public partial string? Email { get; set; }
 
     public bool IsEmpty => string.IsNullOrWhiteSpace(Email);

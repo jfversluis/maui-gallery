@@ -63,12 +63,14 @@ public sealed class Substitution : BindableObject
     private static string ToHex(Color color) => color.ToArgbHex(includeAlpha: color.Alpha < 1);
 
     private bool IsDefault =>
-        Default is not null && string.Equals(Normalize(Default), Normalize(Value), StringComparison.OrdinalIgnoreCase);
+        Default is not null && string.Equals(Normalize(Default), Normalize(Value), StringComparison.Ordinal);
 
-    // Compares as source text, so Default="True" matches true and Default="#512BD4" matches a Color.
+    // Compares as source text, so Default="True" matches true and Default="#512BD4" matches a Color. Other text is
+    // case-sensitive: a "D" (long date) format isn't the default "d".
     private static string Normalize(object? value) => value switch
     {
         Color color => ToHex(color),
+        string text when bool.TryParse(text, out var flag) => SnippetValueFormatter.Format(flag),
         string text when Color.TryParse(text, out var color) => ToHex(color),
         string text when double.TryParse(text, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var number) => SnippetValueFormatter.Format(number),
         _ => SnippetValueFormatter.Format(value),

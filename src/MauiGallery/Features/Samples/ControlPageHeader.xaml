@@ -1,11 +1,10 @@
 <ContentView x:Class="MauiGallery.Features.Samples.ControlPageHeader"
-             xmlns:icons="clr-namespace:IconFont.Maui.FluentIcons;assembly=IconFont.Maui.FluentIcons"
              x:DataType="SamplePageViewModel">
     <ContentView.Resources>
-        <FontImageSource x:Key="StarOutline" FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Star24}" Color="{DynamicResource ColorTextSecondary}" Size="20" />
-        <FontImageSource x:Key="StarFilled" FontFamily="{x:Static icons:FluentIconsFilled.FontFamily}" Glyph="{x:Static icons:FluentIconsFilled.Star24}" Color="{DynamicResource ColorAccent}" Size="20" />
-        <FontImageSource x:Key="LinkGlyph" FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Link24}" Color="{DynamicResource ColorTextSecondary}" Size="20" />
-        <FontImageSource x:Key="LinkCopiedGlyph" FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Checkmark24}" Color="{DynamicResource ColorSuccess}" Size="20" />
+        <FontImageSource x:Key="StarOutline" FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.Star24}" Color="{DynamicResource ColorTextSecondary}" Size="20" />
+        <FontImageSource x:Key="StarFilled" FontFamily="{x:Static FluentIconsFilled.FontFamily}" Glyph="{x:Static FluentIconsFilled.Star24}" Color="{DynamicResource ColorAccent}" Size="20" />
+        <FontImageSource x:Key="LinkGlyph" FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.Link24}" Color="{DynamicResource ColorTextSecondary}" Size="20" />
+        <FontImageSource x:Key="LinkCopiedGlyph" FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.Checkmark24}" Color="{DynamicResource ColorSuccess}" Size="20" />
         <Style x:Key="HeaderLinkButton" TargetType="Button" BasedOn="{StaticResource SecondaryButton}">
             <Setter Property="FontSize" Value="13" />
             <Setter Property="Padding" Value="12,6" />
@@ -14,12 +13,12 @@
     </ContentView.Resources>
 
     <VerticalStackLayout Spacing="12" Padding="0,8,0,8">
-        <Label Text="{Binding Category.Title}"
+        <Label Text="{Category.Title}"
                Style="{StaticResource TextOverline}"
                TextColor="{DynamicResource ColorAccentText}" />
 
         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-            <Label Text="{Binding Item.Title}" Style="{StaticResource TextTitle1}" VerticalTextAlignment="Center" />
+            <Label Text="{Item.Title}" Style="{StaticResource TextTitle1}" VerticalTextAlignment="Center" />
             <HorizontalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
                 <ImageButton Style="{StaticResource IconButton}"
                              Source="{StaticResource StarOutline}"
@@ -50,18 +49,18 @@
             </HorizontalStackLayout>
         </Grid>
 
-        <Label Text="{Binding Item.Description}"
+        <Label Text="{Item.Description}"
                Style="{StaticResource TextBodySecondary}"
                FontSize="16" />
 
         <!-- Wide: every platform. Narrow: this platform's native type, with the others behind a disclosure. -->
-        <VerticalStackLayout IsVisible="{Binding HasNativeMappings}">
+        <VerticalStackLayout IsVisible="{HasNativeMappings}">
             <FlexLayout x:Name="AllMappings"
                         Wrap="Wrap"
-                        BindableLayout.ItemsSource="{Binding NativeMappings}">
+                        BindableLayout.ItemsSource="{NativeMappings}">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="NativeMappingDisplay">
-                        <Chip Text="{Binding Text}" Margin="0,0,8,8" />
+                        <Chip Text="{Text}" Margin="0,0,8,8" />
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </FlexLayout>
@@ -83,33 +82,33 @@
                     Style="{StaticResource HeaderLinkButton}"
                     Command="{Binding OpenLinkCommand}"
                     CommandParameter="{Binding Item.DocsUrl}"
-                    IsVisible="{Binding Item.DocsUrl, Converter={StaticResource IsNotNullOrEmpty}}"
+                    IsVisible="{Item.DocsUrl != null}"
                     Margin="0,0,8,8"
                     AutomationId="page-docs">
                 <Button.ImageSource>
-                    <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.BookOpen24}" Color="{DynamicResource ColorTextPrimary}" Size="16" />
+                    <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.BookOpen24}" Color="{DynamicResource ColorTextPrimary}" Size="16" />
                 </Button.ImageSource>
             </Button>
             <Button Text="API reference"
                     Style="{StaticResource HeaderLinkButton}"
                     Command="{Binding OpenLinkCommand}"
                     CommandParameter="{Binding Item.ApiUrl}"
-                    IsVisible="{Binding Item.ApiUrl, Converter={StaticResource IsNotNullOrEmpty}}"
+                    IsVisible="{Item.ApiUrl != null}"
                     Margin="0,0,8,8"
                     AutomationId="page-api">
                 <Button.ImageSource>
-                    <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Code24}" Color="{DynamicResource ColorTextPrimary}" Size="16" />
+                    <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.Code24}" Color="{DynamicResource ColorTextPrimary}" Size="16" />
                 </Button.ImageSource>
             </Button>
             <Button Text="Sample source"
                     Style="{StaticResource HeaderLinkButton}"
                     Command="{Binding OpenLinkCommand}"
                     CommandParameter="{Binding Item.SourceUrl}"
-                    IsVisible="{Binding Item.SourceUrl, Converter={StaticResource IsNotNullOrEmpty}}"
+                    IsVisible="{Item.SourceUrl != null}"
                     Margin="0,0,8,8"
                     AutomationId="page-source">
                 <Button.ImageSource>
-                    <FontImageSource FontFamily="{x:Static icons:FluentIconsRegular.FontFamily}" Glyph="{x:Static icons:FluentIconsRegular.Open24}" Color="{DynamicResource ColorTextPrimary}" Size="16" />
+                    <FontImageSource FontFamily="{x:Static FluentIconsRegular.FontFamily}" Glyph="{x:Static FluentIconsRegular.Open24}" Color="{DynamicResource ColorTextPrimary}" Size="16" />
                 </Button.ImageSource>
             </Button>
         </FlexLayout>

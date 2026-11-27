@@ -25,5 +25,5 @@
             </ImageButton.Source>
         </ImageButton>
     </HorizontalStackLayout>
-    <Label Text="{Binding Summary}" />
+    <Label Text="{Summary}" />
 </VerticalStackLayout>

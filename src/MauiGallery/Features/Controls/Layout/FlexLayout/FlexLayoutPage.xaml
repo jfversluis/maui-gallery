@@ -1,11 +1,10 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Layouts.FlexLayoutPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
             xmlns:layouts="clr-namespace:Microsoft.Maui.Layouts;assembly=Microsoft.Maui"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <local:LayoutSampleResources />
+                <LayoutSampleResources />
             </ResourceDictionary.MergedDictionaries>
             <x:Array x:Key="DirectionOptions" Type="{x:Type layouts:FlexDirection}">
                 <x:Static Member="layouts:FlexDirection.Row" />
@@ -120,10 +119,10 @@
                             Description="With Wrap, items flow onto the next line when a line is full, a natural fit for tags and filters. FlexLayout has no spacing property, so give each item a Margin, and a Shrink of 0 keeps a chip from being squeezed. Tap a tag to remove it."
                             XamlSource="FlexLayoutTags.xaml.txt"
                             CSharpSource="FlexLayoutTags.cs.txt">
-                <VerticalStackLayout x:Name="TagsSample" Spacing="12" WidthRequest="300" x:DataType="local:TagCloudViewModel">
+                <VerticalStackLayout x:Name="TagsSample" Spacing="12" WidthRequest="300" x:DataType="TagCloudViewModel">
                     <FlexLayout x:Name="TagsFlex"
                                 Wrap="Wrap"
-                                BindableLayout.ItemsSource="{Binding Tags}"
+                                BindableLayout.ItemsSource="{Tags}"
                                 AutomationId="sample-tags-flex">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="x:String">
@@ -136,7 +135,7 @@
                                         SemanticProperties.Description="{Binding ., StringFormat='Remove {0}'}"
                                         AutomationId="{Binding ., StringFormat='sample-tag-{0}'}">
                                     <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding RemoveCommand, Source={RelativeSource AncestorType={x:Type local:TagCloudViewModel}}, x:DataType=local:TagCloudViewModel}"
+                                        <TapGestureRecognizer Command="{Binding RemoveCommand, Source={RelativeSource AncestorType={x:Type TagCloudViewModel}}, x:DataType=TagCloudViewModel}"
                                                               CommandParameter="{Binding .}" />
                                     </Border.GestureRecognizers>
                                     <Label Text="{Binding ., StringFormat='{0}  ✕'}" FontSize="14" />

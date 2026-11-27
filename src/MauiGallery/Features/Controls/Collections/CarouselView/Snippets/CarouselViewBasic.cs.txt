@@ -41,4 +41,9 @@ var carousel = new CarouselView
 };
 
 carousel.CurrentItemChanged += (s, e) =>
-    Debug.WriteLine($"Now showing {((Trip)e.CurrentItem).Title}");
+{
+    if (e.CurrentItem is Trip trip)
+    {
+        Debug.WriteLine($"Now showing {trip.Title}");
+    }
+};

@@ -1,10 +1,9 @@
 <SamplePage x:Class="MauiGallery.Features.DesignGuidance.ColorPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.DesignGuidance"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
             <ControlPageHeader />
-            <local:ColorPalette x:Name="Palette" IsVisible="False" />
+            <ColorPalette x:Name="Palette" IsVisible="False" />
 
             <Border Style="{StaticResource SubtlePanel}">
                 <VerticalStackLayout Spacing="8">
@@ -14,24 +13,24 @@
                 </VerticalStackLayout>
             </Border>
 
-            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Groups, Source={x:Reference Palette}, x:DataType=local:ColorPalette}" Spacing="24">
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Groups, Source={x:Reference Palette}, x:DataType=ColorPalette}" Spacing="24">
                 <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="local:ColorTokenGroup">
+                    <DataTemplate x:DataType="ColorTokenGroup">
                         <VerticalStackLayout Spacing="12">
-                            <SectionHeader Title="{Binding Title}" />
-                            <AdaptiveGrid MinItemWidth="220" BindableLayout.ItemsSource="{Binding Tokens}">
+                            <SectionHeader Title="{.Title}" />
+                            <AdaptiveGrid MinItemWidth="220" BindableLayout.ItemsSource="{Tokens}">
                                 <BindableLayout.ItemTemplate>
-                                    <DataTemplate x:DataType="local:ColorToken">
+                                    <DataTemplate x:DataType="ColorToken">
                                         <Border Style="{StaticResource Card}" Padding="12">
                                             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                                                 <Border WidthRequest="44"
                                                         HeightRequest="44"
                                                         StrokeShape="{StaticResource ShapeInput}"
                                                         Stroke="{DynamicResource BrushOutline}"
-                                                        BackgroundColor="{Binding Color}" />
+                                                        BackgroundColor="{.Color}" />
                                                 <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
-                                                    <Label Text="{Binding Name}" Style="{StaticResource TextBodyStrong}" FontSize="14" />
-                                                    <Label Text="{Binding Hex}" Style="{StaticResource TextCode}" FontSize="12" TextColor="{DynamicResource ColorTextSecondary}" />
+                                                    <Label Text="{Name}" Style="{StaticResource TextBodyStrong}" FontSize="14" />
+                                                    <Label Text="{Hex}" Style="{StaticResource TextCode}" FontSize="12" TextColor="{DynamicResource ColorTextSecondary}" />
                                                 </VerticalStackLayout>
                                             </Grid>
                                         </Border>

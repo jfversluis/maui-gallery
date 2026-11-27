@@ -1,10 +1,9 @@
 <SamplePage x:Class="MauiGallery.Features.Controls.Layouts.CustomLayoutPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.Controls.Layouts"
             x:DataType="SamplePageViewModel">
     <SamplePage.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <local:LayoutSampleResources />
+                <LayoutSampleResources />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </SamplePage.Resources>
@@ -21,7 +20,7 @@
                             XamlSource="CustomLayoutCircular.xaml.txt"
                             CSharpSource="CustomLayoutCircular.cs.txt">
                 <Border Style="{StaticResource LayoutFrame}" StrokeShape="Ellipse">
-                    <local:CircularLayout x:Name="CircularSample"
+                    <CircularLayout x:Name="CircularSample"
                                           WidthRequest="240"
                                           HeightRequest="240"
                                           StartAngle="{Binding Value, Source={x:Reference CircularStartAngle}, x:DataType=Slider, Converter={StaticResource Rounded}}"
@@ -33,7 +32,7 @@
                                 </Border>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
-                    </local:CircularLayout>
+                    </CircularLayout>
                 </Border>
                 <ControlExample.Options>
                     <VerticalStackLayout Spacing="8">
@@ -60,7 +59,7 @@
                             XamlSource="CustomLayoutWrap.xaml.txt"
                             CSharpSource="CustomLayoutWrap.cs.txt">
                 <Border Style="{StaticResource LayoutFrame}">
-                    <local:UniformWrapLayout x:Name="WrapSample"
+                    <UniformWrapLayout x:Name="WrapSample"
                                              MinItemWidth="{Binding Value, Source={x:Reference WrapMinItemWidth}, x:DataType=Slider, Converter={StaticResource Rounded}}"
                                              Spacing="{Binding Value, Source={x:Reference WrapSpacing}, x:DataType=Slider, Converter={StaticResource Rounded}}"
                                              AutomationId="sample-wrap-layout">
@@ -85,7 +84,7 @@
                         <Border Style="{StaticResource TileGreen}">
                             <Label Text="Bagel" Style="{StaticResource TileText}" />
                         </Border>
-                    </local:UniformWrapLayout>
+                    </UniformWrapLayout>
                 </Border>
                 <ControlExample.Options>
                     <VerticalStackLayout Spacing="8">

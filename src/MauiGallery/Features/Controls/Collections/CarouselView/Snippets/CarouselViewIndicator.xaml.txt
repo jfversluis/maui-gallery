@@ -1,6 +1,6 @@
 <VerticalStackLayout Spacing="12">
     <CarouselView
-        ItemsSource="{Binding Trips}"
+        ItemsSource="{Trips}"
         ItemTemplate="{StaticResource TripTemplate}"
         IndicatorView="{x:Reference TripIndicator}"
         HeightRequest="200" />

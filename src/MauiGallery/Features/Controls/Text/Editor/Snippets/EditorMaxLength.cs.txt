@@ -10,7 +10,7 @@ var counter = new Label
     HorizontalOptions = LayoutOptions.End,
     FontSize = 13,
 };
-editor.TextChanged += (sender, e) => counter.Text = $"{e.NewTextValue.Length}/{editor.MaxLength}";
+editor.TextChanged += (sender, e) => counter.Text = $"{e.NewTextValue?.Length ?? 0}/{editor.MaxLength}";
 
 var layout = new VerticalStackLayout
 {

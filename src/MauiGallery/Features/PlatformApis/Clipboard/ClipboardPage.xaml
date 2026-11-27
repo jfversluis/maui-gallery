@@ -1,5 +1,4 @@
 <SamplePage x:Class="MauiGallery.Features.PlatformApis.ClipboardPage"
-            xmlns:local="clr-namespace:MauiGallery.Features.PlatformApis"
             x:DataType="SamplePageViewModel">
     <ScrollView>
         <VerticalStackLayout Style="{StaticResource PageContent}">
@@ -15,10 +14,10 @@
                             XamlSource="ClipboardCopy.xaml.txt"
                             CSharpSource="ClipboardCopy.cs.txt">
                 <VerticalStackLayout x:Name="CopySample"
-                                     x:DataType="local:ClipboardViewModel"
+                                     x:DataType="ClipboardViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=380}">
-                    <Entry Text="{Binding Text}"
+                    <Entry Text="{Text}"
                            Placeholder="Text to copy"
                            SemanticProperties.Description="Text to copy"
                            AutomationId="sample-clipboard-text" />
@@ -33,7 +32,7 @@
                                 Clicked="OnPasteClicked"
                                 AutomationId="sample-clipboard-paste" />
                     </HorizontalStackLayout>
-                    <Label Text="{Binding Pasted}" AutomationId="sample-clipboard-pasted" />
+                    <Label Text="{Pasted}" AutomationId="sample-clipboard-pasted" />
                 </VerticalStackLayout>
             </ControlExample>
 
@@ -47,14 +46,14 @@
                             XamlSource="ClipboardChanged.xaml.txt"
                             CSharpSource="ClipboardChanged.cs.txt">
                 <VerticalStackLayout x:Name="ChangesSample"
-                                     x:DataType="local:ClipboardViewModel"
+                                     x:DataType="ClipboardViewModel"
                                      Spacing="12"
                                      WidthRequest="{OnIdiom Phone=280, Default=380}">
                     <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" ColumnSpacing="16" RowSpacing="8">
                         <Label Text="Has text" Opacity="0.7" />
-                        <Label Grid.Column="1" Text="{Binding HasText}" AutomationId="sample-clipboard-hastext" />
+                        <Label Grid.Column="1" Text="{HasText}" AutomationId="sample-clipboard-hastext" />
                         <Label Grid.Row="1" Text="Changes" Opacity="0.7" />
-                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding ChangeCount}" AutomationId="sample-clipboard-changes" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{ChangeCount}" AutomationId="sample-clipboard-changes" />
                     </Grid>
                     <Button x:Name="ClearButton"
                             Text="Clear the clipboard"

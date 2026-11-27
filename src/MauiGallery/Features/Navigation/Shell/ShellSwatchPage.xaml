@@ -1,6 +1,5 @@
 <ContentPage x:Class="MauiGallery.Features.Navigation.ShellSwatchPage"
-             xmlns:local="clr-namespace:MauiGallery.Features.Navigation"
-             x:DataType="local:ShellSwatchPage"
+             x:DataType="ShellSwatchPage"
              Title="Swatch">
     <ScrollView>
         <VerticalStackLayout Padding="24" Spacing="16" MaximumWidthRequest="520">
