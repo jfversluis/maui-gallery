@@ -3,6 +3,12 @@ name: Release
 # Builds store-ready packages: an Android App Bundle, an iOS IPA, a Mac Catalyst installer package and Windows MSIX packages.
 # Each job signs its package when the signing secrets exist and still builds an unsigned one when they don't, so the
 # workflow also runs on forks. See docs/releasing.md for the secrets, the outputs and the store checklists.
+#
+# Then it uploads them: App Store Connect (TestFlight, iOS and Mac), Google Play (internal track by default) and the
+# Microsoft Store (a draft submission by default). Each upload job runs in a GitHub environment (app-store,
+# google-play, microsoft-store) whose required reviewers approve it, and is skipped with a notice when its store isn't
+# configured. A v* tag uploads to every configured store and creates a GitHub release; a manual run uploads only to
+# the stores picked in `stores`.
 
 on:
   push:
@@ -13,6 +19,26 @@ on:
         description: 'Build number (ApplicationVersion). Leave empty to use the run number.'
         required: false
         type: string
+      stores:
+        description: 'Stores to upload to, after approval'
+        type: choice
+        options: [none, all, app-store, google-play, microsoft-store]
+        default: none
+      google_play_track:
+        description: 'Google Play track'
+        type: choice
+        options: [internal, alpha, beta, production]
+        default: internal
+      google_play_status:
+        description: 'Google Play release status (draft until the app has been published once)'
+        type: choice
+        options: [completed, draft]
+        default: completed
+      microsoft_store_mode:
+        description: 'Microsoft Store: draft submission, package flight or publish (submit for certification)'
+        type: choice
+        options: [draft, flight, publish]
+        default: draft
 
 permissions:
   contents: read
@@ -61,6 +87,52 @@ jobs:
           echo "display=$display" >> "$GITHUB_OUTPUT"
           echo "build=$build" >> "$GITHUB_OUTPUT"
           echo "### Version $display ($build)" >> "$GITHUB_STEP_SUMMARY"
+
+  plan:
+    name: Release plan
+    runs-on: ubuntu-latest
+    outputs:
+      app_store_ios: ${{ steps.plan.outputs.app_store_ios }}
+      app_store_mac: ${{ steps.plan.outputs.app_store_mac }}
+      google_play: ${{ steps.plan.outputs.google_play }}
+      microsoft_store: ${{ steps.plan.outputs.microsoft_store }}
+      google_play_track: ${{ steps.plan.outputs.google_play_track }}
+      google_play_status: ${{ steps.plan.outputs.google_play_status }}
+      microsoft_store_mode: ${{ steps.plan.outputs.microsoft_store_mode }}
+      ios_signed: ${{ steps.plan.outputs.ios_signed }}
+      mac_signed: ${{ steps.plan.outputs.mac_signed }}
+      android_signed: ${{ steps.plan.outputs.android_signed }}
+      windows_identity: ${{ steps.plan.outputs.windows_identity }}
+    steps:
+      - uses: actions/checkout@v5
+      - id: plan
+        name: Decide which stores to upload to
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          STORES: ${{ inputs.stores }}
+          # The same conditions the build jobs use to sign their packages.
+          IOS_SIGNED: ${{ secrets.APPLE_CERTIFICATE_P12_BASE64 != '' && secrets.APPLE_PROVISIONING_PROFILE_IOS_BASE64 != '' }}
+          MAC_SIGNED: ${{ secrets.APPLE_CERTIFICATE_P12_BASE64 != '' && secrets.APPLE_INSTALLER_CERTIFICATE_P12_BASE64 != '' && secrets.APPLE_PROVISIONING_PROFILE_MAC_BASE64 != '' }}
+          ANDROID_SIGNED: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+          WINDOWS_IDENTITY: ${{ vars.WINDOWS_IDENTITY_NAME != '' && vars.WINDOWS_PUBLISHER != '' && vars.WINDOWS_PUBLISHER_DISPLAY_NAME != '' }}
+          # The upload credentials are environment secrets, which this job can't read: their non-secret IDs are
+          # repository variables, and setting them turns the upload on.
+          APP_STORE_CONFIGURED: ${{ vars.APP_STORE_CONNECT_KEY_ID != '' && vars.APP_STORE_CONNECT_ISSUER_ID != '' }}
+          GOOGLE_PLAY_CONFIGURED: ${{ vars.GOOGLE_PLAY_SERVICE_ACCOUNT != '' }}
+          MICROSOFT_STORE_CONFIGURED: ${{ vars.MICROSOFT_STORE_PRODUCT_ID != '' }}
+          # Manual runs use their inputs; tag runs use these repository variables, or the defaults.
+          GOOGLE_PLAY_TRACK: ${{ inputs.google_play_track || vars.GOOGLE_PLAY_TRACK }}
+          GOOGLE_PLAY_STATUS: ${{ inputs.google_play_status || vars.GOOGLE_PLAY_RELEASE_STATUS }}
+          MICROSOFT_STORE_MODE: ${{ inputs.microsoft_store_mode || vars.MICROSOFT_STORE_MODE }}
+          MICROSOFT_STORE_FLIGHT_ID: ${{ vars.MICROSOFT_STORE_FLIGHT_ID }}
+        run: |
+          {
+            echo "ios_signed=$IOS_SIGNED"
+            echo "mac_signed=$MAC_SIGNED"
+            echo "android_signed=$ANDROID_SIGNED"
+            echo "windows_identity=$WINDOWS_IDENTITY"
+          } >> "$GITHUB_OUTPUT"
+          eng/release/plan.sh
 
   android:
     name: Android (AAB)
@@ -350,7 +422,7 @@ jobs:
       - name: Publish the MSIX
         run: >
           dotnet publish ${{ env.APP_PROJECT }} -f net11.0-windows10.0.19041.0 -c Release
-          -p:RuntimeIdentifierOverride=${{ matrix.rid }}
+          -p:RuntimeIdentifier=${{ matrix.rid }}
           -p:WindowsPackageType=MSIX
           -p:GenerateAppxPackageOnBuild=true
           -p:AppxPackageSigningEnabled=false
@@ -362,3 +434,232 @@ jobs:
           # Only the app package; the Windows App SDK runtime packages next to it come from the Store as dependencies.
           path: msix/*/MauiGallery_*.msix
           if-no-files-found: error
+
+  windows-bundle:
+    name: Windows (MSIX bundle)
+    needs: [version, windows]
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v8
+        with:
+          # One folder per artifact, so packages with the same file name can't overwrite each other.
+          pattern: windows-${{ needs.version.outputs.display }}-${{ needs.version.outputs.build }}-win-*
+          path: msix
+      - name: Bundle the x64 and Arm64 packages
+        shell: pwsh
+        run: >
+          ./eng/release/make-msixbundle.ps1
+          -PackagesDirectory msix
+          -Version ${{ needs.version.outputs.display }}.0
+          -Output msixbundle/MauiGallery_${{ needs.version.outputs.display }}.0.msixbundle
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-${{ needs.version.outputs.display }}-${{ needs.version.outputs.build }}-msixbundle
+          path: msixbundle/*.msixbundle
+          if-no-files-found: error
+
+  # Store uploads. Each runs only after a required reviewer approves its environment, and the plan job skips it (with a
+  # notice) when the store isn't configured or the package isn't signed. Uploading doesn't release anything: promote
+  # the build in each store's console (see docs/releasing.md).
+
+  app-store-ios:
+    name: App Store Connect (iOS)
+    needs: [version, plan, ios]
+    if: needs.plan.outputs.app_store_ios == 'true'
+    runs-on: xcode-27
+    timeout-minutes: 90
+    environment:
+      name: app-store
+      # The app's Apple ID in App Store Connect; override with the APP_STORE_APP_ID variable.
+      url: https://appstoreconnect.apple.com/apps/${{ vars.APP_STORE_APP_ID || '6839980440' }}/testflight
+    # One upload per store at a time, across tags and manual runs: store edits and submissions can't overlap.
+    concurrency:
+      group: upload-app-store-ios
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v5
+      - name: Select Xcode
+        run: sudo xcode-select --switch /Applications/Xcode_${{ env.XCODE_VERSION }}.app
+      - uses: actions/download-artifact@v8
+        with:
+          name: ios-${{ needs.version.outputs.display }}-${{ needs.version.outputs.build }}
+          path: package
+      - name: Upload to TestFlight
+        env:
+          APP_STORE_CONNECT_KEY_ID: ${{ vars.APP_STORE_CONNECT_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ vars.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
+        run: eng/release/upload-app-store.sh package/*.ipa
+
+  app-store-mac:
+    name: App Store Connect (Mac)
+    needs: [version, plan, maccatalyst]
+    if: needs.plan.outputs.app_store_mac == 'true'
+    runs-on: xcode-27
+    timeout-minutes: 90
+    environment:
+      name: app-store
+      # The app's Apple ID in App Store Connect; override with the APP_STORE_APP_ID variable.
+      url: https://appstoreconnect.apple.com/apps/${{ vars.APP_STORE_APP_ID || '6839980440' }}/testflight
+    # One upload per store at a time, across tags and manual runs: store edits and submissions can't overlap.
+    concurrency:
+      group: upload-app-store-mac
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v5
+      - name: Select Xcode
+        run: sudo xcode-select --switch /Applications/Xcode_${{ env.XCODE_VERSION }}.app
+      - uses: actions/download-artifact@v8
+        with:
+          name: maccatalyst-${{ needs.version.outputs.display }}-${{ needs.version.outputs.build }}
+          path: package
+      - name: Upload to TestFlight
+        env:
+          APP_STORE_CONNECT_KEY_ID: ${{ vars.APP_STORE_CONNECT_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ vars.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
+        run: eng/release/upload-app-store.sh package/*.pkg
+
+  google-play:
+    name: Google Play
+    needs: [version, plan, android]
+    if: needs.plan.outputs.google_play == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: google-play
+      url: https://play.google.com/console
+    # One upload per store at a time, across tags and manual runs: store edits and submissions can't overlap.
+    concurrency:
+      group: upload-google-play
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      # Only used to sign in without a key (GOOGLE_PLAY_WORKLOAD_IDENTITY_PROVIDER).
+      id-token: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v8
+        with:
+          name: android-${{ needs.version.outputs.display }}-${{ needs.version.outputs.build }}
+          path: package
+      - name: Check the credentials
+        env:
+          SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          WORKLOAD_IDENTITY_PROVIDER: ${{ vars.GOOGLE_PLAY_WORKLOAD_IDENTITY_PROVIDER }}
+        run: |
+          if [ -z "$SERVICE_ACCOUNT_JSON" ] && [ -z "$WORKLOAD_IDENTITY_PROVIDER" ]; then
+            echo "::error::Can't upload to Google Play: set the GOOGLE_PLAY_SERVICE_ACCOUNT_JSON secret in the google-play environment (or the GOOGLE_PLAY_WORKLOAD_IDENTITY_PROVIDER variable). See docs/releasing.md."
+            exit 1
+          fi
+      - id: keyless
+        name: Sign in to Google Cloud (workload identity)
+        if: vars.GOOGLE_PLAY_WORKLOAD_IDENTITY_PROVIDER != ''
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          workload_identity_provider: ${{ vars.GOOGLE_PLAY_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GOOGLE_PLAY_SERVICE_ACCOUNT }}
+      - id: key
+        name: Sign in to Google Cloud (service account key)
+        if: vars.GOOGLE_PLAY_WORKLOAD_IDENTITY_PROVIDER == ''
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          credentials_json: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+      - name: Upload to Google Play
+        uses: r0adkll/upload-google-play@e738b9dd8f2476ea806d921b64aacd24f34515a5 # v1.1.5
+        with:
+          serviceAccountJson: ${{ steps.keyless.outputs.credentials_file_path || steps.key.outputs.credentials_file_path }}
+          packageName: com.jfversluis.mauigallery
+          releaseFiles: package/*-Signed.aab
+          tracks: ${{ needs.plan.outputs.google_play_track }}
+          status: ${{ needs.plan.outputs.google_play_status }}
+          releaseName: ${{ needs.version.outputs.display }} (${{ needs.version.outputs.build }})
+          whatsNewDirectory: eng/release/whatsnew
+
+  microsoft-store:
+    name: Microsoft Store
+    needs: [version, plan, windows-bundle]
+    if: needs.plan.outputs.microsoft_store == 'true'
+    runs-on: windows-latest
+    timeout-minutes: 60
+    environment:
+      name: microsoft-store
+      url: https://partner.microsoft.com/dashboard/apps-and-games/overview
+    # One upload per store at a time, across tags and manual runs: store edits and submissions can't overlap.
+    concurrency:
+      group: upload-microsoft-store
+      cancel-in-progress: false
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: windows-${{ needs.version.outputs.display }}-${{ needs.version.outputs.build }}-msixbundle
+          path: package
+      - name: Check the credentials
+        shell: pwsh
+        env:
+          MICROSOFT_STORE_TENANT_ID: ${{ secrets.MICROSOFT_STORE_TENANT_ID }}
+          MICROSOFT_STORE_CLIENT_ID: ${{ secrets.MICROSOFT_STORE_CLIENT_ID }}
+          MICROSOFT_STORE_CLIENT_SECRET: ${{ secrets.MICROSOFT_STORE_CLIENT_SECRET }}
+          MICROSOFT_STORE_SELLER_ID: ${{ secrets.MICROSOFT_STORE_SELLER_ID }}
+        run: |
+          $missing = 'MICROSOFT_STORE_TENANT_ID', 'MICROSOFT_STORE_CLIENT_ID', 'MICROSOFT_STORE_CLIENT_SECRET', 'MICROSOFT_STORE_SELLER_ID' |
+            Where-Object { -not [Environment]::GetEnvironmentVariable($_) }
+          if ($missing) {
+            Write-Output "::error::Can't upload to the Microsoft Store, missing secrets in the microsoft-store environment: $($missing -join ', '). See docs/releasing.md."
+            exit 1
+          }
+      # Installs the Microsoft Store Developer CLI (msstore).
+      - uses: microsoft/microsoft-store-apppublisher@cc9910a8d59f2eb55cbb83df0a3800cf3b5300e0 # v1.4
+        with:
+          version: v0.4.4
+      - name: Submit to the Microsoft Store
+        shell: pwsh
+        env:
+          MICROSOFT_STORE_TENANT_ID: ${{ secrets.MICROSOFT_STORE_TENANT_ID }}
+          MICROSOFT_STORE_CLIENT_ID: ${{ secrets.MICROSOFT_STORE_CLIENT_ID }}
+          MICROSOFT_STORE_CLIENT_SECRET: ${{ secrets.MICROSOFT_STORE_CLIENT_SECRET }}
+          MICROSOFT_STORE_SELLER_ID: ${{ secrets.MICROSOFT_STORE_SELLER_ID }}
+          MICROSOFT_STORE_PRODUCT_ID: ${{ vars.MICROSOFT_STORE_PRODUCT_ID }}
+          MICROSOFT_STORE_FLIGHT_ID: ${{ vars.MICROSOFT_STORE_FLIGHT_ID }}
+          MODE: ${{ needs.plan.outputs.microsoft_store_mode }}
+        run: |
+          msstore reconfigure --tenantId $env:MICROSOFT_STORE_TENANT_ID --sellerId $env:MICROSOFT_STORE_SELLER_ID `
+            --clientId $env:MICROSOFT_STORE_CLIENT_ID --clientSecret $env:MICROSOFT_STORE_CLIENT_SECRET
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+          $bundle = (Get-ChildItem package -Filter *.msixbundle -Recurse | Select-Object -First 1).FullName
+          $arguments = @('publish', $bundle, '--appId', $env:MICROSOFT_STORE_PRODUCT_ID)
+          switch ($env:MODE) {
+            # Replaces any pending submission's packages and leaves it as a draft to review and submit in Partner Center.
+            'draft' { $arguments += '--noCommit' }
+            # Submits to a package flight, which only the flight's groups get after certification.
+            'flight' { $arguments += @('--flightId', $env:MICROSOFT_STORE_FLIGHT_ID) }
+            # 'publish' submits for certification; the submission's publishing options decide when it goes live.
+          }
+          msstore @arguments
+          exit $LASTEXITCODE
+
+  github-release:
+    name: GitHub release
+    needs: [version, plan, android, ios, maccatalyst, windows-bundle]
+    # Tag pushes only: a manual run on a tag mustn't replace the release's files.
+    if: github.event_name == 'push' && github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v8
+        with:
+          path: artifacts
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.version.outputs.display }}
+          BUILD: ${{ needs.version.outputs.build }}
+          IOS_SIGNED: ${{ needs.plan.outputs.ios_signed }}
+          MAC_SIGNED: ${{ needs.plan.outputs.mac_signed }}
+          ANDROID_SIGNED: ${{ needs.plan.outputs.android_signed }}
+          WINDOWS_IDENTITY: ${{ needs.plan.outputs.windows_identity }}
+        run: eng/release/github-release.sh artifacts
