@@ -11,6 +11,8 @@ public sealed partial class TwoPaneViewPage : SamplePage
     private const string NotFoldableNote =
         "TwoPaneView follows the hinge on Android foldables. On this device it splits by size alone, and DualScreenInfo reports a single pane.";
 
+    private static readonly TimeSpan HingeAngleTimeout = TimeSpan.FromSeconds(2);
+
     public TwoPaneViewPage(SamplePageServices services)
         : base(services)
     {
@@ -101,9 +103,18 @@ public sealed partial class TwoPaneViewPage : SamplePage
 
     private async void OnReadHingeAngleClicked(object? sender, EventArgs e)
     {
-        // Devices without a hinge sensor report 0.
-        var angle = await DualScreenInfo.Current.GetHingeAngleAsync();
-        HingeAngle.Text = $"Hinge angle: {angle}°";
-        HingeExample.Output = $"GetHingeAngleAsync returned {angle}";
+        try
+        {
+            // On Android the call waits for the hinge sensor, which a phone without a hinge doesn't have, so give up
+            // after a moment. Other platforms return 0.
+            var angle = await DualScreenInfo.Current.GetHingeAngleAsync().WaitAsync(HingeAngleTimeout);
+            HingeAngle.Text = $"Hinge angle: {angle}°";
+            HingeExample.Output = $"GetHingeAngleAsync returned {angle}";
+        }
+        catch (TimeoutException)
+        {
+            HingeAngle.Text = "Hinge angle: no hinge sensor";
+            HingeExample.Output = "GetHingeAngleAsync didn't return: this device has no hinge sensor";
+        }
     }
 }

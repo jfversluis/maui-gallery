@@ -1,17 +1,41 @@
 // MauiProgram.cs: builder.UseFoldable();
+using System.ComponentModel;
 using Microsoft.Maui.Foldable;
 
-var info = DualScreenInfo.Current;
-info.PropertyChanged += (s, e) =>
+protected override void OnAppearing()
 {
-    // SinglePane, or Wide/Tall when the window spans the fold.
-    SpanModeLabel.Text = $"SpanMode: {info.SpanMode}";
-    HingeBoundsLabel.Text = $"HingeBounds: {info.HingeBounds}";
-};
+    base.OnAppearing();
+    DualScreenInfo.Current.PropertyChanged += OnDualScreenInfoChanged;
+    ShowDualScreenInfo();
+}
+
+protected override void OnDisappearing()
+{
+    // DualScreenInfo.Current lives as long as the app, so unsubscribe to let the page go
+    DualScreenInfo.Current.PropertyChanged -= OnDualScreenInfoChanged;
+    base.OnDisappearing();
+}
+
+void OnDualScreenInfoChanged(object? sender, PropertyChangedEventArgs e) =>
+    MainThread.BeginInvokeOnMainThread(ShowDualScreenInfo);
+
+void ShowDualScreenInfo()
+{
+    // SinglePane, or Wide/Tall when the window spans the fold
+    SpanModeLabel.Text = $"SpanMode: {DualScreenInfo.Current.SpanMode}";
+    HingeBoundsLabel.Text = $"HingeBounds: {DualScreenInfo.Current.HingeBounds}";
+}
 
 async void OnReadHingeAngleClicked(object? sender, EventArgs e)
 {
-    // 0 on devices without a hinge sensor.
-    var angle = await info.GetHingeAngleAsync();
-    HingeAngleLabel.Text = $"Hinge angle: {angle}°";
+    try
+    {
+        // On Android this waits for the hinge sensor, which most phones don't have
+        var angle = await DualScreenInfo.Current.GetHingeAngleAsync().WaitAsync(TimeSpan.FromSeconds(2));
+        HingeAngleLabel.Text = $"Hinge angle: {angle}°";
+    }
+    catch (TimeoutException)
+    {
+        HingeAngleLabel.Text = "No hinge sensor";
+    }
 }

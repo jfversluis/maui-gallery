@@ -4,6 +4,8 @@ using Microsoft.Maui.Controls.Foldable;
 var twoPaneView = new TwoPaneView
 {
     MinWideModeWidth = $(MinWideModeWidth),
+    // Too narrow for Wide mode shows one pane instead of stacking them
+    MinTallModeHeight = 10000,
     WideModeConfiguration = $(WideModeConfigurationCode),
     PanePriority = $(PanePriorityCode),
     Pane1Length = $(Pane1LengthCode),

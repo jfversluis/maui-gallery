@@ -2,10 +2,10 @@
 <foldable:TwoPaneView
     xmlns:foldable="clr-namespace:Microsoft.Maui.Controls.Foldable;assembly=Microsoft.Maui.Controls.Foldable"
     MinWideModeWidth="$(MinWideModeWidth)"
+    MinTallModeHeight="10000"
     WideModeConfiguration="$(WideModeConfiguration)"
     PanePriority="$(PanePriority)"
-    Pane1Length="$(Pane1Length)"
-    ModeChanged="OnModeChanged">
+    Pane1Length="$(Pane1Length)">
     <foldable:TwoPaneView.Pane1>
         <Label Text="Pane1: inbox" />
     </foldable:TwoPaneView.Pane1>

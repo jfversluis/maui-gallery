@@ -16,7 +16,7 @@ public partial class AppShell : Shell
 
     // Desktop windows keep the sidebar (as a flyout) when they are narrow instead of switching to bottom tabs. Decided by
     // platform rather than idiom, because a Windows VM or server can report an Unknown idiom.
-    private static readonly bool IsDesktop = DeviceInfo.Platform == DevicePlatform.WinUI || DeviceInfo.Platform == DevicePlatform.MacCatalyst;
+    internal static readonly bool IsDesktop = DeviceInfo.Platform == DevicePlatform.WinUI || DeviceInfo.Platform == DevicePlatform.MacCatalyst;
 
     /// <param name="createSidebar">
     /// Creates the sidebar. Phones navigate with tabs and never show it, so it is only created once a window needs it.
@@ -110,13 +110,19 @@ public partial class AppShell : Shell
             FlyoutIsPresented = behavior == FlyoutBehavior.Locked;
         }
 
-        // Shell copies the tab's TabBarIsVisible onto each page it shows and doesn't update that copy, so pages that are
-        // already open get the new value as well. Android only refreshes the tab bar when the displayed page's value
-        // changes. A page that hides the tab bar itself re-applies that on resize, as the Shell sample does.
+        // Shell copies the tab's TabBarIsVisible onto its ShellContents and the pages it shows, and never updates those
+        // copies. Android reads a ShellContent's value before the page's, so the copies there are cleared: the tab bar
+        // then follows the displayed page, which gets the new value (and only refreshes when that value changes). A page
+        // that hides the tab bar itself applies that again on resize, as the Shell sample does.
         foreach (var tab in Items.SelectMany(item => item.Items))
         {
             SetTabBarIsVisible(tab, useTabs);
-            foreach (var page in tab.Navigation.NavigationStack.OfType<Page>())
+            foreach (var content in tab.Items)
+            {
+                content.ClearValue(TabBarIsVisibleProperty);
+            }
+
+            foreach (var page in OpenPages(tab))
             {
                 SetTabBarIsVisible(page, useTabs);
             }
@@ -125,6 +131,13 @@ public partial class AppShell : Shell
         UpdateNavBar();
         ApplyPlatformLayout();
     }
+
+    // The tab's root pages that have been created, and the pages pushed on top of them. NavigationStack starts with a
+    // null placeholder where the root page would be.
+    private static IEnumerable<Page> OpenPages(ShellSection tab) =>
+        tab.Items.Select(content => ((IShellContentController)content).Page)
+            .Concat(tab.Navigation.NavigationStack)
+            .OfType<Page>();
 
     protected override void OnNavigating(ShellNavigatingEventArgs args)
     {

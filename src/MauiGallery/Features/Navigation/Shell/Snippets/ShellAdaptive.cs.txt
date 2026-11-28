@@ -22,5 +22,20 @@ public void ApplyLayout(double windowWidth, double windowHeight)
     foreach (var tab in Items.SelectMany(item => item.Items))
     {
         Shell.SetTabBarIsVisible(tab, useTabs);
+
+        // Shell copies the value onto each ShellContent and open page and never updates it. Android reads the
+        // ShellContent first, so clear it there and update the open pages
+        foreach (var content in tab.Items)
+        {
+            content.ClearValue(Shell.TabBarIsVisibleProperty);
+        }
+
+        var pages = tab.Items.Select(content => ((IShellContentController)content).Page)
+            .Concat(tab.Navigation.NavigationStack)
+            .OfType<Page>();
+        foreach (var page in pages)
+        {
+            Shell.SetTabBarIsVisible(page, useTabs);
+        }
     }
 }

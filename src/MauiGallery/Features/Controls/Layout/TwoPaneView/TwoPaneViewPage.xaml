@@ -38,6 +38,7 @@
                         MaximumWidthRequest="{Binding Value, Source={x:Reference WideWidth}, x:DataType=Slider, Converter={StaticResource Rounded}}"
                         HeightRequest="180">
                     <foldable:TwoPaneView x:Name="WideTwoPaneView"
+                                          MinTallModeHeight="10000"
                                           MinWideModeWidth="{Binding Value, Source={x:Reference WideMinWidth}, x:DataType=Slider, Converter={StaticResource Rounded}}"
                                           ModeChanged="OnWideModeChanged"
                                           SizeChanged="OnWideModeChanged"

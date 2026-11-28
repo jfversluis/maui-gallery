@@ -44,6 +44,10 @@ public sealed partial class ShellSamplePage : SamplePage, IQueryAttributable
     protected override void OnAppearing()
     {
         base.OnAppearing();
+
+        // The app shell sets every open page's tab bar when the window crosses a breakpoint, also while this page is
+        // covered, so apply this page's own choice again.
+        ApplyTabBarChoice();
         Attach();
     }
 
@@ -84,13 +88,18 @@ public sealed partial class ShellSamplePage : SamplePage, IQueryAttributable
 
     private void OnWindowSizeChanged(object? sender, EventArgs e)
     {
-        // The app shell resets the page's tab bar when the window crosses a breakpoint; keep this page's own choice.
+        // The app shell handles the resize first and sets this page's tab bar to the window's default.
+        ApplyTabBarChoice();
+        UpdateLiveValues();
+        UpdateChromeStatus();
+    }
+
+    private void ApplyTabBarChoice()
+    {
         if (!ChromeTabBar.IsToggled)
         {
             Shell.SetTabBarIsVisible(this, false);
         }
-
-        UpdateLiveValues();
     }
 
     private void UpdateLiveValues()
@@ -107,7 +116,7 @@ public sealed partial class ShellSamplePage : SamplePage, IQueryAttributable
         AdaptiveFlyout.Text = _shell.FlyoutBehavior.ToString();
         AdaptiveTabs.Text = tab is null ? "-" : Shell.GetTabBarIsVisible(tab).ToString();
         AdaptiveDepth.Text = $"{Navigation.NavigationStack.Count} pages";
-        AdaptiveHint.Text = DeviceInfo.Platform == DevicePlatform.WinUI || DeviceInfo.Platform == DevicePlatform.MacCatalyst
+        AdaptiveHint.Text = AppShell.IsDesktop
             ? $"Resize the window: the sidebar becomes a flyout below {Breakpoints.Expanded:0} wide."
             : $"Bottom tabs below {Breakpoints.Medium:0} wide or {Breakpoints.CompactHeight:0} high, a sidebar above that: rotate the device, open a foldable or use split view.";
     }
@@ -177,9 +186,10 @@ public sealed partial class ShellSamplePage : SamplePage, IQueryAttributable
                             $"Tab bar: {(ChromeTabBar.IsToggled ? "visible" : "hidden")}\n" +
                             $"Flyout: {flyout}";
         ChromeOpenFlyout.IsVisible = IsSet(Shell.FlyoutBehaviorProperty) && Shell.GetFlyoutBehavior(this) == FlyoutBehavior.Flyout;
-        ChromeHint.Text = DeviceInfo.Idiom == DeviceIdiom.Phone
+        var windowShowsTabs = _shell?.CurrentItem?.CurrentItem is { } tab && Shell.GetTabBarIsVisible(tab);
+        ChromeHint.Text = windowShowsTabs
             ? "With the navigation bar hidden, use the back gesture to leave. Flyout turns the app's sidebar into a flyout on this page."
-            : "This window shows no tab bar, so TabBarIsVisible matters on phones. Disabled hides the sidebar; Locked keeps it open.";
+            : "This window shows the sidebar instead of tabs, so TabBarIsVisible only matters in a compact window. Disabled hides the sidebar; Locked keeps it open.";
     }
 
     // The back button takes the place of the flyout button on a pushed page, so open the flyout from code.
