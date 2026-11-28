@@ -519,7 +519,8 @@ jobs:
           APP_STORE_CONNECT_KEY_ID: ${{ vars.APP_STORE_CONNECT_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ vars.APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
-        run: eng/release/upload-app-store.sh package/*.pkg
+        # The artifact keeps the publish layout (<rid>/publish/*.pkg), so find the package rather than guess its folder.
+        run: eng/release/upload-app-store.sh "$(find package -name '*.pkg' | head -1)"
 
   google-play:
     name: Google Play
