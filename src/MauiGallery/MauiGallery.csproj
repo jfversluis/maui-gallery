@@ -14,6 +14,11 @@
     <ApplicationTitle>.NET MAUI Gallery</ApplicationTitle>
     <!-- Phone home screens truncate the full name (".NET MAUI…"); the store listing keeps it. -->
     <ApplicationTitle Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' or $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">MAUI Gallery</ApplicationTitle>
+    <!--
+      Since .NET 10 the Mac app bundle's folder is named after ApplicationTitle, and App Store Connect rejects a bundle
+      whose name starts with a dot (ITMS-90331), so name the folder without it. The app still shows ".NET MAUI Gallery".
+    -->
+    <_AppBundleName Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">MAUI Gallery</_AppBundleName>
     <ApplicationId>com.jfversluis.mauigallery</ApplicationId>
     <!--
       The version people see comes from Version in Directory.Build.props. The build number must grow with every store
