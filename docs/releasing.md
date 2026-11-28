@@ -265,12 +265,18 @@ group SecureStorage needs). Unsigned and local Release builds use `Entitlements.
    gh secret set APP_STORE_CONNECT_PRIVATE_KEY --env app-store < ~/Downloads/AuthKey_ABC123DEFG.p8
    ```
 
+   Done for this repository (November 2026): team key "MAUI Gallery GitHub Action", key ID `6NNWMLK8Q2`. Release
+   #12 uploaded iOS build 12 through this workflow.
+
 4. In TestFlight, create an internal testing group with yourself in it and turn on **automatic distribution**, so
    new builds reach your devices without adding them by hand.
 
 The upload uses `xcrun altool --upload-package` from Xcode 27, Apple's command-line uploader; it finds the app by
 the bundle ID. App Store apps don't need notarization. Export compliance is answered in `Info.plist` (`ITSAppUsesNonExemptEncryption` is false), so
 TestFlight builds are ready to test as soon as processing finishes.
+
+The Mac app bundle is named `MAUI Gallery.app`, not after `ApplicationTitle` (the .NET 10+ default): App Store
+Connect rejects a bundle folder whose name starts with a dot (ITMS-90331). See `_AppBundleName` in the project.
 
 ### Apple: screenshots and texts (optional)
 
